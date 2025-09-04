@@ -658,7 +658,7 @@
         function initChart() {
             const ctx = document.getElementById('combinedChart').getContext('2d');
             combinedChart = new Chart(ctx, {
-                type: 'line',
+                type: 'scatter',
                 data: { datasets: [] },
                 options: {
                     responsive: true,
@@ -666,12 +666,19 @@
                     scales: {
                         x: {
                             type: 'time',
+                            offset: false,  // Critical: prevents bar categorical spacing, aligns bars to time points
+                            distribution: 'linear',  // Ensures linear time distribution for bars
+                            bounds: 'data',  // Fits bounds to actual data points
+                            adapters: {
+                                date: {}  // Ensure proper date/time handling
+                            },
                             time: {
                                 displayFormats: {
                                     minute: 'HH:mm',
                                     hour: 'MMM dd HH:mm',
                                     day: 'MMM dd'
-                                }
+                                },
+                                minUnit: 'minute'  // Enforce minimum time unit alignment
                             }
                         },
                         yPrice: {
@@ -701,22 +708,41 @@
                         tooltip: {
                             mode: 'index',
                             intersect: false,
+                            filter: function(tooltipItem, data) {
+                                // In candlestick mode, only show tooltip for the first dataset to avoid duplicates
+                                if (currentChartType === 'candlestick') {
+                                    return tooltipItem.datasetIndex === 0; // Only show for first dataset
+                                }
+                                return true; // Show all tooltips for other chart types
+                            },
                             callbacks: {
                                 label: function(context) {
                                     const label = context.dataset.label || '';
                                     let value;
                                     
-                                    if (context.dataset.label && context.dataset.label.includes('Candle Bodies')) {
-                                        const data = context.raw;
-                                        return [
-                                            `Candlestick:`,
-                                            `Open: $${data.open.toFixed(4)}`,
-                                            `High: $${data.high.toFixed(4)}`,
-                                            `Low: $${data.low.toFixed(4)}`,
-                                            `Close: $${data.close.toFixed(4)}`
-                                        ];
-                                    } else if (context.dataset.label && (context.dataset.label.includes('High Wicks') || context.dataset.label.includes('Low Wicks'))) {
-                                        return null; // Hide wick tooltips to avoid clutter
+                                    if (currentChartType === 'candlestick') {
+                                        // For candlestick mode, show complete OHLCV data
+                                        const dataIndex = context.dataIndex;
+                                        if (dataIndex !== undefined && currentData && currentData.data) {
+                                            const aggregationType = document.getElementById('aggregationType').value;
+                                            const aggregatedData = aggregateData(currentData.data, aggregationType);
+                                            const displayData = aggregatedData;
+                                            
+                                            if (dataIndex < displayData.length) {
+                                                const data = displayData[dataIndex];
+                                                return [
+                                                    `${currentData.symbol} Candlestick:`,
+                                                    `Open: $${data.open.toFixed(4)}`,
+                                                    `High: $${data.high.toFixed(4)}`,
+                                                    `Low: $${data.low.toFixed(4)}`,
+                                                    `Close: $${data.close.toFixed(4)}`,
+                                                    `Volume: ${data.volume.toFixed(2)}`
+                                                ];
+                                            }
+                                        }
+                                        // Fallback for individual datasets
+                                        const value = '$' + context.parsed.y.toFixed(4);
+                                        return label + ': ' + value;
                                     } else if (context.dataset.type === 'candlestick') {
                                         const data = context.raw;
                                         return [
@@ -1145,6 +1171,7 @@
                         tension: 0,
                         pointRadius: 1,
                         borderWidth: 2,
+                        type: 'line',
                         yAxisID: 'yPrice'
                     },
                     {
@@ -1156,6 +1183,7 @@
                         tension: 0,
                         pointRadius: 1,
                         borderWidth: 2,
+                        type: 'line',
                         yAxisID: 'yPrice'
                     },
                     {
@@ -1167,6 +1195,7 @@
                         tension: 0,
                         pointRadius: 1,
                         borderWidth: 2,
+                        type: 'line',
                         yAxisID: 'yPrice'
                     },
                     {
@@ -1178,83 +1207,66 @@
                         tension: 0,
                         borderWidth: 3,
                         pointRadius: 1,
+                        type: 'line',
                         yAxisID: 'yPrice'
                     }
                 );
             } else if (currentChartType === 'candlestick') {
-                // Create candlestick visualization using bars for bodies and lines for wicks
-                const candlesticks = displayData.map(d => {
-                    const isUp = d.close >= d.open;
-                    const bodyTop = Math.max(d.open, d.close);
-                    const bodyBottom = Math.min(d.open, d.close);
-                    
-                    return {
+                // Create proper candlestick visualization with aligned bodies and wicks
+                
+                // 1. All wicks first (Low to High for all candles) - with proper color coding
+                datasets.push({
+                    label: 'Candlestick Wicks',
+                    data: displayData.map(d => ({
                         x: d.time,
-                        high: d.high,
-                        low: d.low,
-                        open: d.open,
-                        close: d.close,
-                        bodyTop: bodyTop,
-                        bodyBottom: bodyBottom,
-                        isUp: isUp,
-                        color: isUp ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)',
-                        borderColor: isUp ? 'rgba(34, 197, 94, 1)' : 'rgba(239, 68, 68, 1)'
-                    };
-                });
-
-                // Candle bodies (bars from open to close)
-                datasets.push({
-                    label: `${result.symbol} Candle Bodies`,
-                    data: candlesticks.map(c => ({
-                        x: c.x,
-                        y: c.bodyTop,
-                        base: c.bodyBottom,
-                        backgroundColor: c.color,
-                        borderColor: c.borderColor,
-                        open: c.open,
-                        high: c.high,
-                        low: c.low,
-                        close: c.close
+                        y: [d.low, d.high],
+                        // Store candle type for coloring
+                        isBullish: d.close >= d.open
                     })),
+                    backgroundColor: function(context) {
+                        const dataPoint = displayData[context.dataIndex];
+                        return dataPoint.close >= dataPoint.open ? 
+                            'rgba(34, 197, 94, 1)' :  // Green for bullish
+                            'rgba(239, 68, 68, 1)';   // Red for bearish
+                    },
+                    borderColor: function(context) {
+                        const dataPoint = displayData[context.dataIndex];
+                        return dataPoint.close >= dataPoint.open ? 
+                            'rgba(34, 197, 94, 1)' :  // Green for bullish
+                            'rgba(239, 68, 68, 1)';   // Red for bearish
+                    },
+                    borderWidth: 0,
+                    barThickness: 1,  // Fixed thin width for wicks
                     type: 'bar',
-                    barThickness: 3,
                     yAxisID: 'yPrice',
-                    categoryPercentage: 0.8,
-                    barPercentage: 0.9
+                    order: 2  // Render after bodies
                 });
-
-                // High wicks (from high to body top)
+                
+                // 2. All candlestick bodies (Open to Close) - with proper color coding
                 datasets.push({
-                    label: `${result.symbol} High Wicks`,
-                    data: candlesticks.map(c => ({
-                        x: c.x,
-                        y: c.high,
-                        base: c.bodyTop
+                    label: 'Candlestick Bodies',
+                    data: displayData.map(d => ({
+                        x: d.time,
+                        y: d.close >= d.open ? [d.open, d.close] : [d.close, d.open],
+                        isBullish: d.close >= d.open
                     })),
+                    backgroundColor: function(context) {
+                        const dataPoint = displayData[context.dataIndex];
+                        return dataPoint.close >= dataPoint.open ? 
+                            'rgba(34, 197, 94, 0.9)' :  // Green for bullish
+                            'rgba(239, 68, 68, 0.9)';   // Red for bearish
+                    },
+                    borderColor: function(context) {
+                        const dataPoint = displayData[context.dataIndex];
+                        return dataPoint.close >= dataPoint.open ? 
+                            'rgba(34, 197, 94, 1)' :    // Green for bullish
+                            'rgba(239, 68, 68, 1)';     // Red for bearish
+                    },
+                    borderWidth: 1,
+                    barThickness: 8,  // Fixed width for bodies
                     type: 'bar',
-                    barThickness: 1,
-                    backgroundColor: 'rgba(100, 100, 100, 0.6)',
-                    borderColor: 'rgba(100, 100, 100, 0.8)',
                     yAxisID: 'yPrice',
-                    categoryPercentage: 0.8,
-                    barPercentage: 0.3
-                });
-
-                // Low wicks (from body bottom to low)
-                datasets.push({
-                    label: `${result.symbol} Low Wicks`,
-                    data: candlesticks.map(c => ({
-                        x: c.x,
-                        y: c.bodyBottom,
-                        base: c.low
-                    })),
-                    type: 'bar',
-                    barThickness: 1,
-                    backgroundColor: 'rgba(100, 100, 100, 0.6)',
-                    borderColor: 'rgba(100, 100, 100, 0.8)',
-                    yAxisID: 'yPrice',
-                    categoryPercentage: 0.8,
-                    barPercentage: 0.3
+                    order: 1  // Render first (behind wicks)
                 });
             } else {
                 datasets.push({
@@ -1266,11 +1278,12 @@
                     tension: 0.1,
                     pointRadius: 0,
                     borderWidth: 2,
+                    type: 'line',
                     yAxisID: 'yPrice'
                 });
             }
             
-            // Add volume dataset
+            // Add volume dataset - using approach similar to OHLC lines for perfect alignment
             datasets.push({
                 label: 'Volume',
                 data: displayData.map(d => ({x: d.time, y: d.volume})),
@@ -1278,7 +1291,9 @@
                 borderColor: 'rgba(251, 146, 60, 0.8)',       // Orange border
                 borderWidth: 1,
                 type: 'bar',
-                yAxisID: 'yVolume'
+                yAxisID: 'yVolume',
+                skipNull: false,  // Ensures every data point is positioned exactly
+                normalized: true  // Ensures proper time-based positioning
             });
             
             combinedChart.data.datasets = datasets;
