@@ -353,7 +353,7 @@
                     <button class="symbol-btn" onclick="selectSymbol('XRPUSDT')">XRP</button>
                     <button class="symbol-btn" onclick="selectSymbol('SOLUSDT')">SOL</button>
                     <button class="symbol-btn" onclick="selectSymbol('DOGEUSDT')">DOGE</button>
-                    <button class="symbol-btn" onclick="selectSymbol('MATICUSDT')">MATIC</button>
+                    <button class="symbol-btn" onclick="selectSymbol('TRXUSDT')">TRX</button>
                 </div>
             </div>
             
@@ -1283,17 +1283,18 @@
                 });
             }
             
-            // Add volume dataset - using approach similar to OHLC lines for perfect alignment
+            // Add volume dataset - centered on time scale
             datasets.push({
                 label: 'Volume',
                 data: displayData.map(d => ({x: d.time, y: d.volume})),
                 backgroundColor: 'rgba(251, 146, 60, 0.4)',   // Orange bars for volume
                 borderColor: 'rgba(251, 146, 60, 0.8)',       // Orange border
                 borderWidth: 1,
+                barThickness: currentChartType === 'candlestick' ? 6 : 'flex',  // Fixed width for candlestick alignment
+                categoryPercentage: 1.0,  // Full width usage
+                barPercentage: 1.0,       // No gaps between bars
                 type: 'bar',
-                yAxisID: 'yVolume',
-                skipNull: false,  // Ensures every data point is positioned exactly
-                normalized: true  // Ensures proper time-based positioning
+                yAxisID: 'yVolume'
             });
             
             combinedChart.data.datasets = datasets;
