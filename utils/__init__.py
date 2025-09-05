@@ -1,5 +1,8 @@
 """
-Common utilities for cryptocurrency trading system.
+Utils package for crypto trading project.
 
-This module provides configuration management and helper functions.
+This package contains common utilities used across different modules:
+- data_loader: Functions for loading and caching crypto price data
+- config: Configuration management (planned)
+- helpers: Common helper functions (planned)
 """
