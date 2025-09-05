@@ -2,18 +2,67 @@ from flask import Flask, request, jsonify, render_template
 import pandas as pd
 import os
 import glob
+import pickle
 from datetime import datetime
+from pathlib import Path
 
 app = Flask(__name__)
 
 DATA_DIR = "/home/craz/crypto/crypto-data/future_data_2"
+PICKLE_CACHE_DIR = "/home/craz/crypto/crypto-data/pickle_cache"
+
+# Create pickle cache directory if it doesn't exist
+Path(PICKLE_CACHE_DIR).mkdir(parents=True, exist_ok=True)
 
 def get_available_symbols():
     """Get list of all available crypto symbols"""
     return sorted([d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d))])
 
-def get_symbol_data(symbol, start_date=None, end_date=None):
-    """Get price data for a symbol within date range - loads ALL data points"""
+def get_pickle_path(symbol):
+    """Get the pickle file path for a symbol"""
+    return os.path.join(PICKLE_CACHE_DIR, f"{symbol}_full_data.pkl")
+
+def get_pickle_metadata_path(symbol):
+    """Get the pickle metadata file path for a symbol"""
+    return os.path.join(PICKLE_CACHE_DIR, f"{symbol}_metadata.pkl")
+
+def is_pickle_cache_valid(symbol):
+    """Check if pickle cache exists and is up to date"""
+    pickle_path = get_pickle_path(symbol)
+    metadata_path = get_pickle_metadata_path(symbol)
+    
+    if not os.path.exists(pickle_path) or not os.path.exists(metadata_path):
+        return False
+    
+    try:
+        # Load metadata
+        with open(metadata_path, 'rb') as f:
+            metadata = pickle.load(f)
+        
+        # Check if CSV files have changed since cache creation
+        symbol_dir = os.path.join(DATA_DIR, symbol)
+        csv_files = glob.glob(os.path.join(symbol_dir, "*.csv"))
+        
+        # Compare file count and last modification times
+        if len(csv_files) != metadata.get('file_count', 0):
+            return False
+        
+        # Check if any CSV file is newer than the cache
+        cache_time = metadata.get('cache_time', 0)
+        for csv_file in csv_files:
+            if os.path.getmtime(csv_file) > cache_time:
+                return False
+        
+        return True
+        
+    except Exception as e:
+        print(f"Error checking pickle cache validity: {e}")
+        return False
+
+def create_pickle_cache(symbol):
+    """Create pickle cache for a symbol by loading all CSV data"""
+    print(f"Creating pickle cache for {symbol}...")
+    
     symbol_dir = os.path.join(DATA_DIR, symbol)
     if not os.path.exists(symbol_dir):
         return None
@@ -22,39 +71,19 @@ def get_symbol_data(symbol, start_date=None, end_date=None):
     csv_files = glob.glob(os.path.join(symbol_dir, "*.csv"))
     csv_files.sort()
     
-    # Filter files by date range if specified
-    if start_date or end_date:
-        filtered_files = []
-        for file in csv_files:
-            file_date_str = os.path.basename(file).split('_')[-1].replace('.csv', '')
-            try:
-                file_date = datetime.strptime(file_date_str, '%Y-%m-%d').date()
-                if start_date and file_date < start_date:
-                    continue
-                if end_date and file_date > end_date:
-                    continue
-                filtered_files.append(file)
-            except ValueError:
-                continue
-        csv_files = filtered_files
-    else:
-        # If no date range specified, limit to recent files to avoid memory issues
-        if len(csv_files) > 30:  # Limit to last 30 days
-            csv_files = csv_files[-30:]
-    
     if not csv_files:
         return None
     
-    # Read and combine data - NO SAMPLING, load all data points
+    # Read and combine all data
     dfs = []
     for i, file in enumerate(csv_files):
         try:
             df = pd.read_csv(file)
             dfs.append(df)
             
-            # Progress indicator for long operations
-            if len(csv_files) > 10 and i % 5 == 0:
-                print(f"Processing file {i+1}/{len(csv_files)}: {file}")
+            # Progress indicator
+            if len(csv_files) > 10 and i % 10 == 0:
+                print(f"Processing file {i+1}/{len(csv_files)} for pickle cache")
                 
         except Exception as e:
             print(f"Error reading {file}: {e}")
@@ -63,13 +92,84 @@ def get_symbol_data(symbol, start_date=None, end_date=None):
     if not dfs:
         return None
     
+    # Combine and process data
     combined_df = pd.concat(dfs, ignore_index=True)
     combined_df['open_time'] = pd.to_datetime(combined_df['open_time'])
     combined_df = combined_df.sort_values('open_time')
     
-    print(f"Loaded {len(combined_df)} data points for {symbol}")
+    try:
+        # Save data to pickle
+        pickle_path = get_pickle_path(symbol)
+        with open(pickle_path, 'wb') as f:
+            pickle.dump(combined_df, f, protocol=pickle.HIGHEST_PROTOCOL)
+        
+        # Save metadata
+        metadata = {
+            'symbol': symbol,
+            'file_count': len(csv_files),
+            'record_count': len(combined_df),
+            'cache_time': datetime.now().timestamp(),
+            'date_range': {
+                'start': combined_df['open_time'].min().isoformat(),
+                'end': combined_df['open_time'].max().isoformat()
+            }
+        }
+        
+        metadata_path = get_pickle_metadata_path(symbol)
+        with open(metadata_path, 'wb') as f:
+            pickle.dump(metadata, f)
+        
+        print(f"✅ Created pickle cache for {symbol}: {len(combined_df):,} records")
+        return combined_df
+        
+    except Exception as e:
+        print(f"Error creating pickle cache: {e}")
+        # If pickle creation fails, return the DataFrame anyway
+        return combined_df
+
+def load_from_pickle_cache(symbol):
+    """Load data from pickle cache"""
+    pickle_path = get_pickle_path(symbol)
     
-    return combined_df
+    try:
+        with open(pickle_path, 'rb') as f:
+            df = pickle.load(f)
+        print(f"📦 Loaded {len(df):,} records from pickle cache for {symbol}")
+        return df
+        
+    except Exception as e:
+        print(f"Error loading pickle cache: {e}")
+        return None
+
+def get_symbol_data(symbol, start_date=None, end_date=None):
+    """Get price data for a symbol within date range - uses pickle cache for performance"""
+    
+    # Try to load from pickle cache first
+    if is_pickle_cache_valid(symbol):
+        df = load_from_pickle_cache(symbol)
+        if df is not None:
+            # Apply date filtering if needed
+            if start_date or end_date:
+                if start_date:
+                    df = df[df['open_time'].dt.date >= start_date]
+                if end_date:
+                    df = df[df['open_time'].dt.date <= end_date]
+            return df
+    
+    # If no valid cache, load from CSV and create cache
+    df = create_pickle_cache(symbol)
+    if df is None:
+        return None
+    
+    # Apply date filtering if needed
+    if start_date or end_date:
+        if start_date:
+            df = df[df['open_time'].dt.date >= start_date]
+        if end_date:
+            df = df[df['open_time'].dt.date <= end_date]
+    
+    print(f"Returning {len(df):,} data points for {symbol}")
+    return df
 
 @app.route('/')
 def index():
