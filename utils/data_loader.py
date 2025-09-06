@@ -28,6 +28,12 @@ def get_available_symbols():
     return sorted([d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d))])
 
 
+def get_usdt_symbols():
+    """Get list of all available crypto symbols ending with USDT"""
+    all_symbols = get_available_symbols()
+    return sorted([symbol for symbol in all_symbols if symbol.endswith('USDT')])
+
+
 def get_pickle_path(symbol):
     """Get the pickle file path for a symbol"""
     return os.path.join(PICKLE_CACHE_DIR, f"{symbol}_full_data.pkl")
@@ -178,6 +184,48 @@ def get_symbol_info(symbol):
         'total_files': len(csv_files),
         'has_pickle_cache': is_pickle_cache_available(symbol)
     }
+
+
+def get_multiple_symbols_data(symbols, start_date=None, end_date=None):
+    """
+    Get price data for multiple symbols within date range and join them into a single DataFrame
+    
+    Args:
+        symbols (list): List of cryptocurrency symbols (e.g., ['BTCUSDT', 'ETHUSDT'])
+        start_date (datetime.date, optional): Start date for filtering
+        end_date (datetime.date, optional): End date for filtering
+    
+    Returns:
+        pandas.DataFrame: Combined OHLCV data with MultiIndex (open_time, symbol) for easy querying
+    """
+    all_dfs = []
+    
+    for symbol in symbols:
+        print(f"Loading data for {symbol}...")
+        df = get_symbol_data(symbol, start_date, end_date)
+        
+        if df is not None and not df.empty:
+            # Add symbol column to identify which symbol each row belongs to
+            df['symbol'] = symbol
+            all_dfs.append(df)
+        else:
+            print(f"Warning: No data found for {symbol}")
+    
+    if not all_dfs:
+        print("No data found for any of the requested symbols")
+        return None
+    
+    # Combine all DataFrames
+    combined_df = pd.concat(all_dfs, ignore_index=True)
+    
+    # Sort by open_time and symbol for consistent ordering
+    combined_df = combined_df.sort_values(['open_time', 'symbol'])
+    
+    # Set MultiIndex with open_time first, then symbol for easy querying
+    combined_df = combined_df.set_index(['open_time', 'symbol'])
+    
+    print(f"Combined data: {len(combined_df):,} records across {len(all_dfs)} symbols")
+    return combined_df
 
 
 def get_cache_status():
