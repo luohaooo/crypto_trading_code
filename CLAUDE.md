@@ -285,3 +285,4 @@ python app.py
 - Clear naming conventions for functions and variables
 - Comprehensive error handling prevents system crashes
 - Unit tests for critical functionality
+- always write code and text in English even if I write prompt in Chinese.
