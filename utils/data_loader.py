@@ -435,15 +435,17 @@ def load_usdt_symbols_from_month_cache(
         # Get the open_time index level
         date_index = combined_df.index.get_level_values('open_time')
         
+        # Create boolean masks for each condition
         if start_date:
             # Convert datetime index to date for comparison
-            mask_start = date_index.date >= start_date
-            combined_df = combined_df[mask_start]
+            start_mask = pd.to_datetime(date_index).date >= start_date
+            combined_df = combined_df[start_mask]
         
         if end_date:
-            # Convert datetime index to date for comparison
-            mask_end = date_index.date <= end_date
-            combined_df = combined_df[mask_end]
+            # Convert datetime index to date for comparison  
+            date_index = combined_df.index.get_level_values('open_time')  # Re-get after filtering
+            end_mask = pd.to_datetime(date_index).date <= end_date
+            combined_df = combined_df[end_mask]
     
     # Apply symbol filtering if specified
     if symbols:
