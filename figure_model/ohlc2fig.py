@@ -61,10 +61,10 @@ def ohlc_to_image_without_volume(
         y_c = p2y(closes)
 
     else:
-        y_o = np.ones(N) * (height - 1)
-        y_h = np.zeros(N)
-        y_l = np.ones(N) * (height - 1)
-        y_c = np.zeros(N)
+        y_o = (np.ones(N) * (height - 1)).astype(int)
+        y_h = (np.zeros(N)).astype(int)
+        y_l = (np.ones(N) * (height - 1)).astype(int)
+        y_c = (np.zeros(N)).astype(int)
 
 
     # 6. Draw each day: central column is the vertical line; left/right columns mark open/close ticks
@@ -158,10 +158,10 @@ def ohlc_to_image_with_volume(
         y_l = p2y(lows)
         y_c = p2y(closes)
     else:
-        y_o = np.ones(N) * (price_height - 1)
-        y_h = np.zeros(N)
-        y_l = np.ones(N) * (price_height - 1)
-        y_c = np.zeros(N)
+        y_o = (np.ones(N) * (price_height - 1)).astype(int)
+        y_h = (np.zeros(N)).astype(int)
+        y_l = (np.ones(N) * (price_height - 1)).astype(int)
+        y_c = (np.zeros(N)).astype(int)
 
 
     # 6. Define volume -> pixel-row mapping for the volume area (below the price area)
@@ -172,7 +172,7 @@ def ohlc_to_image_with_volume(
     if volume_range > 0:
         v_h = v2y(volume)
     else:
-        v_h = np.ones(N) * (price_height + 1)
+        v_h = n(p.ones(N) * (price_height + 1)).astype(int)
 
     # 7. Draw each day: central column is the vertical line for price; bottom part draws volume bars;
     #    left/right columns mark open/close ticks
