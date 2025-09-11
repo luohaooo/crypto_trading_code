@@ -168,6 +168,7 @@ class BacktestEngine:
             Factor instance
         """
         from strategies.factors.returns_factor import ReturnsFactor, MomentumFactor, VolatilityAdjustedReturnsFactor
+        from strategies.factors.ohlc_figure_factor import OHLCFigureFactor
         
         factor_type = self.config.factor.factor_type
         lookback = self.config.factor.lookback_periods
@@ -195,6 +196,22 @@ class BacktestEngine:
                 lookback_periods=lookback_periods,
                 volatility_periods=volatility_periods,
                 name=self.config.factor.name
+            )
+        
+        elif factor_type == 'ohlc_figure':
+            # OHLC Figure Factor parameters
+            model_path = params.get('model_path', None)
+            device = params.get('device', 'auto')
+            timeframes = params.get('timeframes', ['3min', '15min', '1h'])
+            confidence_threshold = params.get('confidence_threshold', None)
+            
+            return OHLCFigureFactor(
+                model_path=model_path,
+                device=device,
+                name=self.config.factor.name,
+                lookback_periods=lookback,
+                timeframes=timeframes,
+                confidence_threshold=confidence_threshold
             )
         
         else:

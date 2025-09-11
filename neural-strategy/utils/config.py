@@ -24,7 +24,7 @@ class FactorConfig:
         if self.lookback_periods <= 0:
             raise ValueError("lookback_periods must be positive")
         
-        valid_types = ['returns', 'momentum', 'volatility_adjusted']
+        valid_types = ['returns', 'momentum', 'volatility_adjusted', 'ohlc_figure']
         if self.factor_type not in valid_types:
             raise ValueError(f"factor_type must be one of {valid_types}")
 
