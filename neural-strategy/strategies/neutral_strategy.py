@@ -198,6 +198,9 @@ class NeutralStrategy(BaseStrategy):
         # factor_scores = signals.get('factor_scores', {})
         # symbol_returns = self._calculate_period_returns(data, timestamp, closed_trades)
 
+        # Update equity curve after closing positions but before opening new ones
+        self.update_equity_curve(data, timestamp)
+
         # Open new positions based on signals
         target_positions = signals['target_positions']
         successful_positions = 0
@@ -223,9 +226,6 @@ class NeutralStrategy(BaseStrategy):
         self._record_current_period_data(data, timestamp, signals)
 
         self.rebalance_count += 1
-
-        # Update equity curve
-        self.update_equity_curve(data, timestamp)
 
     def _display_factor_effectiveness(self, data: pd.DataFrame, current_timestamp: pd.Timestamp) -> None:
         """
@@ -551,7 +551,7 @@ class NeutralStrategy(BaseStrategy):
             'short_basket_avg_return': np.mean(short_returns) if short_returns else 0.0,
             'long_basket_size': len(long_returns),
             'short_basket_size': len(short_returns),
-            'spread_return': (np.mean(long_returns) - np.mean(short_returns)) if long_returns and short_returns else 0.0
+            'spread_return': (np.mean(long_returns) - np.mean(short_returns)) / 2 if long_returns and short_returns else 0.0
         }
     
     def __str__(self) -> str:
