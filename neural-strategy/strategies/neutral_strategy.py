@@ -19,7 +19,7 @@ import pandas as pd
 import numpy as np
 from typing import Dict, List, Any, Optional
 
-from .base_strategy import BaseStrategy, PositionType, Trade
+from .base_strategy import BaseStrategy, PositionType
 from .factors.base_factor import BaseFactor
 
 # Import from main project utils using importlib
@@ -195,12 +195,8 @@ class NeutralStrategy(BaseStrategy):
             print(f"Rebalance #{self.rebalance_count} at {timestamp}: Closed {len(closed_trades)} positions")
 
         # Get factor scores and calculate returns for display
-        factor_scores = signals.get('factor_scores', {})
-        symbol_returns = self._calculate_period_returns(data, timestamp, closed_trades)
-
-        # Display detailed position information
-        self._display_position_details(signals['long_symbols'], signals['short_symbols'],
-                                     factor_scores, symbol_returns, timestamp)
+        # factor_scores = signals.get('factor_scores', {})
+        # symbol_returns = self._calculate_period_returns(data, timestamp, closed_trades)
 
         # Open new positions based on signals
         target_positions = signals['target_positions']
@@ -230,126 +226,6 @@ class NeutralStrategy(BaseStrategy):
 
         # Update equity curve
         self.update_equity_curve(data, timestamp)
-
-    def _calculate_period_returns(self, data: pd.DataFrame, current_timestamp: pd.Timestamp,
-                                closed_trades: List[Trade]) -> Dict[str, float]:
-        """
-        Calculate returns for symbols from their last entry to current close.
-
-        Args:
-            data: Multi-symbol OHLCV data
-            current_timestamp: Current timestamp
-            closed_trades: List of recently closed trades
-
-        Returns:
-            Dictionary mapping symbol to period return
-        """
-        symbol_returns = {}
-        current_data = data.loc[data.index.get_level_values('open_time') == current_timestamp]
-
-        # Calculate returns based on closed trades
-        for trade in closed_trades:
-            try:
-                symbol_data = current_data.loc[
-                    current_data.index.get_level_values('symbol') == trade.symbol
-                ]
-                if len(symbol_data) > 0:
-                    current_price = symbol_data['close'].iloc[0]
-                    entry_price = trade.entry_price
-
-                    if entry_price != 0:
-                        if trade.position_type == PositionType.LONG:
-                            period_return = (current_price - entry_price) / entry_price
-                        else:  # SHORT
-                            period_return = (entry_price - current_price) / entry_price
-
-                        symbol_returns[trade.symbol] = period_return
-
-            except Exception as e:
-                print(f"Warning: Could not calculate return for {trade.symbol}: {e}")
-                continue
-
-        return symbol_returns
-
-    def _display_position_details(self, long_symbols: List[str], short_symbols: List[str],
-                                factor_scores: Dict[str, float], symbol_returns: Dict[str, float],
-                                timestamp: pd.Timestamp) -> None:
-        """
-        Display detailed information about long and short positions.
-
-        Args:
-            long_symbols: List of symbols for long positions
-            short_symbols: List of symbols for short positions
-            factor_scores: Dictionary mapping symbol to factor score
-            symbol_returns: Dictionary mapping symbol to period return
-            timestamp: Current timestamp
-        """
-        print("\n" + "="*80)
-        print(f"📊 REBALANCING DETAILS - {timestamp}")
-        print("="*80)
-
-        # Display long positions
-        if long_symbols:
-            print(f"\n🟢 LONG POSITIONS ({len(long_symbols)} symbols):")
-            print("-" * 60)
-            print(f"{'Symbol':<12} {'Factor Score':<12} {'Period Return':<15} {'Status'}")
-            print("-" * 60)
-
-            for symbol in long_symbols:
-                factor_score = factor_scores.get(symbol, 0.0)
-                period_return = symbol_returns.get(symbol, 0.0)
-                return_pct = period_return * 100
-                status = "UP" if period_return > 0 else "DOWN" if period_return < 0 else "--"
-
-                print(f"{symbol:<12} {factor_score:>10.4f}  {return_pct:>12.2f}%  {status}")
-
-            # Calculate averages
-            long_avg_score = np.mean([factor_scores.get(s, 0) for s in long_symbols])
-            long_returns = [symbol_returns.get(s, 0) for s in long_symbols if s in symbol_returns]
-            long_avg_return = np.mean(long_returns) * 100 if long_returns else 0.0
-
-            print("-" * 60)
-            print(f"{'AVERAGE':<12} {long_avg_score:>10.4f}  {long_avg_return:>12.2f}%")
-
-        # Display short positions
-        if short_symbols:
-            print(f"\n🔴 SHORT POSITIONS ({len(short_symbols)} symbols):")
-            print("-" * 60)
-            print(f"{'Symbol':<12} {'Factor Score':<12} {'Period Return':<15} {'Status'}")
-            print("-" * 60)
-
-            for symbol in short_symbols:
-                factor_score = factor_scores.get(symbol, 0.0)
-                period_return = symbol_returns.get(symbol, 0.0)
-                return_pct = period_return * 100
-                status = "UP" if period_return > 0 else "DOWN" if period_return < 0 else "--"
-
-                print(f"{symbol:<12} {factor_score:>10.4f}  {return_pct:>12.2f}%  {status}")
-
-            # Calculate averages
-            short_avg_score = np.mean([factor_scores.get(s, 0) for s in short_symbols])
-            short_returns = [symbol_returns.get(s, 0) for s in short_symbols if s in symbol_returns]
-            short_avg_return = np.mean(short_returns) * 100 if short_returns else 0.0
-
-            print("-" * 60)
-            print(f"{'AVERAGE':<12} {short_avg_score:>10.4f}  {short_avg_return:>12.2f}%")
-
-        # Display spread performance
-        if long_symbols and short_symbols:
-            long_returns = [symbol_returns.get(s, 0) for s in long_symbols if s in symbol_returns]
-            short_returns = [symbol_returns.get(s, 0) for s in short_symbols if s in symbol_returns]
-
-            if long_returns and short_returns:
-                long_avg = np.mean(long_returns) * 100
-                short_avg = np.mean(short_returns) * 100
-                spread = long_avg - short_avg
-
-                print(f"\n SPREAD PERFORMANCE:")
-                print(f"   Long basket:  {long_avg:>8.2f}%")
-                print(f"   Short basket: {short_avg:>8.2f}%")
-                print(f"   Spread:       {spread:>8.2f}%")
-
-        print("="*80)
 
     def _display_factor_effectiveness(self, data: pd.DataFrame, current_timestamp: pd.Timestamp) -> None:
         """
@@ -436,15 +312,6 @@ class NeutralStrategy(BaseStrategy):
         if all_results:
             accuracy = (correct_predictions / total_predictions) * 100 if total_predictions > 0 else 0
 
-            # Calculate correlation between factor scores and strategy returns
-            factor_scores = [r['factor_score'] for r in all_results]
-            strategy_returns = [r['strategy_return'] for r in all_results]
-
-            if len(factor_scores) > 1:
-                correlation = np.corrcoef(factor_scores, strategy_returns)[0, 1]
-            else:
-                correlation = 0.0
-
             # Calculate average returns by prediction type
             long_results = [r for r in all_results if r['predicted'] == 'UP']
             short_results = [r for r in all_results if r['predicted'] == 'DOWN']
@@ -452,24 +319,26 @@ class NeutralStrategy(BaseStrategy):
             long_avg_return = np.mean([r['strategy_return'] for r in long_results]) if long_results else 0.0
             short_avg_return = np.mean([r['strategy_return'] for r in short_results]) if short_results else 0.0
 
+            # Calculate strategy spread (divide by 2 since long and short each use 50% capital)
+            strategy_spread = (long_avg_return - short_avg_return) / 2.0
+
             print("-" * 70)
             print(f"STATISTICS:")
             print(f"  Accuracy: {accuracy:.1f}% ({correct_predictions}/{total_predictions})")
-            print(f"  Factor-Return Correlation: {correlation:.3f}")
             print(f"  Long Basket Avg Return: {long_avg_return:+.2%}")
             print(f"  Short Basket Avg Return: {short_avg_return:+.2%}")
-            print(f"  Strategy Spread: {(long_avg_return - short_avg_return):+.2%}")
+            print(f"  Strategy Spread: {strategy_spread:+.2%}")
 
             # Store analysis results in history
             analysis_result = {
                 'period_start': last_data['timestamp'],
                 'period_end': current_timestamp,
                 'accuracy': accuracy,
-                'correlation': correlation,
                 'total_symbols': total_predictions,
                 'correct_predictions': correct_predictions,
                 'long_avg_return': long_avg_return,
                 'short_avg_return': short_avg_return,
+                'strategy_spread': strategy_spread,
                 'details': all_results
             }
             self.factor_history.append(analysis_result)
@@ -532,26 +401,21 @@ class NeutralStrategy(BaseStrategy):
             return {
                 'total_periods': 0,
                 'avg_accuracy': 0.0,
-                'avg_correlation': 0.0,
                 'total_predictions': 0
             }
 
         accuracies = [analysis['accuracy'] for analysis in self.factor_history]
-        correlations = [analysis['correlation'] for analysis in self.factor_history]
         total_predictions = sum(analysis['total_symbols'] for analysis in self.factor_history)
         total_correct = sum(analysis['correct_predictions'] for analysis in self.factor_history)
 
         return {
             'total_periods': len(self.factor_history),
             'avg_accuracy': np.mean(accuracies),
-            'avg_correlation': np.mean(correlations),
             'overall_accuracy': (total_correct / total_predictions * 100) if total_predictions > 0 else 0.0,
             'total_predictions': total_predictions,
             'total_correct': total_correct,
             'best_accuracy': max(accuracies),
-            'worst_accuracy': min(accuracies),
-            'best_correlation': max(correlations),
-            'worst_correlation': min(correlations)
+            'worst_accuracy': min(accuracies)
         }
     
     def get_current_exposures(self, data: pd.DataFrame, timestamp: pd.Timestamp) -> Dict[str, float]:
