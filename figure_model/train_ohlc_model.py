@@ -17,6 +17,7 @@ from pathlib import Path
 
 from ohlc_model import Net, create_model
 from training_dataset import create_training_dataset, create_data_loaders
+from typing import List, Dict, Optional, Tuple
 
 
 def train_loop(dataloader: DataLoader, model: nn.Module, loss_fn: nn.Module, optimizer: torch.optim.Optimizer, device: torch.device) -> float:
@@ -38,7 +39,7 @@ def train_loop(dataloader: DataLoader, model: nn.Module, loss_fn: nn.Module, opt
     model.train()
 
     with tqdm(dataloader) as t:
-        for batch, (X, y) in enumerate(t):
+        for X, y in t:
             X = X.to(device)
             y = y.to(device)
 
@@ -86,7 +87,7 @@ def val_loop(dataloader: DataLoader, model: nn.Module, loss_fn: nn.Module, devic
 
     with torch.no_grad():
         with tqdm(dataloader) as t:
-            for batch, (X, y) in enumerate(t):
+            for X, y in t:
                 X = X.to(device)
                 y = y.to(device)
 
@@ -326,7 +327,7 @@ if __name__ == "__main__":
     try:
         best_model_path, training_info = create_training_pipeline(
             data_dir=DATA_DIR,
-            label_horizon='1d',
+            label_horizon='4h',
             start_date='2025-03',
             end_date='2025-06',
             batch_size=256,
