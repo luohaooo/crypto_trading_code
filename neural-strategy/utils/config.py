@@ -95,14 +95,14 @@ class BacktestConfig:
     data: DataConfig
     
     # Backtesting parameters
-    initial_warmup_periods: int = 1000  # Data points for factor initialization
+    initial_warmup_periods: int = 1200  # Data points for factor initialization
     progress_reporting: bool = True
     save_trades: bool = True
     save_equity_curve: bool = True
     
     # Performance calculation
     benchmark_symbol: Optional[str] = 'BTCUSDT'  # For performance comparison
-    risk_free_rate: float = 0.02  # Annual risk-free rate for Sharpe calculation
+    risk_free_rate: float = 0.0  # Annual risk-free rate for Sharpe calculation
     
     # Output settings
     output_dir: Optional[str] = None

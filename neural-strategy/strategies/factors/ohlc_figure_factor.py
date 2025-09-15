@@ -13,6 +13,7 @@ import pandas as pd
 import numpy as np
 import torch
 import torch.nn as nn
+from tqdm import tqdm
 from typing import Optional, Dict, List, Tuple
 from pathlib import Path
 
@@ -122,7 +123,7 @@ class OHLCFigureFactor(BaseFactor):
         # Set model path
         if model_path is None:
             self.model_path = os.path.join(
-                project_root, 'figure_model', 'model_saved', '2025-06-without-volume.pt'
+                project_root, 'figure_model', 'model_saved', 'baseline_epoch_17_train_0.00479_val_0.00397.pt'
             )
         else:
             self.model_path = model_path
@@ -130,9 +131,15 @@ class OHLCFigureFactor(BaseFactor):
         # Initialize model
         self.model = None
         self._load_model()
-        
+
         # Cache for repeated calculations
         self._image_cache = {}
+
+        # Preloaded image cache for batch processing
+        self._preloaded_images = {}  # {(symbol, timestamp, timeframe): tensor}
+        self._batch_data = None
+        self._batch_timestamps = []
+        self._is_preloaded = False
         
     def _load_model(self):
         """Load the trained CNN model."""
@@ -163,58 +170,367 @@ class OHLCFigureFactor(BaseFactor):
         except Exception as e:
             warnings.warn(f"Failed to load OHLC model: {e}")
             self.model = None
+
+    def preload_images(self, data: pd.DataFrame, timestamps: List[pd.Timestamp]):
+        """
+        Preload images for all symbols and timestamps to improve performance.
+
+        Args:
+            data: Multi-symbol OHLCV data with MultiIndex (open_time, symbol)
+            timestamps: List of timestamps to preload
+        """
+        print(f"🚀 开始预加载图像数据...")
+        print(f"   时间框架: {self.timeframes}")
+        print(f"   时间戳数量: {len(timestamps)}")
+
+        # Store data and timestamps for future use
+        self._batch_data = data
+        self._batch_timestamps = timestamps
+
+        # Get all available symbols
+        all_symbols = data.index.get_level_values('symbol').unique().tolist()
+        print(f"   交易对数量: {len(all_symbols)}")
+
+        # Clear existing cache
+        self._preloaded_images = {}
+
+        # Aggregate data for all timeframes first using optimized batch method
+        print("📊 聚合数据到不同时间框架...")
+        aggregated_data = {}
+
+        # Use the optimized aggregation method from the training notebook
+        for timeframe in tqdm(self.timeframes, desc="聚合时间框架"):
+            try:
+                # Map timeframe to pandas frequency
+                freq_map = {'3min': '3min', '15min': '15min', '1h': '60min'}
+                if timeframe not in freq_map:
+                    print(f"   ❌ 不支持的时间框架: {timeframe}")
+                    continue
+
+                freq = freq_map[timeframe]
+
+                # Reset index for efficient resampling
+                temp_data = data.reset_index()
+                temp_data = temp_data.set_index('open_time')
+
+                # Optimized batch aggregation: group by symbol and resample all at once
+                print(f"   处理 {timeframe}...")
+
+                # Group by symbol for parallel processing
+                symbol_groups = temp_data.groupby('symbol')
+                aggregated_list = []
+
+                # Process symbols in batches for memory efficiency
+                symbols = list(symbol_groups.groups.keys())
+                batch_size = 50  # Process 50 symbols at once
+
+                for i in range(0, len(symbols), batch_size):
+                    batch_symbols = symbols[i:i + batch_size]
+
+                    for symbol in batch_symbols:
+                        try:
+                            group = symbol_groups.get_group(symbol)
+
+                            # Fast resampling with explicit aggregation
+                            resampled = group.resample(freq, label='left', closed='left').agg({
+                                'open': 'first',
+                                'high': 'max',
+                                'low': 'min',
+                                'close': 'last',
+                                'volume': 'sum'
+                            }).dropna()
+
+                            if len(resampled) > 0:
+                                resampled['symbol'] = symbol
+                                resampled = resampled.reset_index().set_index(['open_time', 'symbol'])
+                                aggregated_list.append(resampled)
+
+                        except Exception as e:
+                            # Skip problematic symbols
+                            continue
+
+                if aggregated_list:
+                    # Efficient concatenation and sorting
+                    aggregated_data[timeframe] = pd.concat(aggregated_list, copy=False).sort_index()
+                    print(f"   ✅ {timeframe}: {len(aggregated_data[timeframe]):,} 条记录")
+                else:
+                    print(f"   ❌ {timeframe}: 聚合失败")
+
+            except Exception as e:
+                print(f"   ❌ {timeframe} 聚合出错: {e}")
+                continue
+
+        # Batch generate images for all combinations - optimized order
+        print("🎨 批量生成图像...")
+
+        # Pre-calculate valid combinations to avoid wasted iterations
+        valid_timeframes = list(aggregated_data.keys())
+        print(f"有效时间框架: {valid_timeframes}")
+
+        if not valid_timeframes:
+            print("❌ 没有有效的时间框架数据")
+            return
+
+        total_combinations = len(all_symbols) * len(timestamps) * len(valid_timeframes)
+        successful_images = 0
+
+        with tqdm(total=total_combinations, desc="生成图像") as pbar:
+            for timeframe in valid_timeframes:
+                tf_data = aggregated_data[timeframe]
+                print(f"   处理时间框架: {timeframe}")
+
+                # Pre-build symbol index for faster lookup
+                tf_symbols = set(tf_data.index.get_level_values('symbol').unique())
+                valid_symbols_for_tf = [s for s in all_symbols if s in tf_symbols]
+
+                print(f"   有效交易对: {len(valid_symbols_for_tf)}/{len(all_symbols)}")
+
+                # Batch process symbols for this timeframe
+                for symbol in valid_symbols_for_tf:
+                    # Get all data for this symbol at once
+                    try:
+                        symbol_data = tf_data.loc[tf_data.index.get_level_values('symbol') == symbol]
+                        symbol_timestamps = symbol_data.index.get_level_values('open_time')
+
+                        # Process all timestamps for this symbol in batch
+                        for timestamp in timestamps:
+                            try:
+                                # Fast window extraction using vectorized operations
+                                window_data = self._extract_ohlc_window_vectorized(
+                                    symbol_data, symbol_timestamps, timestamp, self.lookback_periods
+                                )
+
+                                if window_data is not None and len(window_data) == self.lookback_periods:
+                                    # Generate image
+                                    image = ohlc_to_image_without_volume(
+                                        window_data,
+                                        window=self.lookback_periods,
+                                        height=self.image_height,
+                                        open_col='open',
+                                        high_col='high',
+                                        low_col='low',
+                                        close_col='close'
+                                    )
+
+                                    if image is not None and image.shape == (self.image_height, self.image_width):
+                                        # Store in cache as tensor
+                                        cache_key = (symbol, timestamp, timeframe)
+                                        self._preloaded_images[cache_key] = torch.from_numpy(image).float()
+                                        successful_images += 1
+
+                            except Exception as e:
+                                pass  # Skip failed combinations silently
+
+                            pbar.update(1)
+
+                    except Exception as e:
+                        # Skip this symbol entirely if data access fails
+                        pbar.update(len(timestamps))
+                        continue
+
+                # Skip any remaining combinations for symbols not in this timeframe
+                remaining_invalid_symbols = len(all_symbols) - len(valid_symbols_for_tf)
+                if remaining_invalid_symbols > 0:
+                    pbar.update(remaining_invalid_symbols * len(timestamps))
+
+        self._is_preloaded = True
+
+        # Statistics
+        success_rate = successful_images / total_combinations * 100 if total_combinations > 0 else 0
+        memory_mb = successful_images * self.image_height * self.image_width * 4 / (1024 * 1024)  # float32
+
+        print(f"✅ 预加载完成!")
+        print(f"   成功生成: {successful_images:,} 张图像")
+        print(f"   总组合数: {total_combinations:,}")
+        print(f"   成功率: {success_rate:.1f}%")
+        print(f"   内存占用: ~{memory_mb:.1f} MB")
+
+    def _extract_ohlc_window_vectorized(self, symbol_data: pd.DataFrame,
+                                       symbol_timestamps: pd.Index,
+                                       end_time: pd.Timestamp,
+                                       window_size: int) -> Optional[pd.DataFrame]:
+        """Vectorized version of OHLC window extraction for better performance."""
+        try:
+            # Use searchsorted for fast timestamp lookup
+            valid_timestamps = symbol_timestamps[symbol_timestamps <= end_time]
+            if len(valid_timestamps) < window_size:
+                return None
+
+            # Get the actual end time (closest available timestamp)
+            actual_end_time = valid_timestamps[-1]
+
+            # Find position efficiently
+            end_pos = symbol_timestamps.get_loc(actual_end_time)
+
+            if end_pos < window_size - 1:
+                return None
+
+            # Extract window using iloc for fastest access
+            start_pos = end_pos - window_size + 1
+            window_data = symbol_data.iloc[start_pos:end_pos + 1]
+
+            if len(window_data) != window_size:
+                return None
+
+            # Remove symbol level from index for image generation
+            return window_data.droplevel('symbol')
+
+        except Exception:
+            return None
+
+    def _extract_ohlc_window_fast(self, data: pd.DataFrame, symbol: str,
+                                 end_time: pd.Timestamp, window_size: int) -> Optional[pd.DataFrame]:
+        """Fast version of OHLC window extraction for preloading."""
+        try:
+            # Get symbol data
+            symbol_data = data.loc[data.index.get_level_values('symbol') == symbol]
+
+            if len(symbol_data) < window_size:
+                return None
+
+            # Get timestamps and find end position
+            timestamps = symbol_data.index.get_level_values('open_time')
+
+            # Find the position closest to end_time
+            valid_timestamps = timestamps[timestamps <= end_time]
+            if len(valid_timestamps) == 0:
+                return None
+
+            actual_end_time = valid_timestamps.max()
+            end_idx = timestamps.get_loc(actual_end_time)
+
+            if end_idx < window_size - 1:
+                return None
+
+            # Extract window
+            start_idx = end_idx - window_size + 1
+            window_data = symbol_data.iloc[start_idx:end_idx + 1]
+
+            if len(window_data) != window_size:
+                return None
+
+            return window_data.droplevel('symbol')
+
+        except Exception:
+            return None
     
     def calculate(self, data: pd.DataFrame, timestamp: pd.Timestamp) -> pd.Series:
         """
         Calculate factor values using CNN predictions on OHLC images.
-        
+
         Args:
             data: Multi-symbol OHLCV data with MultiIndex (open_time, symbol)
             timestamp: Current timestamp for factor calculation
-            
+
         Returns:
             pd.Series: Factor values indexed by symbol (higher = long candidates)
         """
         if self.model is None:
             warnings.warn("OHLC model not loaded, returning empty factor scores")
             return pd.Series(dtype=float, name=f'{self.name}_factor')
-        
+
         # Validate data availability
         if not self.validate_data(data, timestamp):
             warnings.warn(f"Insufficient data for OHLC factor at {timestamp}")
             return pd.Series(dtype=float, name=f'{self.name}_factor')
-        
+
         try:
             # Get current symbols
             current_data = data.loc[data.index.get_level_values('open_time') == timestamp]
             symbols = current_data.index.get_level_values('symbol').unique().tolist()
-            
+
             if len(symbols) == 0:
                 return pd.Series(dtype=float, name=f'{self.name}_factor')
-            
-            # Generate multi-timeframe images for all symbols
-            images_tensor = self._generate_multi_timeframe_images(data, timestamp, symbols)
-            
+
+            # Use preloaded images if available
+            if self._is_preloaded:
+                images_tensor = self._get_preloaded_images(timestamp, symbols)
+            else:
+                # Fall back to the original method
+                images_tensor = self._generate_multi_timeframe_images(data, timestamp, symbols)
+
             if images_tensor is None or images_tensor.shape[0] == 0:
                 return pd.Series(dtype=float, name=f'{self.name}_factor')
-            
+
             # Get model predictions
             predictions = self._predict_returns(images_tensor)
-            
-            # Create factor series
-            factor_scores = pd.Series(predictions, index=symbols, name=f'{self.name}_factor')
-            
+
+            # Create factor series (only for symbols that have valid predictions)
+            valid_symbols = symbols[:len(predictions)]
+            factor_scores = pd.Series(predictions, index=valid_symbols, name=f'{self.name}_factor')
+
             # Apply confidence filtering if specified
             if self.confidence_threshold is not None:
-                # Filter out low-confidence predictions (simple threshold on absolute value)
                 confidence_mask = np.abs(predictions) >= self.confidence_threshold
                 factor_scores = factor_scores[confidence_mask]
-            
+
             return factor_scores.fillna(0.0)
-            
+
         except Exception as e:
             warnings.warn(f"Error calculating OHLC factor: {e}")
             return pd.Series(dtype=float, name=f'{self.name}_factor')
+
+    def _get_preloaded_images(self, timestamp: pd.Timestamp, symbols: List[str]) -> Optional[torch.Tensor]:
+        """
+        Get preloaded images for the given timestamp and symbols.
+
+        Args:
+            timestamp: Current timestamp
+            symbols: List of symbols to get images for
+
+        Returns:
+            torch.Tensor: Batch of multi-timeframe images (N, 3, 64, 60) or None if error
+        """
+        try:
+            batch_images = []
+            valid_symbols = []
+
+            for symbol in symbols:
+                try:
+                    # Collect images for all timeframes
+                    symbol_images = []
+
+                    for timeframe in self.timeframes:
+                        cache_key = (symbol, timestamp, timeframe)
+
+                        if cache_key in self._preloaded_images:
+                            image_tensor = self._preloaded_images[cache_key]
+                            symbol_images.append(image_tensor)
+                        else:
+                            # Missing image for this timeframe
+                            break
+
+                    # Only add if all timeframes are available
+                    if len(symbol_images) == len(self.timeframes):
+                        # Stack timeframes as channels (H, W) -> (3, H, W)
+                        stacked_image = torch.stack(symbol_images, dim=0)
+                        batch_images.append(stacked_image)
+                        valid_symbols.append(symbol)
+
+                except Exception as e:
+                    warnings.warn(f"Failed to get preloaded images for {symbol}: {e}")
+                    continue
+
+            if len(batch_images) == 0:
+                return None
+
+            # Convert to tensor (N, 3, H, W)
+            images_tensor = torch.stack(batch_images, dim=0)
+
+            # Ensure correct shape (N, 3, 64, 60)
+            expected_shape = (len(valid_symbols), len(self.timeframes), self.image_height, self.image_width)
+            if images_tensor.shape != expected_shape:
+                warnings.warn(f"Preloaded tensor shape mismatch: expected {expected_shape}, got {images_tensor.shape}")
+                return None
+
+            # Normalize to [0, 1] range
+            images_tensor = images_tensor.clamp(0, 1)
+
+            return images_tensor.to(self.device)
+
+        except Exception as e:
+            warnings.warn(f"Error getting preloaded images: {e}")
+            return None
     
     def _generate_multi_timeframe_images(self, data: pd.DataFrame, timestamp: pd.Timestamp, 
                                        symbols: List[str]) -> Optional[torch.Tensor]:
@@ -233,7 +549,7 @@ class OHLCFigureFactor(BaseFactor):
             batch_images = []
             valid_symbols = []
             
-            for symbol in symbols:
+            for symbol in tqdm(symbols, desc="Processing symbols", disable=len(symbols) < 10):
                 try:
                     # Generate images for each timeframe
                     symbol_images = []
@@ -314,6 +630,7 @@ class OHLCFigureFactor(BaseFactor):
             
             # Aggregate to target timeframe
             aggregated_data = self._aggregate_to_timeframe(symbol_data, timeframe, timestamp)
+            # print(f"已完成 Aggregate to {timeframe}")
             
             if aggregated_data is None or len(aggregated_data) < self.lookback_periods:
                 return None
@@ -441,15 +758,46 @@ class OHLCFigureFactor(BaseFactor):
     def clear_cache(self):
         """Clear the image cache to free memory."""
         self._image_cache.clear()
+        self._preloaded_images.clear()
+        self._batch_data = None
+        self._batch_timestamps = []
+        self._is_preloaded = False
+
+    def is_preloaded(self) -> bool:
+        """Check if images are preloaded."""
+        return self._is_preloaded
+
+    def get_preload_stats(self) -> Dict:
+        """Get statistics about preloaded images."""
+        if not self._is_preloaded:
+            return {"status": "not_preloaded"}
+
+        total_images = len(self._preloaded_images)
+        memory_mb = total_images * self.image_height * self.image_width * 4 / (1024 * 1024)
+
+        return {
+            "status": "preloaded",
+            "total_images": total_images,
+            "memory_mb": round(memory_mb, 1),
+            "timestamps_count": len(self._batch_timestamps),
+            "timeframes": self.timeframes
+        }
     
     def get_model_info(self) -> Dict:
         """Get information about the loaded model."""
-        return {
+        info = {
             'model_path': self.model_path,
             'device': str(self.device),
             'timeframes': self.timeframes,
             'lookback_periods': self.lookback_periods,
             'image_size': (self.image_height, self.image_width),
             'model_loaded': self.model is not None,
-            'cache_size': len(self._image_cache)
+            'cache_size': len(self._image_cache),
+            'preload_status': self.is_preloaded(),
+            'preloaded_images': len(self._preloaded_images) if self._is_preloaded else 0
         }
+
+        if self._is_preloaded:
+            info.update(self.get_preload_stats())
+
+        return info

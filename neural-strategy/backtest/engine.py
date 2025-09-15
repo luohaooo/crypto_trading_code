@@ -299,7 +299,17 @@ class BacktestEngine:
         
         # Generate rebalancing schedule
         timestamps = self.generate_rebalance_timestamps()
-        
+
+        # Preload images for OHLC figure factors to improve performance
+        if hasattr(factor, 'preload_images') and hasattr(factor, 'is_preloaded'):
+            print(f"\n🚀 检测到OHLC图像因子，开始预加载图像以提升性能...")
+            try:
+                factor.preload_images(self.data, timestamps)
+                preload_stats = factor.get_preload_stats()
+                print(f"✅ 预加载完成: {preload_stats}")
+            except Exception as e:
+                print(f"⚠️ 预加载失败，将使用原始方法: {e}")
+
         # Execute backtesting
         print(f"\nExecuting backtest over {len(timestamps)} rebalance periods...")
         print("-" * 50)
@@ -316,30 +326,66 @@ class BacktestEngine:
                 if signals['action'] == 'rebalance':
                     # Execute rebalancing
                     self.strategy.execute_rebalance(self.data, timestamp, signals)
-                    
+
+                    # Calculate current portfolio value
+                    portfolio_value = self.strategy.calculate_portfolio_value(self.data, timestamp)
+
+                    # Print detailed rebalance information
+                    print(f"\n📊 调仓执行 #{i+1} | {timestamp.strftime('%Y-%m-%d %H:%M')}")
+                    print(f"   组合价值: ${portfolio_value:12,.0f}")
+
+                    # Print position changes
+                    long_symbols = signals.get('long_symbols', [])
+                    short_symbols = signals.get('short_symbols', [])
+
+                    if long_symbols:
+                        print(f"   📈 做多仓位 ({len(long_symbols)}): {', '.join(long_symbols[:5])}")
+                        if len(long_symbols) > 5:
+                            print(f"      + {len(long_symbols) - 5} 个其他...")
+
+                    if short_symbols:
+                        print(f"   📉 做空仓位 ({len(short_symbols)}): {', '.join(short_symbols[:5])}")
+                        if len(short_symbols) > 5:
+                            print(f"      + {len(short_symbols) - 5} 个其他...")
+
+                    # Print recent trades if any
+                    recent_trades = [t for t in self.strategy.completed_trades if
+                                   hasattr(t, 'close_time') and t.close_time == timestamp]
+                    if recent_trades:
+                        total_pnl = sum(t.pnl for t in recent_trades)
+                        print(f"   💰 本次平仓: {len(recent_trades)} 笔交易, P&L: ${total_pnl:+,.0f}")
+
+                    print(f"   🎯 总持仓: {len(self.strategy.positions)} 个")
+
                     # Log execution
                     self.execution_log.append({
                         'timestamp': timestamp,
                         'rebalance_id': i,
                         'action': 'rebalance_success',
-                        'portfolio_value': signals.get('portfolio_value', 0),
-                        'num_long': len(signals.get('long_symbols', [])),
-                        'num_short': len(signals.get('short_symbols', [])),
-                        'num_positions': len(self.strategy.positions)
+                        'portfolio_value': portfolio_value,
+                        'num_long': len(long_symbols),
+                        'num_short': len(short_symbols),
+                        'num_positions': len(self.strategy.positions),
+                        'long_symbols': long_symbols,
+                        'short_symbols': short_symbols,
+                        'recent_trades_pnl': sum(t.pnl for t in recent_trades) if recent_trades else 0
                     })
-                    
-                    # Progress reporting
-                    if self.config.progress_reporting and (i % 10 == 0 or i == len(timestamps) - 1):
+
+                    # Progress reporting (less frequent now since we print each rebalance)
+                    if self.config.progress_reporting and (i % 20 == 0 or i == len(timestamps) - 1):
                         progress_pct = (i + 1) / len(timestamps) * 100
-                        portfolio_value = self.strategy.calculate_portfolio_value(self.data, timestamp)
-                        
-                        print(f"Progress: {progress_pct:5.1f}% | {timestamp.strftime('%Y-%m-%d %H:%M')} | "
-                              f"Portfolio: ${portfolio_value:12,.0f} | "
-                              f"Positions: {len(self.strategy.positions)}")
+
+                        print(f"\n🔄 回测进度: {progress_pct:5.1f}% | "
+                              f"已执行 {i+1}/{len(timestamps)} 次调仓")
                 
                 elif signals['action'] == 'no_signal':
                     failed_rebalances += 1
-                    
+
+                    # Print info for failed rebalances occasionally
+                    if i % 50 == 0:  # Every 50 attempts
+                        reason = signals.get('reason', 'unknown')
+                        print(f"⚠️  调仓跳过 #{i+1} | {timestamp.strftime('%Y-%m-%d %H:%M')} | 原因: {reason}")
+
                     self.execution_log.append({
                         'timestamp': timestamp,
                         'rebalance_id': i,
