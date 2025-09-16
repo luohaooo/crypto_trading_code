@@ -19,6 +19,16 @@ from ohlc_model import Net, create_model
 from training_dataset import create_training_dataset, create_data_loaders
 from typing import List, Dict, Optional, Tuple
 
+import sys
+project_root = '/home/craz/crypto/crypto-trading'
+sys.path.insert(0, project_root)
+
+# Import neural-strategy utils
+neural_strategy_root = '/home/craz/crypto/crypto-trading/neural-strategy'
+sys.path.insert(0, neural_strategy_root)
+
+from utils.dingding import send_dingtalk_message
+
 
 def train_loop(dataloader: DataLoader, model: nn.Module, loss_fn: nn.Module, optimizer: torch.optim.Optimizer, device: torch.device) -> float:
     """
@@ -324,28 +334,33 @@ if __name__ == "__main__":
 
     print("🚀 Starting OHLC model training pipeline...")
 
-    try:
-        best_model_path, training_info = create_training_pipeline(
-            data_dir=DATA_DIR,
-            label_horizon='4h',
-            start_date='2025-03',
-            end_date='2025-06',
-            batch_size=256,
-            learning_rate=5e-5,
-            epochs=50,
-            early_stopping=5,
-            train_ratio=0.7,
-            save_dir="./model_checkpoint",
-            preload_all=False
-        )
+    for [s, e] in [['2025-01','2025-04'], ['2024-12','2025-03'], ['2024-11','2025-02']]:
 
-        print(f"\n📋 Training Summary:")
-        print(f"  - Dataset: {training_info['dataset_info']['total_samples']:,} samples")
-        print(f"  - Model: {training_info['model_info']['total_parameters']:,} parameters")
-        print(f"  - Training time: {training_info['training_time']/60:.1f} minutes")
-        print(f"  - Best model: {best_model_path}")
+        try:
+            best_model_path, training_info = create_training_pipeline(
+                data_dir=DATA_DIR,
+                label_horizon='1d',
+                start_date=s,
+                end_date=e,
+                batch_size=256,
+                learning_rate=5e-5,
+                epochs=50,
+                early_stopping=5,
+                train_ratio=0.7,
+                save_dir="./model_checkpoint",
+                preload_all=False
+            )
 
-    except Exception as e:
-        print(f"❌ Training failed: {e}")
-        import traceback
-        traceback.print_exc()
+            print(f"\n📋 Training Summary:")
+            print(f"  - Dataset: {training_info['dataset_info']['total_samples']:,} samples")
+            print(f"  - Model: {training_info['model_info']['total_parameters']:,} parameters")
+            print(f"  - Training time: {training_info['training_time']/60:.1f} minutes")
+            print(f"  - Best model: {best_model_path}")
+
+            send_dingtalk_message(f"start_date={s}, end_date={e}, Training time: {training_info['training_time']/60:.1f} minutes, Best model: {best_model_path}")
+
+        except Exception as e:
+            print(f"❌ Training failed: {e}")
+            import traceback
+            traceback.print_exc()
+    
