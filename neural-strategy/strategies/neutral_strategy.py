@@ -320,7 +320,7 @@ class NeutralStrategy(BaseStrategy):
             short_avg_return = np.mean([r['strategy_return'] for r in short_results]) if short_results else 0.0
 
             # Calculate strategy spread (divide by 2 since long and short each use 50% capital)
-            strategy_spread = (long_avg_return - short_avg_return) / 2.0
+            strategy_spread = (long_avg_return + short_avg_return) / 2.0
 
             print("-" * 70)
             print(f"STATISTICS:")
@@ -551,7 +551,7 @@ class NeutralStrategy(BaseStrategy):
             'short_basket_avg_return': np.mean(short_returns) if short_returns else 0.0,
             'long_basket_size': len(long_returns),
             'short_basket_size': len(short_returns),
-            'spread_return': (np.mean(long_returns) - np.mean(short_returns)) / 2 if long_returns and short_returns else 0.0
+            'spread_return': (np.mean(long_returns) + np.mean(short_returns)) / 2 if long_returns and short_returns else 0.0
         }
     
     def __str__(self) -> str:

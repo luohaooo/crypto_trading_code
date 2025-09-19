@@ -172,7 +172,7 @@ def ohlc_to_image_with_volume(
     if volume_range > 0:
         v_h = v2y(volume)
     else:
-        v_h = n(p.ones(N) * (price_height + 1)).astype(int)
+        v_h = (np.ones(N) * (price_height + 1)).astype(int)
 
     # 7. Draw each day: central column is the vertical line for price; bottom part draws volume bars;
     #    left/right columns mark open/close ticks

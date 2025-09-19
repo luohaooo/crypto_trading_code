@@ -330,11 +330,11 @@ def create_training_pipeline(data_dir: str,
 
 if __name__ == "__main__":
     # Example training pipeline
-    DATA_DIR = '/home/craz/crypto/model_training/ohlc_img_dataset'
+    DATA_DIR = '/home/craz/crypto/model_training/ohlc_img_dataset_2'
 
     print("🚀 Starting OHLC model training pipeline...")
 
-    for [s, e] in [['2025-01','2025-04'], ['2024-12','2025-03'], ['2024-11','2025-02']]:
+    for [s, e] in [['2025-05','2025-05'], ['2025-04','2025-04'], ['2025-03','2025-03'], ['2025-02','2025-02'], ['2025-01','2025-01']]:
 
         try:
             best_model_path, training_info = create_training_pipeline(

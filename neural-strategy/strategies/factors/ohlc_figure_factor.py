@@ -30,11 +30,11 @@ sys.path.insert(0, figure_model_root)
 from .base_factor import BaseFactor
 
 try:
-    from ohlc2fig import ohlc_to_image_without_volume
+    from ohlc2fig import ohlc_to_image_with_volume
 except ImportError:
     # Fallback import path
     sys.path.append(os.path.join(project_root, 'figure_model'))
-    from ohlc2fig import ohlc_to_image_without_volume
+    from ohlc2fig import ohlc_to_image_with_volume
 
 
 class OHLCImageCNN(nn.Module):
@@ -202,7 +202,7 @@ class OHLCFigureFactor(BaseFactor):
         for timeframe in tqdm(self.timeframes, desc="聚合时间框架"):
             try:
                 # Map timeframe to pandas frequency
-                freq_map = {'3min': '3min', '15min': '15min', '1h': '60min'}
+                freq_map = {'3min': '3min', '15min': '15min', '1h': '60min', '2h': '120min', '4h': '240min'}
                 if timeframe not in freq_map:
                     print(f"   ❌ 不支持的时间框架: {timeframe}")
                     continue
@@ -302,14 +302,15 @@ class OHLCFigureFactor(BaseFactor):
 
                                 if window_data is not None and len(window_data) == self.lookback_periods:
                                     # Generate image
-                                    image = ohlc_to_image_without_volume(
+                                    image = ohlc_to_image_with_volume(
                                         window_data,
                                         window=self.lookback_periods,
                                         height=self.image_height,
                                         open_col='open',
                                         high_col='high',
                                         low_col='low',
-                                        close_col='close'
+                                        close_col='close',
+                                        volume_col='volume'
                                     )
 
                                     if image is not None and image.shape == (self.image_height, self.image_width):
@@ -639,14 +640,15 @@ class OHLCFigureFactor(BaseFactor):
             recent_data = aggregated_data.tail(self.lookback_periods).copy()
             
             # Generate OHLC image
-            image = ohlc_to_image_without_volume(
+            image = ohlc_to_image_with_volume(
                 recent_data,
                 window=self.lookback_periods,
                 height=self.image_height,
                 open_col='open',
                 high_col='high',
                 low_col='low',
-                close_col='close'
+                close_col='close',
+                volume_col='volume'
             )
             
             # Cache the result
@@ -689,6 +691,12 @@ class OHLCFigureFactor(BaseFactor):
             elif timeframe == '1h':
                 freq = '60min'
                 periods_needed = self.lookback_periods * 60  # 60 minutes of 1-min data
+            elif timeframe == '2h':
+                freq = '120min'
+                periods_needed = self.lookback_periods * 120  # 120 minutes of 1-min data
+            elif timeframe == '4h':
+                freq = '240min'
+                periods_needed = self.lookback_periods * 240  # 240 minutes of 1-min data
             else:
                 raise ValueError(f"Unsupported timeframe: {timeframe}")
             

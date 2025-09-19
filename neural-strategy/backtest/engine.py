@@ -584,53 +584,67 @@ class BacktestEngine:
             'last_rebalance': self.rebalance_timestamps[-1] if self.rebalance_timestamps else None,
         }
     
-    def print_results_summary(self) -> None:
+    def print_results_summary(self) -> str:
         """
-        Print a formatted summary of backtest results.
+        Print a formatted summary of backtest results and return as string.
+
+        Returns:
+            String containing the formatted backtest results
         """
         if not self.results:
-            print("No results to display. Run backtest first.")
-            return
-        
-        print("\n" + "=" * 80)
-        print("BACKTEST RESULTS SUMMARY")
-        print("=" * 80)
-        
-        print(f"\n📊 PERFORMANCE METRICS")
-        print(f"Initial Capital:        ${self.results['initial_capital']:12,.0f}")
-        print(f"Final Portfolio Value:  ${self.results['final_portfolio_value']:12,.0f}")
-        print(f"Total Return:           {self.results['total_return_pct']:12.2f}%")
-        print(f"Annualized Return:      {self.results['annualized_return_pct']:12.2f}%")
-        print(f"Volatility:             {self.results['volatility_pct']:12.2f}%")
-        print(f"Sharpe Ratio:           {self.results['sharpe_ratio']:12.2f}")
-        print(f"Max Drawdown:           {self.results['max_drawdown_pct']:12.2f}%")
-        
-        print(f"\n🔄 TRADING ACTIVITY")
-        print(f"Total Trades:           {self.results['total_trades']:12,}")
-        print(f"Win Rate:               {self.results['win_rate_pct']:12.1f}%")
-        print(f"Avg Trade P&L:          ${self.results['avg_trade_pnl']:12.2f}")
-        
+            message = "No results to display. Run backtest first."
+            print(message)
+            return message
+
+        lines = []
+        lines.append("\n" + "=" * 80)
+        lines.append("BACKTEST RESULTS SUMMARY")
+        lines.append("=" * 80)
+
+        lines.append(f"\nPERFORMANCE METRICS")
+        lines.append(f"Initial Capital:        ${self.results['initial_capital']:12,.0f}")
+        lines.append(f"Final Portfolio Value:  ${self.results['final_portfolio_value']:12,.0f}")
+        lines.append(f"Total Return:           {self.results['total_return_pct']:12.2f}%")
+        lines.append(f"Annualized Return:      {self.results['annualized_return_pct']:12.2f}%")
+        lines.append(f"Volatility:             {self.results['volatility_pct']:12.2f}%")
+        lines.append(f"Sharpe Ratio:           {self.results['sharpe_ratio']:12.2f}")
+        lines.append(f"Max Drawdown:           {self.results['max_drawdown_pct']:12.2f}%")
+
+        lines.append(f"\nTRADING ACTIVITY")
+        lines.append(f"Total Trades:           {self.results['total_trades']:12,}")
+        lines.append(f"Win Rate:               {self.results['win_rate_pct']:12.1f}%")
+        lines.append(f"Avg Trade P&L:          ${self.results['avg_trade_pnl']:12.2f}")
+
         trade_analysis = self.results['trade_analysis']
         if 'message' not in trade_analysis:
-            print(f"Best Trade:             ${trade_analysis['best_trade']:12.2f}")
-            print(f"Worst Trade:            ${trade_analysis['worst_trade']:12.2f}")
-            print(f"Avg Holding Period:     {trade_analysis['avg_holding_period']:12.1f} hours")
-        
-        print(f"\n⚙️ EXECUTION QUALITY")
+            lines.append(f"Best Trade:             ${trade_analysis['best_trade']:12.2f}")
+            lines.append(f"Worst Trade:            ${trade_analysis['worst_trade']:12.2f}")
+            lines.append(f"Avg Holding Period:     {trade_analysis['avg_holding_period']:12.1f} hours")
+
+        lines.append(f"\nEXECUTION QUALITY")
         exec_analysis = self.results['execution_analysis']
         if 'message' not in exec_analysis:
-            print(f"Execution Rate:         {exec_analysis['execution_rate_pct']:12.1f}%")
-            print(f"Successful Rebalances:  {exec_analysis['successful_rebalances']:12,}")
-            print(f"Failed Rebalances:      {exec_analysis['failed_rebalances']:12,}")
-            print(f"Avg Positions:          {exec_analysis['avg_positions_per_rebalance']:12.1f}")
-            print(f"Target Positions:       {exec_analysis['target_positions']:12}")
-        
-        print(f"\n🎯 STRATEGY CONFIGURATION")
-        print(f"Strategy:               {self.config.strategy.name}")
-        print(f"Factor:                 {self.config.factor.name}")
-        print(f"Long Positions:         {self.config.strategy.top_n}")
-        print(f"Short Positions:        {self.config.strategy.bottom_n}")
-        print(f"Commission Rate:        {self.config.strategy.commission_rate:.3f}")
-        print(f"Rebalance Frequency:    {self.config.strategy.rebalance_frequency}")
-        
-        print("\n" + "=" * 80)
+            lines.append(f"Execution Rate:         {exec_analysis['execution_rate_pct']:12.1f}%")
+            lines.append(f"Successful Rebalances:  {exec_analysis['successful_rebalances']:12,}")
+            lines.append(f"Failed Rebalances:      {exec_analysis['failed_rebalances']:12,}")
+            lines.append(f"Avg Positions:          {exec_analysis['avg_positions_per_rebalance']:12.1f}")
+            lines.append(f"Target Positions:       {exec_analysis['target_positions']:12}")
+
+        lines.append(f"\nSTRATEGY CONFIGURATION")
+        lines.append(f"Strategy:               {self.config.strategy.name}")
+        lines.append(f"Factor:                 {self.config.factor.name}")
+        lines.append(f"Long Positions:         {self.config.strategy.top_n}")
+        lines.append(f"Short Positions:        {self.config.strategy.bottom_n}")
+        lines.append(f"Commission Rate:        {self.config.strategy.commission_rate:.3f}")
+        lines.append(f"Rebalance Frequency:    {self.config.strategy.rebalance_frequency}")
+
+        lines.append("\n" + "=" * 80)
+
+        # Create the full summary string
+        summary_string = "\n".join(lines)
+
+        # Print to console as before
+        print(summary_string)
+
+        # Return the string
+        return summary_string

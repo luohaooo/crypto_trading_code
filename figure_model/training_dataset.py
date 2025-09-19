@@ -25,7 +25,7 @@ from tqdm import tqdm
 warnings.filterwarnings('ignore')
 
 # Configuration
-TIMEFRAMES = ['3min', '15min', '1h']
+TIMEFRAMES = ['1h', '2h', '4h']
 RETURN_HORIZON_MAP = {
     '1h': '1h', '2h': '2h', '4h': '4h', '8h': '8h',
     '12h': '12h', '16h': '16h', '18h': '18h',
@@ -308,9 +308,9 @@ class StackedOHLCDataset(Dataset):
 
             # Stack images (N, 3, 64, 60)
             stacked_images = torch.stack([
-                images_data['3min'],
-                images_data['15min'],
-                images_data['1h']
+                images_data['1h'],
+                images_data['2h'],
+                images_data['4h']
             ], dim=1).squeeze(2)  # Remove original channel dimension
 
             # Load label file
@@ -357,9 +357,9 @@ class StackedOHLCDataset(Dataset):
 
         # Stack images (N, 3, 64, 60)
         stacked_images = torch.stack([
-            images_data['3min'],
-            images_data['15min'],
-            images_data['1h']
+            images_data['1h'],
+            images_data['2h'],
+            images_data['4h']
         ], dim=1).squeeze(2)  # Remove original channel dimension
 
         # Load label file
