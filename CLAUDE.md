@@ -6,19 +6,51 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a comprehensive cryptocurrency trading project featuring:
 1. **Price Visualization System** - Interactive charts with advanced navigation (✅ COMPLETED)
-2. **Trading Strategy Development** - Strategy creation and testing framework (🚧 PLANNED)
-3. **Backtesting Engine** - Historical strategy performance analysis (🚧 PLANNED)
-4. **Web Interface for Backtesting** - User-friendly strategy testing interface (🚧 PLANNED)
+2. **Neural Strategy Framework** - OHLC figure-based neural network strategies (✅ COMPLETED)
+3. **Model Training Pipeline** - PyTorch-based model training with checkpointing (✅ COMPLETED)
+4. **Backtesting Engine** - Historical strategy performance analysis with factor-based approach (✅ COMPLETED)
+5. **Strategy Factors** - OHLC figure factors and returns-based factors (✅ COMPLETED)
+6. **Web Interface for Backtesting** - User-friendly strategy testing interface (🚧 PLANNED)
 
 ## Project Structure
 
 ```
 /home/craz/crypto/crypto-trading/
-├── visualization/              # Price visualization module (current)
+├── visualization/              # Price visualization module (completed)
 │   ├── app.py                 # Flask app for price charts
 │   ├── templates/
 │   │   └── index.html         # Visualization interface
 │   └── static/                # CSS/JS assets (if needed)
+├── figure_model/               # Neural network model training (completed)
+│   ├── train_ohlc_model.py    # Main training script
+│   ├── ohlc_model.py          # PyTorch model definitions
+│   ├── training_dataset.py    # Dataset classes and data loading
+│   ├── ohlc2fig.py           # OHLC to figure conversion
+│   ├── ohlc_preprocessor.py   # Data preprocessing utilities
+│   ├── generate_dataset_training.ipynb # Dataset generation notebook
+│   ├── model_checkpoint/      # Training checkpoints by timestamp
+│   └── model_saved/           # Final trained models
+├── neural-strategy/            # Neural strategy implementation (completed)
+│   ├── strategies/            # Strategy classes
+│   │   ├── __init__.py
+│   │   ├── base_strategy.py   # Base strategy class
+│   │   ├── neutral_strategy.py # Market neutral strategy implementation
+│   │   └── factors/           # Factor implementations
+│   │       ├── __init__.py
+│   │       ├── base_factor.py # Base factor class
+│   │       ├── ohlc_figure_factor.py # Neural network factor
+│   │       └── returns_factor.py # Returns-based factor
+│   ├── backtest/              # Backtesting engine
+│   │   ├── __init__.py
+│   │   └── engine.py         # Core backtesting logic
+│   ├── ohlc_backtest.py      # Main backtest script
+│   └── utils/                # Utilities
+│       ├── __init__.py
+│       ├── config.py         # Configuration management
+│       └── dingding.py       # DingTalk notifications
+├── utils/                      # Common data utilities (completed)
+│   ├── __init__.py
+│   └── data_loader.py         # Data loading functions
 ├── strategies/                 # Trading strategy modules (planned)
 │   ├── __init__.py
 │   ├── base_strategy.py       # Base strategy class
@@ -41,25 +73,42 @@ This is a comprehensive cryptocurrency trading project featuring:
 │   ├── __init__.py
 │   ├── loader.py              # Data loading functions
 │   └── validator.py           # Data validation
-├── utils/                      # Common utilities (planned)
-│   ├── __init__.py
-│   ├── config.py              # Configuration management
-│   └── helpers.py             # Helper functions
 └── tests/                      # Test suites (planned)
     ├── test_strategies.py
     ├── test_backtest.py
     └── test_visualization.py
 ```
 
-## Current Implementation (Visualization Module)
+## Current Implementation
 
-### Completed Features
+### Completed Modules
+
+#### Visualization Module
 - **Backend**: Flask application serving cryptocurrency price data from CSV files
 - **Frontend**: Interactive web interface with Chart.js-based visualizations
 - **Data Source**: Minute-level OHLCV data stored in `/home/craz/crypto/crypto-data/future_data_2/`
 - **Documentation**: Complete implementation guide in `price_visualize.md`
 
+#### Neural Strategy Framework
+- **Model Training**: PyTorch-based neural network training pipeline
+- **Data Processing**: OHLC to figure conversion with preprocessing
+- **Model Management**: Automated checkpointing, validation, and model saving
+- **Architecture**: Support for various loss functions (MSE, L1) and model architectures
+
+#### Backtesting Engine
+- **Factor-Based Strategy**: Extensible factor framework for strategy development
+- **Market Neutral Strategy**: Long/short positioning based on factor signals
+- **Performance Analysis**: Returns calculation, Sharpe ratio, factor effectiveness
+- **Portfolio Management**: Automated rebalancing with configurable frequency
+
+#### Strategy Factors
+- **OHLC Figure Factor**: Neural network predictions on OHLC price patterns
+- **Returns Factor**: Historical return-based momentum signals
+- **Base Factor Class**: Extensible framework for custom factor implementations
+
 ### Key Features Implemented
+
+#### Visualization Features
 - Interactive price and volume charts with dual Y-axes
 - Time-based navigation with slider controls and keyboard shortcuts (A/D keys)
 - Multiple chart types: Line view (purple close prices), OHLC view (color-coded O/H/L/C lines), and Candlestick view (green/red candles)
@@ -68,11 +117,29 @@ This is a comprehensive cryptocurrency trading project featuring:
 - Responsive design with mobile-friendly controls
 - Perfect alignment between candlestick and volume bars
 
+#### Neural Strategy Features
+- PyTorch model training with automatic checkpointing
+- OHLC data preprocessing and figure conversion
+- Model validation and performance tracking
+- Support for multiple loss functions and optimizers
+- Timestamped model checkpoint management
+- Model artifact versioning and storage
+
+#### Backtesting Features
+- Factor-based strategy implementation with extensible framework
+- Market neutral portfolio construction (50% long, 50% short)
+- Automated portfolio rebalancing (daily, weekly, monthly options)
+- Performance metrics: total return, annualized return, Sharpe ratio
+- Factor effectiveness analysis with spread calculation
+- DingTalk notification integration for alerts and results
+
 ## Development Setup
 
-**Current Stack**: Python + Flask + Chart.js
+**Current Stack**: Python + Flask + Chart.js + PyTorch
 
-### Running the Visualization Module
+### Running the Applications
+
+#### Visualization Module
 ```bash
 cd visualization/
 python app.py
@@ -81,12 +148,40 @@ python app.py
 - Debug mode enabled for development
 - Automatic reloading on code changes
 
+#### Neural Strategy Training
+```bash
+cd figure_model/
+python train_ohlc_model.py
+```
+- Trains OHLC figure-based neural network models
+- Automatic checkpointing and validation
+- Model artifacts saved to `model_checkpoint/` and `model_saved/`
+
+#### Strategy Backtesting
+```bash
+cd neural-strategy/
+python ohlc_backtest.py
+```
+- Runs factor-based backtesting with neural network predictions
+- Configurable strategy parameters and rebalancing frequency
+- Results output with performance metrics and factor analysis
+
 ### Dependencies
-- **Python**: Flask, Pandas, datetime, glob, os
+- **Python Core**: Flask, Pandas, datetime, glob, os, pickle
+- **Machine Learning**: PyTorch, NumPy, scikit-learn
 - **Frontend**: Chart.js, chartjs-adapter-date-fns, chartjs-plugin-zoom
 - **Data**: CSV files with OHLCV cryptocurrency data
+- **Notifications**: DingTalk webhook integration
 
-### Testing the Visualization System
+### Data Sources
+- **Price Data**: Minute-level OHLCV data in `/home/craz/crypto/crypto-data/future_data_2/`
+- **Model Checkpoints**: Training checkpoints in `figure_model/model_checkpoint/`
+- **Saved Models**: Final trained models in `figure_model/model_saved/`
+- **Cache**: Preprocessed data cache in `/home/craz/crypto/crypto-data/pickle_cache/`
+
+### Testing the Applications
+
+#### Testing Visualization System
 1. Start the Flask server: `cd visualization/ && python app.py`
 2. Navigate to `http://localhost:5000`
 3. Select a cryptocurrency symbol (BTCUSDT, ETHUSDT, etc.)
@@ -95,60 +190,143 @@ python app.py
 6. Toggle between Line, OHLC, and Candlestick chart types
 7. Test data aggregation (1m to 7d intervals)
 
-## Planned Modules
+#### Testing Neural Strategy Training
+1. Run training: `cd figure_model/ && python train_ohlc_model.py`
+2. Monitor training progress and validation metrics
+3. Check model checkpoints in `model_checkpoint/[timestamp]/`
+4. Verify final model saved in `model_saved/`
 
-### 1. Trading Strategies Module
-- **Purpose**: Define and manage trading strategies
+#### Testing Strategy Backtesting
+1. Ensure trained models are available in `figure_model/model_saved/`
+2. Run backtest: `cd neural-strategy/ && python ohlc_backtest.py`
+3. Review performance metrics and factor analysis results
+4. Check DingTalk notifications (if configured)
+
+## Completed & Planned Modules
+
+### Completed Implementation
+
+#### 1. Neural Strategy Framework ✅
+- **Purpose**: OHLC figure-based neural network trading strategies
 - **Components**:
-  - Base strategy class with common interfaces
-  - Built-in strategies (MA crossover, RSI, etc.)
-  - Custom strategy support
-  - Parameter optimization
-- **Integration**: Will connect with backtesting engine
+  - PyTorch model training pipeline with automatic checkpointing
+  - OHLC to figure conversion and preprocessing
+  - Model validation and performance tracking
+  - Timestamped checkpoint management and model versioning
+- **Integration**: Connects with backtesting engine via OHLC Figure Factor
 
-### 2. Backtesting Engine
-- **Purpose**: Historical strategy performance testing
+#### 2. Backtesting Engine ✅
+- **Purpose**: Historical strategy performance testing with factor-based approach
 - **Components**:
   - Core backtesting logic with realistic trading simulation
-  - Performance metrics calculation (Sharpe ratio, drawdown, etc.)
-  - Risk management features
-  - Transaction cost modeling
-- **Integration**: Will use visualization module for result charts
+  - Factor-based strategy framework (neutral strategy implemented)
+  - Performance metrics calculation (returns, Sharpe ratio, factor effectiveness)
+  - Portfolio rebalancing with configurable frequency
+  - DingTalk notification integration
+- **Integration**: Uses neural network models via factor system
 
-### 3. Main Web Application
+#### 3. Strategy Factors ✅
+- **Purpose**: Modular factor-based signal generation
+- **Components**:
+  - Base factor class with standardized interface
+  - OHLC Figure Factor using neural network predictions
+  - Returns Factor for momentum-based signals
+  - Extensible framework for custom factor implementations
+- **Integration**: Plugs into backtesting engine for strategy execution
+
+### Planned Implementation
+
+#### 1. Advanced Trading Strategies Module 🚧
+- **Purpose**: Enhanced strategy framework beyond neural factors
+- **Components**:
+  - Traditional technical indicator strategies (MA crossover, RSI, etc.)
+  - Multi-factor strategy combinations
+  - Strategy parameter optimization
+  - Risk management and position sizing
+- **Integration**: Will extend current factor-based approach
+
+#### 2. Main Web Application 🚧
 - **Purpose**: Unified interface for all modules
 - **Components**:
-  - Dashboard with portfolio overview
-  - Strategy configuration interface
+  - Dashboard with portfolio overview and performance metrics
+  - Strategy configuration interface for neural and traditional strategies
   - Integrated visualization (embedded from current module)
-  - Backtest result analysis and comparison
-- **Integration**: Will orchestrate all other modules
+  - Backtest result analysis and comparison tools
+  - Model training monitoring and management interface
+- **Integration**: Will orchestrate all existing modules (visualization, neural strategy, backtesting)
 
 ## Architecture Notes
 
-### Current Architecture (Visualization)
+### Current Architecture
+
+#### Visualization Layer
 - **Data Layer**: CSV file-based storage with Pandas processing
 - **API Layer**: Flask REST endpoints for symbols and OHLC data
 - **Visualization Layer**: Chart.js with custom navigation controls
 - **User Interface**: Single-page web application with responsive design
 
+#### Neural Strategy Layer
+- **Data Processing**: OHLC to figure conversion with preprocessing pipeline
+- **Model Training**: PyTorch-based neural network training with checkpointing
+- **Model Management**: Timestamped checkpoints and versioned model artifacts
+- **Integration**: Factor-based interface for backtesting integration
+
+#### Backtesting Layer
+- **Strategy Framework**: Factor-based strategy implementation
+- **Execution Engine**: Market neutral portfolio construction and rebalancing
+- **Performance Analysis**: Comprehensive metrics and factor effectiveness analysis
+- **Notification System**: DingTalk integration for alerts and results
+
 ### Planned Architecture (Full System)
-- **Modular Design**: Separate modules for visualization, strategies, backtesting
+- **Modular Design**: Separate modules for visualization, neural strategies, and backtesting (✅ implemented)
 - **Shared Data Layer**: Common data access patterns across modules
 - **API-First**: RESTful APIs for inter-module communication
-- **Plugin System**: Extensible strategy and indicator framework
+- **Plugin System**: Extensible factor and strategy framework (✅ factor framework implemented)
+- **Model Management**: Centralized model training, versioning, and deployment (✅ implemented)
+- **Unified Interface**: Web dashboard integrating all components
 
 ### Key Components
-- **Data Processing**: Real-time aggregation and time-series manipulation
+
+#### Data Management
+- **Price Data Processing**: Real-time aggregation and time-series manipulation
+- **OHLC Figure Conversion**: Preprocessing pipeline for neural network input
+- **Cache Management**: Pickle-based caching for preprocessed data
+- **Model Artifacts**: Organized storage of training checkpoints and final models
+
+#### User Interface
 - **Navigation System**: Slider-based time window navigation (shows 20% of data at once)
 - **Chart Management**: Dual-axis charts (price + volume) with synchronized navigation
-- **Error Handling**: Robust error handling for missing data and navigation edge cases
+- **Interactive Controls**: Keyboard shortcuts, zoom/pan, chart type switching
+
+#### Strategy Execution
+- **Factor Framework**: Modular signal generation with extensible base classes
+- **Portfolio Management**: Market neutral construction with automated rebalancing
+- **Performance Tracking**: Real-time metrics calculation and factor analysis
+
+#### Error Handling & Monitoring
+- **Robust Error Handling**: Comprehensive error handling for missing data and navigation edge cases
+- **Training Monitoring**: Automatic checkpointing with validation loss tracking
+- **Notification System**: DingTalk alerts for training completion and backtest results
 
 ### Performance Considerations
+
+#### Visualization Performance
 - No data sampling - preserves complete dataset integrity
 - Client-side aggregation for smooth user interactions
 - Optimized chart rendering with minimal point radius for large datasets
 - Memory-efficient data structures for time-based navigation
+
+#### Training Performance
+- Automatic model checkpointing to prevent training loss
+- GPU acceleration support for PyTorch models
+- Efficient data loading with batch processing
+- Cached preprocessing to avoid redundant computations
+
+#### Backtesting Performance
+- Vectorized operations for portfolio calculations
+- Efficient factor computation with minimal data copying
+- Configurable rebalancing frequency to balance accuracy and speed
+- Memory-efficient factor storage and retrieval
 
 ## Color Scheme & Visual Design
 

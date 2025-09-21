@@ -334,7 +334,7 @@ if __name__ == "__main__":
 
     print("🚀 Starting OHLC model training pipeline...")
 
-    for [s, e] in [['2025-05','2025-05'], ['2025-04','2025-04'], ['2025-03','2025-03'], ['2025-02','2025-02'], ['2025-01','2025-01']]:
+    for [s, e] in [['2025-03','2025-03'], ['2025-02','2025-02'], ['2025-01','2025-01']]:
 
         try:
             best_model_path, training_info = create_training_pipeline(
@@ -345,7 +345,7 @@ if __name__ == "__main__":
                 batch_size=256,
                 learning_rate=5e-5,
                 epochs=50,
-                early_stopping=5,
+                early_stopping=10,
                 train_ratio=0.7,
                 save_dir="./model_checkpoint",
                 preload_all=False

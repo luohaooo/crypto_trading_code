@@ -13,11 +13,13 @@ from utils.dingding import send_dingtalk_message
 
 
 for [model_path, s, e] in [
-                            ['/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-06_2025-06_mse_256_1d.pt', '2025-03-01', '2025-03-31'],
-                            # ['/home/craz/crypto/crypto-trading/figure_model/model_saved/f_2025-05_2025-05_l1_256_1d.pt', '2025-06-01', '2025-06-30'],
-                            # ['/home/craz/crypto/crypto-trading/figure_model/model_saved/f_2025-01_2025-04_mse_256_1d.pt', '2025-05-01', '2025-05-31'],
-                            # ['/home/craz/crypto/crypto-trading/figure_model/model_saved/f_2025-02_2025-05_mse_256_1d.pt', '2025-06-01', '2025-06-30'],
-                            # ['/home/craz/crypto/crypto-trading/figure_model/model_saved/f_2025-03_2025-06_mse_256_1d.pt', '2025-07-01', '2025-07-31']
+                            # ['/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-01_2025-01_mse_256_1d.pt', '2025-01-01', '2025-01-31'],
+                            # ['/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-01_2025-01_mse_256_1d.pt', '2025-02-01', '2025-02-28'],
+                            # ['/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-02_2025-02_mse_256_1d.pt', '2025-03-01', '2025-03-31'],
+                            # ['/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-03_2025-03_mse_256_1d.pt', '2025-04-01', '2025-04-30'],
+                            # ['/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-03_2025-03_mse_256_1d.pt', '2025-05-01', '2025-05-31'],
+                            # ['/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-03_2025-03_mse_256_1d.pt', '2025-06-01', '2025-06-30'],
+                            ['/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-01_2025-01_mse_256_1d.pt', '2025-07-01', '2025-07-31'],
                            ]:
 
     data_config = DataConfig(
