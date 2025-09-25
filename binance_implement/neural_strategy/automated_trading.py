@@ -3,10 +3,11 @@
 基于神经网络OHLC因子的量化交易系统
 
 功能：
-- 每5分钟执行一轮交易
+- 支持每日定时执行 (默认20:00) 或固定间隔执行模式
 - 支持testnet和实盘环境
 - 基于神经网络预测的因子选币
 - 自动平仓、开仓和风险控制
+- 钉钉通知集成
 """
 
 import sys
@@ -87,7 +88,12 @@ class AutomatedTradingSystem:
             return False
 
         # 启动主循环
-        self.logger.info("[OK] 系统初始化完成，开始交易循环")
+        if self.config.EXECUTION_MODE == 'daily':
+            next_execution = self._get_next_execution_time()
+            self.logger.info(f"[OK] 系统初始化完成，每日 {self.config.EXECUTION_HOUR:02d}:00 执行交易")
+            self.logger.info(f"[SCHEDULE] 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
+        else:
+            self.logger.info(f"[OK] 系统初始化完成，每 {self.config.REBALANCE_INTERVAL//60} 分钟执行交易")
 
         try:
             await self._main_trading_loop()
@@ -117,9 +123,22 @@ class AutomatedTradingSystem:
         self.current_balance = balance
         self.logger.info(f"[BALANCE] 当前账户余额: {balance:.2f} USDT")
 
+        # 发送余额通知
+        self.executor.send_balance_notification()
+
     async def _main_trading_loop(self):
         """主交易循环"""
         self.logger.info("[LOOP] 开始主交易循环")
+
+        # 如果是每日执行模式，先等待到执行时间
+        if self.config.EXECUTION_MODE == 'daily':
+            next_execution = self._get_next_execution_time()
+            now = datetime.now()
+
+            # 如果下次执行时间不是现在，先等待
+            if (next_execution - now).total_seconds() > 60:  # 超过1分钟才等待
+                self.logger.info(f"[DAILY] 等待首次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
+                await self._wait_for_daily_execution()
 
         while True:
             try:
@@ -188,6 +207,9 @@ class AutomatedTradingSystem:
 
             self.current_balance = balance
             self.logger.info(f"[BALANCE] 当前保证金余额: {balance:.2f} USDT")
+
+            # 发送交易前余额通知
+            self.executor.send_balance_notification()
 
             # 4. 数据处理和因子计算
             self.logger.info("[STEP 4] 提取OHLC数据并计算因子...")
@@ -292,13 +314,63 @@ class AutomatedTradingSystem:
 
         return long_symbols, short_symbols
 
+    def _get_next_execution_time(self) -> datetime:
+        """获取下次执行时间"""
+        now = datetime.now()
+        target_hour = self.config.EXECUTION_HOUR
+        today_target = now.replace(hour=target_hour, minute=0, second=0, microsecond=0)
+
+        if now >= today_target:
+            return today_target + timedelta(days=1)
+        else:
+            return today_target
+
     async def _wait_for_next_cycle(self):
         """等待下一个交易周期"""
+        if self.config.EXECUTION_MODE == 'daily':
+            await self._wait_for_daily_execution()
+        else:
+            await self._wait_for_interval_execution()
+
+    async def _wait_for_daily_execution(self):
+        """等待每日执行时间 (20:00)"""
+        now = datetime.now()
+        target_hour = self.config.EXECUTION_HOUR
+
+        # 计算下次执行时间
+        today_target = now.replace(hour=target_hour, minute=0, second=0, microsecond=0)
+
+        if now >= today_target:
+            # 如果今天的执行时间已过，等到明天的执行时间
+            next_execution = today_target + timedelta(days=1)
+        else:
+            # 如果今天的执行时间未到，等到今天的执行时间
+            next_execution = today_target
+
+        wait_seconds = (next_execution - now).total_seconds()
+
+        self.logger.info(f"[DAILY] 每日执行模式 - 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
+        self.logger.info(f"[WAIT] 等待 {wait_seconds:.0f} 秒 ({wait_seconds/3600:.1f} 小时)")
+
+        # 分批等待，每小时打印一次状态
+        while wait_seconds > 0:
+            if wait_seconds > 3600:
+                # 等待1小时
+                await asyncio.sleep(3600)
+                wait_seconds -= 3600
+                remaining_hours = wait_seconds / 3600
+                self.logger.info(f"[WAIT] 剩余等待时间: {remaining_hours:.1f} 小时")
+            else:
+                # 最后的等待时间
+                self.logger.info(f"[WAIT] 最后等待: {wait_seconds:.0f} 秒")
+                await asyncio.sleep(wait_seconds)
+                break
+
+    async def _wait_for_interval_execution(self):
+        """等待固定间隔执行"""
         wait_seconds = self.config.REBALANCE_INTERVAL
 
-        self.logger.info(f"[WAIT] 等待下一轮交易，间隔 {wait_seconds} 秒 ({wait_seconds//60} 分钟)")
-
-        # 简单等待
+        self.logger.info(f"[INTERVAL] 间隔执行模式 - 等待 {wait_seconds} 秒 ({wait_seconds//60} 分钟)")
         await asyncio.sleep(wait_seconds)
 
 

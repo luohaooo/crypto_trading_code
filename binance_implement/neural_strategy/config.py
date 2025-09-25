@@ -19,11 +19,13 @@ class TradingConfig:
         self.use_testnet = use_testnet
 
         # 基础交易配置
-        self.REBALANCE_INTERVAL = 300  # 5分钟 = 300秒
-        self.TOP_N_LONG = 10          # 做多币种数量
-        self.TOP_N_SHORT = 10         # 做空币种数量
-        self.LEVERAGE = 1             # 杠杆倍数
-        self.LOOKBACK_HOURS = 80      # 历史数据回看小时数
+        self.EXECUTION_MODE = 'daily'     # 执行模式: 'interval' 或 'daily'
+        self.EXECUTION_HOUR = 20           # 每日执行时间 (24小时制)
+        self.REBALANCE_INTERVAL = 60      # 5分钟 = 300秒 (仅在interval模式下使用)
+        self.TOP_N_LONG = 10              # 做多币种数量
+        self.TOP_N_SHORT = 10             # 做空币种数量
+        self.LEVERAGE = 1                 # 杠杆倍数
+        self.LOOKBACK_HOURS = 80          # 历史数据回看小时数
 
         # 神经网络模型配置
         self.TIMEFRAMES = ['1h', '2h', '4h']  # 多时间框架
@@ -114,8 +116,12 @@ class TradingConfig:
             print("错误: 杠杆倍数必须在1-10之间")
             return False
 
-        if self.REBALANCE_INTERVAL < 60:
+        if self.EXECUTION_MODE == 'interval' and self.REBALANCE_INTERVAL < 60:
             print("错误: 重新平衡间隔不能少于60秒")
+            return False
+
+        if self.EXECUTION_MODE == 'daily' and (self.EXECUTION_HOUR < 0 or self.EXECUTION_HOUR >= 24):
+            print("错误: 每日执行时间必须在0-23之间")
             return False
 
         return True
@@ -126,7 +132,11 @@ class TradingConfig:
         print(f"交易策略配置 - {self.ENV_NAME}")
         print("=" * 50)
         print(f"环境类型: {'Testnet' if self.use_testnet else '实盘'}")
-        print(f"重新平衡间隔: {self.REBALANCE_INTERVAL}秒 ({self.REBALANCE_INTERVAL//60}分钟)")
+        print(f"执行模式: {self.EXECUTION_MODE}")
+        if self.EXECUTION_MODE == 'daily':
+            print(f"每日执行时间: {self.EXECUTION_HOUR:02d}:00")
+        else:
+            print(f"重新平衡间隔: {self.REBALANCE_INTERVAL}秒 ({self.REBALANCE_INTERVAL//60}分钟)")
         print(f"做多标的数量: {self.TOP_N_LONG}")
         print(f"做空标的数量: {self.TOP_N_SHORT}")
         print(f"杠杆倍数: {self.LEVERAGE}x")

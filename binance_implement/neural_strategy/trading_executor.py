@@ -13,6 +13,13 @@ import time
 from datetime import datetime
 from typing import Optional, Dict, List, Any
 
+# 导入钉钉通知模块
+try:
+    from trading_utils.dingding import send_dingtalk_message
+    DINGDING_AVAILABLE = True
+except ImportError:
+    DINGDING_AVAILABLE = False
+
 
 class TradingExecutor:
     """交易执行器类"""
@@ -87,6 +94,25 @@ class TradingExecutor:
         except Exception as e:
             self.logger.error(f"[ERROR] 加载交易对失败: {e}")
             raise
+
+    def send_balance_notification(self):
+        """发送当前余额和时间的钉钉通知"""
+        try:
+            # 获取当前余额
+            balance = self.get_account_balance()
+            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+            if balance is not None:
+                message = f"📊 账户余额报告\n⏰ 时间: {current_time}\n💰 USDT余额: {balance:.2f}\n🔧 环境: {'测试网' if self.config.use_testnet else '实盘'}"
+                self._send_dingding_notification(message)
+                self.logger.info(f"[BALANCE] 余额通知已发送: {balance:.2f} USDT")
+            else:
+                error_msg = f"❌ 余额查询失败\n⏰ 时间: {current_time}\n🔧 环境: {'测试网' if self.config.use_testnet else '实盘'}"
+                self._send_dingding_notification(error_msg)
+                self.logger.error("[ERROR] 余额查询失败，已发送错误通知")
+
+        except Exception as e:
+            self.logger.error(f"[ERROR] 发送余额通知失败: {e}")
 
     def get_account_balance(self) -> Optional[float]:
         """
@@ -223,7 +249,7 @@ class TradingExecutor:
                 return True
 
             # 计算每个仓位的资金
-            position_value = 0.99 * total_balance / total_positions # 防止资金不足
+            position_value =  0.99 * total_balance / total_positions # 防止资金不足
             self.logger.info(f"[BALANCE] 总余额: {total_balance:.2f} USDT")
             self.logger.info(f"[INFO] 总仓位数: {total_positions}")
             self.logger.info(f"[VALUE] 单仓价值: {position_value:.2f} USDT")
@@ -240,7 +266,9 @@ class TradingExecutor:
             return long_success and short_success
 
         except Exception as e:
+            error_msg = f"开仓过程异常！错误: {str(e)}"
             self.logger.error(f"[ERROR] 开仓失败: {e}")
+            self._send_dingding_notification(error_msg)
             return False
 
     def _set_leverage_for_symbols(self, symbols: List[str]):
@@ -305,6 +333,10 @@ class TradingExecutor:
 
                 if order:
                     success_count += 1
+                else:
+                    # 订单失败，发送钉钉通知
+                    error_msg = f"多头订单失败！{symbol} 数量: {quantity} @ {current_price}"
+                    self._send_dingding_notification(error_msg)
 
                 time.sleep(0.1)
 
@@ -364,6 +396,10 @@ class TradingExecutor:
 
                 if order:
                     success_count += 1
+                else:
+                    # 订单失败，发送钉钉通知
+                    error_msg = f"空头订单失败！{symbol} 数量: {quantity} @ {current_price}"
+                    self._send_dingding_notification(error_msg)
 
                 time.sleep(0.1)
 
@@ -484,4 +520,17 @@ class TradingExecutor:
         except Exception as e:
             self.logger.error(f"[ERROR] {symbol} 市价单创建失败: {e}")
             return None
+
+    def _send_dingding_notification(self, message: str):
+        """发送钉钉通知"""
+        if DINGDING_AVAILABLE:
+            try:
+                env_prefix = "[TESTNET]" if self.config.use_testnet else "[LIVE]"
+                full_message = f"{env_prefix} {message}"
+                send_dingtalk_message(full_message)
+                self.logger.info(f"[DINGDING] 通知已发送: {message}")
+            except Exception as e:
+                self.logger.error(f"[DINGDING ERROR] 发送钉钉通知失败: {e}")
+        else:
+            self.logger.warning("[DINGDING] 钉钉模块不可用，跳过通知")
 
