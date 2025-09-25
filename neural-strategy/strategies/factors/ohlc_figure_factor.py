@@ -122,8 +122,8 @@ class OHLCFigureFactor(BaseFactor):
             
         # Set model path
         if model_path is None:
-            self.model_path = os.path.join(
-                project_root, 'figure_model', 'model_saved', 'baseline_epoch_17_train_0.00479_val_0.00397.pt'
+            raise ValueError(
+                "Model path must be provided. Please set model_path parameter or configure NEURAL_MODEL_PATH environment variable."
             )
         else:
             self.model_path = model_path
