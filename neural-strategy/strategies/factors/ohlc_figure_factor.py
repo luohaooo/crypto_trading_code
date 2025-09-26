@@ -60,7 +60,7 @@ class OHLCImageCNN(nn.Module):
         )
         self.fc1 = nn.Sequential(
             nn.Dropout(p=0.5),
-            nn.Linear(46080, 1),
+            nn.Linear(46080, 2),
         )
         self.softmax = nn.Softmax(dim=1)
        
@@ -71,7 +71,7 @@ class OHLCImageCNN(nn.Module):
         x = self.layer3(x)
         x = x.reshape(-1,46080)
         x = self.fc1(x)
-        # x = self.softmax(x)
+        
         return x
 
 
@@ -742,23 +742,27 @@ class OHLCFigureFactor(BaseFactor):
     def _predict_returns(self, images_tensor: torch.Tensor) -> np.ndarray:
         """
         Generate return predictions from OHLC images using the trained model.
-        
+
         Args:
             images_tensor: Batch of images (N, 3, 64, 60)
-            
+
         Returns:
-            np.ndarray: Predicted returns (N,)
+            np.ndarray: Predicted returns (N,) - returns second value from each sample
         """
         try:
             with torch.no_grad():
                 # Forward pass
                 predictions = self.model(images_tensor)
-                
-                # Convert to numpy and flatten
-                predictions_np = predictions.cpu().numpy().flatten()
-                
+
+                # Extract the second value from each sample output (class 1 probability)
+                if predictions.shape[1] >= 2:
+                    predictions_np = predictions[:, 1].cpu().numpy()
+                else:
+                    # Fallback to flatten if output has only one dimension
+                    predictions_np = predictions.cpu().numpy().flatten()
+
                 return predictions_np
-                
+
         except Exception as e:
             warnings.warn(f"Error making predictions: {e}")
             return np.array([])

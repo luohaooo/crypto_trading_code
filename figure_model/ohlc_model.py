@@ -50,7 +50,7 @@ class Net(nn.Module):
         # Fully connected layer with dropout
         self.fc1 = nn.Sequential(
             nn.Dropout(p=0.5),
-            nn.Linear(46080, 1),
+            nn.Linear(46080, 2),
         )
 
         # Softmax layer (currently commented out as this is regression)

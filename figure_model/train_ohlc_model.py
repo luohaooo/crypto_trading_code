@@ -56,11 +56,12 @@ def train_loop(dataloader: DataLoader, model: nn.Module, loss_fn: nn.Module, opt
             # Forward pass
             y_pred = model(X)
 
-            # Ensure correct label type (float for regression)
+            # Ensure correct label type (float for regression, long for classification)
             if loss_fn.__class__.__name__ in ['L1Loss', 'MSELoss']:
                 y = y.float()
             else:
-                y = y.long()
+                # Binary classification: y > 0 becomes 1, else 0
+                y = (y > 0).long()
 
             loss = loss_fn(y_pred.squeeze(), y)  # Ensure dimension matching
 
@@ -104,11 +105,12 @@ def val_loop(dataloader: DataLoader, model: nn.Module, loss_fn: nn.Module, devic
                 # Forward pass
                 y_pred = model(X)
 
-                # Ensure correct label type (float for regression)
+                # Ensure correct label type (float for regression, long for classification)
                 if loss_fn.__class__.__name__ in ['L1Loss', 'MSELoss']:
                     y = y.float()
                 else:
-                    y = y.long()
+                    # Binary classification: y > 0 becomes 1, else 0
+                    y = (y > 0).long()
 
                 loss = loss_fn(y_pred.squeeze(), y)  # Ensure dimension matching
 
@@ -283,7 +285,7 @@ def create_training_pipeline(data_dir: str,
         print(f"  {key}: {value:,}" if isinstance(value, int) else f"  {key}: {value}")
 
     # Setup training components
-    loss_fn = nn.MSELoss()
+    loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     print(f"\n🎯 Training configuration:")
@@ -334,7 +336,7 @@ if __name__ == "__main__":
 
     print("🚀 Starting OHLC model training pipeline...")
 
-    for [s, e] in [['2025-03','2025-03'], ['2025-02','2025-02'], ['2025-01','2025-01']]:
+    for [s, e] in [['2025-06','2025-06'], ['2025-05','2025-05'], ['2025-04','2025-04'], ['2025-03','2025-03'], ['2025-02','2025-02'], ['2025-01','2025-01']]:
 
         try:
             best_model_path, training_info = create_training_pipeline(
