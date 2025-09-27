@@ -27,6 +27,12 @@ class TradingConfig:
         self.LEVERAGE = 1                 # 杠杆倍数
         self.LOOKBACK_HOURS = 80          # 历史数据回看小时数
 
+        # 分批交易配置
+        self.ENABLE_BATCH_TRADING = True    # 是否启用分批交易
+        self.MAX_BATCH_COUNT = 999          # 最大分批数量（设为很大的值，实际不限制）
+        self.MIN_BATCH_SIZE_RATIO = 0.1     # 最小分批大小（相对于单批最大值的比例）
+        self.BATCH_WAIT_TIME = 0.1          # 批次间等待时间（秒）
+
         # 神经网络模型配置
         self.TIMEFRAMES = ['1h', '2h', '4h']  # 多时间框架
         self.LOOKBACK_PERIODS = 20    # OHLC回看周期数
@@ -124,6 +130,19 @@ class TradingConfig:
             print("错误: 每日执行时间必须在0-23之间")
             return False
 
+        # 检查分批交易参数
+        if self.MAX_BATCH_COUNT <= 0:
+            print("错误: 最大分批数量必须大于0")
+            return False
+
+        if self.MIN_BATCH_SIZE_RATIO <= 0 or self.MIN_BATCH_SIZE_RATIO > 1.0:
+            print("错误: 最小分批大小比例必须在0-1之间")
+            return False
+
+        if self.BATCH_WAIT_TIME < 0 or self.BATCH_WAIT_TIME > 10:
+            print("错误: 批次等待时间必须在0-10秒之间")
+            return False
+
         return True
 
     def print_config(self):
@@ -143,6 +162,11 @@ class TradingConfig:
         print(f"历史数据回看: {self.LOOKBACK_HOURS}小时")
         print(f"时间框架: {', '.join(self.TIMEFRAMES)}")
         print(f"OHLC回看周期: {self.LOOKBACK_PERIODS}")
+        print(f"分批交易: {'启用' if self.ENABLE_BATCH_TRADING else '禁用'}")
+        if self.ENABLE_BATCH_TRADING:
+            print(f"  最大分批数量: {'无限制' if self.MAX_BATCH_COUNT >= 999 else self.MAX_BATCH_COUNT}")
+            print(f"  最小分批比例: {self.MIN_BATCH_SIZE_RATIO*100:.1f}% (基于单批最大值)")
+            print(f"  批次等待时间: {self.BATCH_WAIT_TIME}秒")
         print(f"日志文件: {self.LOG_FILE}")
         print("=" * 50)
 

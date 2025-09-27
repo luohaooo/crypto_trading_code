@@ -10,7 +10,7 @@ import ccxt
 import math
 import time
 from datetime import datetime
-from typing import Optional, Dict, List
+from typing import Optional, List
 
 # 导入钉钉通知模块
 try:
@@ -179,12 +179,12 @@ class TradingExecutor:
 
                     self.logger.info(f"[TESTNET CLOSE] 平仓 {symbol}: {side} {size}")
 
-                    # 模拟盘平仓使用最简化参数
+                    # 模拟盘平仓使用分批交易支持
                     order = self._create_market_order_testnet(
                         symbol=symbol,
                         side=side,
                         amount=size
-                        # 模拟盘不传递任何额外参数
+                        # 模拟盘不传递任何额外参数，分批逻辑在_create_market_order_testnet内部处理
                     )
 
                     if order:
@@ -258,12 +258,13 @@ class TradingExecutor:
                     # 确定平仓的positionSide
                     position_side = 'LONG' if position['side'] == 'long' else 'SHORT'
 
-                    # 实盘使用完整参数
+                    # 实盘平仓使用分批交易支持
                     order = self._create_market_order_live(
                         symbol=symbol,
                         side=side,
                         amount=size,
                         params={'reduceOnly': True, 'positionSide': position_side}
+                        # 分批逻辑在_create_market_order_live内部处理
                     )
 
                     if order:
@@ -295,36 +296,6 @@ class TradingExecutor:
 
         except Exception as e:
             self.logger.error(f"[LIVE ERROR] 平仓失败: {e}")
-            return False
-
-    def verify_positions_closed(self) -> bool:
-        """
-        验证所有仓位是否已平仓
-
-        Returns:
-            bool: 是否全部平仓
-        """
-        try:
-
-            positions = self.exchange.fetch_positions()
-
-            # 检查是否还有持仓
-            remaining_positions = []
-            for position in positions:
-                if position['contracts'] != 0:
-                    remaining_positions.append(position)
-
-            if remaining_positions:
-                self.logger.warning(f"[WARNING] 仍有 {len(remaining_positions)} 个未平仓位:")
-                for pos in remaining_positions:
-                    self.logger.warning(f"   {pos['symbol']}: {pos['side']} {abs(pos['contracts'])}")
-                return False
-            else:
-                self.logger.info("[OK] 确认所有仓位已平仓")
-                return True
-
-        except Exception as e:
-            self.logger.error(f"[ERROR] 验证平仓状态失败: {e}")
             return False
 
     def open_positions(self, long_symbols: List[str], short_symbols: List[str],
@@ -654,38 +625,135 @@ class TradingExecutor:
         self.logger.info(f"[LIVE OK] 空头开仓: {success_count}/{len(symbols)} 成功")
         return success_count > 0
 
-    def get_current_positions(self) -> Dict[str, Dict]:
-        """
-        获取当前所有仓位
-
-        Returns:
-            Dict: 仓位信息字典 {symbol: position_info}
-        """
-        try:
-            positions = self.exchange.fetch_positions()
-
-            current_positions = {}
-            for position in positions:
-                if position['contracts'] != 0:
-                    symbol = position['symbol']
-                    current_positions[symbol] = {
-                        'size': position['contracts'],
-                        'side': position['side'],
-                        'entry_price': position['entryPrice'],
-                        'mark_price': position['markPrice'],
-                        'pnl': position['unrealizedPnl'],
-                        'percentage': position['percentage']
-                    }
-
-            return current_positions
-
-        except Exception as e:
-            self.logger.error(f"[ERROR] 获取仓位信息失败: {e}")
-            return {}
-
     def get_active_symbols(self) -> List[str]:
         """获取活跃交易对列表"""
         return self.active_symbols
+
+    def _split_large_order(self, symbol: str, side: str, total_amount: float,
+                          max_amount: float, max_batches: int = None) -> List[float]:
+        """
+        分割大订单为多个小订单
+
+        Args:
+            symbol: 交易对
+            side: 买卖方向
+            total_amount: 总交易数量
+            max_amount: 单次最大交易数量
+            max_batches: 最大分批数量（保留参数兼容性，但不再限制）
+
+        Returns:
+            List[float]: 分批后的数量列表
+        """
+        # 检查是否启用分批交易
+        if not getattr(self.config, 'ENABLE_BATCH_TRADING', True):
+            self.logger.warning(f"[WARNING] {symbol} 分批交易已禁用，无法处理大订单")
+            return [total_amount]
+
+        if total_amount <= max_amount:
+            return [total_amount]
+
+        # 计算需要分成多少批（确保完全执行原始数量）
+        batches_needed = math.ceil(total_amount / max_amount)
+
+        self.logger.info(f"[SPLIT INFO] {symbol} 大订单分批: 总量 {total_amount}，需要 {batches_needed} 批")
+
+        # 平均分配数量，确保总量不变
+        base_amount = total_amount / batches_needed
+        remaining_amount = total_amount
+
+        # 获取精度信息进行舍入
+        market = self.exchange.markets[symbol]
+        amount_precision = market['precision']['amount']
+
+        batch_amounts = []
+
+        # 检查最小分批大小（基于单批，而非总量）
+        min_batch_ratio = getattr(self.config, 'MIN_BATCH_SIZE_RATIO', 0.1)
+        min_batch_size = max_amount * min_batch_ratio  # 基于最大单批大小计算最小批次
+
+        for i in range(batches_needed):
+            if i == batches_needed - 1:
+                # 最后一批使用剩余数量
+                batch_amount = remaining_amount
+            else:
+                batch_amount = base_amount
+
+            # 应用精度处理
+            if isinstance(amount_precision, float):
+                decimal_places = len(str(amount_precision).split('.')[-1]) if '.' in str(amount_precision) else 0
+                batch_amount = round(batch_amount, decimal_places)
+            else:
+                precision_power = int(amount_precision)
+                batch_amount = math.floor(batch_amount * (10 ** precision_power)) / (10 ** precision_power)
+
+            # 确保每批数量不超过最大限制
+            if batch_amount > max_amount:
+                batch_amount = max_amount
+
+            # 确保批次大小合理（除了最后一批）
+            if batch_amount > 0:
+                if i == batches_needed - 1:
+                    # 最后一批，无论多小都要执行
+                    batch_amounts.append(batch_amount)
+                elif batch_amount >= min_batch_size:
+                    # 中间批次，必须满足最小大小要求
+                    batch_amounts.append(batch_amount)
+                    remaining_amount -= batch_amount
+                else:
+                    # 如果中间批次太小，合并到上一批
+                    if len(batch_amounts) > 0:
+                        # 但要确保合并后不超过最大限制
+                        combined_amount = batch_amounts[-1] + batch_amount
+                        if combined_amount <= max_amount:
+                            batch_amounts[-1] = combined_amount
+                            remaining_amount -= batch_amount
+                        else:
+                            # 无法合并，单独作为一批
+                            batch_amounts.append(batch_amount)
+                            remaining_amount -= batch_amount
+                    else:
+                        # 第一批，即使小也要执行
+                        batch_amounts.append(batch_amount)
+                        remaining_amount -= batch_amount
+
+        # 验证总量
+        total_split = sum(batch_amounts)
+        if abs(total_split - total_amount) > 0.0001:  # 允许微小的精度误差
+            self.logger.warning(f"[SPLIT WARNING] {symbol} 分批总量 {total_split} 与原始总量 {total_amount} 不匹配")
+
+        self.logger.info(f"[SPLIT] {symbol} 分批交易: 总量 {total_amount} 分为 {len(batch_amounts)} 批: {batch_amounts}")
+        return batch_amounts
+
+    def _validate_order_amount(self, symbol: str, amount: float) -> tuple[bool, str, float]:
+        """
+        验证订单数量是否在允许范围内
+
+        Args:
+            symbol: 交易对
+            amount: 交易数量
+
+        Returns:
+            tuple: (是否有效, 错误信息, 调整后的数量)
+        """
+        try:
+            market = self.exchange.markets[symbol]
+            limits = market.get('limits', {}).get('amount', {})
+
+            min_amount = limits.get('min', 0)
+            max_amount = limits.get('max', float('inf'))
+
+            # 检查最小数量
+            if min_amount and amount < min_amount:
+                return False, f"交易量 {amount} 小于最小值 {min_amount}", min_amount
+
+            # 检查最大数量
+            if max_amount and max_amount != float('inf') and amount > max_amount:
+                return False, f"交易量 {amount} 大于最大值 {max_amount}", max_amount
+
+            return True, "", amount
+
+        except Exception as e:
+            return False, f"验证交易量时出错: {e}", amount
 
     def cleanup(self):
         """清理资源"""
@@ -698,30 +766,10 @@ class TradingExecutor:
         except Exception as e:
             self.logger.error(f"[ERROR] 清理交易执行器失败: {e}")
 
-    def _create_market_order_safe(self, symbol: str, side: str, amount: float,
-                                 params: dict = None) -> dict:
-        """
-        安全的市价单创建方法 - 环境路由版本 (保持向后兼容)
-
-        Args:
-            symbol: 交易对
-            side: 买卖方向 ('buy' 或 'sell')
-            amount: 交易数量
-            params: 额外参数
-
-        Returns:
-            dict: 订单信息，失败时返回None
-        """
-        # 路由到对应的环境特定方法
-        if self.use_testnet:
-            return self._create_market_order_testnet(symbol, side, amount, params)
-        else:
-            return self._create_market_order_live(symbol, side, amount, params)
-
     def _create_market_order_testnet(self, symbol: str, side: str, amount: float,
                                    params: dict = None) -> dict:
         """
-        模拟盘环境的市价单创建方法
+        模拟盘环境的市价单创建方法（支持分批交易）
 
         Args:
             symbol: 交易对
@@ -747,12 +795,21 @@ class TradingExecutor:
                 self.logger.error(f"[TESTNET ERROR] 交易对 {symbol} 不在市场列表中")
                 return None
 
-            # 检查最小交易量
-            market = self.exchange.markets[symbol]
-            min_amount = market.get('limits', {}).get('amount', {}).get('min', 0)
-            if min_amount and amount < min_amount:
-                self.logger.error(f"[TESTNET ERROR] {symbol} 交易量 {amount} 小于最小值 {min_amount}")
-                return None
+            # 验证订单数量
+            is_valid, error_msg, adjusted_amount = self._validate_order_amount(symbol, amount)
+            if not is_valid:
+                # 检查是否是数量过大的问题
+                if "大于最大值" in error_msg:
+                    self.logger.warning(f"[TESTNET WARNING] {symbol} {error_msg}，尝试分批交易")
+                    market = self.exchange.markets[symbol]
+                    max_amount = market.get('limits', {}).get('amount', {}).get('max', float('inf'))
+
+                    # 分批处理
+                    batch_amounts = self._split_large_order(symbol, side, amount, max_amount)
+                    return self._execute_batch_orders_testnet(symbol, side, batch_amounts, params)
+                else:
+                    self.logger.error(f"[TESTNET ERROR] {symbol} {error_msg}")
+                    return None
 
             self.logger.info(f"[TESTNET MARKET] 创建市价单 {symbol}: {side} {amount}")
 
@@ -781,8 +838,14 @@ class TradingExecutor:
                 error_str = str(e)
                 self.logger.error(f"[TESTNET ERROR] {symbol} 订单创建失败: {error_str}")
 
-                # 如果基础参数也失败，则无法修复
-                if "-4061" in error_str:
+                # 特殊处理 -4005 错误（数量过大）
+                if "-4005" in error_str:
+                    self.logger.warning(f"[TESTNET WARNING] {symbol} 数量过大，尝试分批交易")
+                    market = self.exchange.markets[symbol]
+                    max_amount = market.get('limits', {}).get('amount', {}).get('max', amount * 0.5)  # 使用一半作为估计
+                    batch_amounts = self._split_large_order(symbol, side, amount, max_amount)
+                    return self._execute_batch_orders_testnet(symbol, side, batch_amounts, params)
+                elif "-4061" in error_str:
                     self.logger.error(f"[TESTNET ERROR] {symbol} 基础参数仍然失败，可能需要检查账户设置")
                 elif "-4164" in error_str:
                     self.logger.error(f"[TESTNET ERROR] {symbol} 订单金额太小，请增加订单金额")
@@ -793,10 +856,79 @@ class TradingExecutor:
             self.logger.error(f"[TESTNET ERROR] {symbol} 市价单创建异常: {e}")
             return None
 
+    def _execute_batch_orders_testnet(self, symbol: str, side: str, batch_amounts: List[float],
+                                    params: dict = None) -> dict:
+        """
+        执行分批订单（模拟盘）
+
+        Args:
+            symbol: 交易对
+            side: 买卖方向
+            batch_amounts: 分批数量列表
+            params: 额外参数
+
+        Returns:
+            dict: 合并的订单信息
+        """
+        try:
+            total_filled = 0
+            order_ids = []
+            successful_batches = 0
+
+            for i, batch_amount in enumerate(batch_amounts, 1):
+                try:
+                    self.logger.info(f"[TESTNET BATCH] {symbol} 执行第 {i}/{len(batch_amounts)} 批: {batch_amount}")
+
+                    # 创建单批订单
+                    batch_order = self.exchange.create_market_order(
+                        symbol=symbol, side=side, amount=batch_amount, params={}
+                    )
+
+                    if batch_order:
+                        order_id = batch_order.get('id', 'Unknown')
+                        filled = batch_order.get('filled', 0)
+                        total_filled += filled
+                        order_ids.append(order_id)
+                        successful_batches += 1
+
+                        self.logger.info(f"[TESTNET SUCCESS] 第 {i} 批成功 ID:{order_id} 成交:{filled}")
+
+                        # 批次间等待时间使用配置参数
+                        wait_time = getattr(self.config, 'BATCH_WAIT_TIME', 0.1)
+                        time.sleep(wait_time)
+                    else:
+                        self.logger.error(f"[TESTNET ERROR] 第 {i} 批订单创建失败")
+
+                except Exception as e:
+                    self.logger.error(f"[TESTNET ERROR] 第 {i} 批订单异常: {e}")
+                    continue
+
+            # 构造合并的订单信息
+            if successful_batches > 0:
+                merged_order = {
+                    'id': f"BATCH_{'-'.join(order_ids)}",
+                    'symbol': symbol,
+                    'side': side,
+                    'amount': sum(batch_amounts),
+                    'filled': total_filled,
+                    'status': 'closed' if successful_batches == len(batch_amounts) else 'partial',
+                    'info': f"分批交易: {successful_batches}/{len(batch_amounts)} 批成功"
+                }
+
+                self.logger.info(f"[TESTNET BATCH COMPLETE] {symbol} 分批交易完成: {successful_batches}/{len(batch_amounts)} 批成功，总成交: {total_filled}")
+                return merged_order
+            else:
+                self.logger.error(f"[TESTNET ERROR] {symbol} 所有分批订单都失败")
+                return None
+
+        except Exception as e:
+            self.logger.error(f"[TESTNET ERROR] {symbol} 分批交易异常: {e}")
+            return None
+
     def _create_market_order_live(self, symbol: str, side: str, amount: float,
                                  params: dict = None) -> dict:
         """
-        实盘环境的市价单创建方法
+        实盘环境的市价单创建方法（支持分批交易）
 
         Args:
             symbol: 交易对
@@ -822,12 +954,21 @@ class TradingExecutor:
                 self.logger.error(f"[LIVE ERROR] 交易对 {symbol} 不在市场列表中")
                 return None
 
-            # 检查最小交易量
-            market = self.exchange.markets[symbol]
-            min_amount = market.get('limits', {}).get('amount', {}).get('min', 0)
-            if min_amount and amount < min_amount:
-                self.logger.error(f"[LIVE ERROR] {symbol} 交易量 {amount} 小于最小值 {min_amount}")
-                return None
+            # 验证订单数量
+            is_valid, error_msg, adjusted_amount = self._validate_order_amount(symbol, amount)
+            if not is_valid:
+                # 检查是否是数量过大的问题
+                if "大于最大值" in error_msg:
+                    self.logger.warning(f"[LIVE WARNING] {symbol} {error_msg}，尝试分批交易")
+                    market = self.exchange.markets[symbol]
+                    max_amount = market.get('limits', {}).get('amount', {}).get('max', float('inf'))
+
+                    # 分批处理
+                    batch_amounts = self._split_large_order(symbol, side, amount, max_amount)
+                    return self._execute_batch_orders_live(symbol, side, batch_amounts, params)
+                else:
+                    self.logger.error(f"[LIVE ERROR] {symbol} {error_msg}")
+                    return None
 
             self.logger.info(f"[LIVE MARKET] 创建市价单 {symbol}: {side} {amount}")
 
@@ -851,8 +992,16 @@ class TradingExecutor:
             except Exception as e:
                 error_str = str(e)
 
+                # 特殊处理 -4005 错误（数量过大）
+                if "-4005" in error_str:
+                    self.logger.warning(f"[LIVE WARNING] {symbol} 数量过大，尝试分批交易")
+                    market = self.exchange.markets[symbol]
+                    max_amount = market.get('limits', {}).get('amount', {}).get('max', amount * 0.5)  # 使用一半作为估计
+                    batch_amounts = self._split_large_order(symbol, side, amount, max_amount)
+                    return self._execute_batch_orders_live(symbol, side, batch_amounts, params)
+
                 # 实盘的智能重试逻辑
-                if "-1106" in error_str and "reduceOnly" in safe_params:
+                elif "-1106" in error_str and "reduceOnly" in safe_params:
                     self.logger.warning(f"[LIVE WARNING] {symbol} reduceOnly参数不被接受 (错误: -1106)")
                     self.logger.info(f"[LIVE RETRY] {symbol} 尝试不带reduceOnly参数重新创建订单")
 
@@ -890,6 +1039,100 @@ class TradingExecutor:
 
         except Exception as e:
             self.logger.error(f"[LIVE ERROR] {symbol} 市价单创建异常: {e}")
+            return None
+
+    def _execute_batch_orders_live(self, symbol: str, side: str, batch_amounts: List[float],
+                                  params: dict = None) -> dict:
+        """
+        执行分批订单（实盘）
+
+        Args:
+            symbol: 交易对
+            side: 买卖方向
+            batch_amounts: 分批数量列表
+            params: 额外参数
+
+        Returns:
+            dict: 合并的订单信息
+        """
+        try:
+            total_filled = 0
+            order_ids = []
+            successful_batches = 0
+            safe_params = params if params is not None else {}
+
+            for i, batch_amount in enumerate(batch_amounts, 1):
+                try:
+                    self.logger.info(f"[LIVE BATCH] {symbol} 执行第 {i}/{len(batch_amounts)} 批: {batch_amount}")
+
+                    # 创建单批订单，使用原始参数
+                    batch_order = self.exchange.create_market_order(
+                        symbol=symbol, side=side, amount=batch_amount, params=safe_params
+                    )
+
+                    if batch_order:
+                        order_id = batch_order.get('id', 'Unknown')
+                        filled = batch_order.get('filled', 0)
+                        total_filled += filled
+                        order_ids.append(order_id)
+                        successful_batches += 1
+
+                        self.logger.info(f"[LIVE SUCCESS] 第 {i} 批成功 ID:{order_id} 成交:{filled}")
+
+                        # 批次间等待时间使用配置参数
+                        wait_time = getattr(self.config, 'BATCH_WAIT_TIME', 0.1)
+                        time.sleep(wait_time)
+                    else:
+                        self.logger.error(f"[LIVE ERROR] 第 {i} 批订单创建失败")
+
+                except Exception as e:
+                    error_str = str(e)
+                    self.logger.error(f"[LIVE ERROR] 第 {i} 批订单异常: {e}")
+
+                    # 对单批订单也尝试参数修复
+                    if "-1106" in error_str and "reduceOnly" in safe_params:
+                        try:
+                            retry_params = safe_params.copy()
+                            retry_params.pop('reduceOnly', None)
+
+                            batch_order = self.exchange.create_market_order(
+                                symbol=symbol, side=side, amount=batch_amount, params=retry_params
+                            )
+
+                            if batch_order:
+                                order_id = batch_order.get('id', 'Unknown')
+                                filled = batch_order.get('filled', 0)
+                                total_filled += filled
+                                order_ids.append(order_id)
+                                successful_batches += 1
+                                self.logger.info(f"[LIVE SUCCESS] 第 {i} 批重试成功 ID:{order_id} 成交:{filled}")
+                                wait_time = getattr(self.config, 'BATCH_WAIT_TIME', 0.1)
+                                time.sleep(wait_time)
+                        except Exception as e2:
+                            self.logger.error(f"[LIVE ERROR] 第 {i} 批重试后仍失败: {e2}")
+
+                    continue
+
+            # 构造合并的订单信息
+            if successful_batches > 0:
+                merged_order = {
+                    'id': f"BATCH_{'-'.join(order_ids)}",
+                    'symbol': symbol,
+                    'side': side,
+                    'amount': sum(batch_amounts),
+                    'filled': total_filled,
+                    'status': 'closed' if successful_batches == len(batch_amounts) else 'partial',
+                    'info': f"分批交易: {successful_batches}/{len(batch_amounts)} 批成功"
+                }
+
+                self.logger.info(f"[LIVE BATCH COMPLETE] {symbol} 分批交易完成: {successful_batches}/{len(batch_amounts)} 批成功，总成交: {total_filled}")
+                return merged_order
+            else:
+                self.logger.error(f"[LIVE ERROR] {symbol} 所有分批订单都失败")
+                return None
+
+        except Exception as e:
+            self.logger.error(f"[LIVE ERROR] {symbol} 分批交易异常: {e}")
             return None
 
     def _send_dingding_notification(self, message: str):
