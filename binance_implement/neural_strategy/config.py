@@ -19,11 +19,11 @@ class TradingConfig:
         self.use_testnet = use_testnet
 
         # 基础交易配置
-        self.EXECUTION_MODE = 'daily'     # 执行模式: 'interval' 或 'daily'
-        self.EXECUTION_HOUR = 20           # 每日执行时间 (24小时制)
+        self.EXECUTION_MODE = 'interval'     # 执行模式: 'interval' 或 'daily'
+        self.EXECUTION_HOUR = 16           # 每日执行时间 (24小时制)
         self.REBALANCE_INTERVAL = 60      # 5分钟 = 300秒 (仅在interval模式下使用)
-        self.TOP_N_LONG = 10              # 做多币种数量
-        self.TOP_N_SHORT = 10             # 做空币种数量
+        self.TOP_N_LONG = 2            # 做多币种数量
+        self.TOP_N_SHORT = 2             # 做空币种数量
         self.LEVERAGE = 1                 # 杠杆倍数
         self.LOOKBACK_HOURS = 80          # 历史数据回看小时数
 
@@ -37,7 +37,7 @@ class TradingConfig:
         # 模型路径配置
         self.MODEL_PATH = os.path.join(
             os.path.dirname(__file__), '..', '..', 'figure_model', 'model_saved',
-            't_2025-05_2025-05_mse_256_1d.pt'
+            't_2025-06_2025-06_mse_256_1d.pt'
         )
 
         # API配置
