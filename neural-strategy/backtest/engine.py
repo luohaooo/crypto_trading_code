@@ -30,10 +30,7 @@ import importlib.util
 data_loader_spec = importlib.util.spec_from_file_location("data_loader", os.path.join(project_root, "utils", "data_loader.py"))
 data_loader_module = importlib.util.module_from_spec(data_loader_spec)
 data_loader_spec.loader.exec_module(data_loader_module)
-get_multiple_symbols_data = data_loader_module.get_multiple_symbols_data
-get_usdt_symbols = data_loader_module.get_usdt_symbols
-get_available_symbols = data_loader_module.get_available_symbols
-load_usdt_symbols_from_month_cache = data_loader_module.load_usdt_symbols_from_month_cache
+load_backtest_data = data_loader_module.load_backtest_data
 
 # Import from neural-strategy utils using importlib
 config_spec = importlib.util.spec_from_file_location("config", os.path.join(neural_strategy_root, "utils", "config.py"))
@@ -73,63 +70,19 @@ class BacktestEngine:
         
     def load_data(self) -> pd.DataFrame:
         """
-        Load and prepare data for backtesting using optimized monthly cache.
-        
+        Load and prepare data for backtesting using monthly cache exclusively.
+
         Returns:
             Multi-symbol OHLCV data with MultiIndex (open_time, symbol)
         """
-        print("Loading data for backtesting...")
-        
-        # Determine symbols to load
-        if self.config.data.symbols is None:
-            if self.config.data.symbol_filter == 'usdt':
-                symbols = get_usdt_symbols()
-                print(f"Loading all USDT symbols: {len(symbols)} symbols")
-            else:
-                symbols = get_available_symbols()
-                print(f"Loading all available symbols: {len(symbols)} symbols")
-        else:
-            symbols = self.config.data.symbols
-            print(f"Loading specified symbols: {len(symbols)} symbols")
-        
-        # Try to use monthly cache first for USDT symbols
-        if self.config.data.symbol_filter == 'usdt' or (
-            symbols and all(s.endswith('USDT') for s in symbols)
-        ):
-            print("Attempting to use monthly pickle cache for optimized loading...")
-            
-            try:
-                data = load_usdt_symbols_from_month_cache(
-                    symbols=symbols if self.config.data.symbols else None,
-                    start_date=self.config.data.start_date.strftime('%Y-%m-%d') if self.config.data.start_date else None,
-                    end_date=self.config.data.end_date.strftime('%Y-%m-%d') if self.config.data.end_date else None,
-                    use_fallback=True  # Allow fallback to CSV if pickle fails
-                )
-                
-                if data is not None and len(data) > 0:
-                    print(f"✅ Successfully loaded from monthly cache: {len(data):,} records")
-                else:
-                    print("⚠️ Monthly cache returned empty data, falling back to original method")
-                    raise ValueError("Empty data from monthly cache")
-                    
-            except Exception as e:
-                print(f"⚠️ Monthly cache loading failed: {e}")
-                print("Falling back to original CSV loading method...")
-                
-                # Fallback to original loading method
-                data = get_multiple_symbols_data(
-                    symbols=symbols,
-                    start_date=self.config.data.start_date.date() if self.config.data.start_date else None,
-                    end_date=self.config.data.end_date.date() if self.config.data.end_date else None
-                )
-        else:
-            # Use original method for non-USDT symbols
-            print("Using original CSV loading method for non-USDT symbols...")
-            data = get_multiple_symbols_data(
-                symbols=symbols,
-                start_date=self.config.data.start_date.date() if self.config.data.start_date else None,
-                end_date=self.config.data.end_date.date() if self.config.data.end_date else None
-            )
+        print("Loading data from monthly cache...")
+
+        # Load data using the new backtest-specific function
+        data = load_backtest_data(
+            symbols=self.config.data.symbols,
+            start_date=self.config.data.start_date.strftime('%Y-%m-%d') if self.config.data.start_date else None,
+            end_date=self.config.data.end_date.strftime('%Y-%m-%d') if self.config.data.end_date else None
+        )
         
         if data is None or len(data) == 0:
             raise ValueError("No data loaded. Check symbol list and date range.")

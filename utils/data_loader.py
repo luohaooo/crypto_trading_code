@@ -558,3 +558,57 @@ def get_month_cache_status():
         'date_range': f"{available_months[0]} to {available_months[-1]}" if available_months else None,
         'available_months': available_months
     }
+
+
+def load_backtest_data(
+    symbols: Optional[List[str]] = None,
+    start_date: Optional[Union[str, date, datetime]] = None,
+    end_date: Optional[Union[str, date, datetime]] = None
+) -> pd.DataFrame:
+    """
+    Backtest-specific data loading function that exclusively uses monthly cache.
+
+    This is the recommended function for all backtesting operations as it provides
+    optimized performance and consistent data structure.
+
+    Args:
+        symbols (List[str], optional): List of USDT symbols to load. If None, loads all available USDT symbols.
+        start_date (str/date/datetime, optional): Start date for filtering (inclusive).
+        end_date (str/date/datetime, optional): End date for filtering (inclusive).
+
+    Returns:
+        pandas.DataFrame: OHLCV data with MultiIndex (open_time, symbol)
+                         Columns: ['open', 'high', 'low', 'close', 'volume']
+
+    Raises:
+        ValueError: If monthly cache files are not available for the requested date range
+        ValueError: If non-USDT symbols are specified
+
+    Example:
+        # Load all USDT symbols for a specific period
+        data = load_backtest_data(start_date='2025-01-01', end_date='2025-01-31')
+
+        # Load specific symbols
+        data = load_backtest_data(
+            symbols=['BTCUSDT', 'ETHUSDT'],
+            start_date='2025-01-01',
+            end_date='2025-03-31'
+        )
+    """
+
+    # Validate USDT symbols if specified
+    if symbols is not None:
+        non_usdt_symbols = [s for s in symbols if not s.endswith('USDT')]
+        if non_usdt_symbols:
+            raise ValueError(
+                f"Monthly cache only supports USDT symbols. "
+                f"Non-USDT symbols found: {non_usdt_symbols}"
+            )
+
+    # Use monthly cache exclusively (no fallback)
+    return load_usdt_symbols_from_month_cache(
+        symbols=symbols,
+        start_date=start_date,
+        end_date=end_date,
+        use_fallback=False
+    )
