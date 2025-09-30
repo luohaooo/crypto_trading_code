@@ -1,0 +1,995 @@
+2025-09-27 13:53:36 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/trading_testnet_20250927.log
+2025-09-27 13:53:36 | INFO     | ============================================================
+2025-09-27 13:53:36 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-09-27 13:53:36 | INFO     | ============================================================
+2025-09-27 13:53:36 | INFO     | [INIT] 初始化交易组件...
+2025-09-27 13:53:36 | INFO     | [OK] API连接成功 - TESTNET
+2025-09-27 13:53:36 | INFO     | [BALANCE] USDT总余额: 4080.18
+2025-09-27 13:53:36 | INFO     | [INFO] 找到 495 个活跃USDT永续合约
+2025-09-27 13:53:36 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-09-27 13:53:36 | INFO     | [OK] 交易执行器初始化成功
+2025-09-27 13:53:36 | INFO     | [OK] API连接测试成功，耗时: 0.471秒
+2025-09-27 13:53:36 | INFO     | [OK] 优化数据处理器初始化成功
+2025-09-27 13:53:36 | INFO     | [OK] 优化因子计算器初始化成功
+2025-09-27 13:53:36 | INFO     |    设备: cpu
+2025-09-27 13:53:36 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-09-27 13:53:36 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/t_2025-06_2025-06_mse_256_1d.pt
+2025-09-27 13:53:36 | INFO     | [BALANCE] 当前账户余额: 3.50 USDT
+2025-09-27 13:53:37 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 13:53:36
+💰 USDT余额: 3.50
+🔧 环境: 测试网
+2025-09-27 13:53:37 | INFO     | [BALANCE] 余额通知已发送: 3.50 USDT
+2025-09-27 13:53:37 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-09-27 13:53:37 | INFO     | [LOOP] 开始主交易循环
+2025-09-27 13:53:37 | INFO     | 
+==================================================
+2025-09-27 13:53:37 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-09-27 13:53:37 | INFO     | [TIME] 开始时间: 2025-09-27 13:53:37
+2025-09-27 13:53:37 | INFO     | ==================================================
+2025-09-27 13:53:37 | INFO     | [STEP 1] 平仓所有现有仓位...
+2025-09-27 13:53:37 | INFO     | [CLOSE] 开始平仓所有仓位...
+2025-09-27 13:53:37 | INFO     | [POSITIONS] 发现 20 个持仓需要平仓
+2025-09-27 13:53:37 | INFO     | [CLOSE] 平仓 KSM/USDT:USDT: buy 14.5
+2025-09-27 13:53:37 | INFO     | [MARKET] 创建市价单 KSM/USDT:USDT: buy 14.5
+2025-09-27 13:53:37 | WARNING  | [WARNING] KSM/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:37 | INFO     | [RETRY] KSM/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:37 | ERROR    | [ERROR] KSM/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:37 | ERROR    | [ERROR] KSM/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:37 | ERROR    | [ERROR] 平仓失败 KSM/USDT:USDT
+2025-09-27 13:53:37 | INFO     | [CLOSE] 平仓 HIVE/USDT:USDT: buy 1137.0
+2025-09-27 13:53:37 | INFO     | [MARKET] 创建市价单 HIVE/USDT:USDT: buy 1137.0
+2025-09-27 13:53:37 | WARNING  | [WARNING] HIVE/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:37 | INFO     | [RETRY] HIVE/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:37 | ERROR    | [ERROR] HIVE/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:37 | ERROR    | [ERROR] HIVE/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:37 | ERROR    | [ERROR] 平仓失败 HIVE/USDT:USDT
+2025-09-27 13:53:37 | INFO     | [CLOSE] 平仓 LINEA/USDT:USDT: buy 7382.0
+2025-09-27 13:53:37 | INFO     | [MARKET] 创建市价单 LINEA/USDT:USDT: buy 7382.0
+2025-09-27 13:53:37 | WARNING  | [WARNING] LINEA/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:37 | INFO     | [RETRY] LINEA/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:37 | ERROR    | [ERROR] LINEA/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:37 | ERROR    | [ERROR] LINEA/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:37 | ERROR    | [ERROR] 平仓失败 LINEA/USDT:USDT
+2025-09-27 13:53:37 | INFO     | [CLOSE] 平仓 WAL/USDT:USDT: sell 534.0
+2025-09-27 13:53:37 | INFO     | [MARKET] 创建市价单 WAL/USDT:USDT: sell 534.0
+2025-09-27 13:53:37 | WARNING  | [WARNING] WAL/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:37 | INFO     | [RETRY] WAL/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:37 | ERROR    | [ERROR] WAL/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:37 | ERROR    | [ERROR] WAL/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:37 | ERROR    | [ERROR] 平仓失败 WAL/USDT:USDT
+2025-09-27 13:53:37 | INFO     | [CLOSE] 平仓 SEI/USDT:USDT: sell 725.0
+2025-09-27 13:53:37 | INFO     | [MARKET] 创建市价单 SEI/USDT:USDT: sell 725.0
+2025-09-27 13:53:38 | WARNING  | [WARNING] SEI/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:38 | INFO     | [RETRY] SEI/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:38 | ERROR    | [ERROR] SEI/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] SEI/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] 平仓失败 SEI/USDT:USDT
+2025-09-27 13:53:38 | INFO     | [CLOSE] 平仓 ZRO/USDT:USDT: buy 89.8
+2025-09-27 13:53:38 | INFO     | [MARKET] 创建市价单 ZRO/USDT:USDT: buy 89.8
+2025-09-27 13:53:38 | WARNING  | [WARNING] ZRO/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:38 | INFO     | [RETRY] ZRO/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:38 | ERROR    | [ERROR] ZRO/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] ZRO/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] 平仓失败 ZRO/USDT:USDT
+2025-09-27 13:53:38 | INFO     | [CLOSE] 平仓 FXS/USDT:USDT: sell 96.5
+2025-09-27 13:53:38 | INFO     | [MARKET] 创建市价单 FXS/USDT:USDT: sell 96.5
+2025-09-27 13:53:38 | WARNING  | [WARNING] FXS/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:38 | INFO     | [RETRY] FXS/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:38 | ERROR    | [ERROR] FXS/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] FXS/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] 平仓失败 FXS/USDT:USDT
+2025-09-27 13:53:38 | INFO     | [CLOSE] 平仓 SPK/USDT:USDT: sell 3978.0
+2025-09-27 13:53:38 | INFO     | [MARKET] 创建市价单 SPK/USDT:USDT: sell 3978.0
+2025-09-27 13:53:38 | WARNING  | [WARNING] SPK/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:38 | INFO     | [RETRY] SPK/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:38 | ERROR    | [ERROR] SPK/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] SPK/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] 平仓失败 SPK/USDT:USDT
+2025-09-27 13:53:38 | INFO     | [CLOSE] 平仓 BABY/USDT:USDT: buy 4099.0
+2025-09-27 13:53:38 | INFO     | [MARKET] 创建市价单 BABY/USDT:USDT: buy 4099.0
+2025-09-27 13:53:38 | WARNING  | [WARNING] BABY/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:38 | INFO     | [RETRY] BABY/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:38 | ERROR    | [ERROR] BABY/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] BABY/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] 平仓失败 BABY/USDT:USDT
+2025-09-27 13:53:38 | INFO     | [CLOSE] 平仓 FUN/USDT:USDT: sell 21695.0
+2025-09-27 13:53:38 | INFO     | [MARKET] 创建市价单 FUN/USDT:USDT: sell 21695.0
+2025-09-27 13:53:38 | WARNING  | [WARNING] FUN/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:38 | INFO     | [RETRY] FUN/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:38 | ERROR    | [ERROR] FUN/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] FUN/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] 平仓失败 FUN/USDT:USDT
+2025-09-27 13:53:38 | INFO     | [CLOSE] 平仓 AERO/USDT:USDT: buy 194.2
+2025-09-27 13:53:38 | INFO     | [MARKET] 创建市价单 AERO/USDT:USDT: buy 194.2
+2025-09-27 13:53:38 | WARNING  | [WARNING] AERO/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:38 | INFO     | [RETRY] AERO/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:38 | ERROR    | [ERROR] AERO/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] AERO/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] 平仓失败 AERO/USDT:USDT
+2025-09-27 13:53:38 | INFO     | [CLOSE] 平仓 BAT/USDT:USDT: buy 1429.3
+2025-09-27 13:53:38 | INFO     | [MARKET] 创建市价单 BAT/USDT:USDT: buy 1429.3
+2025-09-27 13:53:38 | WARNING  | [WARNING] BAT/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:38 | INFO     | [RETRY] BAT/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:38 | ERROR    | [ERROR] BAT/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] BAT/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:38 | ERROR    | [ERROR] 平仓失败 BAT/USDT:USDT
+2025-09-27 13:53:38 | INFO     | [CLOSE] 平仓 ALPINE/USDT:USDT: sell 50.8
+2025-09-27 13:53:38 | INFO     | [MARKET] 创建市价单 ALPINE/USDT:USDT: sell 50.8
+2025-09-27 13:53:38 | WARNING  | [WARNING] ALPINE/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:38 | INFO     | [RETRY] ALPINE/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:39 | ERROR    | [ERROR] ALPINE/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] ALPINE/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] 平仓失败 ALPINE/USDT:USDT
+2025-09-27 13:53:39 | INFO     | [CLOSE] 平仓 AIA/USDT:USDT: buy 702.0
+2025-09-27 13:53:39 | INFO     | [MARKET] 创建市价单 AIA/USDT:USDT: buy 702.0
+2025-09-27 13:53:39 | WARNING  | [WARNING] AIA/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:39 | INFO     | [RETRY] AIA/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:39 | ERROR    | [ERROR] AIA/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] AIA/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] 平仓失败 AIA/USDT:USDT
+2025-09-27 13:53:39 | INFO     | [CLOSE] 平仓 SQD/USDT:USDT: sell 1085.0
+2025-09-27 13:53:39 | INFO     | [MARKET] 创建市价单 SQD/USDT:USDT: sell 1085.0
+2025-09-27 13:53:39 | WARNING  | [WARNING] SQD/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:39 | INFO     | [RETRY] SQD/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:39 | ERROR    | [ERROR] SQD/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] SQD/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] 平仓失败 SQD/USDT:USDT
+2025-09-27 13:53:39 | INFO     | [CLOSE] 平仓 IN/USDT:USDT: sell 2744.0
+2025-09-27 13:53:39 | INFO     | [MARKET] 创建市价单 IN/USDT:USDT: sell 2744.0
+2025-09-27 13:53:39 | WARNING  | [WARNING] IN/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:39 | INFO     | [RETRY] IN/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:39 | ERROR    | [ERROR] IN/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] IN/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] 平仓失败 IN/USDT:USDT
+2025-09-27 13:53:39 | INFO     | [CLOSE] 平仓 ROSE/USDT:USDT: buy 7935.0
+2025-09-27 13:53:39 | INFO     | [MARKET] 创建市价单 ROSE/USDT:USDT: buy 7935.0
+2025-09-27 13:53:39 | WARNING  | [WARNING] ROSE/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:39 | INFO     | [RETRY] ROSE/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:39 | ERROR    | [ERROR] ROSE/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] ROSE/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] 平仓失败 ROSE/USDT:USDT
+2025-09-27 13:53:39 | INFO     | [CLOSE] 平仓 DEGO/USDT:USDT: sell 154.0
+2025-09-27 13:53:39 | INFO     | [MARKET] 创建市价单 DEGO/USDT:USDT: sell 154.0
+2025-09-27 13:53:39 | WARNING  | [WARNING] DEGO/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:39 | INFO     | [RETRY] DEGO/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:39 | ERROR    | [ERROR] DEGO/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] DEGO/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] 平仓失败 DEGO/USDT:USDT
+2025-09-27 13:53:39 | INFO     | [CLOSE] 平仓 H/USDT:USDT: sell 3466.0
+2025-09-27 13:53:39 | INFO     | [MARKET] 创建市价单 H/USDT:USDT: sell 3466.0
+2025-09-27 13:53:39 | WARNING  | [WARNING] H/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:39 | INFO     | [RETRY] H/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:39 | ERROR    | [ERROR] H/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] H/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] 平仓失败 H/USDT:USDT
+2025-09-27 13:53:39 | INFO     | [CLOSE] 平仓 DMC/USDT:USDT: buy 61896.0
+2025-09-27 13:53:39 | INFO     | [MARKET] 创建市价单 DMC/USDT:USDT: buy 61896.0
+2025-09-27 13:53:39 | WARNING  | [WARNING] DMC/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 13:53:39 | INFO     | [RETRY] DMC/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 13:53:39 | ERROR    | [ERROR] DMC/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] DMC/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 13:53:39 | ERROR    | [ERROR] 平仓失败 DMC/USDT:USDT
+2025-09-27 13:53:39 | WARNING  | [WARNING] 20 个仓位平仓失败: ['KSM/USDT:USDT', 'HIVE/USDT:USDT', 'LINEA/USDT:USDT', 'WAL/USDT:USDT', 'SEI/USDT:USDT', 'ZRO/USDT:USDT', 'FXS/USDT:USDT', 'SPK/USDT:USDT', 'BABY/USDT:USDT', 'FUN/USDT:USDT', 'AERO/USDT:USDT', 'BAT/USDT:USDT', 'ALPINE/USDT:USDT', 'AIA/USDT:USDT', 'SQD/USDT:USDT', 'IN/USDT:USDT', 'ROSE/USDT:USDT', 'DEGO/USDT:USDT', 'H/USDT:USDT', 'DMC/USDT:USDT']
+2025-09-27 13:53:39 | INFO     | [OK] 平仓操作完成
+2025-09-27 13:53:39 | INFO     | [STEP 2] 验证平仓完成...
+2025-09-27 13:53:39 | INFO     | [INFO] 跳过详细平仓验证，继续执行
+2025-09-27 13:53:39 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-09-27 13:53:39 | INFO     | [BALANCE] 当前保证金余额: 4.86 USDT
+2025-09-27 13:53:40 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 13:53:39
+💰 USDT余额: 4.86
+🔧 环境: 测试网
+2025-09-27 13:53:40 | INFO     | [BALANCE] 余额通知已发送: 4.86 USDT
+2025-09-27 13:53:40 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-09-27 13:53:40 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-09-27 13:54:02 | INFO     | [FACTORS] 计算得到 489 个有效因子
+2025-09-27 13:54:02 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-09-27 13:54:02 | INFO     | [STATS] 因子统计:
+2025-09-27 13:54:02 | INFO     |    总计: 489 个标的
+2025-09-27 13:54:02 | INFO     |    因子值范围: -0.064816 ~ 0.074423
+2025-09-27 13:54:02 | INFO     |    选择做多: 2 个
+2025-09-27 13:54:02 | INFO     |    选择做空: 2 个
+2025-09-27 13:54:02 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-09-27 13:54:02 | INFO     |    B/USDT:USDT: 0.074423
+2025-09-27 13:54:02 | INFO     |    SFP/USDT:USDT: 0.069936
+2025-09-27 13:54:02 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-09-27 13:54:02 | INFO     |    SPK/USDT:USDT: -0.055139
+2025-09-27 13:54:02 | INFO     |    BTCDOM/USDT:USDT: -0.064816
+2025-09-27 13:54:02 | INFO     | [SELECTION] 选择交易标的:
+2025-09-27 13:54:02 | INFO     |    做多: ['B/USDT:USDT', 'SFP/USDT:USDT']
+2025-09-27 13:54:02 | INFO     |    做空: ['SPK/USDT:USDT', 'BTCDOM/USDT:USDT']
+2025-09-27 13:54:02 | INFO     | [STEP 6] 执行开仓交易...
+2025-09-27 13:54:02 | INFO     | [BALANCE] 总余额: 4.86 USDT
+2025-09-27 13:54:02 | INFO     | [INFO] 总仓位数: 4
+2025-09-27 13:54:02 | INFO     | [VALUE] 单仓价值: 1.20 USDT
+2025-09-27 13:54:02 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-09-27 13:54:02 | INFO     | [LONG] 开多头仓位: 2 个
+2025-09-27 13:54:02 | INFO     | [BUY] 做多 B/USDT:USDT: 3.4 @ 0.3551
+2025-09-27 13:54:02 | INFO     | [MARKET] 创建市价单 B/USDT:USDT: buy 3.4
+2025-09-27 13:54:02 | ERROR    | [ERROR] B/USDT:USDT 订单金额太小 (-4164): 请增加订单金额
+2025-09-27 13:54:02 | ERROR    | [ERROR] B/USDT:USDT 市价单创建失败: binance {"code":-4164,"msg":"Order's notional must be no smaller than 5 (unless you choose reduce only)."}
+2025-09-27 13:54:02 | INFO     | [DINGDING] 通知已发送: 多头订单失败！B/USDT:USDT 数量: 3.4 @ 0.3551
+2025-09-27 13:54:02 | INFO     | [BUY] 做多 SFP/USDT:USDT: 2.4 @ 0.4981
+2025-09-27 13:54:02 | INFO     | [MARKET] 创建市价单 SFP/USDT:USDT: buy 2.4
+2025-09-27 13:54:02 | ERROR    | [ERROR] SFP/USDT:USDT 订单金额太小 (-4164): 请增加订单金额
+2025-09-27 13:54:02 | ERROR    | [ERROR] SFP/USDT:USDT 市价单创建失败: binance {"code":-4164,"msg":"Order's notional must be no smaller than 5 (unless you choose reduce only)."}
+2025-09-27 13:54:03 | INFO     | [DINGDING] 通知已发送: 多头订单失败！SFP/USDT:USDT 数量: 2.4 @ 0.4981
+2025-09-27 13:54:03 | INFO     | [OK] 多头开仓: 0/2 成功
+2025-09-27 13:54:03 | INFO     | [SHORT] 开空头仓位: 2 个
+2025-09-27 13:54:03 | INFO     | [SELL] 做空 SPK/USDT:USDT: 23.2 @ 0.05189
+2025-09-27 13:54:03 | INFO     | [MARKET] 创建市价单 SPK/USDT:USDT: sell 23.2
+2025-09-27 13:54:03 | ERROR    | [ERROR] SPK/USDT:USDT 订单金额太小 (-4164): 请增加订单金额
+2025-09-27 13:54:03 | ERROR    | [ERROR] SPK/USDT:USDT 市价单创建失败: binance {"code":-4164,"msg":"Order's notional must be no smaller than 5 (unless you choose reduce only)."}
+2025-09-27 13:54:03 | INFO     | [DINGDING] 通知已发送: 空头订单失败！SPK/USDT:USDT 数量: 23.2 @ 0.05189
+2025-09-27 13:54:04 | INFO     | [SELL] 做空 BTCDOM/USDT:USDT: 0.001 @ 4006.9
+2025-09-27 13:54:04 | INFO     | [MARKET] 创建市价单 BTCDOM/USDT:USDT: sell 0.001
+2025-09-27 13:54:04 | ERROR    | [ERROR] BTCDOM/USDT:USDT 订单金额太小 (-4164): 请增加订单金额
+2025-09-27 13:54:04 | ERROR    | [ERROR] BTCDOM/USDT:USDT 市价单创建失败: binance {"code":-4164,"msg":"Order's notional must be no smaller than 5 (unless you choose reduce only)."}
+2025-09-27 13:54:04 | INFO     | [DINGDING] 通知已发送: 空头订单失败！BTCDOM/USDT:USDT 数量: 0.001 @ 4006.9
+2025-09-27 13:54:04 | INFO     | [OK] 空头开仓: 0/2 成功
+2025-09-27 13:54:04 | ERROR    | [ERROR] 开仓失败
+2025-09-27 13:54:04 | WARNING  | [WARNING] 交易周期执行失败
+2025-09-27 13:54:04 | INFO     | [TIME] 周期耗时: 27.2秒
+2025-09-27 13:54:04 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-09-27 14:01:33 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/trading_testnet_20250927.log
+2025-09-27 14:01:33 | INFO     | ============================================================
+2025-09-27 14:01:33 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-09-27 14:01:33 | INFO     | ============================================================
+2025-09-27 14:01:33 | INFO     | [INIT] 初始化交易组件...
+2025-09-27 14:01:34 | INFO     | [OK] API连接成功 - TESTNET
+2025-09-27 14:01:34 | INFO     | [BALANCE] USDT总余额: 4085.23
+2025-09-27 14:01:34 | INFO     | [INFO] 找到 495 个活跃USDT永续合约
+2025-09-27 14:01:34 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-09-27 14:01:34 | INFO     | [OK] 交易执行器初始化成功
+2025-09-27 14:01:34 | INFO     | [OK] API连接测试成功，耗时: 0.473秒
+2025-09-27 14:01:34 | INFO     | [OK] 优化数据处理器初始化成功
+2025-09-27 14:01:34 | INFO     | [OK] 优化因子计算器初始化成功
+2025-09-27 14:01:34 | INFO     |    设备: cpu
+2025-09-27 14:01:34 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-09-27 14:01:34 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/t_2025-06_2025-06_mse_256_1d.pt
+2025-09-27 14:01:34 | INFO     | [BALANCE] 当前账户余额: 3.02 USDT
+2025-09-27 14:01:35 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 14:01:34
+💰 USDT余额: 3.02
+🔧 环境: 测试网
+2025-09-27 14:01:35 | INFO     | [BALANCE] 余额通知已发送: 3.02 USDT
+2025-09-27 14:01:35 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-09-27 14:01:35 | INFO     | [LOOP] 开始主交易循环
+2025-09-27 14:01:35 | INFO     | 
+==================================================
+2025-09-27 14:01:35 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-09-27 14:01:35 | INFO     | [TIME] 开始时间: 2025-09-27 14:01:35
+2025-09-27 14:01:35 | INFO     | ==================================================
+2025-09-27 14:01:35 | INFO     | [STEP 1] 平仓所有现有仓位...
+2025-09-27 14:01:35 | INFO     | [CLOSE] 开始平仓所有仓位...
+2025-09-27 14:01:35 | INFO     | [POSITIONS] 发现 20 个持仓需要平仓
+2025-09-27 14:01:35 | INFO     | [CLOSE] 平仓 KSM/USDT:USDT: buy 14.5
+2025-09-27 14:01:35 | INFO     | [MARKET] 创建市价单 KSM/USDT:USDT: buy 14.5
+2025-09-27 14:01:35 | WARNING  | [WARNING] KSM/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:35 | INFO     | [RETRY] KSM/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:35 | ERROR    | [ERROR] KSM/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] KSM/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] 平仓失败 KSM/USDT:USDT
+2025-09-27 14:01:35 | INFO     | [CLOSE] 平仓 HIVE/USDT:USDT: buy 1137.0
+2025-09-27 14:01:35 | INFO     | [MARKET] 创建市价单 HIVE/USDT:USDT: buy 1137.0
+2025-09-27 14:01:35 | WARNING  | [WARNING] HIVE/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:35 | INFO     | [RETRY] HIVE/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:35 | ERROR    | [ERROR] HIVE/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] HIVE/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] 平仓失败 HIVE/USDT:USDT
+2025-09-27 14:01:35 | INFO     | [CLOSE] 平仓 LINEA/USDT:USDT: buy 7382.0
+2025-09-27 14:01:35 | INFO     | [MARKET] 创建市价单 LINEA/USDT:USDT: buy 7382.0
+2025-09-27 14:01:35 | WARNING  | [WARNING] LINEA/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:35 | INFO     | [RETRY] LINEA/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:35 | ERROR    | [ERROR] LINEA/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] LINEA/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] 平仓失败 LINEA/USDT:USDT
+2025-09-27 14:01:35 | INFO     | [CLOSE] 平仓 WAL/USDT:USDT: sell 534.0
+2025-09-27 14:01:35 | INFO     | [MARKET] 创建市价单 WAL/USDT:USDT: sell 534.0
+2025-09-27 14:01:35 | WARNING  | [WARNING] WAL/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:35 | INFO     | [RETRY] WAL/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:35 | ERROR    | [ERROR] WAL/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] WAL/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] 平仓失败 WAL/USDT:USDT
+2025-09-27 14:01:35 | INFO     | [CLOSE] 平仓 SEI/USDT:USDT: sell 725.0
+2025-09-27 14:01:35 | INFO     | [MARKET] 创建市价单 SEI/USDT:USDT: sell 725.0
+2025-09-27 14:01:35 | WARNING  | [WARNING] SEI/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:35 | INFO     | [RETRY] SEI/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:35 | ERROR    | [ERROR] SEI/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] SEI/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] 平仓失败 SEI/USDT:USDT
+2025-09-27 14:01:35 | INFO     | [CLOSE] 平仓 ZRO/USDT:USDT: buy 89.8
+2025-09-27 14:01:35 | INFO     | [MARKET] 创建市价单 ZRO/USDT:USDT: buy 89.8
+2025-09-27 14:01:35 | WARNING  | [WARNING] ZRO/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:35 | INFO     | [RETRY] ZRO/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:35 | ERROR    | [ERROR] ZRO/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] ZRO/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] 平仓失败 ZRO/USDT:USDT
+2025-09-27 14:01:35 | INFO     | [CLOSE] 平仓 FXS/USDT:USDT: sell 96.5
+2025-09-27 14:01:35 | INFO     | [MARKET] 创建市价单 FXS/USDT:USDT: sell 96.5
+2025-09-27 14:01:35 | WARNING  | [WARNING] FXS/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:35 | INFO     | [RETRY] FXS/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:35 | ERROR    | [ERROR] FXS/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] FXS/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:35 | ERROR    | [ERROR] 平仓失败 FXS/USDT:USDT
+2025-09-27 14:01:35 | INFO     | [CLOSE] 平仓 SPK/USDT:USDT: sell 3978.0
+2025-09-27 14:01:35 | INFO     | [MARKET] 创建市价单 SPK/USDT:USDT: sell 3978.0
+2025-09-27 14:01:36 | WARNING  | [WARNING] SPK/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:36 | INFO     | [RETRY] SPK/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:36 | ERROR    | [ERROR] SPK/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] SPK/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] 平仓失败 SPK/USDT:USDT
+2025-09-27 14:01:36 | INFO     | [CLOSE] 平仓 BABY/USDT:USDT: buy 4099.0
+2025-09-27 14:01:36 | INFO     | [MARKET] 创建市价单 BABY/USDT:USDT: buy 4099.0
+2025-09-27 14:01:36 | WARNING  | [WARNING] BABY/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:36 | INFO     | [RETRY] BABY/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:36 | ERROR    | [ERROR] BABY/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] BABY/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] 平仓失败 BABY/USDT:USDT
+2025-09-27 14:01:36 | INFO     | [CLOSE] 平仓 FUN/USDT:USDT: sell 21695.0
+2025-09-27 14:01:36 | INFO     | [MARKET] 创建市价单 FUN/USDT:USDT: sell 21695.0
+2025-09-27 14:01:36 | WARNING  | [WARNING] FUN/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:36 | INFO     | [RETRY] FUN/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:36 | ERROR    | [ERROR] FUN/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] FUN/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] 平仓失败 FUN/USDT:USDT
+2025-09-27 14:01:36 | INFO     | [CLOSE] 平仓 AERO/USDT:USDT: buy 194.2
+2025-09-27 14:01:36 | INFO     | [MARKET] 创建市价单 AERO/USDT:USDT: buy 194.2
+2025-09-27 14:01:36 | WARNING  | [WARNING] AERO/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:36 | INFO     | [RETRY] AERO/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:36 | ERROR    | [ERROR] AERO/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] AERO/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] 平仓失败 AERO/USDT:USDT
+2025-09-27 14:01:36 | INFO     | [CLOSE] 平仓 BAT/USDT:USDT: buy 1429.3
+2025-09-27 14:01:36 | INFO     | [MARKET] 创建市价单 BAT/USDT:USDT: buy 1429.3
+2025-09-27 14:01:36 | WARNING  | [WARNING] BAT/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:36 | INFO     | [RETRY] BAT/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:36 | ERROR    | [ERROR] BAT/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] BAT/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] 平仓失败 BAT/USDT:USDT
+2025-09-27 14:01:36 | INFO     | [CLOSE] 平仓 ALPINE/USDT:USDT: sell 50.8
+2025-09-27 14:01:36 | INFO     | [MARKET] 创建市价单 ALPINE/USDT:USDT: sell 50.8
+2025-09-27 14:01:36 | WARNING  | [WARNING] ALPINE/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:36 | INFO     | [RETRY] ALPINE/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:36 | ERROR    | [ERROR] ALPINE/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] ALPINE/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] 平仓失败 ALPINE/USDT:USDT
+2025-09-27 14:01:36 | INFO     | [CLOSE] 平仓 AIA/USDT:USDT: buy 702.0
+2025-09-27 14:01:36 | INFO     | [MARKET] 创建市价单 AIA/USDT:USDT: buy 702.0
+2025-09-27 14:01:36 | WARNING  | [WARNING] AIA/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:36 | INFO     | [RETRY] AIA/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:36 | ERROR    | [ERROR] AIA/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] AIA/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] 平仓失败 AIA/USDT:USDT
+2025-09-27 14:01:36 | INFO     | [CLOSE] 平仓 SQD/USDT:USDT: sell 1085.0
+2025-09-27 14:01:36 | INFO     | [MARKET] 创建市价单 SQD/USDT:USDT: sell 1085.0
+2025-09-27 14:01:36 | WARNING  | [WARNING] SQD/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:36 | INFO     | [RETRY] SQD/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:36 | ERROR    | [ERROR] SQD/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] SQD/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:36 | ERROR    | [ERROR] 平仓失败 SQD/USDT:USDT
+2025-09-27 14:01:37 | INFO     | [CLOSE] 平仓 IN/USDT:USDT: sell 2744.0
+2025-09-27 14:01:37 | INFO     | [MARKET] 创建市价单 IN/USDT:USDT: sell 2744.0
+2025-09-27 14:01:37 | WARNING  | [WARNING] IN/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:37 | INFO     | [RETRY] IN/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:37 | ERROR    | [ERROR] IN/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:37 | ERROR    | [ERROR] IN/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:37 | ERROR    | [ERROR] 平仓失败 IN/USDT:USDT
+2025-09-27 14:01:37 | INFO     | [CLOSE] 平仓 ROSE/USDT:USDT: buy 7935.0
+2025-09-27 14:01:37 | INFO     | [MARKET] 创建市价单 ROSE/USDT:USDT: buy 7935.0
+2025-09-27 14:01:37 | WARNING  | [WARNING] ROSE/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:37 | INFO     | [RETRY] ROSE/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:37 | ERROR    | [ERROR] ROSE/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:37 | ERROR    | [ERROR] ROSE/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:37 | ERROR    | [ERROR] 平仓失败 ROSE/USDT:USDT
+2025-09-27 14:01:37 | INFO     | [CLOSE] 平仓 DEGO/USDT:USDT: sell 154.0
+2025-09-27 14:01:37 | INFO     | [MARKET] 创建市价单 DEGO/USDT:USDT: sell 154.0
+2025-09-27 14:01:37 | WARNING  | [WARNING] DEGO/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:37 | INFO     | [RETRY] DEGO/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:37 | ERROR    | [ERROR] DEGO/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:37 | ERROR    | [ERROR] DEGO/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:37 | ERROR    | [ERROR] 平仓失败 DEGO/USDT:USDT
+2025-09-27 14:01:37 | INFO     | [CLOSE] 平仓 H/USDT:USDT: sell 3466.0
+2025-09-27 14:01:37 | INFO     | [MARKET] 创建市价单 H/USDT:USDT: sell 3466.0
+2025-09-27 14:01:37 | WARNING  | [WARNING] H/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:37 | INFO     | [RETRY] H/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:37 | ERROR    | [ERROR] H/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:37 | ERROR    | [ERROR] H/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:37 | ERROR    | [ERROR] 平仓失败 H/USDT:USDT
+2025-09-27 14:01:37 | INFO     | [CLOSE] 平仓 DMC/USDT:USDT: buy 61896.0
+2025-09-27 14:01:37 | INFO     | [MARKET] 创建市价单 DMC/USDT:USDT: buy 61896.0
+2025-09-27 14:01:37 | WARNING  | [WARNING] DMC/USDT:USDT reduceOnly参数不被接受 (错误: -1106)
+2025-09-27 14:01:37 | INFO     | [RETRY] DMC/USDT:USDT 尝试不带reduceOnly参数重新创建订单
+2025-09-27 14:01:37 | ERROR    | [ERROR] DMC/USDT:USDT 重试后仍失败: binance {"code":-4061,"msg":"Order's position side does not match user's setting."}
+2025-09-27 14:01:37 | ERROR    | [ERROR] DMC/USDT:USDT 市价单创建失败: binance {"code":-1106,"msg":"Parameter 'reduceonly' sent when not required."}
+2025-09-27 14:01:37 | ERROR    | [ERROR] 平仓失败 DMC/USDT:USDT
+2025-09-27 14:01:37 | WARNING  | [WARNING] 20 个仓位平仓失败: ['KSM/USDT:USDT', 'HIVE/USDT:USDT', 'LINEA/USDT:USDT', 'WAL/USDT:USDT', 'SEI/USDT:USDT', 'ZRO/USDT:USDT', 'FXS/USDT:USDT', 'SPK/USDT:USDT', 'BABY/USDT:USDT', 'FUN/USDT:USDT', 'AERO/USDT:USDT', 'BAT/USDT:USDT', 'ALPINE/USDT:USDT', 'AIA/USDT:USDT', 'SQD/USDT:USDT', 'IN/USDT:USDT', 'ROSE/USDT:USDT', 'DEGO/USDT:USDT', 'H/USDT:USDT', 'DMC/USDT:USDT']
+2025-09-27 14:01:37 | INFO     | [OK] 平仓操作完成
+2025-09-27 14:01:37 | INFO     | [STEP 2] 验证平仓完成...
+2025-09-27 14:01:37 | INFO     | [INFO] 跳过详细平仓验证，继续执行
+2025-09-27 14:01:37 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-09-27 14:01:37 | INFO     | [BALANCE] 当前保证金余额: 3.83 USDT
+2025-09-27 14:01:38 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 14:01:37
+💰 USDT余额: 3.83
+🔧 环境: 测试网
+2025-09-27 14:01:38 | INFO     | [BALANCE] 余额通知已发送: 3.83 USDT
+2025-09-27 14:01:38 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-09-27 14:01:38 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-09-27 14:24:24 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/trading_testnet_20250927.log
+2025-09-27 14:24:24 | INFO     | ============================================================
+2025-09-27 14:24:24 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-09-27 14:24:24 | INFO     | ============================================================
+2025-09-27 14:24:24 | INFO     | [INIT] 初始化交易组件...
+2025-09-27 14:24:24 | INFO     | [OK] API连接成功 - TESTNET
+2025-09-27 14:24:24 | INFO     | [BALANCE] USDT总余额: 4091.40
+2025-09-27 14:24:24 | INFO     | [INFO] 找到 495 个活跃USDT永续合约
+2025-09-27 14:24:24 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-09-27 14:24:24 | INFO     | [OK] 交易执行器初始化成功
+2025-09-27 14:24:25 | INFO     | [OK] API连接测试成功，耗时: 0.499秒
+2025-09-27 14:24:25 | INFO     | [OK] 优化数据处理器初始化成功
+2025-09-27 14:24:25 | INFO     | [OK] 优化因子计算器初始化成功
+2025-09-27 14:24:25 | INFO     |    设备: cpu
+2025-09-27 14:24:25 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-09-27 14:24:25 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/t_2025-06_2025-06_mse_256_1d.pt
+2025-09-27 14:24:25 | INFO     | [BALANCE] 当前账户余额: 0.00 USDT
+2025-09-27 14:24:26 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 14:24:25
+💰 USDT余额: 0.00
+🔧 环境: 测试网
+2025-09-27 14:24:26 | INFO     | [BALANCE] 余额通知已发送: 0.00 USDT
+2025-09-27 14:24:26 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-09-27 14:24:26 | INFO     | [LOOP] 开始主交易循环
+2025-09-27 14:24:26 | INFO     | 
+==================================================
+2025-09-27 14:24:26 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-09-27 14:24:26 | INFO     | [TIME] 开始时间: 2025-09-27 14:24:26
+2025-09-27 14:24:26 | INFO     | ==================================================
+2025-09-27 14:24:26 | INFO     | [STEP 1] 平仓所有现有仓位...
+2025-09-27 14:24:26 | INFO     | [TESTNET CLOSE] 开始平仓所有仓位...
+2025-09-27 14:24:26 | INFO     | [TESTNET POSITIONS] 发现 20 个持仓需要平仓
+2025-09-27 14:24:26 | INFO     | [TESTNET CLOSE] 平仓 KSM/USDT:USDT: buy 14.5
+2025-09-27 14:24:26 | INFO     | [TESTNET MARKET] 创建市价单 KSM/USDT:USDT: buy 14.5
+2025-09-27 14:24:26 | INFO     | [TESTNET SUCCESS] KSM/USDT:USDT 市价单创建成功 ID:44215424 成交:14.5
+2025-09-27 14:24:26 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 KSM/USDT:USDT: 44215424
+2025-09-27 14:24:26 | INFO     | [TESTNET CLOSE] 平仓 HIVE/USDT:USDT: buy 1137.0
+2025-09-27 14:24:26 | INFO     | [TESTNET MARKET] 创建市价单 HIVE/USDT:USDT: buy 1137.0
+2025-09-27 14:24:26 | INFO     | [TESTNET SUCCESS] HIVE/USDT:USDT 市价单创建成功 ID:9229683 成交:1137.0
+2025-09-27 14:24:26 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 HIVE/USDT:USDT: 9229683
+2025-09-27 14:24:26 | INFO     | [TESTNET CLOSE] 平仓 LINEA/USDT:USDT: buy 7382.0
+2025-09-27 14:24:26 | INFO     | [TESTNET MARKET] 创建市价单 LINEA/USDT:USDT: buy 7382.0
+2025-09-27 14:24:26 | INFO     | [TESTNET SUCCESS] LINEA/USDT:USDT 市价单创建成功 ID:4007816 成交:7382.0
+2025-09-27 14:24:26 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 LINEA/USDT:USDT: 4007816
+2025-09-27 14:24:26 | INFO     | [TESTNET CLOSE] 平仓 WAL/USDT:USDT: sell 534.0
+2025-09-27 14:24:26 | INFO     | [TESTNET MARKET] 创建市价单 WAL/USDT:USDT: sell 534.0
+2025-09-27 14:24:26 | INFO     | [TESTNET SUCCESS] WAL/USDT:USDT 市价单创建成功 ID:13166357 成交:534.0
+2025-09-27 14:24:26 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 WAL/USDT:USDT: 13166357
+2025-09-27 14:24:26 | INFO     | [TESTNET CLOSE] 平仓 SEI/USDT:USDT: sell 725.0
+2025-09-27 14:24:26 | INFO     | [TESTNET MARKET] 创建市价单 SEI/USDT:USDT: sell 725.0
+2025-09-27 14:24:26 | INFO     | [TESTNET SUCCESS] SEI/USDT:USDT 市价单创建成功 ID:9970861 成交:725.0
+2025-09-27 14:24:26 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 SEI/USDT:USDT: 9970861
+2025-09-27 14:24:26 | INFO     | [TESTNET CLOSE] 平仓 ZRO/USDT:USDT: buy 89.8
+2025-09-27 14:24:26 | INFO     | [TESTNET MARKET] 创建市价单 ZRO/USDT:USDT: buy 89.8
+2025-09-27 14:24:26 | INFO     | [TESTNET SUCCESS] ZRO/USDT:USDT 市价单创建成功 ID:34840787 成交:89.8
+2025-09-27 14:24:26 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ZRO/USDT:USDT: 34840787
+2025-09-27 14:24:27 | INFO     | [TESTNET CLOSE] 平仓 FXS/USDT:USDT: sell 96.5
+2025-09-27 14:24:27 | INFO     | [TESTNET MARKET] 创建市价单 FXS/USDT:USDT: sell 96.5
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] FXS/USDT:USDT 市价单创建成功 ID:17132010 成交:96.5
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FXS/USDT:USDT: 17132010
+2025-09-27 14:24:27 | INFO     | [TESTNET CLOSE] 平仓 SPK/USDT:USDT: sell 3978.0
+2025-09-27 14:24:27 | INFO     | [TESTNET MARKET] 创建市价单 SPK/USDT:USDT: sell 3978.0
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] SPK/USDT:USDT 市价单创建成功 ID:6342867 成交:3978.0
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 SPK/USDT:USDT: 6342867
+2025-09-27 14:24:27 | INFO     | [TESTNET CLOSE] 平仓 BABY/USDT:USDT: buy 4099.0
+2025-09-27 14:24:27 | INFO     | [TESTNET MARKET] 创建市价单 BABY/USDT:USDT: buy 4099.0
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] BABY/USDT:USDT 市价单创建成功 ID:7776522 成交:4099.0
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 BABY/USDT:USDT: 7776522
+2025-09-27 14:24:27 | INFO     | [TESTNET CLOSE] 平仓 FUN/USDT:USDT: sell 21695.0
+2025-09-27 14:24:27 | INFO     | [TESTNET MARKET] 创建市价单 FUN/USDT:USDT: sell 21695.0
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] FUN/USDT:USDT 市价单创建成功 ID:103534453 成交:21695.0
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FUN/USDT:USDT: 103534453
+2025-09-27 14:24:27 | INFO     | [TESTNET CLOSE] 平仓 AERO/USDT:USDT: buy 194.2
+2025-09-27 14:24:27 | INFO     | [TESTNET MARKET] 创建市价单 AERO/USDT:USDT: buy 194.2
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] AERO/USDT:USDT 市价单创建成功 ID:8611256 成交:194.2
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 AERO/USDT:USDT: 8611256
+2025-09-27 14:24:27 | INFO     | [TESTNET CLOSE] 平仓 BAT/USDT:USDT: buy 1429.3
+2025-09-27 14:24:27 | INFO     | [TESTNET MARKET] 创建市价单 BAT/USDT:USDT: buy 1429.3
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] BAT/USDT:USDT 市价单创建成功 ID:128146841 成交:1429.3
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 BAT/USDT:USDT: 128146841
+2025-09-27 14:24:27 | INFO     | [TESTNET CLOSE] 平仓 ALPINE/USDT:USDT: sell 50.8
+2025-09-27 14:24:27 | INFO     | [TESTNET MARKET] 创建市价单 ALPINE/USDT:USDT: sell 50.8
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] ALPINE/USDT:USDT 市价单创建成功 ID:7884966 成交:50.8
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ALPINE/USDT:USDT: 7884966
+2025-09-27 14:24:27 | INFO     | [TESTNET CLOSE] 平仓 AIA/USDT:USDT: buy 702.0
+2025-09-27 14:24:27 | INFO     | [TESTNET MARKET] 创建市价单 AIA/USDT:USDT: buy 702.0
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] AIA/USDT:USDT 市价单创建成功 ID:2615188 成交:702.0
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 AIA/USDT:USDT: 2615188
+2025-09-27 14:24:27 | INFO     | [TESTNET CLOSE] 平仓 SQD/USDT:USDT: sell 1085.0
+2025-09-27 14:24:27 | INFO     | [TESTNET MARKET] 创建市价单 SQD/USDT:USDT: sell 1085.0
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] SQD/USDT:USDT 市价单创建成功 ID:5703238 成交:1085.0
+2025-09-27 14:24:27 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 SQD/USDT:USDT: 5703238
+2025-09-27 14:24:28 | INFO     | [TESTNET CLOSE] 平仓 IN/USDT:USDT: sell 2744.0
+2025-09-27 14:24:28 | INFO     | [TESTNET MARKET] 创建市价单 IN/USDT:USDT: sell 2744.0
+2025-09-27 14:24:28 | INFO     | [TESTNET SUCCESS] IN/USDT:USDT 市价单创建成功 ID:7407567 成交:2744.0
+2025-09-27 14:24:28 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 IN/USDT:USDT: 7407567
+2025-09-27 14:24:28 | INFO     | [TESTNET CLOSE] 平仓 ROSE/USDT:USDT: buy 7935.0
+2025-09-27 14:24:28 | INFO     | [TESTNET MARKET] 创建市价单 ROSE/USDT:USDT: buy 7935.0
+2025-09-27 14:24:28 | INFO     | [TESTNET SUCCESS] ROSE/USDT:USDT 市价单创建成功 ID:31840314 成交:7935.0
+2025-09-27 14:24:28 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ROSE/USDT:USDT: 31840314
+2025-09-27 14:24:28 | INFO     | [TESTNET CLOSE] 平仓 DEGO/USDT:USDT: sell 154.0
+2025-09-27 14:24:28 | INFO     | [TESTNET MARKET] 创建市价单 DEGO/USDT:USDT: sell 154.0
+2025-09-27 14:24:28 | INFO     | [TESTNET SUCCESS] DEGO/USDT:USDT 市价单创建成功 ID:6745751 成交:154.0
+2025-09-27 14:24:28 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 DEGO/USDT:USDT: 6745751
+2025-09-27 14:24:28 | INFO     | [TESTNET CLOSE] 平仓 H/USDT:USDT: sell 3466.0
+2025-09-27 14:24:28 | INFO     | [TESTNET MARKET] 创建市价单 H/USDT:USDT: sell 3466.0
+2025-09-27 14:24:28 | INFO     | [TESTNET SUCCESS] H/USDT:USDT 市价单创建成功 ID:6147066 成交:3466.0
+2025-09-27 14:24:28 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 H/USDT:USDT: 6147066
+2025-09-27 14:24:28 | INFO     | [TESTNET CLOSE] 平仓 DMC/USDT:USDT: buy 61896.0
+2025-09-27 14:24:28 | INFO     | [TESTNET MARKET] 创建市价单 DMC/USDT:USDT: buy 61896.0
+2025-09-27 14:24:28 | INFO     | [TESTNET SUCCESS] DMC/USDT:USDT 市价单创建成功 ID:5770279 成交:61896.0
+2025-09-27 14:24:28 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 DMC/USDT:USDT: 5770279
+2025-09-27 14:24:28 | INFO     | [TESTNET WAIT] 等待 20 个平仓订单执行...
+2025-09-27 14:24:30 | INFO     | [TESTNET OK] 平仓操作完成
+2025-09-27 14:24:30 | INFO     | [STEP 2] 验证平仓完成...
+2025-09-27 14:24:30 | INFO     | [INFO] 跳过详细平仓验证，继续执行
+2025-09-27 14:24:30 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-09-27 14:24:30 | INFO     | [BALANCE] 当前保证金余额: 4069.20 USDT
+2025-09-27 14:24:31 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 14:24:30
+💰 USDT余额: 4069.20
+🔧 环境: 测试网
+2025-09-27 14:24:31 | INFO     | [BALANCE] 余额通知已发送: 4069.20 USDT
+2025-09-27 14:24:31 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-09-27 14:24:31 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-09-27 14:24:53 | INFO     | [FACTORS] 计算得到 489 个有效因子
+2025-09-27 14:24:53 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-09-27 14:24:53 | INFO     | [STATS] 因子统计:
+2025-09-27 14:24:53 | INFO     |    总计: 489 个标的
+2025-09-27 14:24:53 | INFO     |    因子值范围: -0.059941 ~ 0.076160
+2025-09-27 14:24:53 | INFO     |    选择做多: 2 个
+2025-09-27 14:24:53 | INFO     |    选择做空: 2 个
+2025-09-27 14:24:53 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-09-27 14:24:53 | INFO     |    KAITO/USDT:USDT: 0.076160
+2025-09-27 14:24:53 | INFO     |    SFP/USDT:USDT: 0.066154
+2025-09-27 14:24:53 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-09-27 14:24:53 | INFO     |    YFI/USDT:USDT: -0.051471
+2025-09-27 14:24:53 | INFO     |    HUMA/USDT:USDT: -0.059941
+2025-09-27 14:24:53 | INFO     | [SELECTION] 选择交易标的:
+2025-09-27 14:24:53 | INFO     |    做多: ['KAITO/USDT:USDT', 'SFP/USDT:USDT']
+2025-09-27 14:24:53 | INFO     |    做空: ['YFI/USDT:USDT', 'HUMA/USDT:USDT']
+2025-09-27 14:24:53 | INFO     | [STEP 6] 执行开仓交易...
+2025-09-27 14:24:53 | INFO     | [BALANCE] 总余额: 4069.20 USDT
+2025-09-27 14:24:53 | INFO     | [INFO] 总仓位数: 4
+2025-09-27 14:24:53 | INFO     | [VALUE] 单仓价值: 1007.13 USDT
+2025-09-27 14:24:53 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-09-27 14:24:53 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-09-27 14:24:53 | INFO     | [TESTNET BUY] 做多 KAITO/USDT:USDT: 873.4 @ 1.1531
+2025-09-27 14:24:53 | INFO     | [TESTNET MARKET] 创建市价单 KAITO/USDT:USDT: buy 873.4
+2025-09-27 14:24:53 | ERROR    | [TESTNET ERROR] KAITO/USDT:USDT 订单创建失败: binance {"code":-4005,"msg":"Quantity greater than max quantity."}
+2025-09-27 14:24:53 | ERROR    | [TESTNET ERROR] KAITO/USDT:USDT 市价单创建异常: binance {"code":-4005,"msg":"Quantity greater than max quantity."}
+2025-09-27 14:24:54 | INFO     | [DINGDING] 通知已发送: [TESTNET] 多头订单失败！KAITO/USDT:USDT 数量: 873.4 @ 1.1531
+2025-09-27 14:24:54 | INFO     | [TESTNET BUY] 做多 SFP/USDT:USDT: 2036.7 @ 0.4945
+2025-09-27 14:24:54 | INFO     | [TESTNET MARKET] 创建市价单 SFP/USDT:USDT: buy 2036.7
+2025-09-27 14:24:54 | WARNING  | [TESTNET WARNING] SFP/USDT:USDT positionSide参数不被接受，尝试移除
+2025-09-27 14:24:54 | INFO     | [TESTNET SUCCESS] SFP/USDT:USDT 基础参数创建成功 ID:21386474 成交:2036.0
+2025-09-27 14:24:54 | INFO     | [TESTNET OK] 多头开仓: 1/2 成功
+2025-09-27 14:24:54 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-09-27 14:24:54 | INFO     | [TESTNET SELL] 做空 YFI/USDT:USDT: 0.195 @ 5157.0
+2025-09-27 14:24:54 | INFO     | [TESTNET MARKET] 创建市价单 YFI/USDT:USDT: sell 0.195
+2025-09-27 14:24:54 | WARNING  | [TESTNET WARNING] YFI/USDT:USDT positionSide参数不被接受，尝试移除
+2025-09-27 14:24:54 | INFO     | [TESTNET SUCCESS] YFI/USDT:USDT 基础参数创建成功 ID:69068593 成交:0.195
+2025-09-27 14:24:54 | INFO     | [TESTNET SELL] 做空 HUMA/USDT:USDT: 30487.6 @ 0.033034
+2025-09-27 14:24:54 | INFO     | [TESTNET MARKET] 创建市价单 HUMA/USDT:USDT: sell 30487.6
+2025-09-27 14:24:54 | WARNING  | [TESTNET WARNING] HUMA/USDT:USDT positionSide参数不被接受，尝试移除
+2025-09-27 14:24:54 | INFO     | [TESTNET SUCCESS] HUMA/USDT:USDT 基础参数创建成功 ID:7290585 成交:30487.0
+2025-09-27 14:24:54 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-09-27 14:24:54 | INFO     | [STEP 7] 开仓交易完成
+2025-09-27 14:24:54 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-09-27 14:24:54 | INFO     | [OK] 交易周期执行成功
+2025-09-27 14:24:54 | INFO     | [TIME] 周期耗时: 28.5秒
+2025-09-27 14:24:54 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-09-27 14:25:54 | INFO     | 
+==================================================
+2025-09-27 14:25:54 | INFO     | [CYCLE] 第 2 轮交易周期
+2025-09-27 14:25:54 | INFO     | [TIME] 开始时间: 2025-09-27 14:25:54
+2025-09-27 14:25:54 | INFO     | ==================================================
+2025-09-27 14:25:54 | INFO     | [STEP 1] 平仓所有现有仓位...
+2025-09-27 14:25:54 | INFO     | [TESTNET CLOSE] 开始平仓所有仓位...
+2025-09-27 14:25:54 | INFO     | [TESTNET POSITIONS] 发现 3 个持仓需要平仓
+2025-09-27 14:25:54 | INFO     | [TESTNET CLOSE] 平仓 HUMA/USDT:USDT: buy 30487.0
+2025-09-27 14:25:54 | INFO     | [TESTNET MARKET] 创建市价单 HUMA/USDT:USDT: buy 30487.0
+2025-09-27 14:25:54 | INFO     | [TESTNET SUCCESS] HUMA/USDT:USDT 市价单创建成功 ID:7290648 成交:30487.0
+2025-09-27 14:25:54 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 HUMA/USDT:USDT: 7290648
+2025-09-27 14:25:55 | INFO     | [TESTNET CLOSE] 平仓 YFI/USDT:USDT: buy 0.195
+2025-09-27 14:25:55 | INFO     | [TESTNET MARKET] 创建市价单 YFI/USDT:USDT: buy 0.195
+2025-09-27 14:25:55 | INFO     | [TESTNET SUCCESS] YFI/USDT:USDT 市价单创建成功 ID:69068669 成交:0.195
+2025-09-27 14:25:55 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 YFI/USDT:USDT: 69068669
+2025-09-27 14:25:55 | INFO     | [TESTNET CLOSE] 平仓 SFP/USDT:USDT: sell 2036.0
+2025-09-27 14:25:55 | INFO     | [TESTNET MARKET] 创建市价单 SFP/USDT:USDT: sell 2036.0
+2025-09-27 14:25:55 | INFO     | [TESTNET SUCCESS] SFP/USDT:USDT 市价单创建成功 ID:21386547 成交:2036.0
+2025-09-27 14:25:55 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 SFP/USDT:USDT: 21386547
+2025-09-27 14:25:55 | INFO     | [TESTNET WAIT] 等待 3 个平仓订单执行...
+2025-09-27 14:25:57 | INFO     | [TESTNET OK] 平仓操作完成
+2025-09-27 14:25:57 | INFO     | [STEP 2] 验证平仓完成...
+2025-09-27 14:25:57 | INFO     | [INFO] 跳过详细平仓验证，继续执行
+2025-09-27 14:25:57 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-09-27 14:25:57 | INFO     | [BALANCE] 当前保证金余额: 4033.82 USDT
+2025-09-27 14:36:42 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/trading_testnet_20250927.log
+2025-09-27 14:36:42 | INFO     | ============================================================
+2025-09-27 14:36:42 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-09-27 14:36:42 | INFO     | ============================================================
+2025-09-27 14:36:42 | INFO     | [INIT] 初始化交易组件...
+2025-09-27 14:36:43 | INFO     | [OK] API连接成功 - TESTNET
+2025-09-27 14:36:43 | INFO     | [BALANCE] USDT总余额: 4033.82
+2025-09-27 14:36:43 | INFO     | [INFO] 找到 495 个活跃USDT永续合约
+2025-09-27 14:36:43 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-09-27 14:36:43 | INFO     | [OK] 交易执行器初始化成功
+2025-09-27 14:36:43 | INFO     | [OK] API连接测试成功，耗时: 0.493秒
+2025-09-27 14:36:43 | INFO     | [OK] 优化数据处理器初始化成功
+2025-09-27 14:36:43 | INFO     | [OK] 优化因子计算器初始化成功
+2025-09-27 14:36:43 | INFO     |    设备: cpu
+2025-09-27 14:36:43 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-09-27 14:36:43 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/t_2025-06_2025-06_mse_256_1d.pt
+2025-09-27 14:36:43 | INFO     | [BALANCE] 当前账户余额: 4033.82 USDT
+2025-09-27 14:36:44 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 14:36:43
+💰 USDT余额: 4033.82
+🔧 环境: 测试网
+2025-09-27 14:36:44 | INFO     | [BALANCE] 余额通知已发送: 4033.82 USDT
+2025-09-27 14:36:44 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-09-27 14:36:44 | INFO     | [LOOP] 开始主交易循环
+2025-09-27 14:36:44 | INFO     | 
+==================================================
+2025-09-27 14:36:44 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-09-27 14:36:44 | INFO     | [TIME] 开始时间: 2025-09-27 14:36:44
+2025-09-27 14:36:44 | INFO     | ==================================================
+2025-09-27 14:36:44 | INFO     | [STEP 1] 平仓所有现有仓位...
+2025-09-27 14:36:44 | INFO     | [TESTNET CLOSE] 开始平仓所有仓位...
+2025-09-27 14:36:44 | INFO     | [TESTNET OK] 当前无持仓，无需平仓
+2025-09-27 14:36:44 | INFO     | [STEP 2] 验证平仓完成...
+2025-09-27 14:36:44 | INFO     | [INFO] 跳过详细平仓验证，继续执行
+2025-09-27 14:36:44 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-09-27 14:36:44 | INFO     | [BALANCE] 当前保证金余额: 4033.82 USDT
+2025-09-27 14:36:44 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 14:36:44
+💰 USDT余额: 4033.82
+🔧 环境: 测试网
+2025-09-27 14:36:44 | INFO     | [BALANCE] 余额通知已发送: 4033.82 USDT
+2025-09-27 14:36:44 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-09-27 14:36:44 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-09-27 14:37:07 | INFO     | [FACTORS] 计算得到 489 个有效因子
+2025-09-27 14:37:07 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-09-27 14:37:07 | INFO     | [STATS] 因子统计:
+2025-09-27 14:37:07 | INFO     |    总计: 489 个标的
+2025-09-27 14:37:07 | INFO     |    因子值范围: -0.057806 ~ 0.080669
+2025-09-27 14:37:07 | INFO     |    选择做多: 2 个
+2025-09-27 14:37:07 | INFO     |    选择做空: 2 个
+2025-09-27 14:37:07 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-09-27 14:37:07 | INFO     |    KAITO/USDT:USDT: 0.080669
+2025-09-27 14:37:07 | INFO     |    EDU/USDT:USDT: 0.064341
+2025-09-27 14:37:07 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-09-27 14:37:07 | INFO     |    ARC/USDT:USDT: -0.051130
+2025-09-27 14:37:07 | INFO     |    HUMA/USDT:USDT: -0.057806
+2025-09-27 14:37:07 | INFO     | [SELECTION] 选择交易标的:
+2025-09-27 14:37:07 | INFO     |    做多: ['KAITO/USDT:USDT', 'EDU/USDT:USDT']
+2025-09-27 14:37:07 | INFO     |    做空: ['ARC/USDT:USDT', 'HUMA/USDT:USDT']
+2025-09-27 14:37:07 | INFO     | [STEP 6] 执行开仓交易...
+2025-09-27 14:37:07 | INFO     | [BALANCE] 总余额: 4033.82 USDT
+2025-09-27 14:37:07 | INFO     | [INFO] 总仓位数: 4
+2025-09-27 14:37:07 | INFO     | [VALUE] 单仓价值: 998.37 USDT
+2025-09-27 14:37:07 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-09-27 14:37:07 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-09-27 14:37:07 | INFO     | [TESTNET BUY] 做多 KAITO/USDT:USDT: 875.4 @ 1.1405
+2025-09-27 14:37:07 | INFO     | [TESTNET MARKET] 创建市价单 KAITO/USDT:USDT: buy 875.4
+2025-09-27 14:37:07 | ERROR    | [TESTNET ERROR] KAITO/USDT:USDT 订单创建失败: binance {"code":-4005,"msg":"Quantity greater than max quantity."}
+2025-09-27 14:37:07 | ERROR    | [TESTNET ERROR] KAITO/USDT:USDT 市价单创建异常: binance {"code":-4005,"msg":"Quantity greater than max quantity."}
+2025-09-27 14:37:08 | INFO     | [DINGDING] 通知已发送: [TESTNET] 多头订单失败！KAITO/USDT:USDT 数量: 875.4 @ 1.1405
+2025-09-27 14:37:08 | INFO     | [TESTNET BUY] 做多 EDU/USDT:USDT: 7040.7 @ 0.1418
+2025-09-27 14:37:08 | INFO     | [TESTNET MARKET] 创建市价单 EDU/USDT:USDT: buy 7040.7
+2025-09-27 14:37:08 | INFO     | [TESTNET SUCCESS] EDU/USDT:USDT 市价单创建成功 ID:17554647 成交:7040.0
+2025-09-27 14:37:08 | INFO     | [TESTNET OK] 多头开仓: 1/2 成功
+2025-09-27 14:37:08 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-09-27 14:37:08 | INFO     | [TESTNET SELL] 做空 ARC/USDT:USDT: 47609.4 @ 0.02097
+2025-09-27 14:37:08 | INFO     | [TESTNET MARKET] 创建市价单 ARC/USDT:USDT: sell 47609.4
+2025-09-27 14:37:08 | INFO     | [TESTNET SUCCESS] ARC/USDT:USDT 市价单创建成功 ID:24340545 成交:47609.0
+2025-09-27 14:37:08 | INFO     | [TESTNET SELL] 做空 HUMA/USDT:USDT: 30657.8 @ 0.032565
+2025-09-27 14:37:08 | INFO     | [TESTNET MARKET] 创建市价单 HUMA/USDT:USDT: sell 30657.8
+2025-09-27 14:37:08 | INFO     | [TESTNET SUCCESS] HUMA/USDT:USDT 市价单创建成功 ID:7292141 成交:30657.0
+2025-09-27 14:37:08 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-09-27 14:37:08 | INFO     | [STEP 7] 开仓交易完成
+2025-09-27 14:37:08 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-09-27 14:37:08 | INFO     | [OK] 交易周期执行成功
+2025-09-27 14:37:08 | INFO     | [TIME] 周期耗时: 24.3秒
+2025-09-27 14:37:08 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-09-27 16:29:19 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/trading_testnet_20250927.log
+2025-09-27 16:29:19 | INFO     | ============================================================
+2025-09-27 16:29:19 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-09-27 16:29:19 | INFO     | ============================================================
+2025-09-27 16:29:19 | INFO     | [INIT] 初始化交易组件...
+2025-09-27 16:29:19 | INFO     | [OK] API连接成功 - TESTNET
+2025-09-27 16:29:19 | INFO     | [BALANCE] USDT总余额: 3985.05
+2025-09-27 16:29:19 | INFO     | [INFO] 找到 495 个活跃USDT永续合约
+2025-09-27 16:29:19 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-09-27 16:29:19 | INFO     | [OK] 交易执行器初始化成功
+2025-09-27 16:29:20 | INFO     | [OK] API连接测试成功，耗时: 0.467秒
+2025-09-27 16:29:20 | INFO     | [OK] 优化数据处理器初始化成功
+2025-09-27 16:29:20 | INFO     | [OK] 优化因子计算器初始化成功
+2025-09-27 16:29:20 | INFO     |    设备: cpu
+2025-09-27 16:29:20 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-09-27 16:29:20 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/t_2025-06_2025-06_mse_256_1d.pt
+2025-09-27 16:29:20 | INFO     | [BALANCE] 当前账户余额: 3985.05 USDT
+2025-09-27 16:29:21 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 16:29:20
+💰 USDT余额: 3985.05
+🔧 环境: 测试网
+2025-09-27 16:29:21 | INFO     | [BALANCE] 余额通知已发送: 3985.05 USDT
+2025-09-27 16:29:21 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-09-27 16:29:21 | INFO     | [LOOP] 开始主交易循环
+2025-09-27 16:29:21 | INFO     | 
+==================================================
+2025-09-27 16:29:21 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-09-27 16:29:21 | INFO     | [TIME] 开始时间: 2025-09-27 16:29:21
+2025-09-27 16:29:21 | INFO     | ==================================================
+2025-09-27 16:29:21 | INFO     | [STEP 1] 平仓所有现有仓位...
+2025-09-27 16:29:21 | INFO     | [TESTNET CLOSE] 开始平仓所有仓位...
+2025-09-27 16:29:21 | INFO     | [TESTNET OK] 当前无持仓，无需平仓
+2025-09-27 16:29:21 | INFO     | [STEP 2] 验证平仓完成...
+2025-09-27 16:29:21 | INFO     | [INFO] 跳过详细平仓验证，继续执行
+2025-09-27 16:29:21 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-09-27 16:29:21 | INFO     | [BALANCE] 当前保证金余额: 3985.05 USDT
+2025-09-27 16:29:21 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 16:29:21
+💰 USDT余额: 3985.05
+🔧 环境: 测试网
+2025-09-27 16:29:21 | INFO     | [BALANCE] 余额通知已发送: 3985.05 USDT
+2025-09-27 16:29:21 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-09-27 16:29:21 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-09-27 16:29:43 | INFO     | [FACTORS] 计算得到 489 个有效因子
+2025-09-27 16:29:43 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-09-27 16:29:43 | INFO     | [STATS] 因子统计:
+2025-09-27 16:29:43 | INFO     |    总计: 489 个标的
+2025-09-27 16:29:43 | INFO     |    因子值范围: -0.057623 ~ 0.071784
+2025-09-27 16:29:43 | INFO     |    选择做多: 2 个
+2025-09-27 16:29:43 | INFO     |    选择做空: 2 个
+2025-09-27 16:29:43 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-09-27 16:29:43 | INFO     |    XNY/USDT:USDT: 0.071784
+2025-09-27 16:29:43 | INFO     |    IN/USDT:USDT: 0.060256
+2025-09-27 16:29:43 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-09-27 16:29:43 | INFO     |    LUNA2/USDT:USDT: -0.055029
+2025-09-27 16:29:43 | INFO     |    XPL/USDT:USDT: -0.057623
+2025-09-27 16:29:43 | INFO     | [SELECTION] 选择交易标的:
+2025-09-27 16:29:43 | INFO     |    做多: ['XNY/USDT:USDT', 'IN/USDT:USDT']
+2025-09-27 16:29:43 | INFO     |    做空: ['LUNA2/USDT:USDT', 'XPL/USDT:USDT']
+2025-09-27 16:29:43 | INFO     | [STEP 6] 执行开仓交易...
+2025-09-27 16:29:43 | INFO     | [BALANCE] 总余额: 3985.05 USDT
+2025-09-27 16:29:43 | INFO     | [INFO] 总仓位数: 4
+2025-09-27 16:29:43 | INFO     | [VALUE] 单仓价值: 986.30 USDT
+2025-09-27 16:29:43 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-09-27 16:29:43 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-09-27 16:29:43 | INFO     | [TESTNET BUY] 做多 XNY/USDT:USDT: 131401.4 @ 0.007506
+2025-09-27 16:29:43 | INFO     | [TESTNET MARKET] 创建市价单 XNY/USDT:USDT: buy 131401.4
+2025-09-27 16:29:43 | INFO     | [TESTNET SUCCESS] XNY/USDT:USDT 市价单创建成功 ID:8160379 成交:131401.0
+2025-09-27 16:29:43 | INFO     | [TESTNET BUY] 做多 IN/USDT:USDT: 11727.7 @ 0.0841
+2025-09-27 16:29:43 | INFO     | [TESTNET MARKET] 创建市价单 IN/USDT:USDT: buy 11727.7
+2025-09-27 16:29:43 | INFO     | [TESTNET SUCCESS] IN/USDT:USDT 市价单创建成功 ID:7417025 成交:11727.0
+2025-09-27 16:29:43 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-09-27 16:29:43 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-09-27 16:29:43 | INFO     | [TESTNET SELL] 做空 LUNA2/USDT:USDT: 7055.1 @ 0.1398
+2025-09-27 16:29:43 | INFO     | [TESTNET MARKET] 创建市价单 LUNA2/USDT:USDT: sell 7055.1
+2025-09-27 16:29:43 | INFO     | [TESTNET SUCCESS] LUNA2/USDT:USDT 市价单创建成功 ID:23572600 成交:7055.0
+2025-09-27 16:29:43 | INFO     | [TESTNET SELL] 做空 XPL/USDT:USDT: 644.3 @ 1.5308
+2025-09-27 16:29:43 | INFO     | [TESTNET MARKET] 创建市价单 XPL/USDT:USDT: sell 644.3
+2025-09-27 16:29:43 | INFO     | [TESTNET SUCCESS] XPL/USDT:USDT 市价单创建成功 ID:4853403 成交:644.0
+2025-09-27 16:29:43 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-09-27 16:29:43 | INFO     | [STEP 7] 开仓交易完成
+2025-09-27 16:29:43 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-09-27 16:29:43 | INFO     | [OK] 交易周期执行成功
+2025-09-27 16:29:43 | INFO     | [TIME] 周期耗时: 22.7秒
+2025-09-27 16:29:43 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-09-27 17:45:44 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/trading_testnet_20250927.log
+2025-09-27 17:45:44 | INFO     | ============================================================
+2025-09-27 17:45:44 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-09-27 17:45:44 | INFO     | ============================================================
+2025-09-27 17:45:44 | INFO     | [INIT] 初始化交易组件...
+2025-09-27 17:45:45 | INFO     | [OK] API连接成功 - TESTNET
+2025-09-27 17:45:45 | INFO     | [BALANCE] USDT总余额: 3887.70
+2025-09-27 17:45:45 | INFO     | [INFO] 找到 495 个活跃USDT永续合约
+2025-09-27 17:45:45 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-09-27 17:45:45 | INFO     | [OK] 交易执行器初始化成功
+2025-09-27 17:45:45 | INFO     | [OK] API连接测试成功，耗时: 0.487秒
+2025-09-27 17:45:45 | INFO     | [OK] 优化数据处理器初始化成功
+2025-09-27 17:45:45 | INFO     | [OK] 优化因子计算器初始化成功
+2025-09-27 17:45:45 | INFO     |    设备: cpu
+2025-09-27 17:45:45 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-09-27 17:45:45 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/t_2025-06_2025-06_mse_256_1d.pt
+2025-09-27 17:45:45 | INFO     | [BALANCE] 当前账户余额: 4.42 USDT
+2025-09-27 17:45:46 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 17:45:45
+💰 USDT余额: 4.42
+🔧 环境: 测试网
+2025-09-27 17:45:46 | INFO     | [BALANCE] 余额通知已发送: 4.42 USDT
+2025-09-27 17:45:46 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-09-27 17:45:46 | INFO     | [LOOP] 开始主交易循环
+2025-09-27 17:45:46 | INFO     | 
+==================================================
+2025-09-27 17:45:46 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-09-27 17:45:46 | INFO     | [TIME] 开始时间: 2025-09-27 17:45:46
+2025-09-27 17:45:46 | INFO     | ==================================================
+2025-09-27 17:45:46 | INFO     | [STEP 1] 平仓所有现有仓位...
+2025-09-27 17:45:46 | INFO     | [TESTNET CLOSE] 开始平仓所有仓位...
+2025-09-27 17:45:46 | INFO     | [TESTNET POSITIONS] 发现 4 个持仓需要平仓
+2025-09-27 17:45:46 | INFO     | [TESTNET CLOSE] 平仓 LUNA2/USDT:USDT: buy 7055.0
+2025-09-27 17:45:46 | INFO     | [TESTNET MARKET] 创建市价单 LUNA2/USDT:USDT: buy 7055.0
+2025-09-27 17:45:46 | INFO     | [TESTNET SUCCESS] LUNA2/USDT:USDT 市价单创建成功 ID:23577868 成交:7055.0
+2025-09-27 17:45:46 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 LUNA2/USDT:USDT: 23577868
+2025-09-27 17:45:46 | INFO     | [TESTNET CLOSE] 平仓 XPL/USDT:USDT: buy 644.0
+2025-09-27 17:45:46 | INFO     | [TESTNET MARKET] 创建市价单 XPL/USDT:USDT: buy 644.0
+2025-09-27 17:45:46 | INFO     | [TESTNET SUCCESS] XPL/USDT:USDT 市价单创建成功 ID:4861878 成交:644.0
+2025-09-27 17:45:46 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 XPL/USDT:USDT: 4861878
+2025-09-27 17:45:46 | INFO     | [TESTNET CLOSE] 平仓 XNY/USDT:USDT: sell 131401.0
+2025-09-27 17:45:46 | INFO     | [TESTNET MARKET] 创建市价单 XNY/USDT:USDT: sell 131401.0
+2025-09-27 17:45:46 | INFO     | [TESTNET SUCCESS] XNY/USDT:USDT 市价单创建成功 ID:8167170 成交:131401.0
+2025-09-27 17:45:46 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 XNY/USDT:USDT: 8167170
+2025-09-27 17:45:46 | INFO     | [TESTNET CLOSE] 平仓 IN/USDT:USDT: sell 11727.0
+2025-09-27 17:45:46 | INFO     | [TESTNET MARKET] 创建市价单 IN/USDT:USDT: sell 11727.0
+2025-09-27 17:45:46 | INFO     | [TESTNET SUCCESS] IN/USDT:USDT 市价单创建成功 ID:7425105 成交:11727.0
+2025-09-27 17:45:46 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 IN/USDT:USDT: 7425105
+2025-09-27 17:45:46 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-09-27 17:45:48 | INFO     | [TESTNET OK] 平仓操作完成
+2025-09-27 17:45:48 | INFO     | [STEP 2] 验证平仓完成...
+2025-09-27 17:45:48 | INFO     | [INFO] 跳过详细平仓验证，继续执行
+2025-09-27 17:45:48 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-09-27 17:45:48 | INFO     | [BALANCE] 当前保证金余额: 3876.15 USDT
+2025-09-27 17:45:49 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 17:45:48
+💰 USDT余额: 3876.15
+🔧 环境: 测试网
+2025-09-27 17:45:49 | INFO     | [BALANCE] 余额通知已发送: 3876.15 USDT
+2025-09-27 17:45:49 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-09-27 17:45:49 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-09-27 17:46:12 | INFO     | [FACTORS] 计算得到 489 个有效因子
+2025-09-27 17:46:12 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-09-27 17:46:12 | INFO     | [STATS] 因子统计:
+2025-09-27 17:46:12 | INFO     |    总计: 489 个标的
+2025-09-27 17:46:12 | INFO     |    因子值范围: -0.054250 ~ 0.082516
+2025-09-27 17:46:12 | INFO     |    选择做多: 2 个
+2025-09-27 17:46:12 | INFO     |    选择做空: 2 个
+2025-09-27 17:46:12 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-09-27 17:46:12 | INFO     |    XNY/USDT:USDT: 0.082516
+2025-09-27 17:46:12 | INFO     |    IN/USDT:USDT: 0.078856
+2025-09-27 17:46:12 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-09-27 17:46:12 | INFO     |    SPK/USDT:USDT: -0.053845
+2025-09-27 17:46:12 | INFO     |    MILK/USDT:USDT: -0.054250
+2025-09-27 17:46:12 | INFO     | [SELECTION] 选择交易标的:
+2025-09-27 17:46:12 | INFO     |    做多: ['XNY/USDT:USDT', 'IN/USDT:USDT']
+2025-09-27 17:46:12 | INFO     |    做空: ['SPK/USDT:USDT', 'MILK/USDT:USDT']
+2025-09-27 17:46:12 | INFO     | [STEP 6] 执行开仓交易...
+2025-09-27 17:46:12 | INFO     | [BALANCE] 总余额: 3876.15 USDT
+2025-09-27 17:46:12 | INFO     | [INFO] 总仓位数: 4
+2025-09-27 17:46:12 | INFO     | [VALUE] 单仓价值: 959.35 USDT
+2025-09-27 17:46:12 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-09-27 17:46:12 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-09-27 17:46:12 | INFO     | [TESTNET BUY] 做多 XNY/USDT:USDT: 132232.5 @ 0.007255
+2025-09-27 17:46:12 | INFO     | [TESTNET MARKET] 创建市价单 XNY/USDT:USDT: buy 132232.5
+2025-09-27 17:46:12 | INFO     | [TESTNET SUCCESS] XNY/USDT:USDT 市价单创建成功 ID:8167203 成交:132232.0
+2025-09-27 17:46:12 | INFO     | [TESTNET BUY] 做多 IN/USDT:USDT: 11759.6 @ 0.08158
+2025-09-27 17:46:12 | INFO     | [TESTNET MARKET] 创建市价单 IN/USDT:USDT: buy 11759.6
+2025-09-27 17:46:12 | INFO     | [TESTNET SUCCESS] IN/USDT:USDT 市价单创建成功 ID:7425134 成交:11759.0
+2025-09-27 17:46:12 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-09-27 17:46:12 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-09-27 17:46:12 | INFO     | [TESTNET SELL] 做空 SPK/USDT:USDT: 18371.2 @ 0.05222
+2025-09-27 17:46:12 | INFO     | [TESTNET MARKET] 创建市价单 SPK/USDT:USDT: sell 18371.2
+2025-09-27 17:46:12 | INFO     | [TESTNET SUCCESS] SPK/USDT:USDT 市价单创建成功 ID:6360496 成交:18371.0
+2025-09-27 17:46:13 | INFO     | [TESTNET SELL] 做空 MILK/USDT:USDT: 23629.2 @ 0.0406
+2025-09-27 17:46:13 | INFO     | [TESTNET MARKET] 创建市价单 MILK/USDT:USDT: sell 23629.2
+2025-09-27 17:46:13 | INFO     | [TESTNET SUCCESS] MILK/USDT:USDT 市价单创建成功 ID:9017260 成交:23629.0
+2025-09-27 17:46:13 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-09-27 17:46:13 | INFO     | [STEP 7] 开仓交易完成
+2025-09-27 17:46:13 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-09-27 17:46:13 | INFO     | [OK] 交易周期执行成功
+2025-09-27 17:46:13 | INFO     | [TIME] 周期耗时: 27.1秒
+2025-09-27 17:46:13 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-09-27 18:05:37 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/trading_testnet_20250927.log
+2025-09-27 18:05:37 | INFO     | ============================================================
+2025-09-27 18:05:37 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-09-27 18:05:37 | INFO     | ============================================================
+2025-09-27 18:05:37 | INFO     | [INIT] 初始化交易组件...
+2025-09-27 18:05:37 | INFO     | [OK] API连接成功 - TESTNET
+2025-09-27 18:05:37 | INFO     | [BALANCE] USDT总余额: 3860.20
+2025-09-27 18:05:37 | INFO     | [INFO] 找到 495 个活跃USDT永续合约
+2025-09-27 18:05:37 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-09-27 18:05:37 | INFO     | [OK] 交易执行器初始化成功
+2025-09-27 18:05:37 | INFO     | [OK] API连接测试成功，耗时: 0.465秒
+2025-09-27 18:05:37 | INFO     | [OK] 优化数据处理器初始化成功
+2025-09-27 18:05:37 | INFO     | [OK] 优化因子计算器初始化成功
+2025-09-27 18:05:37 | INFO     |    设备: cpu
+2025-09-27 18:05:37 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-09-27 18:05:37 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/t_2025-06_2025-06_mse_256_1d.pt
+2025-09-27 18:05:37 | INFO     | [BALANCE] 当前账户余额: 19.64 USDT
+2025-09-27 18:05:38 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 18:05:37
+💰 USDT余额: 19.64
+🔧 环境: 测试网
+2025-09-27 18:05:38 | INFO     | [BALANCE] 余额通知已发送: 19.64 USDT
+2025-09-27 18:05:38 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-09-27 18:05:38 | INFO     | [LOOP] 开始主交易循环
+2025-09-27 18:05:38 | INFO     | 
+==================================================
+2025-09-27 18:05:38 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-09-27 18:05:38 | INFO     | [TIME] 开始时间: 2025-09-27 18:05:38
+2025-09-27 18:05:38 | INFO     | ==================================================
+2025-09-27 18:05:38 | INFO     | [STEP 1] 平仓所有现有仓位...
+2025-09-27 18:05:38 | INFO     | [TESTNET CLOSE] 开始平仓所有仓位...
+2025-09-27 18:05:38 | INFO     | [TESTNET POSITIONS] 发现 4 个持仓需要平仓
+2025-09-27 18:05:38 | INFO     | [TESTNET CLOSE] 平仓 MILK/USDT:USDT: buy 23629.0
+2025-09-27 18:05:38 | INFO     | [TESTNET MARKET] 创建市价单 MILK/USDT:USDT: buy 23629.0
+2025-09-27 18:05:38 | INFO     | [TESTNET SUCCESS] MILK/USDT:USDT 市价单创建成功 ID:9018874 成交:23629.0
+2025-09-27 18:05:38 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 MILK/USDT:USDT: 9018874
+2025-09-27 18:05:38 | INFO     | [TESTNET CLOSE] 平仓 SPK/USDT:USDT: buy 18371.0
+2025-09-27 18:05:38 | INFO     | [TESTNET MARKET] 创建市价单 SPK/USDT:USDT: buy 18371.0
+2025-09-27 18:05:38 | INFO     | [TESTNET SUCCESS] SPK/USDT:USDT 市价单创建成功 ID:6362754 成交:18371.0
+2025-09-27 18:05:38 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 SPK/USDT:USDT: 6362754
+2025-09-27 18:05:38 | INFO     | [TESTNET CLOSE] 平仓 XNY/USDT:USDT: sell 132232.0
+2025-09-27 18:05:38 | INFO     | [TESTNET MARKET] 创建市价单 XNY/USDT:USDT: sell 132232.0
+2025-09-27 18:05:38 | INFO     | [TESTNET SUCCESS] XNY/USDT:USDT 市价单创建成功 ID:8168526 成交:132232.0
+2025-09-27 18:05:38 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 XNY/USDT:USDT: 8168526
+2025-09-27 18:05:38 | INFO     | [TESTNET CLOSE] 平仓 IN/USDT:USDT: sell 11759.0
+2025-09-27 18:05:38 | INFO     | [TESTNET MARKET] 创建市价单 IN/USDT:USDT: sell 11759.0
+2025-09-27 18:05:38 | INFO     | [TESTNET SUCCESS] IN/USDT:USDT 市价单创建成功 ID:7426483 成交:11759.0
+2025-09-27 18:05:38 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 IN/USDT:USDT: 7426483
+2025-09-27 18:05:39 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-09-27 18:05:41 | INFO     | [TESTNET OK] 平仓操作完成
+2025-09-27 18:05:41 | INFO     | [STEP 2] 验证平仓完成...
+2025-09-27 18:05:41 | INFO     | [INFO] 跳过详细平仓验证，继续执行
+2025-09-27 18:05:41 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-09-27 18:05:41 | INFO     | [BALANCE] 当前保证金余额: 3840.62 USDT
+2025-09-27 18:05:41 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-27 18:05:41
+💰 USDT余额: 3840.62
+🔧 环境: 测试网
+2025-09-27 18:05:41 | INFO     | [BALANCE] 余额通知已发送: 3840.62 USDT
+2025-09-27 18:05:41 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-09-27 18:05:41 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.002秒
+2025-09-27 18:06:02 | INFO     | [FACTORS] 计算得到 489 个有效因子
+2025-09-27 18:06:02 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-09-27 18:06:02 | INFO     | [STATS] 因子统计:
+2025-09-27 18:06:02 | INFO     |    总计: 489 个标的
+2025-09-27 18:06:02 | INFO     |    因子值范围: -0.067020 ~ 0.076993
+2025-09-27 18:06:02 | INFO     |    选择做多: 2 个
+2025-09-27 18:06:02 | INFO     |    选择做空: 2 个
+2025-09-27 18:06:02 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-09-27 18:06:02 | INFO     |    B/USDT:USDT: 0.076993
+2025-09-27 18:06:02 | INFO     |    XNY/USDT:USDT: 0.076842
+2025-09-27 18:06:02 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-09-27 18:06:02 | INFO     |    HIPPO/USDT:USDT: -0.061031
+2025-09-27 18:06:02 | INFO     |    BCH/USDT:USDT: -0.067020
+2025-09-27 18:06:02 | INFO     | [SELECTION] 选择交易标的:
+2025-09-27 18:06:02 | INFO     |    做多: ['B/USDT:USDT', 'XNY/USDT:USDT']
+2025-09-27 18:06:02 | INFO     |    做空: ['HIPPO/USDT:USDT', 'BCH/USDT:USDT']
+2025-09-27 18:06:02 | INFO     | [STEP 6] 执行开仓交易...
+2025-09-27 18:06:02 | INFO     | [BALANCE] 总余额: 3840.62 USDT
+2025-09-27 18:06:02 | INFO     | [INFO] 总仓位数: 4
+2025-09-27 18:06:02 | INFO     | [VALUE] 单仓价值: 950.55 USDT
+2025-09-27 18:06:02 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-09-27 18:06:02 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-09-27 18:06:02 | INFO     | [TESTNET BUY] 做多 B/USDT:USDT: 2536.2 @ 0.3748
+2025-09-27 18:06:02 | INFO     | [TESTNET MARKET] 创建市价单 B/USDT:USDT: buy 2536.2
+2025-09-27 18:06:02 | INFO     | [TESTNET SUCCESS] B/USDT:USDT 市价单创建成功 ID:5942526 成交:2536.0
+2025-09-27 18:06:02 | INFO     | [TESTNET BUY] 做多 XNY/USDT:USDT: 130858.0 @ 0.007264
+2025-09-27 18:06:02 | INFO     | [TESTNET MARKET] 创建市价单 XNY/USDT:USDT: buy 130858.0
+2025-09-27 18:06:02 | INFO     | [TESTNET SUCCESS] XNY/USDT:USDT 市价单创建成功 ID:8168553 成交:130858.0
+2025-09-27 18:06:03 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-09-27 18:06:03 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-09-27 18:06:03 | INFO     | [TESTNET SELL] 做空 HIPPO/USDT:USDT: 289273.5 @ 0.003286
+2025-09-27 18:06:03 | INFO     | [TESTNET MARKET] 创建市价单 HIPPO/USDT:USDT: sell 289273.5
+2025-09-27 18:06:03 | INFO     | [TESTNET SUCCESS] HIPPO/USDT:USDT 市价单创建成功 ID:11799976 成交:289273.0
+2025-09-27 18:06:03 | INFO     | [TESTNET SELL] 做空 BCH/USDT:USDT: 1.758 @ 540.61
+2025-09-27 18:06:03 | INFO     | [TESTNET MARKET] 创建市价单 BCH/USDT:USDT: sell 1.758
+2025-09-27 18:06:03 | INFO     | [TESTNET SUCCESS] BCH/USDT:USDT 市价单创建成功 ID:1116214338 成交:1.758
+2025-09-27 18:06:03 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-09-27 18:06:03 | INFO     | [STEP 7] 开仓交易完成
+2025-09-27 18:06:03 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-09-27 18:06:03 | INFO     | [OK] 交易周期执行成功
+2025-09-27 18:06:03 | INFO     | [TIME] 周期耗时: 24.7秒
+2025-09-27 18:06:03 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)

@@ -1,0 +1,46 @@
+2025-09-30 00:51:27 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/trading_testnet_20250930.log
+2025-09-30 00:51:27 | INFO     | ============================================================
+2025-09-30 00:51:27 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-09-30 00:51:27 | INFO     | ============================================================
+2025-09-30 00:51:27 | INFO     | [INIT] 初始化交易组件...
+2025-09-30 00:51:27 | INFO     | [OK] API连接成功 - TESTNET
+2025-09-30 00:51:27 | INFO     | [BALANCE] USDT总余额: 3663.71
+2025-09-30 00:51:27 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-09-30 00:51:27 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-09-30 00:51:27 | INFO     | [OK] 交易执行器初始化成功
+2025-09-30 00:51:28 | INFO     | [OK] API连接测试成功，耗时: 0.776秒
+2025-09-30 00:51:28 | INFO     | [OK] 优化数据处理器初始化成功
+2025-09-30 00:51:28 | ERROR    | [ERROR] 加载模型失败: 模型文件不存在: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/tbaseline_epoch_69_train_0.02644_val_0.02999.pt
+请检查 config.py 中的 MODEL_PATH 配置是否正确
+2025-09-30 00:51:28 | ERROR    | [ERROR] 优化因子计算器初始化失败: 模型文件不存在: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/tbaseline_epoch_69_train_0.02644_val_0.02999.pt
+请检查 config.py 中的 MODEL_PATH 配置是否正确
+2025-09-30 00:51:28 | ERROR    | [ERROR] 组件初始化失败: 模型文件不存在: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/tbaseline_epoch_69_train_0.02644_val_0.02999.pt
+请检查 config.py 中的 MODEL_PATH 配置是否正确
+2025-09-30 00:51:49 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/trading_testnet_20250930.log
+2025-09-30 00:51:49 | INFO     | ============================================================
+2025-09-30 00:51:49 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-09-30 00:51:49 | INFO     | ============================================================
+2025-09-30 00:51:49 | INFO     | [INIT] 初始化交易组件...
+2025-09-30 00:51:49 | INFO     | [OK] API连接成功 - TESTNET
+2025-09-30 00:51:49 | INFO     | [BALANCE] USDT总余额: 3661.33
+2025-09-30 00:51:49 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-09-30 00:51:49 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-09-30 00:51:49 | INFO     | [OK] 交易执行器初始化成功
+2025-09-30 00:51:50 | INFO     | [OK] API连接测试成功，耗时: 0.484秒
+2025-09-30 00:51:50 | INFO     | [OK] 优化数据处理器初始化成功
+2025-09-30 00:51:50 | INFO     | [OK] 优化因子计算器初始化成功
+2025-09-30 00:51:50 | INFO     |    设备: cpu
+2025-09-30 00:51:50 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-09-30 00:51:50 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_69_train_0.02644_val_0.02999.pt
+2025-09-30 00:51:50 | INFO     | [BALANCE] 当前账户余额: 0.00 USDT
+2025-09-30 00:51:50 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-09-30 00:51:50
+💰 USDT余额: 0.00
+🔧 环境: 测试网
+2025-09-30 00:51:50 | INFO     | [BALANCE] 余额通知已发送: 0.00 USDT
+2025-09-30 00:51:50 | INFO     | [OK] 系统初始化完成，每日 04:00 执行交易
+2025-09-30 00:51:50 | INFO     | [SCHEDULE] 下次执行时间: 2025-09-30 04:00:00
+2025-09-30 00:51:50 | INFO     | [LOOP] 开始主交易循环
+2025-09-30 00:51:50 | INFO     | [DAILY] 等待首次执行时间: 2025-09-30 04:00:00
+2025-09-30 00:51:50 | INFO     | [DAILY] 每日执行模式 - 下次执行时间: 2025-09-30 04:00:00
+2025-09-30 00:51:50 | INFO     | [WAIT] 等待 11289 秒 (3.1 小时)
