@@ -19,8 +19,8 @@ class TradingConfig:
         self.use_testnet = use_testnet
 
         # 基础交易配置
-        self.EXECUTION_MODE = 'daily'     # 执行模式: 'interval' 或 'daily'
-        self.EXECUTION_HOUR = 4           # 每日执行时间 (24小时制)
+        self.EXECUTION_MODE = '16h'       # 执行模式: 'interval'、'daily' 或 '16h'
+        self.EXECUTION_HOUR = 4           # 每日执行时间 (24小时制，仅在daily模式下使用)
         self.REBALANCE_INTERVAL = 60      # 5分钟 = 300秒 (仅在interval模式下使用)
         self.TOP_N_LONG = 2            # 做多币种数量
         self.TOP_N_SHORT = 2             # 做空币种数量
@@ -43,7 +43,7 @@ class TradingConfig:
         # 模型路径配置
         self.MODEL_PATH = os.path.join(
             os.path.dirname(__file__), '..', '..', 'figure_model', 'model_saved',
-            'baseline_epoch_69_train_0.02644_val_0.02999.pt'
+            'baseline_epoch_50_train_0.02188_val_0.02376.pt'
         )
 
         # API配置
@@ -51,13 +51,14 @@ class TradingConfig:
 
         # 日志配置
         self.LOG_LEVEL = 'INFO'
-        env_suffix = 'testnet' if use_testnet else 'live'
+        self.LOG_FILENAME = "testnet1005-1"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
 
         # 创建日志目录路径
         log_dir = os.path.join(os.path.dirname(__file__), 'logs')
         os.makedirs(log_dir, exist_ok=True)
 
-        self.LOG_FILE = os.path.join(log_dir, f'trading_{env_suffix}_{self._get_date_str()}.log')
+        # 生成日志文件路径
+        self.LOG_FILE = self._generate_log_file_path(log_dir)
 
     def _setup_api_config(self):
         """设置API配置"""
@@ -73,6 +74,27 @@ class TradingConfig:
             self.API_SECRET = os.environ['BINANCE_API_SECRET']
             self.BASE_URL = 'https://fapi.binance.com'
             self.ENV_NAME = 'LIVE'
+
+    def _generate_log_file_path(self, log_dir: str) -> str:
+        """
+        生成日志文件路径
+
+        Args:
+            log_dir: 日志目录路径
+
+        Returns:
+            str: 完整的日志文件路径
+        """
+        env_suffix = 'testnet' if self.use_testnet else 'live'
+
+        if self.LOG_FILENAME:
+            # 使用自定义文件名
+            filename = f'{self.LOG_FILENAME}.log'
+        else:
+            # 使用默认时间命名
+            filename = f'trading_{env_suffix}_{self._get_date_str()}.log'
+
+        return os.path.join(log_dir, filename)
 
     def _get_date_str(self) -> str:
         """获取当前日期字符串"""
@@ -130,6 +152,10 @@ class TradingConfig:
             print("错误: 每日执行时间必须在0-23之间")
             return False
 
+        if self.EXECUTION_MODE not in ['interval', 'daily', '16h']:
+            print("错误: 执行模式必须是 'interval'、'daily' 或 '16h'")
+            return False
+
         # 检查分批交易参数
         if self.MAX_BATCH_COUNT <= 0:
             print("错误: 最大分批数量必须大于0")
@@ -154,6 +180,8 @@ class TradingConfig:
         print(f"执行模式: {self.EXECUTION_MODE}")
         if self.EXECUTION_MODE == 'daily':
             print(f"每日执行时间: {self.EXECUTION_HOUR:02d}:00")
+        elif self.EXECUTION_MODE == '16h':
+            print(f"16小时周期执行: 0点、8点、16点循环调仓")
         else:
             print(f"重新平衡间隔: {self.REBALANCE_INTERVAL}秒 ({self.REBALANCE_INTERVAL//60}分钟)")
         print(f"做多标的数量: {self.TOP_N_LONG}")
@@ -167,7 +195,10 @@ class TradingConfig:
             print(f"  最大分批数量: {'无限制' if self.MAX_BATCH_COUNT >= 999 else self.MAX_BATCH_COUNT}")
             print(f"  最小分批比例: {self.MIN_BATCH_SIZE_RATIO*100:.1f}% (基于单批最大值)")
             print(f"  批次等待时间: {self.BATCH_WAIT_TIME}秒")
-        print(f"日志文件: {self.LOG_FILE}")
+        print(f"日志文件名配置: {'自定义' if self.LOG_FILENAME else '自动生成'}")
+        if self.LOG_FILENAME:
+            print(f"  自定义文件名: {self.LOG_FILENAME}")
+        print(f"日志文件路径: {self.LOG_FILE}")
         print("=" * 50)
 
 
