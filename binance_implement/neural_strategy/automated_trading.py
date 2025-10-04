@@ -58,6 +58,8 @@ class AutomatedTradingSystem:
         self.current_positions = {}
         self.current_balance = 0.0
 
+        self.is_16h_open = False  # 标记是否刚执行完16小时的开仓
+
         # 注册信号处理
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
@@ -91,6 +93,10 @@ class AutomatedTradingSystem:
         if self.config.EXECUTION_MODE == 'daily':
             next_execution = self._get_next_execution_time()
             self.logger.info(f"[OK] 系统初始化完成，每日 {self.config.EXECUTION_HOUR:02d}:00 执行交易")
+            self.logger.info(f"[SCHEDULE] 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
+        elif self.config.EXECUTION_MODE == '16h':
+            next_execution = self._get_next_16h_execution_time()
+            self.logger.info(f"[OK] 系统初始化完成，16小时周期执行 (0点、8点、16点)")
             self.logger.info(f"[SCHEDULE] 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
         else:
             self.logger.info(f"[OK] 系统初始化完成，每 {self.config.REBALANCE_INTERVAL//60} 分钟执行交易")
@@ -139,6 +145,14 @@ class AutomatedTradingSystem:
             if (next_execution - now).total_seconds() > 60:  # 超过1分钟才等待
                 self.logger.info(f"[DAILY] 等待首次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
                 await self._wait_for_daily_execution()
+        elif self.config.EXECUTION_MODE == '16h':
+            next_execution = self._get_next_16h_execution_time()
+            now = datetime.now()
+
+            # 如果下次执行时间不是现在，先等待
+            if (next_execution - now).total_seconds() > 60:  # 超过1分钟才等待
+                self.logger.info(f"[16H] 等待首次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
+                await self._wait_for_16h_execution()
 
         while True:
             try:
@@ -159,6 +173,8 @@ class AutomatedTradingSystem:
                 else:
                     self.logger.warning("[WARNING] 交易周期执行失败")
                     self.monitor.record_failure()
+                
+                self.is_16h_open = True
 
                 # 记录执行时间
                 cycle_duration = (datetime.now() - cycle_start_time).total_seconds()
@@ -325,10 +341,41 @@ class AutomatedTradingSystem:
         else:
             return today_target
 
+    def _get_next_16h_execution_time(self) -> datetime:
+        """获取下次16小时模式执行时间 (0点、8点、16点)"""
+        now = datetime.now()
+
+        # 16小时模式的执行时间点
+        execution_hours = [0, 8, 16]
+
+        # 获取当前日期，时分秒设为0
+        today = now.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        if self.is_16h_open:
+            base = now.replace(minute=0, second=0, microsecond=0)
+            return base + timedelta(hours=16)
+        else:
+            # 计算今天所有的执行时间点
+            today_targets = []
+            for hour in execution_hours:
+                target = today.replace(hour=hour)
+                today_targets.append(target)
+
+            # 寻找下一个执行时间
+            for target in today_targets:
+                if now < target:
+                    return target
+
+            # 如果今天的执行时间都已过，返回明天的第一个执行时间 (0点)
+            tomorrow_first = today + timedelta(days=1)
+            return tomorrow_first.replace(hour=0)
+
     async def _wait_for_next_cycle(self):
         """等待下一个交易周期"""
         if self.config.EXECUTION_MODE == 'daily':
             await self._wait_for_daily_execution()
+        elif self.config.EXECUTION_MODE == '16h':
+            await self._wait_for_16h_execution()
         else:
             await self._wait_for_interval_execution()
 
@@ -350,6 +397,31 @@ class AutomatedTradingSystem:
         wait_seconds = (next_execution - now).total_seconds()
 
         self.logger.info(f"[DAILY] 每日执行模式 - 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
+        self.logger.info(f"[WAIT] 等待 {wait_seconds:.0f} 秒 ({wait_seconds/3600:.1f} 小时)")
+
+        # 分批等待，每小时打印一次状态
+        while wait_seconds > 0:
+            if wait_seconds > 3600:
+                # 等待1小时
+                await asyncio.sleep(3600)
+                wait_seconds -= 3600
+                remaining_hours = wait_seconds / 3600
+                self.logger.info(f"[WAIT] 剩余等待时间: {remaining_hours:.1f} 小时")
+            else:
+                # 最后的等待时间
+                self.logger.info(f"[WAIT] 最后等待: {wait_seconds:.0f} 秒")
+                await asyncio.sleep(wait_seconds)
+                break
+
+    async def _wait_for_16h_execution(self):
+        """等待16小时模式执行时间 (0点、8点、16点)"""
+        now = datetime.now()
+
+        # 计算下次执行时间
+        next_execution = self._get_next_16h_execution_time()
+        wait_seconds = (next_execution - now).total_seconds()
+
+        self.logger.info(f"[16H] 16小时执行模式 - 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
         self.logger.info(f"[WAIT] 等待 {wait_seconds:.0f} 秒 ({wait_seconds/3600:.1f} 小时)")
 
         # 分批等待，每小时打印一次状态

@@ -19,6 +19,7 @@ import torch.nn as nn
 from tqdm import tqdm
 from typing import Optional, Dict, List
 from datetime import datetime
+from ohlc_model import create_model
 
 # 添加项目路径
 project_root = os.path.join(os.path.dirname(__file__), '..', '..')
@@ -30,43 +31,6 @@ sys.path.insert(0, figure_model_root)
 
 from figure_model.ohlc2fig import ohlc_to_image_with_volume
 
-
-
-class OHLCImageCNN(nn.Module):
-    """OHLC图像CNN模型架构"""
-
-    def __init__(self):
-        super(OHLCImageCNN, self).__init__()
-        self.layer1 = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=(5,3), stride=(3,1), dilation=(2,1), padding=(12,1)),
-            nn.BatchNorm2d(64),
-            nn.LeakyReLU(negative_slope=0.01, inplace=True),
-            nn.MaxPool2d((2, 1), stride=(2, 1)),
-        )
-        self.layer2 = nn.Sequential(
-            nn.Conv2d(64, 128, kernel_size=(5,3), stride=(3,1), dilation=(2,1), padding=(12,1)),
-            nn.BatchNorm2d(128),
-            nn.LeakyReLU(negative_slope=0.01, inplace=True),
-            nn.MaxPool2d((2, 1), stride=(2, 1)),
-        )
-        self.layer3 = nn.Sequential(
-            nn.Conv2d(128, 256, kernel_size=(5,3), stride=(3,1), dilation=(2,1), padding=(12,1)),
-            nn.BatchNorm2d(256),
-            nn.LeakyReLU(negative_slope=0.01, inplace=True),
-            nn.MaxPool2d((2, 1), stride=(2, 1)),
-        )
-        self.fc1 = nn.Sequential(
-            nn.Dropout(p=0.5),
-            nn.Linear(46080, 1),
-        )
-
-    def forward(self, x):
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
-        x = x.reshape(-1, 46080)
-        x = self.fc1(x)
-        return x
 
 
 class OptimizedFactorCalculator:
@@ -128,7 +92,7 @@ class OptimizedFactorCalculator:
                                       f"请检查 config.py 中的 MODEL_PATH 配置是否正确")
 
             # 创建模型架构
-            self.model = OHLCImageCNN()
+            self.model = create_model(use_parallel=torch.cuda.device_count() > 1)
 
             # 加载模型权重
             checkpoint = torch.load(self.model_path, map_location=self.device, weights_only=True)
