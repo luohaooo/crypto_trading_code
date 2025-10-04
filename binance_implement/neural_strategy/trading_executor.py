@@ -298,8 +298,161 @@ class TradingExecutor:
             self.logger.error(f"[LIVE ERROR] 平仓失败: {e}")
             return False
 
+    def close_specific_positions(self, positions_dict: dict) -> bool:
+        """
+        平仓指定仓位 - 环境路由方法
+
+        Args:
+            positions_dict: 仓位字典，格式: {symbol: {'side': 'long'/'short', 'quantity': float}}
+
+        Returns:
+            bool: 平仓是否成功
+        """
+        if self.use_testnet:
+            return self.close_specific_positions_testnet(positions_dict)
+        else:
+            return self.close_specific_positions_live(positions_dict)
+
+    def close_specific_positions_testnet(self, positions_dict: dict) -> bool:
+        """
+        模拟盘平仓指定仓位
+
+        Args:
+            positions_dict: 仓位字典，格式: {symbol: {'side': 'long'/'short', 'quantity': float}}
+
+        Returns:
+            bool: 平仓是否成功
+        """
+        try:
+            if not positions_dict:
+                self.logger.info("[TESTNET OK] 无指定仓位需要平仓")
+                return True
+
+            self.logger.info(f"[TESTNET CLOSE] 开始平仓指定仓位: {len(positions_dict)} 个")
+
+            close_orders = []
+            failed_positions = []
+
+            for symbol, position_info in positions_dict.items():
+                try:
+                    side = position_info['side']
+                    quantity = position_info['quantity']
+
+                    # 确定平仓方向 (做多仓位用sell平仓，做空仓位用buy平仓)
+                    close_side = 'sell' if side == 'long' else 'buy'
+
+                    self.logger.info(f"[TESTNET CLOSE] 平仓 {symbol}: {close_side} {quantity} (原{side}仓位)")
+
+                    # 模拟盘平仓
+                    order = self._create_market_order_testnet(
+                        symbol=symbol,
+                        side=close_side,
+                        amount=abs(quantity)
+                    )
+
+                    if order:
+                        close_orders.append(order)
+                        self.logger.info(f"[TESTNET SUCCESS] 平仓订单创建成功 {symbol}: {order.get('id', 'Unknown')}")
+                    else:
+                        self.logger.error(f"[TESTNET ERROR] 平仓失败 {symbol}")
+                        failed_positions.append(symbol)
+
+                    # 避免请求过于频繁
+                    time.sleep(0.1)
+
+                except Exception as e:
+                    self.logger.error(f"[TESTNET ERROR] 平仓 {symbol} 异常: {e}")
+                    failed_positions.append(symbol)
+                    continue
+
+            # 记录平仓结果
+            if failed_positions:
+                self.logger.warning(f"[TESTNET WARNING] {len(failed_positions)} 个仓位平仓失败: {failed_positions}")
+
+            # 等待订单执行
+            if close_orders:
+                self.logger.info(f"[TESTNET WAIT] 等待 {len(close_orders)} 个平仓订单执行...")
+                time.sleep(2)
+
+            success_count = len(positions_dict) - len(failed_positions)
+            self.logger.info(f"[TESTNET OK] 平仓操作完成，成功: {success_count}/{len(positions_dict)}")
+            return len(failed_positions) == 0
+
+        except Exception as e:
+            self.logger.error(f"[TESTNET ERROR] 指定仓位平仓失败: {e}")
+            return False
+
+    def close_specific_positions_live(self, positions_dict: dict) -> bool:
+        """
+        实盘平仓指定仓位
+
+        Args:
+            positions_dict: 仓位字典，格式: {symbol: {'side': 'long'/'short', 'quantity': float}}
+
+        Returns:
+            bool: 平仓是否成功
+        """
+        try:
+            if not positions_dict:
+                self.logger.info("[LIVE OK] 无指定仓位需要平仓")
+                return True
+
+            self.logger.info(f"[LIVE CLOSE] 开始平仓指定仓位: {len(positions_dict)} 个")
+
+            close_orders = []
+            failed_positions = []
+
+            for symbol, position_info in positions_dict.items():
+                try:
+                    side = position_info['side']
+                    quantity = position_info['quantity']
+
+                    # 确定平仓方向 (做多仓位用sell平仓，做空仓位用buy平仓)
+                    close_side = 'sell' if side == 'long' else 'buy'
+
+                    self.logger.info(f"[LIVE CLOSE] 平仓 {symbol}: {close_side} {quantity} (原{side}仓位)")
+
+                    # 实盘平仓
+                    order = self._create_market_order_live(
+                        symbol=symbol,
+                        side=close_side,
+                        amount=abs(quantity)
+                    )
+
+                    if order:
+                        close_orders.append(order)
+                        self.logger.info(f"[LIVE SUCCESS] 平仓订单创建成功 {symbol}: {order.get('id', 'Unknown')}")
+                    else:
+                        self.logger.error(f"[LIVE ERROR] 平仓失败 {symbol}")
+                        failed_positions.append(symbol)
+
+                    # 避免请求过于频繁
+                    time.sleep(0.1)
+
+                except Exception as e:
+                    self.logger.error(f"[LIVE ERROR] 平仓 {symbol} 异常: {e}")
+                    failed_positions.append(symbol)
+                    continue
+
+            # 记录平仓结果
+            if failed_positions:
+                self.logger.warning(f"[LIVE WARNING] {len(failed_positions)} 个仓位平仓失败: {failed_positions}")
+
+            # 等待订单执行
+            if close_orders:
+                self.logger.info(f"[LIVE WAIT] 等待 {len(close_orders)} 个平仓订单执行...")
+                time.sleep(2)
+
+            success_count = len(positions_dict) - len(failed_positions)
+            self.logger.info(f"[LIVE OK] 平仓操作完成，成功: {success_count}/{len(positions_dict)}")
+            return len(failed_positions) == 0
+
+        except Exception as e:
+            self.logger.error(f"[LIVE ERROR] 指定仓位平仓失败: {e}")
+            return False
+
     def open_positions(self, long_symbols: List[str], short_symbols: List[str],
-                      total_balance: float) -> bool:
+                      total_balance: float) -> tuple[bool, dict]:
         """
         开仓交易
 
@@ -309,15 +462,17 @@ class TradingExecutor:
             total_balance: 总可用余额
 
         Returns:
-            bool: 开仓是否成功
+            tuple[bool, dict]: (开仓是否成功, 开仓位置字典)
+                开仓位置字典格式: {symbol: {'side': 'long'/'short', 'quantity': float}}
         """
+        opened_positions = {}
         try:
             all_symbols = long_symbols + short_symbols
             total_positions = len(all_symbols)
 
             if total_positions == 0:
                 self.logger.info("[OK] 无需开仓标的")
-                return True
+                return True, opened_positions
 
             # 计算每个仓位的资金
             position_value =  0.99 * total_balance / total_positions # 防止资金不足
@@ -329,18 +484,21 @@ class TradingExecutor:
             self._set_leverage_for_symbols(all_symbols)
 
             # 开多头仓位
-            long_success = self._open_long_positions(long_symbols, position_value)
+            long_success, long_positions = self._open_long_positions(long_symbols, position_value)
+            opened_positions.update(long_positions)
 
             # 开空头仓位
-            short_success = self._open_short_positions(short_symbols, position_value)
+            short_success, short_positions = self._open_short_positions(short_symbols, position_value)
+            opened_positions.update(short_positions)
 
-            return long_success and short_success
+            success = long_success and short_success
+            return success, opened_positions
 
         except Exception as e:
             error_msg = f"开仓过程异常！错误: {str(e)}"
             self.logger.error(f"[ERROR] 开仓失败: {e}")
             self._send_dingding_notification(error_msg)
-            return False
+            return False, opened_positions
 
     def _set_leverage_for_symbols(self, symbols: List[str]):
         """为交易对设置杠杆"""
@@ -355,17 +513,18 @@ class TradingExecutor:
                 self.logger.warning(f"[WARNING] 设置 {symbol} 杠杆失败: {e}")
                 continue
 
-    def _open_long_positions(self, symbols: List[str], position_value: float) -> bool:
+    def _open_long_positions(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
         """开多头仓位 - 环境路由方法"""
         if self.use_testnet:
             return self._open_long_positions_testnet(symbols, position_value)
         else:
             return self._open_long_positions_live(symbols, position_value)
 
-    def _open_long_positions_testnet(self, symbols: List[str], position_value: float) -> bool:
+    def _open_long_positions_testnet(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
         """模拟盘开多头仓位"""
+        opened_positions = {}
         if not symbols:
-            return True
+            return True, opened_positions
 
         self.logger.info(f"[TESTNET LONG] 开多头仓位: {len(symbols)} 个")
 
@@ -412,6 +571,11 @@ class TradingExecutor:
 
                 if order:
                     success_count += 1
+                    # 记录成功开仓的位置
+                    opened_positions[symbol] = {
+                        'side': 'long',
+                        'quantity': quantity
+                    }
                 else:
                     # 订单失败，发送钉钉通知
                     error_msg = f"[TESTNET] 多头订单失败！{symbol} 数量: {quantity} @ {current_price}"
@@ -424,12 +588,13 @@ class TradingExecutor:
                 continue
 
         self.logger.info(f"[TESTNET OK] 多头开仓: {success_count}/{len(symbols)} 成功")
-        return success_count > 0
+        return success_count > 0, opened_positions
 
-    def _open_long_positions_live(self, symbols: List[str], position_value: float) -> bool:
+    def _open_long_positions_live(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
         """实盘开多头仓位"""
+        opened_positions = {}
         if not symbols:
-            return True
+            return True, opened_positions
 
         self.logger.info(f"[LIVE LONG] 开多头仓位: {len(symbols)} 个")
 
@@ -476,6 +641,11 @@ class TradingExecutor:
 
                 if order:
                     success_count += 1
+                    # 记录成功开仓的位置
+                    opened_positions[symbol] = {
+                        'side': 'long',
+                        'quantity': quantity
+                    }
                 else:
                     # 订单失败，发送钉钉通知
                     error_msg = f"[LIVE] 多头订单失败！{symbol} 数量: {quantity} @ {current_price}"
@@ -488,19 +658,20 @@ class TradingExecutor:
                 continue
 
         self.logger.info(f"[LIVE OK] 多头开仓: {success_count}/{len(symbols)} 成功")
-        return success_count > 0
+        return success_count > 0, opened_positions
 
-    def _open_short_positions(self, symbols: List[str], position_value: float) -> bool:
+    def _open_short_positions(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
         """开空头仓位 - 环境路由方法"""
         if self.use_testnet:
             return self._open_short_positions_testnet(symbols, position_value)
         else:
             return self._open_short_positions_live(symbols, position_value)
 
-    def _open_short_positions_testnet(self, symbols: List[str], position_value: float) -> bool:
+    def _open_short_positions_testnet(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
         """模拟盘开空头仓位"""
+        opened_positions = {}
         if not symbols:
-            return True
+            return True, opened_positions
 
         self.logger.info(f"[TESTNET SHORT] 开空头仓位: {len(symbols)} 个")
 
@@ -547,6 +718,11 @@ class TradingExecutor:
 
                 if order:
                     success_count += 1
+                    # 记录成功开仓的位置
+                    opened_positions[symbol] = {
+                        'side': 'short',
+                        'quantity': quantity
+                    }
                 else:
                     # 订单失败，发送钉钉通知
                     error_msg = f"[TESTNET] 空头订单失败！{symbol} 数量: {quantity} @ {current_price}"
@@ -559,12 +735,13 @@ class TradingExecutor:
                 continue
 
         self.logger.info(f"[TESTNET OK] 空头开仓: {success_count}/{len(symbols)} 成功")
-        return success_count > 0
+        return success_count > 0, opened_positions
 
-    def _open_short_positions_live(self, symbols: List[str], position_value: float) -> bool:
+    def _open_short_positions_live(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
         """实盘开空头仓位"""
+        opened_positions = {}
         if not symbols:
-            return True
+            return True, opened_positions
 
         self.logger.info(f"[LIVE SHORT] 开空头仓位: {len(symbols)} 个")
 
@@ -611,6 +788,11 @@ class TradingExecutor:
 
                 if order:
                     success_count += 1
+                    # 记录成功开仓的位置
+                    opened_positions[symbol] = {
+                        'side': 'short',
+                        'quantity': quantity
+                    }
                 else:
                     # 订单失败，发送钉钉通知
                     error_msg = f"[LIVE] 空头订单失败！{symbol} 数量: {quantity} @ {current_price}"
@@ -623,7 +805,7 @@ class TradingExecutor:
                 continue
 
         self.logger.info(f"[LIVE OK] 空头开仓: {success_count}/{len(symbols)} 成功")
-        return success_count > 0
+        return success_count > 0, opened_positions
 
     def get_active_symbols(self) -> List[str]:
         """获取活跃交易对列表"""

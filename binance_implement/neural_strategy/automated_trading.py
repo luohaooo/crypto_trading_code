@@ -202,17 +202,22 @@ class AutomatedTradingSystem:
             bool: 执行是否成功
         """
         try:
-            # 1. 平仓所有现有仓位 (现在是同步方法)
-            self.logger.info("[STEP 1] 平仓所有现有仓位...")
-            close_success = self.executor.close_all_positions()
-            if not close_success:
-                self.logger.error("[ERROR] 平仓失败")
-                return False
+            # 1. 平仓字典中存储的仓位
+            self.logger.info("[STEP 1] 平仓字典中存储的仓位...")
+            if self.current_positions:
+                self.logger.info(f"[POSITIONS] 当前持有仓位: {self.current_positions}")
+                close_success = self.executor.close_specific_positions(self.current_positions)
+                if not close_success:
+                    self.logger.error("[ERROR] 平仓失败")
+                    return False
+                # 清空仓位字典
+                self.current_positions.clear()
+                self.logger.info("[INFO] 仓位字典已清空")
+            else:
+                self.logger.info("[INFO] 仓位字典为空，无需平仓")
 
-            # 2. 验证平仓完成 (保持异步，因为trading_executor中还有一些异步方法)
-            self.logger.info("[STEP 2] 验证平仓完成...")
-            # 由于verify_positions_closed可能还是异步的，我们先跳过详细验证
-            self.logger.info("[INFO] 跳过详细平仓验证，继续执行")
+            # 2. 跳过验证步骤
+            self.logger.info("[STEP 2] 跳过验证步骤...")
 
             # 3. 获取当前保证金余额 (现在是同步方法)
             self.logger.info("[STEP 3] 获取当前合约保证金...")
@@ -250,13 +255,19 @@ class AutomatedTradingSystem:
 
             # 6. 开仓交易 (现在是同步方法)
             self.logger.info("[STEP 6] 执行开仓交易...")
-            position_success = self.executor.open_positions(
+            position_success, opened_positions = self.executor.open_positions(
                 long_symbols, short_symbols, balance
             )
 
             if not position_success:
                 self.logger.error("[ERROR] 开仓失败")
                 return False
+
+            # 将新开仓位添加到字典中
+            if opened_positions:
+                self.current_positions.update(opened_positions)
+                self.logger.info(f"[POSITIONS] 新仓位已添加到字典: {opened_positions}")
+                self.logger.info(f"[POSITIONS] 当前仓位字典: {self.current_positions}")
 
             # 7. 验证开仓完成 (暂时简化处理)
             self.logger.info("[STEP 7] 开仓交易完成")
