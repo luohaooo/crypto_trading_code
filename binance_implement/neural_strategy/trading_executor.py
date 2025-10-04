@@ -1322,7 +1322,17 @@ class TradingExecutor:
         if DINGDING_AVAILABLE:
             try:
                 env_prefix = "[TESTNET]" if self.config.use_testnet else "[LIVE]"
-                full_message = f"{env_prefix} {message}"
+                # 获取日志文件名
+                log_filename = getattr(self.config, 'LOG_FILENAME', None)
+                if log_filename:
+                    log_info = f"[{log_filename}]"
+                else:
+                    # 如果没有LOG_FILENAME，从LOG_FILE路径中提取文件名
+                    import os
+                    log_filename = os.path.basename(self.config.LOG_FILE).replace('.log', '')
+                    log_info = f"[{log_filename}]"
+
+                full_message = f"{env_prefix}{log_info} {message}"
                 send_dingtalk_message(full_message)
                 self.logger.info(f"[DINGDING] 通知已发送: {message}")
             except Exception as e:
