@@ -1,0 +1,2480 @@
+2025-10-04 20:52:51 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-04 20:52:51 | INFO     | ============================================================
+2025-10-04 20:52:51 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-04 20:52:51 | INFO     | ============================================================
+2025-10-04 20:52:51 | INFO     | [INIT] 初始化交易组件...
+2025-10-04 20:52:51 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-04 20:52:51 | INFO     | [BALANCE] USDT总余额: 3485.03
+2025-10-04 20:52:51 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-04 20:52:51 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-04 20:52:51 | INFO     | [OK] 交易执行器初始化成功
+2025-10-04 20:52:52 | INFO     | [OK] API连接测试成功，耗时: 0.483秒
+2025-10-04 20:52:52 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-04 20:52:52 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-04 20:52:52 | INFO     |    设备: cpu
+2025-10-04 20:52:52 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-04 20:52:52 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-04 20:52:52 | INFO     | [BALANCE] 当前账户余额: 862.34 USDT
+2025-10-04 20:52:52 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-04 20:52:52
+💰 USDT余额: 862.34
+🔧 环境: 测试网
+2025-10-04 20:52:52 | INFO     | [BALANCE] 余额通知已发送: 862.34 USDT
+2025-10-04 20:52:52 | INFO     | [OK] 系统初始化完成，16小时周期执行 (0点、8点、16点)
+2025-10-04 20:52:52 | INFO     | [SCHEDULE] 下次执行时间: 2025-10-05 00:00:00
+2025-10-04 20:52:52 | INFO     | [LOOP] 开始主交易循环
+2025-10-04 20:52:52 | INFO     | [16H] 等待首次执行时间: 2025-10-05 12:00:00
+2025-10-04 20:52:52 | INFO     | [16H] 16小时执行模式 - 下次执行时间: 2025-10-05 12:00:00
+2025-10-04 20:52:52 | INFO     | [WAIT] 等待 54427 秒 (15.1 小时)
+2025-10-04 21:00:57 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-04 21:00:57 | INFO     | ============================================================
+2025-10-04 21:00:57 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-04 21:00:57 | INFO     | ============================================================
+2025-10-04 21:00:57 | INFO     | [INIT] 初始化交易组件...
+2025-10-04 21:00:57 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-04 21:00:57 | INFO     | [BALANCE] USDT总余额: 3485.48
+2025-10-04 21:00:57 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-04 21:00:57 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-04 21:00:57 | INFO     | [OK] 交易执行器初始化成功
+2025-10-04 21:00:58 | INFO     | [OK] API连接测试成功，耗时: 0.500秒
+2025-10-04 21:00:58 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-04 21:00:58 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-04 21:00:58 | INFO     |    设备: cpu
+2025-10-04 21:00:58 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-04 21:00:58 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-04 21:00:58 | INFO     | [BALANCE] 当前账户余额: 863.44 USDT
+2025-10-04 21:00:58 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-04 21:00:58
+💰 USDT余额: 863.44
+🔧 环境: 测试网
+2025-10-04 21:00:58 | INFO     | [BALANCE] 余额通知已发送: 863.44 USDT
+2025-10-04 21:00:58 | INFO     | [OK] 系统初始化完成，16小时周期执行 (0点、8点、16点)
+2025-10-04 21:00:58 | INFO     | [SCHEDULE] 下次执行时间: 2025-10-05 00:00:00
+2025-10-04 21:00:58 | INFO     | [LOOP] 开始主交易循环
+2025-10-04 21:00:58 | INFO     | [16H] 等待首次执行时间: 2025-10-05 00:00:00
+2025-10-04 21:00:58 | INFO     | [16H] 16小时执行模式 - 下次执行时间: 2025-10-05 00:00:00
+2025-10-04 21:00:58 | INFO     | [WAIT] 等待 10741 秒 (3.0 小时)
+2025-10-04 21:09:51 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-04 21:09:51 | INFO     | ============================================================
+2025-10-04 21:09:51 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-04 21:09:51 | INFO     | ============================================================
+2025-10-04 21:09:51 | INFO     | [INIT] 初始化交易组件...
+2025-10-04 21:09:52 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-04 21:09:52 | INFO     | [BALANCE] USDT总余额: 3485.11
+2025-10-04 21:09:52 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-04 21:09:52 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-04 21:09:52 | INFO     | [OK] 交易执行器初始化成功
+2025-10-04 21:09:52 | INFO     | [OK] API连接测试成功，耗时: 0.494秒
+2025-10-04 21:09:52 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-04 21:09:52 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-04 21:09:52 | INFO     |    设备: cpu
+2025-10-04 21:09:52 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-04 21:09:52 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-04 21:09:52 | INFO     | [BALANCE] 当前账户余额: 859.65 USDT
+2025-10-04 21:09:53 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-04 21:09:52
+💰 USDT余额: 859.65
+🔧 环境: 测试网
+2025-10-04 21:09:53 | INFO     | [BALANCE] 余额通知已发送: 859.65 USDT
+2025-10-04 21:09:53 | INFO     | [OK] 系统初始化完成，16小时周期执行 (0点、8点、16点)
+2025-10-04 21:09:53 | INFO     | [SCHEDULE] 下次执行时间: 2025-10-05 00:00:00
+2025-10-04 21:09:53 | INFO     | [LOOP] 开始主交易循环
+2025-10-04 21:09:53 | INFO     | [16H] 等待首次执行时间: 2025-10-05 00:00:00
+2025-10-04 21:09:53 | INFO     | [16H] 16小时执行模式 - 下次执行时间: 2025-10-05 00:00:00
+2025-10-04 21:09:53 | INFO     | [WAIT] 等待 10207 秒 (2.8 小时)
+2025-10-04 21:35:16 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-04 21:35:16 | INFO     | ============================================================
+2025-10-04 21:35:16 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-04 21:35:16 | INFO     | ============================================================
+2025-10-04 21:35:16 | INFO     | [INIT] 初始化交易组件...
+2025-10-04 21:35:17 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-04 21:35:17 | INFO     | [BALANCE] USDT总余额: 3484.58
+2025-10-04 21:35:17 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-04 21:35:17 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-04 21:35:17 | INFO     | [OK] 交易执行器初始化成功
+2025-10-04 21:35:17 | INFO     | [OK] API连接测试成功，耗时: 0.478秒
+2025-10-04 21:35:17 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-04 21:35:17 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-04 21:35:17 | INFO     |    设备: cpu
+2025-10-04 21:35:17 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-04 21:35:17 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-04 21:35:17 | INFO     | [BALANCE] 当前账户余额: 855.92 USDT
+2025-10-04 21:35:18 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-04 21:35:17
+💰 USDT余额: 855.92
+🔧 环境: 测试网
+2025-10-04 21:35:18 | INFO     | [BALANCE] 余额通知已发送: 855.92 USDT
+2025-10-04 21:35:18 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-10-04 21:35:18 | INFO     | [LOOP] 开始主交易循环
+2025-10-04 21:35:18 | INFO     | 
+==================================================
+2025-10-04 21:35:18 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-10-04 21:35:18 | INFO     | [TIME] 开始时间: 2025-10-04 21:35:18
+2025-10-04 21:35:18 | INFO     | ==================================================
+2025-10-04 21:35:18 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-04 21:35:18 | INFO     | [INFO] 仓位字典为空，无需平仓
+2025-10-04 21:35:18 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-04 21:35:18 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-10-04 21:35:18 | INFO     | [BALANCE] 当前保证金余额: 855.92 USDT
+2025-10-04 21:35:19 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-04 21:35:18
+💰 USDT余额: 855.92
+🔧 环境: 测试网
+2025-10-04 21:35:19 | INFO     | [BALANCE] 余额通知已发送: 855.92 USDT
+2025-10-04 21:35:19 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-10-04 21:35:19 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-04 21:35:40 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-04 21:35:40 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-10-04 21:35:40 | INFO     | [STATS] 因子统计:
+2025-10-04 21:35:40 | INFO     |    总计: 496 个标的
+2025-10-04 21:35:40 | INFO     |    因子值范围: -0.074149 ~ 0.049589
+2025-10-04 21:35:40 | INFO     |    选择做多: 2 个
+2025-10-04 21:35:40 | INFO     |    选择做空: 2 个
+2025-10-04 21:35:40 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-04 21:35:40 | INFO     |    GALA/USDT:USDT: 0.049589
+2025-10-04 21:35:40 | INFO     |    STRK/USDT:USDT: 0.043946
+2025-10-04 21:35:40 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-04 21:35:40 | INFO     |    GUN/USDT:USDT: -0.050142
+2025-10-04 21:35:40 | INFO     |    IOTX/USDT:USDT: -0.074149
+2025-10-04 21:35:40 | INFO     | [SELECTION] 选择交易标的:
+2025-10-04 21:35:40 | INFO     |    做多: ['GALA/USDT:USDT', 'STRK/USDT:USDT']
+2025-10-04 21:35:40 | INFO     |    做空: ['GUN/USDT:USDT', 'IOTX/USDT:USDT']
+2025-10-04 21:35:40 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-04 21:35:40 | INFO     | [BALANCE] 总余额: 855.92 USDT
+2025-10-04 21:35:40 | INFO     | [INFO] 总仓位数: 4
+2025-10-04 21:35:40 | INFO     | [VALUE] 单仓价值: 211.84 USDT
+2025-10-04 21:35:40 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-04 21:35:41 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-04 21:35:41 | INFO     | [TESTNET BUY] 做多 GALA/USDT:USDT: 13416.1 @ 0.01579
+2025-10-04 21:35:41 | INFO     | [TESTNET MARKET] 创建市价单 GALA/USDT:USDT: buy 13416.1
+2025-10-04 21:35:41 | INFO     | [TESTNET SUCCESS] GALA/USDT:USDT 市价单创建成功 ID:4351328736 成交:13416.0
+2025-10-04 21:35:41 | INFO     | [TESTNET BUY] 做多 STRK/USDT:USDT: 1420.8 @ 0.1491
+2025-10-04 21:35:41 | INFO     | [TESTNET MARKET] 创建市价单 STRK/USDT:USDT: buy 1420.8
+2025-10-04 21:35:41 | INFO     | [TESTNET SUCCESS] STRK/USDT:USDT 市价单创建成功 ID:11835990 成交:1420.8
+2025-10-04 21:35:41 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-04 21:35:41 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-04 21:35:41 | INFO     | [TESTNET SELL] 做空 GUN/USDT:USDT: 7254.8 @ 0.0292
+2025-10-04 21:35:41 | INFO     | [TESTNET MARKET] 创建市价单 GUN/USDT:USDT: sell 7254.8
+2025-10-04 21:35:41 | INFO     | [TESTNET SUCCESS] GUN/USDT:USDT 市价单创建成功 ID:8418849 成交:7254.0
+2025-10-04 21:35:41 | INFO     | [TESTNET SELL] 做空 IOTX/USDT:USDT: 9258.8 @ 0.02288
+2025-10-04 21:35:41 | INFO     | [TESTNET MARKET] 创建市价单 IOTX/USDT:USDT: sell 9258.8
+2025-10-04 21:35:41 | INFO     | [TESTNET SUCCESS] IOTX/USDT:USDT 市价单创建成功 ID:33640072 成交:9258.0
+2025-10-04 21:35:41 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-04 21:35:41 | INFO     | [POSITIONS] 新仓位已添加到字典: {'GALA/USDT:USDT': {'side': 'long', 'quantity': 13416.1}, 'STRK/USDT:USDT': {'side': 'long', 'quantity': 1420.8}, 'GUN/USDT:USDT': {'side': 'short', 'quantity': 7254.8}, 'IOTX/USDT:USDT': {'side': 'short', 'quantity': 9258.8}}
+2025-10-04 21:35:41 | INFO     | [POSITIONS] 当前仓位字典: {'GALA/USDT:USDT': {'side': 'long', 'quantity': 13416.1}, 'STRK/USDT:USDT': {'side': 'long', 'quantity': 1420.8}, 'GUN/USDT:USDT': {'side': 'short', 'quantity': 7254.8}, 'IOTX/USDT:USDT': {'side': 'short', 'quantity': 9258.8}}
+2025-10-04 21:35:41 | INFO     | [STEP 7] 开仓交易完成
+2025-10-04 21:35:41 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-04 21:35:41 | INFO     | [OK] 交易周期执行成功
+2025-10-04 21:35:41 | INFO     | [TIME] 周期耗时: 23.0秒
+2025-10-04 21:35:41 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-04 21:36:41 | INFO     | 
+==================================================
+2025-10-04 21:36:41 | INFO     | [CYCLE] 第 2 轮交易周期
+2025-10-04 21:36:41 | INFO     | [TIME] 开始时间: 2025-10-04 21:36:41
+2025-10-04 21:36:41 | INFO     | ==================================================
+2025-10-04 21:36:41 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-04 21:36:41 | INFO     | [POSITIONS] 当前持有仓位: {'GALA/USDT:USDT': {'side': 'long', 'quantity': 13416.1}, 'STRK/USDT:USDT': {'side': 'long', 'quantity': 1420.8}, 'GUN/USDT:USDT': {'side': 'short', 'quantity': 7254.8}, 'IOTX/USDT:USDT': {'side': 'short', 'quantity': 9258.8}}
+2025-10-04 21:36:41 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-04 21:36:41 | INFO     | [TESTNET CLOSE] 平仓 GALA/USDT:USDT: sell 13416.1 (原long仓位)
+2025-10-04 21:36:41 | INFO     | [TESTNET MARKET] 创建市价单 GALA/USDT:USDT: sell 13416.1
+2025-10-04 21:36:41 | INFO     | [TESTNET SUCCESS] GALA/USDT:USDT 市价单创建成功 ID:4351328783 成交:13416.0
+2025-10-04 21:36:41 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 GALA/USDT:USDT: 4351328783
+2025-10-04 21:36:41 | INFO     | [TESTNET CLOSE] 平仓 STRK/USDT:USDT: sell 1420.8 (原long仓位)
+2025-10-04 21:36:41 | INFO     | [TESTNET MARKET] 创建市价单 STRK/USDT:USDT: sell 1420.8
+2025-10-04 21:36:41 | INFO     | [TESTNET SUCCESS] STRK/USDT:USDT 市价单创建成功 ID:11836055 成交:1420.8
+2025-10-04 21:36:41 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 STRK/USDT:USDT: 11836055
+2025-10-04 21:36:41 | INFO     | [TESTNET CLOSE] 平仓 GUN/USDT:USDT: buy 7254.8 (原short仓位)
+2025-10-04 21:36:41 | INFO     | [TESTNET MARKET] 创建市价单 GUN/USDT:USDT: buy 7254.8
+2025-10-04 21:36:41 | INFO     | [TESTNET SUCCESS] GUN/USDT:USDT 市价单创建成功 ID:8418966 成交:7254.0
+2025-10-04 21:36:41 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 GUN/USDT:USDT: 8418966
+2025-10-04 21:36:42 | INFO     | [TESTNET CLOSE] 平仓 IOTX/USDT:USDT: buy 9258.8 (原short仓位)
+2025-10-04 21:36:42 | INFO     | [TESTNET MARKET] 创建市价单 IOTX/USDT:USDT: buy 9258.8
+2025-10-04 21:36:42 | INFO     | [TESTNET SUCCESS] IOTX/USDT:USDT 市价单创建成功 ID:33640453 成交:9258.0
+2025-10-04 21:36:42 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 IOTX/USDT:USDT: 33640453
+2025-10-04 21:36:42 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-04 21:36:44 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-04 21:36:44 | INFO     | [INFO] 仓位字典已清空
+2025-10-04 21:36:44 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-04 21:36:44 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-10-04 21:36:44 | INFO     | [BALANCE] 当前保证金余额: 850.08 USDT
+2025-10-04 21:36:44 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-04 21:36:44
+💰 USDT余额: 850.08
+🔧 环境: 测试网
+2025-10-04 21:36:44 | INFO     | [BALANCE] 余额通知已发送: 850.08 USDT
+2025-10-04 21:36:44 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-10-04 21:36:44 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-04 21:37:05 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-04 21:37:05 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-10-04 21:37:05 | INFO     | [STATS] 因子统计:
+2025-10-04 21:37:05 | INFO     |    总计: 496 个标的
+2025-10-04 21:37:05 | INFO     |    因子值范围: -0.074149 ~ 0.045949
+2025-10-04 21:37:05 | INFO     |    选择做多: 2 个
+2025-10-04 21:37:05 | INFO     |    选择做空: 2 个
+2025-10-04 21:37:05 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-04 21:37:05 | INFO     |    GALA/USDT:USDT: 0.045949
+2025-10-04 21:37:05 | INFO     |    STRK/USDT:USDT: 0.041064
+2025-10-04 21:37:05 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-04 21:37:05 | INFO     |    GUN/USDT:USDT: -0.050142
+2025-10-04 21:37:05 | INFO     |    IOTX/USDT:USDT: -0.074149
+2025-10-04 21:37:05 | INFO     | [SELECTION] 选择交易标的:
+2025-10-04 21:37:05 | INFO     |    做多: ['GALA/USDT:USDT', 'STRK/USDT:USDT']
+2025-10-04 21:37:05 | INFO     |    做空: ['GUN/USDT:USDT', 'IOTX/USDT:USDT']
+2025-10-04 21:37:05 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-04 21:37:05 | INFO     | [BALANCE] 总余额: 850.08 USDT
+2025-10-04 21:37:05 | INFO     | [INFO] 总仓位数: 4
+2025-10-04 21:37:05 | INFO     | [VALUE] 单仓价值: 210.39 USDT
+2025-10-04 21:37:05 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-04 21:37:06 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-04 21:37:06 | INFO     | [TESTNET BUY] 做多 GALA/USDT:USDT: 13324.5 @ 0.01579
+2025-10-04 21:37:06 | INFO     | [TESTNET MARKET] 创建市价单 GALA/USDT:USDT: buy 13324.5
+2025-10-04 21:37:06 | INFO     | [TESTNET SUCCESS] GALA/USDT:USDT 市价单创建成功 ID:4351328804 成交:13324.0
+2025-10-04 21:37:06 | INFO     | [TESTNET BUY] 做多 STRK/USDT:USDT: 1413.0 @ 0.1489
+2025-10-04 21:37:06 | INFO     | [TESTNET MARKET] 创建市价单 STRK/USDT:USDT: buy 1413.0
+2025-10-04 21:37:06 | INFO     | [TESTNET SUCCESS] STRK/USDT:USDT 市价单创建成功 ID:11836070 成交:1413.0
+2025-10-04 21:37:06 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-04 21:37:06 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-04 21:37:06 | INFO     | [TESTNET SELL] 做空 GUN/USDT:USDT: 7202.8 @ 0.02921
+2025-10-04 21:37:06 | INFO     | [TESTNET MARKET] 创建市价单 GUN/USDT:USDT: sell 7202.8
+2025-10-04 21:37:06 | INFO     | [TESTNET SUCCESS] GUN/USDT:USDT 市价单创建成功 ID:8418987 成交:7202.0
+2025-10-04 21:37:06 | INFO     | [TESTNET SELL] 做空 IOTX/USDT:USDT: 9199.6 @ 0.02287
+2025-10-04 21:37:06 | INFO     | [TESTNET MARKET] 创建市价单 IOTX/USDT:USDT: sell 9199.6
+2025-10-04 21:37:06 | INFO     | [TESTNET SUCCESS] IOTX/USDT:USDT 市价单创建成功 ID:33640596 成交:9199.0
+2025-10-04 21:37:06 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-04 21:37:06 | INFO     | [POSITIONS] 新仓位已添加到字典: {'GALA/USDT:USDT': {'side': 'long', 'quantity': 13324.5}, 'STRK/USDT:USDT': {'side': 'long', 'quantity': 1413.0}, 'GUN/USDT:USDT': {'side': 'short', 'quantity': 7202.8}, 'IOTX/USDT:USDT': {'side': 'short', 'quantity': 9199.6}}
+2025-10-04 21:37:06 | INFO     | [POSITIONS] 当前仓位字典: {'GALA/USDT:USDT': {'side': 'long', 'quantity': 13324.5}, 'STRK/USDT:USDT': {'side': 'long', 'quantity': 1413.0}, 'GUN/USDT:USDT': {'side': 'short', 'quantity': 7202.8}, 'IOTX/USDT:USDT': {'side': 'short', 'quantity': 9199.6}}
+2025-10-04 21:37:06 | INFO     | [STEP 7] 开仓交易完成
+2025-10-04 21:37:06 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-04 21:37:06 | INFO     | [OK] 交易周期执行成功
+2025-10-04 21:37:06 | INFO     | [TIME] 周期耗时: 24.9秒
+2025-10-04 21:37:06 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-04 21:38:12 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-04 21:38:12 | INFO     | ============================================================
+2025-10-04 21:38:12 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-04 21:38:12 | INFO     | ============================================================
+2025-10-04 21:38:12 | INFO     | [INIT] 初始化交易组件...
+2025-10-04 21:38:12 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-04 21:38:12 | INFO     | [BALANCE] USDT总余额: 3471.69
+2025-10-04 21:38:12 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-04 21:38:12 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-04 21:38:12 | INFO     | [OK] 交易执行器初始化成功
+2025-10-04 21:38:13 | INFO     | [OK] API连接测试成功，耗时: 0.477秒
+2025-10-04 21:38:13 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-04 21:38:13 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-04 21:38:13 | INFO     |    设备: cpu
+2025-10-04 21:38:13 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-04 21:38:13 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-04 21:38:13 | INFO     | [BALANCE] 当前账户余额: 3471.69 USDT
+2025-10-04 21:38:13 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-04 21:38:13
+💰 USDT余额: 3471.69
+🔧 环境: 测试网
+2025-10-04 21:38:13 | INFO     | [BALANCE] 余额通知已发送: 3471.69 USDT
+2025-10-04 21:38:13 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-10-04 21:38:13 | INFO     | [LOOP] 开始主交易循环
+2025-10-04 21:38:13 | INFO     | 
+==================================================
+2025-10-04 21:38:13 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-10-04 21:38:13 | INFO     | [TIME] 开始时间: 2025-10-04 21:38:13
+2025-10-04 21:38:13 | INFO     | ==================================================
+2025-10-04 21:38:13 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-04 21:38:13 | INFO     | [INFO] 仓位字典为空，无需平仓
+2025-10-04 21:38:13 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-04 21:38:13 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-10-04 21:38:13 | INFO     | [BALANCE] 当前保证金余额: 3471.69 USDT
+2025-10-04 21:38:13 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-04 21:38:13
+💰 USDT余额: 3471.69
+🔧 环境: 测试网
+2025-10-04 21:38:13 | INFO     | [BALANCE] 余额通知已发送: 3471.69 USDT
+2025-10-04 21:38:13 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-10-04 21:38:13 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-04 21:38:35 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-04 21:38:35 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-10-04 21:38:35 | INFO     | [STATS] 因子统计:
+2025-10-04 21:38:35 | INFO     |    总计: 496 个标的
+2025-10-04 21:38:35 | INFO     |    因子值范围: -0.074149 ~ 0.045949
+2025-10-04 21:38:35 | INFO     |    选择做多: 2 个
+2025-10-04 21:38:35 | INFO     |    选择做空: 2 个
+2025-10-04 21:38:35 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-04 21:38:35 | INFO     |    GALA/USDT:USDT: 0.045949
+2025-10-04 21:38:35 | INFO     |    STRK/USDT:USDT: 0.043324
+2025-10-04 21:38:35 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-04 21:38:35 | INFO     |    GUN/USDT:USDT: -0.050902
+2025-10-04 21:38:35 | INFO     |    IOTX/USDT:USDT: -0.074149
+2025-10-04 21:38:35 | INFO     | [SELECTION] 选择交易标的:
+2025-10-04 21:38:35 | INFO     |    做多: ['GALA/USDT:USDT', 'STRK/USDT:USDT']
+2025-10-04 21:38:35 | INFO     |    做空: ['GUN/USDT:USDT', 'IOTX/USDT:USDT']
+2025-10-04 21:38:35 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-04 21:38:35 | INFO     | [BALANCE] 总余额: 3471.69 USDT
+2025-10-04 21:38:35 | INFO     | [INFO] 总仓位数: 4
+2025-10-04 21:38:35 | INFO     | [VALUE] 单仓价值: 859.24 USDT
+2025-10-04 21:38:35 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-04 21:38:35 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-04 21:38:35 | INFO     | [TESTNET BUY] 做多 GALA/USDT:USDT: 54451.4 @ 0.01578
+2025-10-04 21:38:35 | INFO     | [TESTNET MARKET] 创建市价单 GALA/USDT:USDT: buy 54451.4
+2025-10-04 21:38:35 | INFO     | [TESTNET SUCCESS] GALA/USDT:USDT 市价单创建成功 ID:4351328882 成交:54451.0
+2025-10-04 21:38:35 | INFO     | [TESTNET BUY] 做多 STRK/USDT:USDT: 5782.3 @ 0.1486
+2025-10-04 21:38:35 | INFO     | [TESTNET MARKET] 创建市价单 STRK/USDT:USDT: buy 5782.3
+2025-10-04 21:38:35 | INFO     | [TESTNET SUCCESS] STRK/USDT:USDT 市价单创建成功 ID:11836142 成交:5782.3
+2025-10-04 21:38:35 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-04 21:38:35 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-04 21:38:35 | INFO     | [TESTNET SELL] 做空 GUN/USDT:USDT: 29426.1 @ 0.0292
+2025-10-04 21:38:35 | INFO     | [TESTNET MARKET] 创建市价单 GUN/USDT:USDT: sell 29426.1
+2025-10-04 21:38:35 | INFO     | [TESTNET SUCCESS] GUN/USDT:USDT 市价单创建成功 ID:8419053 成交:29426.0
+2025-10-04 21:38:35 | INFO     | [TESTNET SELL] 做空 IOTX/USDT:USDT: 37603.6 @ 0.02285
+2025-10-04 21:38:35 | INFO     | [TESTNET MARKET] 创建市价单 IOTX/USDT:USDT: sell 37603.6
+2025-10-04 21:38:35 | INFO     | [TESTNET SUCCESS] IOTX/USDT:USDT 市价单创建成功 ID:33641111 成交:37603.0
+2025-10-04 21:38:35 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-04 21:38:35 | INFO     | [POSITIONS] 新仓位已添加到字典: {'GALA/USDT:USDT': {'side': 'long', 'quantity': 54451.4}, 'STRK/USDT:USDT': {'side': 'long', 'quantity': 5782.3}, 'GUN/USDT:USDT': {'side': 'short', 'quantity': 29426.1}, 'IOTX/USDT:USDT': {'side': 'short', 'quantity': 37603.6}}
+2025-10-04 21:38:35 | INFO     | [POSITIONS] 当前仓位字典: {'GALA/USDT:USDT': {'side': 'long', 'quantity': 54451.4}, 'STRK/USDT:USDT': {'side': 'long', 'quantity': 5782.3}, 'GUN/USDT:USDT': {'side': 'short', 'quantity': 29426.1}, 'IOTX/USDT:USDT': {'side': 'short', 'quantity': 37603.6}}
+2025-10-04 21:38:35 | INFO     | [STEP 7] 开仓交易完成
+2025-10-04 21:38:35 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-04 21:38:35 | INFO     | [OK] 交易周期执行成功
+2025-10-04 21:38:35 | INFO     | [TIME] 周期耗时: 22.4秒
+2025-10-04 21:38:35 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-04 21:39:35 | INFO     | 
+==================================================
+2025-10-04 21:39:35 | INFO     | [CYCLE] 第 2 轮交易周期
+2025-10-04 21:39:35 | INFO     | [TIME] 开始时间: 2025-10-04 21:39:35
+2025-10-04 21:39:35 | INFO     | ==================================================
+2025-10-04 21:39:35 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-04 21:39:35 | INFO     | [POSITIONS] 当前持有仓位: {'GALA/USDT:USDT': {'side': 'long', 'quantity': 54451.4}, 'STRK/USDT:USDT': {'side': 'long', 'quantity': 5782.3}, 'GUN/USDT:USDT': {'side': 'short', 'quantity': 29426.1}, 'IOTX/USDT:USDT': {'side': 'short', 'quantity': 37603.6}}
+2025-10-04 21:39:35 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-04 21:39:35 | INFO     | [TESTNET CLOSE] 平仓 GALA/USDT:USDT: sell 54451.4 (原long仓位)
+2025-10-04 21:39:35 | INFO     | [TESTNET MARKET] 创建市价单 GALA/USDT:USDT: sell 54451.4
+2025-10-04 21:39:36 | INFO     | [TESTNET SUCCESS] GALA/USDT:USDT 市价单创建成功 ID:4351328931 成交:54451.0
+2025-10-04 21:39:36 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 GALA/USDT:USDT: 4351328931
+2025-10-04 21:39:36 | INFO     | [TESTNET CLOSE] 平仓 STRK/USDT:USDT: sell 5782.3 (原long仓位)
+2025-10-04 21:39:36 | INFO     | [TESTNET MARKET] 创建市价单 STRK/USDT:USDT: sell 5782.3
+2025-10-04 21:39:36 | INFO     | [TESTNET SUCCESS] STRK/USDT:USDT 市价单创建成功 ID:11836195 成交:5782.3
+2025-10-04 21:39:36 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 STRK/USDT:USDT: 11836195
+2025-10-04 21:39:36 | INFO     | [TESTNET CLOSE] 平仓 GUN/USDT:USDT: buy 29426.1 (原short仓位)
+2025-10-04 21:39:36 | INFO     | [TESTNET MARKET] 创建市价单 GUN/USDT:USDT: buy 29426.1
+2025-10-04 21:39:36 | INFO     | [TESTNET SUCCESS] GUN/USDT:USDT 市价单创建成功 ID:8419104 成交:29426.0
+2025-10-04 21:39:36 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 GUN/USDT:USDT: 8419104
+2025-10-04 21:39:36 | INFO     | [TESTNET CLOSE] 平仓 IOTX/USDT:USDT: buy 37603.6 (原short仓位)
+2025-10-04 21:39:36 | INFO     | [TESTNET MARKET] 创建市价单 IOTX/USDT:USDT: buy 37603.6
+2025-10-04 21:39:36 | INFO     | [TESTNET SUCCESS] IOTX/USDT:USDT 市价单创建成功 ID:33641572 成交:37603.0
+2025-10-04 21:39:36 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 IOTX/USDT:USDT: 33641572
+2025-10-04 21:39:36 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-04 21:39:38 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-04 21:39:38 | INFO     | [INFO] 仓位字典已清空
+2025-10-04 21:39:38 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-04 21:39:38 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-10-04 21:39:38 | INFO     | [BALANCE] 当前保证金余额: 3452.62 USDT
+2025-10-04 21:39:39 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-04 21:39:38
+💰 USDT余额: 3452.62
+🔧 环境: 测试网
+2025-10-04 21:39:39 | INFO     | [BALANCE] 余额通知已发送: 3452.62 USDT
+2025-10-04 21:39:39 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-10-04 21:39:39 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-04 21:40:02 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-04 21:40:02 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-10-04 21:40:02 | INFO     | [STATS] 因子统计:
+2025-10-04 21:40:02 | INFO     |    总计: 496 个标的
+2025-10-04 21:40:02 | INFO     |    因子值范围: -0.077885 ~ 0.045949
+2025-10-04 21:40:02 | INFO     |    选择做多: 2 个
+2025-10-04 21:40:02 | INFO     |    选择做空: 2 个
+2025-10-04 21:40:02 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-04 21:40:02 | INFO     |    GALA/USDT:USDT: 0.045949
+2025-10-04 21:40:02 | INFO     |    STRK/USDT:USDT: 0.043861
+2025-10-04 21:40:02 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-04 21:40:02 | INFO     |    GUN/USDT:USDT: -0.051818
+2025-10-04 21:40:02 | INFO     |    IOTX/USDT:USDT: -0.077885
+2025-10-04 21:40:02 | INFO     | [SELECTION] 选择交易标的:
+2025-10-04 21:40:02 | INFO     |    做多: ['GALA/USDT:USDT', 'STRK/USDT:USDT']
+2025-10-04 21:40:02 | INFO     |    做空: ['GUN/USDT:USDT', 'IOTX/USDT:USDT']
+2025-10-04 21:40:02 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-04 21:40:02 | INFO     | [BALANCE] 总余额: 3452.62 USDT
+2025-10-04 21:40:02 | INFO     | [INFO] 总仓位数: 4
+2025-10-04 21:40:02 | INFO     | [VALUE] 单仓价值: 854.52 USDT
+2025-10-04 21:40:02 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-04 21:40:03 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-04 21:40:03 | INFO     | [TESTNET BUY] 做多 GALA/USDT:USDT: 54152.4 @ 0.01578
+2025-10-04 21:40:03 | INFO     | [TESTNET MARKET] 创建市价单 GALA/USDT:USDT: buy 54152.4
+2025-10-04 21:40:03 | INFO     | [TESTNET SUCCESS] GALA/USDT:USDT 市价单创建成功 ID:4351328960 成交:54152.0
+2025-10-04 21:40:03 | INFO     | [TESTNET BUY] 做多 STRK/USDT:USDT: 5746.6 @ 0.1487
+2025-10-04 21:40:03 | INFO     | [TESTNET MARKET] 创建市价单 STRK/USDT:USDT: buy 5746.6
+2025-10-04 21:40:03 | INFO     | [TESTNET SUCCESS] STRK/USDT:USDT 市价单创建成功 ID:11836224 成交:5746.6
+2025-10-04 21:40:03 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-04 21:40:03 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-04 21:40:03 | INFO     | [TESTNET SELL] 做空 GUN/USDT:USDT: 29264.5 @ 0.0292
+2025-10-04 21:40:03 | INFO     | [TESTNET MARKET] 创建市价单 GUN/USDT:USDT: sell 29264.5
+2025-10-04 21:40:03 | INFO     | [TESTNET SUCCESS] GUN/USDT:USDT 市价单创建成功 ID:8419127 成交:29264.0
+2025-10-04 21:40:03 | INFO     | [TESTNET SELL] 做空 IOTX/USDT:USDT: 37397.1 @ 0.02285
+2025-10-04 21:40:03 | INFO     | [TESTNET MARKET] 创建市价单 IOTX/USDT:USDT: sell 37397.1
+2025-10-04 21:40:04 | INFO     | [TESTNET SUCCESS] IOTX/USDT:USDT 市价单创建成功 ID:33641737 成交:37397.0
+2025-10-04 21:40:04 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-04 21:40:04 | INFO     | [POSITIONS] 新仓位已添加到字典: {'GALA/USDT:USDT': {'side': 'long', 'quantity': 54152.4}, 'STRK/USDT:USDT': {'side': 'long', 'quantity': 5746.6}, 'GUN/USDT:USDT': {'side': 'short', 'quantity': 29264.5}, 'IOTX/USDT:USDT': {'side': 'short', 'quantity': 37397.1}}
+2025-10-04 21:40:04 | INFO     | [POSITIONS] 当前仓位字典: {'GALA/USDT:USDT': {'side': 'long', 'quantity': 54152.4}, 'STRK/USDT:USDT': {'side': 'long', 'quantity': 5746.6}, 'GUN/USDT:USDT': {'side': 'short', 'quantity': 29264.5}, 'IOTX/USDT:USDT': {'side': 'short', 'quantity': 37397.1}}
+2025-10-04 21:40:04 | INFO     | [STEP 7] 开仓交易完成
+2025-10-04 21:40:04 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-04 21:40:04 | INFO     | [OK] 交易周期执行成功
+2025-10-04 21:40:04 | INFO     | [TIME] 周期耗时: 28.1秒
+2025-10-04 21:40:04 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-04 22:13:21 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-04 22:13:21 | INFO     | ============================================================
+2025-10-04 22:13:21 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-04 22:13:21 | INFO     | ============================================================
+2025-10-04 22:13:21 | INFO     | [INIT] 初始化交易组件...
+2025-10-04 22:13:22 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-04 22:13:22 | INFO     | [BALANCE] USDT总余额: 3433.67
+2025-10-04 22:13:22 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-04 22:13:22 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-04 22:13:22 | INFO     | [OK] 交易执行器初始化成功
+2025-10-04 22:13:22 | INFO     | [OK] API连接测试成功，耗时: 0.486秒
+2025-10-04 22:13:22 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-04 22:13:22 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-04 22:13:22 | INFO     |    设备: cpu
+2025-10-04 22:13:22 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-04 22:13:22 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-04 22:13:22 | INFO     | [BALANCE] 当前账户余额: 3433.67 USDT
+2025-10-04 22:13:23 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-04 22:13:22
+💰 USDT余额: 3433.67
+🔧 环境: 测试网
+2025-10-04 22:13:23 | INFO     | [BALANCE] 余额通知已发送: 3433.67 USDT
+2025-10-04 22:13:23 | INFO     | [OK] 系统初始化完成，16小时周期执行 (0点、8点、16点)
+2025-10-04 22:13:23 | INFO     | [SCHEDULE] 下次执行时间: 2025-10-05 00:00:00
+2025-10-04 22:13:23 | INFO     | [LOOP] 开始主交易循环
+2025-10-04 22:13:23 | INFO     | [16H] 等待首次执行时间: 2025-10-05 00:00:00
+2025-10-04 22:13:23 | INFO     | [16H] 16小时执行模式 - 下次执行时间: 2025-10-05 00:00:00
+2025-10-04 22:13:23 | INFO     | [WAIT] 等待 6397 秒 (1.8 小时)
+2025-10-04 22:24:00 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-04 22:24:00 | INFO     | ============================================================
+2025-10-04 22:24:00 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-04 22:24:00 | INFO     | ============================================================
+2025-10-04 22:24:00 | INFO     | [INIT] 初始化交易组件...
+2025-10-04 22:24:00 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-04 22:24:00 | INFO     | [BALANCE] USDT总余额: 3433.67
+2025-10-04 22:24:00 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-04 22:24:00 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-04 22:24:00 | INFO     | [OK] 交易执行器初始化成功
+2025-10-04 22:24:01 | INFO     | [OK] API连接测试成功，耗时: 0.526秒
+2025-10-04 22:24:01 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-04 22:24:01 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-04 22:24:01 | INFO     |    设备: cpu
+2025-10-04 22:24:01 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-04 22:24:01 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-04 22:24:01 | INFO     | [BALANCE] 当前账户余额: 3433.67 USDT
+2025-10-04 22:24:02 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-04 22:24:01
+💰 USDT余额: 3433.67
+🔧 环境: 测试网
+2025-10-04 22:24:02 | INFO     | [BALANCE] 余额通知已发送: 3433.67 USDT
+2025-10-04 22:24:02 | INFO     | [OK] 系统初始化完成，16小时周期执行 (0点、8点、16点)
+2025-10-04 22:24:02 | INFO     | [SCHEDULE] 下次执行时间: 2025-10-05 00:00:00
+2025-10-04 22:24:02 | INFO     | [LOOP] 开始主交易循环
+2025-10-04 22:24:02 | INFO     | [16H] 等待首次执行时间: 2025-10-05 00:00:00
+2025-10-04 22:24:02 | INFO     | [16H] 16小时执行模式 - 下次执行时间: 2025-10-05 00:00:00
+2025-10-04 22:24:02 | INFO     | [WAIT] 等待 5758 秒 (1.6 小时)
+2025-10-04 23:24:02 | INFO     | [WAIT] 剩余等待时间: 0.6 小时
+2025-10-04 23:24:02 | INFO     | [WAIT] 最后等待: 2158 秒
+2025-10-05 00:00:00 | INFO     | 
+==================================================
+2025-10-05 00:00:00 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-10-05 00:00:00 | INFO     | [TIME] 开始时间: 2025-10-05 00:00:00
+2025-10-05 00:00:00 | INFO     | ==================================================
+2025-10-05 00:00:00 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 00:00:00 | INFO     | [INFO] 仓位字典为空，无需平仓
+2025-10-05 00:00:00 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 00:00:00 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-10-05 00:00:00 | INFO     | [BALANCE] 当前保证金余额: 3433.67 USDT
+2025-10-05 00:00:00 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 00:00:00
+💰 USDT余额: 3433.67
+🔧 环境: 测试网
+2025-10-05 00:00:00 | INFO     | [BALANCE] 余额通知已发送: 3433.67 USDT
+2025-10-05 00:00:00 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-10-05 00:00:00 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 00:00:29 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 00:00:29 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-10-05 00:00:29 | INFO     | [STATS] 因子统计:
+2025-10-05 00:00:29 | INFO     |    总计: 496 个标的
+2025-10-05 00:00:29 | INFO     |    因子值范围: -0.047949 ~ 0.047822
+2025-10-05 00:00:29 | INFO     |    选择做多: 2 个
+2025-10-05 00:00:29 | INFO     |    选择做空: 2 个
+2025-10-05 00:00:29 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 00:00:29 | INFO     |    PLUME/USDT:USDT: 0.047822
+2025-10-05 00:00:29 | INFO     |    POPCAT/USDT:USDT: 0.041594
+2025-10-05 00:00:29 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 00:00:29 | INFO     |    HIPPO/USDT:USDT: -0.041988
+2025-10-05 00:00:29 | INFO     |    IOTX/USDT:USDT: -0.047949
+2025-10-05 00:00:29 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 00:00:29 | INFO     |    做多: ['PLUME/USDT:USDT', 'POPCAT/USDT:USDT']
+2025-10-05 00:00:29 | INFO     |    做空: ['HIPPO/USDT:USDT', 'IOTX/USDT:USDT']
+2025-10-05 00:00:29 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 00:00:29 | INFO     | [BALANCE] 总余额: 3433.67 USDT
+2025-10-05 00:00:29 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 00:00:29 | INFO     | [VALUE] 单仓价值: 849.83 USDT
+2025-10-05 00:00:29 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 00:00:29 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 00:00:29 | INFO     | [TESTNET BUY] 做多 PLUME/USDT:USDT: 8545.3 @ 0.09945
+2025-10-05 00:00:29 | INFO     | [TESTNET MARKET] 创建市价单 PLUME/USDT:USDT: buy 8545.3
+2025-10-05 00:00:29 | INFO     | [TESTNET SUCCESS] PLUME/USDT:USDT 市价单创建成功 ID:12003913 成交:8545.0
+2025-10-05 00:00:29 | INFO     | [TESTNET BUY] 做多 POPCAT/USDT:USDT: 3596.4 @ 0.2363
+2025-10-05 00:00:29 | INFO     | [TESTNET MARKET] 创建市价单 POPCAT/USDT:USDT: buy 3596.4
+2025-10-05 00:00:29 | INFO     | [TESTNET SUCCESS] POPCAT/USDT:USDT 市价单创建成功 ID:18194958 成交:3596.0
+2025-10-05 00:00:29 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 00:00:29 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 00:00:29 | INFO     | [TESTNET SELL] 做空 HIPPO/USDT:USDT: 259016.4 @ 0.003281
+2025-10-05 00:00:29 | INFO     | [TESTNET MARKET] 创建市价单 HIPPO/USDT:USDT: sell 259016.4
+2025-10-05 00:00:29 | INFO     | [TESTNET SUCCESS] HIPPO/USDT:USDT 市价单创建成功 ID:13087251 成交:259016.0
+2025-10-05 00:00:29 | INFO     | [TESTNET SELL] 做空 IOTX/USDT:USDT: 37208.1 @ 0.02284
+2025-10-05 00:00:29 | INFO     | [TESTNET MARKET] 创建市价单 IOTX/USDT:USDT: sell 37208.1
+2025-10-05 00:00:29 | INFO     | [TESTNET SUCCESS] IOTX/USDT:USDT 市价单创建成功 ID:33674336 成交:37208.0
+2025-10-05 00:00:29 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 00:00:29 | INFO     | [POSITIONS] 新仓位已添加到字典: {'PLUME/USDT:USDT': {'side': 'long', 'quantity': 8545.3}, 'POPCAT/USDT:USDT': {'side': 'long', 'quantity': 3596.4}, 'HIPPO/USDT:USDT': {'side': 'short', 'quantity': 259016.4}, 'IOTX/USDT:USDT': {'side': 'short', 'quantity': 37208.1}}
+2025-10-05 00:00:29 | INFO     | [POSITIONS] 当前仓位字典: {'PLUME/USDT:USDT': {'side': 'long', 'quantity': 8545.3}, 'POPCAT/USDT:USDT': {'side': 'long', 'quantity': 3596.4}, 'HIPPO/USDT:USDT': {'side': 'short', 'quantity': 259016.4}, 'IOTX/USDT:USDT': {'side': 'short', 'quantity': 37208.1}}
+2025-10-05 00:00:29 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 00:00:29 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 00:00:29 | INFO     | [OK] 交易周期执行成功
+2025-10-05 00:00:29 | INFO     | [TIME] 周期耗时: 29.8秒
+2025-10-05 00:00:29 | INFO     | [16H] 16小时执行模式 - 下次执行时间: 2025-10-05 16:00:00
+2025-10-05 00:00:29 | INFO     | [WAIT] 等待 57570 秒 (16.0 小时)
+2025-10-05 00:51:48 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-05 00:51:48 | INFO     | ============================================================
+2025-10-05 00:51:48 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-05 00:51:48 | INFO     | ============================================================
+2025-10-05 00:51:48 | INFO     | [INIT] 初始化交易组件...
+2025-10-05 00:51:48 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-05 00:51:48 | INFO     | [BALANCE] USDT总余额: 3409.80
+2025-10-05 00:51:48 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-05 00:51:48 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-05 00:51:48 | INFO     | [OK] 交易执行器初始化成功
+2025-10-05 00:51:49 | INFO     | [OK] API连接测试成功，耗时: 0.480秒
+2025-10-05 00:51:49 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-05 00:51:49 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-05 00:51:49 | INFO     |    设备: cpu
+2025-10-05 00:51:49 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-05 00:51:49 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-05 00:51:49 | INFO     | [BALANCE] 当前账户余额: 24.69 USDT
+2025-10-05 00:51:49 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 00:51:49
+💰 USDT余额: 24.69
+🔧 环境: 测试网
+2025-10-05 00:51:49 | INFO     | [BALANCE] 余额通知已发送: 24.69 USDT
+2025-10-05 00:51:49 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-10-05 00:51:49 | INFO     | [LOOP] 开始主交易循环
+2025-10-05 00:51:49 | INFO     | 
+==================================================
+2025-10-05 00:51:49 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-10-05 00:51:49 | INFO     | [TIME] 开始时间: 2025-10-05 00:51:49
+2025-10-05 00:51:49 | INFO     | ==================================================
+2025-10-05 00:51:49 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 00:51:49 | INFO     | [INFO] 仓位字典为空，无需平仓
+2025-10-05 00:51:49 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 00:51:49 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-10-05 00:51:49 | INFO     | [BALANCE] 当前保证金余额: 24.69 USDT
+2025-10-05 00:51:50 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 00:51:49
+💰 USDT余额: 24.69
+🔧 环境: 测试网
+2025-10-05 00:51:50 | INFO     | [BALANCE] 余额通知已发送: 24.69 USDT
+2025-10-05 00:51:50 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-10-05 00:51:50 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 00:52:14 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 00:52:14 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-10-05 00:52:14 | INFO     | [STATS] 因子统计:
+2025-10-05 00:52:14 | INFO     |    总计: 496 个标的
+2025-10-05 00:52:14 | INFO     |    因子值范围: -0.054773 ~ 0.045679
+2025-10-05 00:52:14 | INFO     |    选择做多: 2 个
+2025-10-05 00:52:14 | INFO     |    选择做空: 2 个
+2025-10-05 00:52:14 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 00:52:14 | INFO     |    BDXN/USDT:USDT: 0.045679
+2025-10-05 00:52:14 | INFO     |    PROVE/USDT:USDT: 0.042193
+2025-10-05 00:52:14 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 00:52:14 | INFO     |    FXS/USDT:USDT: -0.051241
+2025-10-05 00:52:14 | INFO     |    BLESS/USDT:USDT: -0.054773
+2025-10-05 00:52:14 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 00:52:14 | INFO     |    做多: ['BDXN/USDT:USDT', 'PROVE/USDT:USDT']
+2025-10-05 00:52:14 | INFO     |    做空: ['FXS/USDT:USDT', 'BLESS/USDT:USDT']
+2025-10-05 00:52:14 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个): BDXN/USDT:USDT, PROVE/USDT:USDT
+做空 (2个): FXS/USDT:USDT, BLESS/USDT:USDT
+2025-10-05 00:52:14 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 00:52:14 | INFO     | [BALANCE] 总余额: 24.69 USDT
+2025-10-05 00:52:14 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 00:52:14 | INFO     | [VALUE] 单仓价值: 6.11 USDT
+2025-10-05 00:52:14 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 00:52:14 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 00:52:14 | INFO     | [TESTNET BUY] 做多 BDXN/USDT:USDT: 155.8 @ 0.03921
+2025-10-05 00:52:14 | INFO     | [TESTNET MARKET] 创建市价单 BDXN/USDT:USDT: buy 155.8
+2025-10-05 00:52:14 | ERROR    | [TESTNET ERROR] BDXN/USDT:USDT 订单创建失败: binance {"code":-4002,"msg":"Price greater than max price."}
+2025-10-05 00:52:14 | ERROR    | [TESTNET ERROR] BDXN/USDT:USDT 市价单创建异常: binance {"code":-4002,"msg":"Price greater than max price."}
+2025-10-05 00:52:15 | INFO     | [DINGDING] 通知已发送: [TESTNET] 多头订单失败！BDXN/USDT:USDT 数量: 155.8 @ 0.03921
+2025-10-05 00:52:15 | INFO     | [TESTNET BUY] 做多 PROVE/USDT:USDT: 8.1 @ 0.7506
+2025-10-05 00:52:15 | INFO     | [TESTNET MARKET] 创建市价单 PROVE/USDT:USDT: buy 8.1
+2025-10-05 00:52:15 | INFO     | [TESTNET SUCCESS] PROVE/USDT:USDT 市价单创建成功 ID:6441566 成交:8.1
+2025-10-05 00:52:15 | INFO     | [TESTNET OK] 多头开仓: 1/2 成功
+2025-10-05 00:52:15 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 00:52:15 | INFO     | [TESTNET SELL] 做空 FXS/USDT:USDT: 2.6 @ 2.3252
+2025-10-05 00:52:15 | INFO     | [TESTNET MARKET] 创建市价单 FXS/USDT:USDT: sell 2.6
+2025-10-05 00:52:15 | INFO     | [TESTNET SUCCESS] FXS/USDT:USDT 市价单创建成功 ID:18408345 成交:2.6
+2025-10-05 00:52:15 | INFO     | [TESTNET SELL] 做空 BLESS/USDT:USDT: 188.8 @ 0.032359
+2025-10-05 00:52:15 | INFO     | [TESTNET MARKET] 创建市价单 BLESS/USDT:USDT: sell 188.8
+2025-10-05 00:52:15 | INFO     | [TESTNET SUCCESS] BLESS/USDT:USDT 市价单创建成功 ID:2785106 成交:188.0
+2025-10-05 00:52:15 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 00:52:15 | INFO     | [POSITIONS] 新仓位已添加到字典: {'PROVE/USDT:USDT': {'side': 'long', 'quantity': 8.1}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 2.6}, 'BLESS/USDT:USDT': {'side': 'short', 'quantity': 188.8}}
+2025-10-05 00:52:15 | INFO     | [POSITIONS] 当前仓位字典: {'PROVE/USDT:USDT': {'side': 'long', 'quantity': 8.1}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 2.6}, 'BLESS/USDT:USDT': {'side': 'short', 'quantity': 188.8}}
+2025-10-05 00:52:15 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 00:52:15 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 00:52:15 | INFO     | [OK] 交易周期执行成功
+2025-10-05 00:52:15 | INFO     | [TIME] 周期耗时: 25.7秒
+2025-10-05 00:52:15 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 00:53:15 | INFO     | 
+==================================================
+2025-10-05 00:53:15 | INFO     | [CYCLE] 第 2 轮交易周期
+2025-10-05 00:53:15 | INFO     | [TIME] 开始时间: 2025-10-05 00:53:15
+2025-10-05 00:53:15 | INFO     | ==================================================
+2025-10-05 00:53:15 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 00:53:15 | INFO     | [POSITIONS] 当前持有仓位: {'PROVE/USDT:USDT': {'side': 'long', 'quantity': 8.1}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 2.6}, 'BLESS/USDT:USDT': {'side': 'short', 'quantity': 188.8}}
+2025-10-05 00:53:15 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 3 个
+2025-10-05 00:53:15 | INFO     | [TESTNET CLOSE] 平仓 PROVE/USDT:USDT: sell 8.1 (原long仓位)
+2025-10-05 00:53:15 | INFO     | [TESTNET MARKET] 创建市价单 PROVE/USDT:USDT: sell 8.1
+2025-10-05 00:53:15 | INFO     | [TESTNET SUCCESS] PROVE/USDT:USDT 市价单创建成功 ID:6441629 成交:8.1
+2025-10-05 00:53:15 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 PROVE/USDT:USDT: 6441629
+2025-10-05 00:53:15 | INFO     | [TESTNET CLOSE] 平仓 FXS/USDT:USDT: buy 2.6 (原short仓位)
+2025-10-05 00:53:15 | INFO     | [TESTNET MARKET] 创建市价单 FXS/USDT:USDT: buy 2.6
+2025-10-05 00:53:15 | INFO     | [TESTNET SUCCESS] FXS/USDT:USDT 市价单创建成功 ID:18408552 成交:2.6
+2025-10-05 00:53:15 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FXS/USDT:USDT: 18408552
+2025-10-05 00:53:15 | INFO     | [TESTNET CLOSE] 平仓 BLESS/USDT:USDT: buy 188.8 (原short仓位)
+2025-10-05 00:53:15 | INFO     | [TESTNET MARKET] 创建市价单 BLESS/USDT:USDT: buy 188.8
+2025-10-05 00:53:15 | INFO     | [TESTNET SUCCESS] BLESS/USDT:USDT 市价单创建成功 ID:2785311 成交:188.0
+2025-10-05 00:53:15 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 BLESS/USDT:USDT: 2785311
+2025-10-05 00:53:16 | INFO     | [TESTNET WAIT] 等待 3 个平仓订单执行...
+2025-10-05 00:53:18 | INFO     | [TESTNET OK] 平仓操作完成，成功: 3/3
+2025-10-05 00:53:18 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 00:53:18 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 00:53:18 | INFO     | [STEP 3] 获取当前合约保证金...
+2025-10-05 00:53:18 | INFO     | [BALANCE] 当前保证金余额: 19.18 USDT
+2025-10-05 00:53:18 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 00:53:18
+💰 USDT余额: 19.18
+🔧 环境: 测试网
+2025-10-05 00:53:18 | INFO     | [BALANCE] 余额通知已发送: 19.18 USDT
+2025-10-05 00:53:18 | INFO     | [STEP 4] 提取OHLC数据并计算因子...
+2025-10-05 00:53:18 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 00:53:40 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 00:53:40 | INFO     | [STEP 5] 根据因子值选择交易标的...
+2025-10-05 00:53:40 | INFO     | [STATS] 因子统计:
+2025-10-05 00:53:40 | INFO     |    总计: 496 个标的
+2025-10-05 00:53:40 | INFO     |    因子值范围: -0.052449 ~ 0.045679
+2025-10-05 00:53:40 | INFO     |    选择做多: 2 个
+2025-10-05 00:53:40 | INFO     |    选择做空: 2 个
+2025-10-05 00:53:40 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 00:53:40 | INFO     |    BDXN/USDT:USDT: 0.045679
+2025-10-05 00:53:40 | INFO     |    TUT/USDT:USDT: 0.041624
+2025-10-05 00:53:40 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 00:53:40 | INFO     |    FXS/USDT:USDT: -0.045854
+2025-10-05 00:53:40 | INFO     |    BLESS/USDT:USDT: -0.052449
+2025-10-05 00:53:40 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 00:53:40 | INFO     |    做多: ['BDXN/USDT:USDT', 'TUT/USDT:USDT']
+2025-10-05 00:53:40 | INFO     |    做空: ['FXS/USDT:USDT', 'BLESS/USDT:USDT']
+2025-10-05 00:53:41 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个): BDXN/USDT:USDT, TUT/USDT:USDT
+做空 (2个): FXS/USDT:USDT, BLESS/USDT:USDT
+2025-10-05 00:53:41 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 00:53:41 | INFO     | [BALANCE] 总余额: 19.18 USDT
+2025-10-05 00:53:41 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 00:53:41 | INFO     | [VALUE] 单仓价值: 4.75 USDT
+2025-10-05 00:53:41 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 00:53:41 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 00:53:41 | INFO     | [TESTNET BUY] 做多 BDXN/USDT:USDT: 121.1 @ 0.03921
+2025-10-05 00:53:41 | INFO     | [TESTNET MARKET] 创建市价单 BDXN/USDT:USDT: buy 121.1
+2025-10-05 00:53:41 | ERROR    | [TESTNET ERROR] BDXN/USDT:USDT 订单创建失败: binance {"code":-4164,"msg":"Order's notional must be no smaller than 5 (unless you choose reduce only)."}
+2025-10-05 00:53:41 | ERROR    | [TESTNET ERROR] BDXN/USDT:USDT 订单金额太小，请增加订单金额
+2025-10-05 00:53:41 | ERROR    | [TESTNET ERROR] BDXN/USDT:USDT 市价单创建异常: binance {"code":-4164,"msg":"Order's notional must be no smaller than 5 (unless you choose reduce only)."}
+2025-10-05 00:53:41 | INFO     | [DINGDING] 通知已发送: [TESTNET] 多头订单失败！BDXN/USDT:USDT 数量: 121.1 @ 0.03921
+2025-10-05 00:53:42 | INFO     | [TESTNET BUY] 做多 TUT/USDT:USDT: 45.5 @ 0.10434
+2025-10-05 00:53:42 | INFO     | [TESTNET MARKET] 创建市价单 TUT/USDT:USDT: buy 45.5
+2025-10-05 00:53:42 | ERROR    | [TESTNET ERROR] TUT/USDT:USDT 订单创建失败: binance {"code":-4164,"msg":"Order's notional must be no smaller than 5 (unless you choose reduce only)."}
+2025-10-05 00:53:42 | ERROR    | [TESTNET ERROR] TUT/USDT:USDT 订单金额太小，请增加订单金额
+2025-10-05 00:53:42 | ERROR    | [TESTNET ERROR] TUT/USDT:USDT 市价单创建异常: binance {"code":-4164,"msg":"Order's notional must be no smaller than 5 (unless you choose reduce only)."}
+2025-10-05 00:53:42 | INFO     | [DINGDING] 通知已发送: [TESTNET] 多头订单失败！TUT/USDT:USDT 数量: 45.5 @ 0.10434
+2025-10-05 00:53:42 | INFO     | [TESTNET OK] 多头开仓: 0/2 成功
+2025-10-05 00:53:42 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 00:53:42 | INFO     | [TESTNET SELL] 做空 FXS/USDT:USDT: 2.0 @ 2.3262
+2025-10-05 00:53:42 | INFO     | [TESTNET MARKET] 创建市价单 FXS/USDT:USDT: sell 2.0
+2025-10-05 00:53:42 | ERROR    | [TESTNET ERROR] FXS/USDT:USDT 订单创建失败: binance {"code":-4164,"msg":"Order's notional must be no smaller than 5 (unless you choose reduce only)."}
+2025-10-05 00:53:42 | ERROR    | [TESTNET ERROR] FXS/USDT:USDT 订单金额太小，请增加订单金额
+2025-10-05 00:53:42 | ERROR    | [TESTNET ERROR] FXS/USDT:USDT 市价单创建异常: binance {"code":-4164,"msg":"Order's notional must be no smaller than 5 (unless you choose reduce only)."}
+2025-10-05 00:53:42 | INFO     | [DINGDING] 通知已发送: [TESTNET] 空头订单失败！FXS/USDT:USDT 数量: 2.0 @ 2.3262
+2025-10-05 00:53:43 | INFO     | [TESTNET SELL] 做空 BLESS/USDT:USDT: 145.4 @ 0.032663
+2025-10-05 00:53:43 | INFO     | [TESTNET MARKET] 创建市价单 BLESS/USDT:USDT: sell 145.4
+2025-10-05 00:53:43 | ERROR    | [TESTNET ERROR] BLESS/USDT:USDT 订单创建失败: binance {"code":-4164,"msg":"Order's notional must be no smaller than 5 (unless you choose reduce only)."}
+2025-10-05 00:53:43 | ERROR    | [TESTNET ERROR] BLESS/USDT:USDT 订单金额太小，请增加订单金额
+2025-10-05 00:53:43 | ERROR    | [TESTNET ERROR] BLESS/USDT:USDT 市价单创建异常: binance {"code":-4164,"msg":"Order's notional must be no smaller than 5 (unless you choose reduce only)."}
+2025-10-05 00:53:43 | INFO     | [DINGDING] 通知已发送: [TESTNET] 空头订单失败！BLESS/USDT:USDT 数量: 145.4 @ 0.032663
+2025-10-05 00:53:43 | INFO     | [TESTNET OK] 空头开仓: 0/2 成功
+2025-10-05 00:53:43 | ERROR    | [ERROR] 开仓失败
+2025-10-05 00:53:43 | WARNING  | [WARNING] 交易周期执行失败
+2025-10-05 00:53:43 | INFO     | [TIME] 周期耗时: 27.9秒
+2025-10-05 00:53:43 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:00:39 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-05 01:00:39 | INFO     | ============================================================
+2025-10-05 01:00:39 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-05 01:00:39 | INFO     | ============================================================
+2025-10-05 01:00:39 | INFO     | [INIT] 初始化交易组件...
+2025-10-05 01:00:40 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-05 01:00:40 | INFO     | [BALANCE] USDT总余额: 3399.56
+2025-10-05 01:00:40 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-05 01:00:40 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-05 01:00:40 | INFO     | [OK] 交易执行器初始化成功
+2025-10-05 01:00:40 | INFO     | [OK] API连接测试成功，耗时: 0.482秒
+2025-10-05 01:00:40 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-05 01:00:40 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-05 01:00:40 | INFO     |    设备: cpu
+2025-10-05 01:00:40 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-05 01:00:40 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-05 01:00:40 | INFO     | [BALANCE] 当前账户余额: 3399.56 USDT
+2025-10-05 01:00:41 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:00:40
+💰 USDT余额: 3399.56
+🔧 环境: 测试网
+2025-10-05 01:00:41 | INFO     | [BALANCE] 余额通知已发送: 3399.56 USDT
+2025-10-05 01:00:41 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-10-05 01:00:41 | INFO     | [LOOP] 开始主交易循环
+2025-10-05 01:00:41 | INFO     | 
+==================================================
+2025-10-05 01:00:41 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-10-05 01:00:41 | INFO     | [TIME] 开始时间: 2025-10-05 01:00:41
+2025-10-05 01:00:41 | INFO     | ==================================================
+2025-10-05 01:00:41 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:00:41 | INFO     | [INFO] 仓位字典为空，无需平仓
+2025-10-05 01:00:41 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:00:41 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:00:41 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:01:04 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:01:04 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:01:04 | INFO     | [STATS] 因子统计:
+2025-10-05 01:01:04 | INFO     |    总计: 496 个标的
+2025-10-05 01:01:04 | INFO     |    因子值范围: -0.052631 ~ 0.067399
+2025-10-05 01:01:04 | INFO     |    选择做多: 2 个
+2025-10-05 01:01:04 | INFO     |    选择做空: 2 个
+2025-10-05 01:01:04 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:01:04 | INFO     |    TREE/USDT:USDT: 0.067399
+2025-10-05 01:01:04 | INFO     |    TUT/USDT:USDT: 0.050486
+2025-10-05 01:01:04 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:01:04 | INFO     |    EGLD/USDT:USDT: -0.050661
+2025-10-05 01:01:04 | INFO     |    STEEM/USDT:USDT: -0.052631
+2025-10-05 01:01:04 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:01:04 | INFO     |    做多: ['TREE/USDT:USDT', 'TUT/USDT:USDT']
+2025-10-05 01:01:04 | INFO     |    做空: ['EGLD/USDT:USDT', 'STEEM/USDT:USDT']
+2025-10-05 01:01:04 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  TREE/USDT:USDT: 0.067399
+  TUT/USDT:USDT: 0.050486
+做空 (2个):
+  EGLD/USDT:USDT: -0.050661
+  STEEM/USDT:USDT: -0.052631
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.052631 ~ 0.067399
+2025-10-05 01:01:04 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:01:04 | INFO     | [BALANCE] 当前保证金余额: 3399.56 USDT
+2025-10-05 01:01:05 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:01:04
+💰 USDT余额: 3399.56
+🔧 环境: 测试网
+2025-10-05 01:01:05 | INFO     | [BALANCE] 余额通知已发送: 3399.56 USDT
+2025-10-05 01:01:05 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:01:05 | INFO     | [BALANCE] 总余额: 3399.56 USDT
+2025-10-05 01:01:05 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:01:05 | INFO     | [VALUE] 单仓价值: 841.39 USDT
+2025-10-05 01:01:05 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:01:05 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:01:05 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 3169.1 @ 0.2655
+2025-10-05 01:01:05 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 3169.1
+2025-10-05 01:01:05 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8539790 成交:3169.0
+2025-10-05 01:01:05 | INFO     | [TESTNET BUY] 做多 TUT/USDT:USDT: 8067.0 @ 0.1043
+2025-10-05 01:01:05 | INFO     | [TESTNET MARKET] 创建市价单 TUT/USDT:USDT: buy 8067.0
+2025-10-05 01:01:05 | INFO     | [TESTNET SUCCESS] TUT/USDT:USDT 市价单创建成功 ID:14974944 成交:8067.0
+2025-10-05 01:01:05 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:01:05 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:01:05 | INFO     | [TESTNET SELL] 做空 EGLD/USDT:USDT: 63.4 @ 13.265
+2025-10-05 01:01:05 | INFO     | [TESTNET MARKET] 创建市价单 EGLD/USDT:USDT: sell 63.4
+2025-10-05 01:01:05 | INFO     | [TESTNET SUCCESS] EGLD/USDT:USDT 市价单创建成功 ID:51382718 成交:63.4
+2025-10-05 01:01:05 | INFO     | [TESTNET SELL] 做空 STEEM/USDT:USDT: 6945.0 @ 0.12115
+2025-10-05 01:01:05 | INFO     | [TESTNET MARKET] 创建市价单 STEEM/USDT:USDT: sell 6945.0
+2025-10-05 01:01:05 | INFO     | [TESTNET SUCCESS] STEEM/USDT:USDT 市价单创建成功 ID:17420211 成交:6945.0
+2025-10-05 01:01:05 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:01:05 | INFO     | [POSITIONS] 新仓位已添加到字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3169.1}, 'TUT/USDT:USDT': {'side': 'long', 'quantity': 8067.0}, 'EGLD/USDT:USDT': {'side': 'short', 'quantity': 63.4}, 'STEEM/USDT:USDT': {'side': 'short', 'quantity': 6945.0}}
+2025-10-05 01:01:05 | INFO     | [POSITIONS] 当前仓位字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3169.1}, 'TUT/USDT:USDT': {'side': 'long', 'quantity': 8067.0}, 'EGLD/USDT:USDT': {'side': 'short', 'quantity': 63.4}, 'STEEM/USDT:USDT': {'side': 'short', 'quantity': 6945.0}}
+2025-10-05 01:01:05 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:01:05 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:01:05 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:01:05 | INFO     | [TIME] 周期耗时: 24.5秒
+2025-10-05 01:01:05 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:02:05 | INFO     | 
+==================================================
+2025-10-05 01:02:05 | INFO     | [CYCLE] 第 2 轮交易周期
+2025-10-05 01:02:05 | INFO     | [TIME] 开始时间: 2025-10-05 01:02:05
+2025-10-05 01:02:05 | INFO     | ==================================================
+2025-10-05 01:02:05 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:02:05 | INFO     | [POSITIONS] 当前持有仓位: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3169.1}, 'TUT/USDT:USDT': {'side': 'long', 'quantity': 8067.0}, 'EGLD/USDT:USDT': {'side': 'short', 'quantity': 63.4}, 'STEEM/USDT:USDT': {'side': 'short', 'quantity': 6945.0}}
+2025-10-05 01:02:05 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 01:02:05 | INFO     | [TESTNET CLOSE] 平仓 TREE/USDT:USDT: sell 3169.1 (原long仓位)
+2025-10-05 01:02:05 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: sell 3169.1
+2025-10-05 01:02:05 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8540037 成交:3169.0
+2025-10-05 01:02:05 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TREE/USDT:USDT: 8540037
+2025-10-05 01:02:06 | INFO     | [TESTNET CLOSE] 平仓 TUT/USDT:USDT: sell 8067.0 (原long仓位)
+2025-10-05 01:02:06 | INFO     | [TESTNET MARKET] 创建市价单 TUT/USDT:USDT: sell 8067.0
+2025-10-05 01:02:06 | INFO     | [TESTNET SUCCESS] TUT/USDT:USDT 市价单创建成功 ID:14975151 成交:8067.0
+2025-10-05 01:02:06 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TUT/USDT:USDT: 14975151
+2025-10-05 01:02:06 | INFO     | [TESTNET CLOSE] 平仓 EGLD/USDT:USDT: buy 63.4 (原short仓位)
+2025-10-05 01:02:06 | INFO     | [TESTNET MARKET] 创建市价单 EGLD/USDT:USDT: buy 63.4
+2025-10-05 01:02:06 | INFO     | [TESTNET SUCCESS] EGLD/USDT:USDT 市价单创建成功 ID:51382901 成交:63.4
+2025-10-05 01:02:06 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 EGLD/USDT:USDT: 51382901
+2025-10-05 01:02:06 | INFO     | [TESTNET CLOSE] 平仓 STEEM/USDT:USDT: buy 6945.0 (原short仓位)
+2025-10-05 01:02:06 | INFO     | [TESTNET MARKET] 创建市价单 STEEM/USDT:USDT: buy 6945.0
+2025-10-05 01:02:06 | INFO     | [TESTNET SUCCESS] STEEM/USDT:USDT 市价单创建成功 ID:17420276 成交:6945.0
+2025-10-05 01:02:06 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 STEEM/USDT:USDT: 17420276
+2025-10-05 01:02:06 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 01:02:08 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 01:02:08 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 01:02:08 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:02:08 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:02:08 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:02:30 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:02:30 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:02:30 | INFO     | [STATS] 因子统计:
+2025-10-05 01:02:30 | INFO     |    总计: 496 个标的
+2025-10-05 01:02:30 | INFO     |    因子值范围: -0.060856 ~ 0.088113
+2025-10-05 01:02:30 | INFO     |    选择做多: 2 个
+2025-10-05 01:02:30 | INFO     |    选择做空: 2 个
+2025-10-05 01:02:30 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:02:30 | INFO     |    ZEREBRO/USDT:USDT: 0.088113
+2025-10-05 01:02:30 | INFO     |    TREE/USDT:USDT: 0.067399
+2025-10-05 01:02:30 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:02:30 | INFO     |    FIS/USDT:USDT: -0.057563
+2025-10-05 01:02:30 | INFO     |    SIGN/USDT:USDT: -0.060856
+2025-10-05 01:02:30 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:02:30 | INFO     |    做多: ['ZEREBRO/USDT:USDT', 'TREE/USDT:USDT']
+2025-10-05 01:02:30 | INFO     |    做空: ['FIS/USDT:USDT', 'SIGN/USDT:USDT']
+2025-10-05 01:02:31 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  ZEREBRO/USDT:USDT: 0.088113
+  TREE/USDT:USDT: 0.067399
+做空 (2个):
+  FIS/USDT:USDT: -0.057563
+  SIGN/USDT:USDT: -0.060856
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.060856 ~ 0.088113
+2025-10-05 01:02:31 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:02:31 | INFO     | [BALANCE] 当前保证金余额: 3389.16 USDT
+2025-10-05 01:02:31 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:02:31
+💰 USDT余额: 3389.16
+🔧 环境: 测试网
+2025-10-05 01:02:31 | INFO     | [BALANCE] 余额通知已发送: 3389.16 USDT
+2025-10-05 01:02:31 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:02:31 | INFO     | [BALANCE] 总余额: 3389.16 USDT
+2025-10-05 01:02:31 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:02:31 | INFO     | [VALUE] 单仓价值: 838.82 USDT
+2025-10-05 01:02:31 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:02:31 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:02:31 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 45073.4 @ 0.01861
+2025-10-05 01:02:31 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 45073.4
+2025-10-05 01:02:32 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20588966 成交:45073.0
+2025-10-05 01:02:32 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 3174.9 @ 0.2642
+2025-10-05 01:02:32 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 3174.9
+2025-10-05 01:02:32 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8540062 成交:3174.0
+2025-10-05 01:02:32 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:02:32 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:02:32 | INFO     | [TESTNET SELL] 做空 FIS/USDT:USDT: 10213.3 @ 0.08213
+2025-10-05 01:02:32 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: sell 10213.3
+2025-10-05 01:02:32 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6706258 成交:10213.0
+2025-10-05 01:02:32 | INFO     | [TESTNET SELL] 做空 SIGN/USDT:USDT: 12966.7 @ 0.06469
+2025-10-05 01:02:32 | INFO     | [TESTNET MARKET] 创建市价单 SIGN/USDT:USDT: sell 12966.7
+2025-10-05 01:02:32 | INFO     | [TESTNET SUCCESS] SIGN/USDT:USDT 市价单创建成功 ID:5974188 成交:12966.0
+2025-10-05 01:02:32 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:02:32 | INFO     | [POSITIONS] 新仓位已添加到字典: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 45073.4}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 3174.9}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10213.3}, 'SIGN/USDT:USDT': {'side': 'short', 'quantity': 12966.7}}
+2025-10-05 01:02:32 | INFO     | [POSITIONS] 当前仓位字典: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 45073.4}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 3174.9}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10213.3}, 'SIGN/USDT:USDT': {'side': 'short', 'quantity': 12966.7}}
+2025-10-05 01:02:32 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:02:32 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:02:32 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:02:32 | INFO     | [TIME] 周期耗时: 26.6秒
+2025-10-05 01:02:32 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:03:32 | INFO     | 
+==================================================
+2025-10-05 01:03:32 | INFO     | [CYCLE] 第 3 轮交易周期
+2025-10-05 01:03:32 | INFO     | [TIME] 开始时间: 2025-10-05 01:03:32
+2025-10-05 01:03:32 | INFO     | ==================================================
+2025-10-05 01:03:32 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:03:32 | INFO     | [POSITIONS] 当前持有仓位: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 45073.4}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 3174.9}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10213.3}, 'SIGN/USDT:USDT': {'side': 'short', 'quantity': 12966.7}}
+2025-10-05 01:03:32 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 01:03:32 | INFO     | [TESTNET CLOSE] 平仓 ZEREBRO/USDT:USDT: sell 45073.4 (原long仓位)
+2025-10-05 01:03:32 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: sell 45073.4
+2025-10-05 01:03:32 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20589168 成交:45073.0
+2025-10-05 01:03:32 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ZEREBRO/USDT:USDT: 20589168
+2025-10-05 01:03:32 | INFO     | [TESTNET CLOSE] 平仓 TREE/USDT:USDT: sell 3174.9 (原long仓位)
+2025-10-05 01:03:32 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: sell 3174.9
+2025-10-05 01:03:32 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8540233 成交:3174.0
+2025-10-05 01:03:32 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TREE/USDT:USDT: 8540233
+2025-10-05 01:03:32 | INFO     | [TESTNET CLOSE] 平仓 FIS/USDT:USDT: buy 10213.3 (原short仓位)
+2025-10-05 01:03:32 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: buy 10213.3
+2025-10-05 01:03:32 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6706321 成交:10213.0
+2025-10-05 01:03:32 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FIS/USDT:USDT: 6706321
+2025-10-05 01:03:32 | INFO     | [TESTNET CLOSE] 平仓 SIGN/USDT:USDT: buy 12966.7 (原short仓位)
+2025-10-05 01:03:32 | INFO     | [TESTNET MARKET] 创建市价单 SIGN/USDT:USDT: buy 12966.7
+2025-10-05 01:03:32 | INFO     | [TESTNET SUCCESS] SIGN/USDT:USDT 市价单创建成功 ID:5974257 成交:12966.0
+2025-10-05 01:03:32 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 SIGN/USDT:USDT: 5974257
+2025-10-05 01:03:33 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 01:03:35 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 01:03:35 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 01:03:35 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:03:35 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:03:35 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:03:57 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:03:57 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:03:57 | INFO     | [STATS] 因子统计:
+2025-10-05 01:03:57 | INFO     |    总计: 496 个标的
+2025-10-05 01:03:57 | INFO     |    因子值范围: -0.054595 ~ 0.081437
+2025-10-05 01:03:57 | INFO     |    选择做多: 2 个
+2025-10-05 01:03:57 | INFO     |    选择做空: 2 个
+2025-10-05 01:03:57 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:03:57 | INFO     |    ZEREBRO/USDT:USDT: 0.081437
+2025-10-05 01:03:57 | INFO     |    TREE/USDT:USDT: 0.050842
+2025-10-05 01:03:57 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:03:57 | INFO     |    VELVET/USDT:USDT: -0.053114
+2025-10-05 01:03:57 | INFO     |    FIS/USDT:USDT: -0.054595
+2025-10-05 01:03:57 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:03:57 | INFO     |    做多: ['ZEREBRO/USDT:USDT', 'TREE/USDT:USDT']
+2025-10-05 01:03:57 | INFO     |    做空: ['VELVET/USDT:USDT', 'FIS/USDT:USDT']
+2025-10-05 01:03:57 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  ZEREBRO/USDT:USDT: 0.081437
+  TREE/USDT:USDT: 0.050842
+做空 (2个):
+  VELVET/USDT:USDT: -0.053114
+  FIS/USDT:USDT: -0.054595
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.054595 ~ 0.081437
+2025-10-05 01:03:57 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:03:57 | INFO     | [BALANCE] 当前保证金余额: 3373.84 USDT
+2025-10-05 01:03:58 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:03:57
+💰 USDT余额: 3373.84
+🔧 环境: 测试网
+2025-10-05 01:03:58 | INFO     | [BALANCE] 余额通知已发送: 3373.84 USDT
+2025-10-05 01:03:58 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:03:58 | INFO     | [BALANCE] 总余额: 3373.84 USDT
+2025-10-05 01:03:58 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:03:58 | INFO     | [VALUE] 单仓价值: 835.03 USDT
+2025-10-05 01:03:58 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:03:58 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:03:58 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 44821.6 @ 0.01863
+2025-10-05 01:03:58 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 44821.6
+2025-10-05 01:03:58 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20589212 成交:44821.0
+2025-10-05 01:03:58 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 3169.0 @ 0.2635
+2025-10-05 01:03:58 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 3169.0
+2025-10-05 01:03:58 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8540284 成交:3169.0
+2025-10-05 01:03:58 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:03:58 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:03:58 | INFO     | [TESTNET SELL] 做空 VELVET/USDT:USDT: 4738.8 @ 0.17621
+2025-10-05 01:03:58 | INFO     | [TESTNET MARKET] 创建市价单 VELVET/USDT:USDT: sell 4738.8
+2025-10-05 01:03:58 | INFO     | [TESTNET SUCCESS] VELVET/USDT:USDT 市价单创建成功 ID:7716621 成交:4738.0
+2025-10-05 01:03:58 | INFO     | [TESTNET SELL] 做空 FIS/USDT:USDT: 10173.3 @ 0.08208
+2025-10-05 01:03:58 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: sell 10173.3
+2025-10-05 01:03:58 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6706342 成交:10173.0
+2025-10-05 01:03:58 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:03:58 | INFO     | [POSITIONS] 新仓位已添加到字典: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 44821.6}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 3169.0}, 'VELVET/USDT:USDT': {'side': 'short', 'quantity': 4738.8}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10173.3}}
+2025-10-05 01:03:58 | INFO     | [POSITIONS] 当前仓位字典: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 44821.6}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 3169.0}, 'VELVET/USDT:USDT': {'side': 'short', 'quantity': 4738.8}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10173.3}}
+2025-10-05 01:03:58 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:03:58 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:03:58 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:03:58 | INFO     | [TIME] 周期耗时: 26.3秒
+2025-10-05 01:03:58 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:32:12 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-05 01:32:12 | INFO     | ============================================================
+2025-10-05 01:32:12 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-05 01:32:12 | INFO     | ============================================================
+2025-10-05 01:32:12 | INFO     | [INIT] 初始化交易组件...
+2025-10-05 01:32:12 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-05 01:32:12 | INFO     | [BALANCE] USDT总余额: 3357.53
+2025-10-05 01:32:12 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-05 01:32:12 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-05 01:32:12 | INFO     | [OK] 交易执行器初始化成功
+2025-10-05 01:32:13 | INFO     | [OK] API连接测试成功，耗时: 0.480秒
+2025-10-05 01:32:13 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-05 01:32:13 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-05 01:32:13 | INFO     |    设备: cpu
+2025-10-05 01:32:13 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-05 01:32:13 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-05 01:32:13 | INFO     | [BALANCE] 当前账户余额: 3357.53 USDT
+2025-10-05 01:32:13 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:32:13
+💰 USDT余额: 3357.53
+🔧 环境: 测试网
+2025-10-05 01:32:13 | INFO     | [BALANCE] 余额通知已发送: 3357.53 USDT
+2025-10-05 01:32:13 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-10-05 01:32:13 | INFO     | [LOOP] 开始主交易循环
+2025-10-05 01:32:13 | INFO     | 
+==================================================
+2025-10-05 01:32:13 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-10-05 01:32:13 | INFO     | [TIME] 开始时间: 2025-10-05 01:32:13
+2025-10-05 01:32:13 | INFO     | ==================================================
+2025-10-05 01:32:13 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:32:13 | INFO     | [INFO] 仓位字典为空，无需平仓
+2025-10-05 01:32:13 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:32:13 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:32:13 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:32:35 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:32:35 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:32:35 | INFO     | [STATS] 因子统计:
+2025-10-05 01:32:35 | INFO     |    总计: 496 个标的
+2025-10-05 01:32:35 | INFO     |    因子值范围: -0.052767 ~ 0.076477
+2025-10-05 01:32:35 | INFO     |    选择做多: 2 个
+2025-10-05 01:32:35 | INFO     |    选择做空: 2 个
+2025-10-05 01:32:35 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:32:35 | INFO     |    ZEREBRO/USDT:USDT: 0.076477
+2025-10-05 01:32:35 | INFO     |    TUT/USDT:USDT: 0.050589
+2025-10-05 01:32:35 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:32:35 | INFO     |    FXS/USDT:USDT: -0.047823
+2025-10-05 01:32:35 | INFO     |    FIS/USDT:USDT: -0.052767
+2025-10-05 01:32:35 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:32:35 | INFO     |    做多: ['ZEREBRO/USDT:USDT', 'TUT/USDT:USDT']
+2025-10-05 01:32:35 | INFO     |    做空: ['FXS/USDT:USDT', 'FIS/USDT:USDT']
+2025-10-05 01:32:36 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  ZEREBRO/USDT:USDT: 0.076477
+  TUT/USDT:USDT: 0.050589
+做空 (2个):
+  FXS/USDT:USDT: -0.047823
+  FIS/USDT:USDT: -0.052767
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.052767 ~ 0.076477
+2025-10-05 01:32:36 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:32:36 | INFO     | [BALANCE] 当前保证金余额: 3357.53 USDT
+2025-10-05 01:32:36 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:32:36
+💰 USDT余额: 3357.53
+🔧 环境: 测试网
+2025-10-05 01:32:36 | INFO     | [BALANCE] 余额通知已发送: 3357.53 USDT
+2025-10-05 01:32:36 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:32:36 | INFO     | [BALANCE] 总余额: 3357.53 USDT
+2025-10-05 01:32:36 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:32:36 | INFO     | [VALUE] 单仓价值: 830.99 USDT
+2025-10-05 01:32:36 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:32:36 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:32:36 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 45064.5 @ 0.01844
+2025-10-05 01:32:36 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 45064.5
+2025-10-05 01:32:36 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20592151 成交:45064.0
+2025-10-05 01:32:37 | INFO     | [TESTNET BUY] 做多 TUT/USDT:USDT: 7959.7 @ 0.1044
+2025-10-05 01:32:37 | INFO     | [TESTNET MARKET] 创建市价单 TUT/USDT:USDT: buy 7959.7
+2025-10-05 01:32:37 | INFO     | [TESTNET SUCCESS] TUT/USDT:USDT 市价单创建成功 ID:14978274 成交:7959.7
+2025-10-05 01:32:37 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:32:37 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:32:37 | INFO     | [TESTNET SELL] 做空 FXS/USDT:USDT: 357.9 @ 2.3219
+2025-10-05 01:32:37 | INFO     | [TESTNET MARKET] 创建市价单 FXS/USDT:USDT: sell 357.9
+2025-10-05 01:32:37 | INFO     | [TESTNET SUCCESS] FXS/USDT:USDT 市价单创建成功 ID:18411623 成交:357.9
+2025-10-05 01:32:37 | INFO     | [TESTNET SELL] 做空 FIS/USDT:USDT: 10125.4 @ 0.08207
+2025-10-05 01:32:37 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: sell 10125.4
+2025-10-05 01:32:37 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6708574 成交:10125.0
+2025-10-05 01:32:37 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:32:37 | INFO     | [POSITIONS] 新仓位已添加到字典: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 45064.5}, 'TUT/USDT:USDT': {'side': 'long', 'quantity': 7959.7}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 357.9}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10125.4}}
+2025-10-05 01:32:37 | INFO     | [POSITIONS] 当前仓位字典: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 45064.5}, 'TUT/USDT:USDT': {'side': 'long', 'quantity': 7959.7}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 357.9}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10125.4}}
+2025-10-05 01:32:37 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:32:37 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:32:37 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:32:37 | INFO     | [TIME] 周期耗时: 23.6秒
+2025-10-05 01:32:37 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:33:37 | INFO     | 
+==================================================
+2025-10-05 01:33:37 | INFO     | [CYCLE] 第 2 轮交易周期
+2025-10-05 01:33:37 | INFO     | [TIME] 开始时间: 2025-10-05 01:33:37
+2025-10-05 01:33:37 | INFO     | ==================================================
+2025-10-05 01:33:37 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:33:37 | INFO     | [POSITIONS] 当前持有仓位: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 45064.5}, 'TUT/USDT:USDT': {'side': 'long', 'quantity': 7959.7}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 357.9}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10125.4}}
+2025-10-05 01:33:37 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 01:33:37 | INFO     | [TESTNET CLOSE] 平仓 ZEREBRO/USDT:USDT: sell 45064.5 (原long仓位)
+2025-10-05 01:33:37 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: sell 45064.5
+2025-10-05 01:33:37 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20592242 成交:45064.0
+2025-10-05 01:33:37 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ZEREBRO/USDT:USDT: 20592242
+2025-10-05 01:33:37 | INFO     | [TESTNET CLOSE] 平仓 TUT/USDT:USDT: sell 7959.7 (原long仓位)
+2025-10-05 01:33:37 | INFO     | [TESTNET MARKET] 创建市价单 TUT/USDT:USDT: sell 7959.7
+2025-10-05 01:33:37 | INFO     | [TESTNET SUCCESS] TUT/USDT:USDT 市价单创建成功 ID:14978367 成交:7959.7
+2025-10-05 01:33:37 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TUT/USDT:USDT: 14978367
+2025-10-05 01:33:37 | INFO     | [TESTNET CLOSE] 平仓 FXS/USDT:USDT: buy 357.9 (原short仓位)
+2025-10-05 01:33:37 | INFO     | [TESTNET MARKET] 创建市价单 FXS/USDT:USDT: buy 357.9
+2025-10-05 01:33:37 | INFO     | [TESTNET SUCCESS] FXS/USDT:USDT 市价单创建成功 ID:18411680 成交:357.9
+2025-10-05 01:33:37 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FXS/USDT:USDT: 18411680
+2025-10-05 01:33:37 | INFO     | [TESTNET CLOSE] 平仓 FIS/USDT:USDT: buy 10125.4 (原short仓位)
+2025-10-05 01:33:37 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: buy 10125.4
+2025-10-05 01:33:37 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6708655 成交:10125.0
+2025-10-05 01:33:37 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FIS/USDT:USDT: 6708655
+2025-10-05 01:33:37 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 01:33:39 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 01:33:39 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 01:33:39 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:33:39 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:33:39 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.002秒
+2025-10-05 01:34:01 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:34:01 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:34:01 | INFO     | [STATS] 因子统计:
+2025-10-05 01:34:01 | INFO     |    总计: 496 个标的
+2025-10-05 01:34:01 | INFO     |    因子值范围: -0.053676 ~ 0.076617
+2025-10-05 01:34:01 | INFO     |    选择做多: 2 个
+2025-10-05 01:34:01 | INFO     |    选择做空: 2 个
+2025-10-05 01:34:01 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:34:01 | INFO     |    ZEREBRO/USDT:USDT: 0.076617
+2025-10-05 01:34:01 | INFO     |    TREE/USDT:USDT: 0.063347
+2025-10-05 01:34:01 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:34:01 | INFO     |    FXS/USDT:USDT: -0.048501
+2025-10-05 01:34:01 | INFO     |    FIS/USDT:USDT: -0.053676
+2025-10-05 01:34:01 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:34:01 | INFO     |    做多: ['ZEREBRO/USDT:USDT', 'TREE/USDT:USDT']
+2025-10-05 01:34:01 | INFO     |    做空: ['FXS/USDT:USDT', 'FIS/USDT:USDT']
+2025-10-05 01:34:02 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  ZEREBRO/USDT:USDT: 0.076617
+  TREE/USDT:USDT: 0.063347
+做空 (2个):
+  FXS/USDT:USDT: -0.048501
+  FIS/USDT:USDT: -0.053676
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.053676 ~ 0.076617
+2025-10-05 01:34:02 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:34:02 | INFO     | [BALANCE] 当前保证金余额: 3338.09 USDT
+2025-10-05 01:34:02 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:34:02
+💰 USDT余额: 3338.09
+🔧 环境: 测试网
+2025-10-05 01:34:02 | INFO     | [BALANCE] 余额通知已发送: 3338.09 USDT
+2025-10-05 01:34:02 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:34:02 | INFO     | [BALANCE] 总余额: 3338.09 USDT
+2025-10-05 01:34:02 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:34:02 | INFO     | [VALUE] 单仓价值: 826.18 USDT
+2025-10-05 01:34:02 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:34:03 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:34:03 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 44925.3 @ 0.01839
+2025-10-05 01:34:03 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 44925.3
+2025-10-05 01:34:03 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20592305 成交:44925.0
+2025-10-05 01:34:03 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 3122.4 @ 0.2646
+2025-10-05 01:34:03 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 3122.4
+2025-10-05 01:34:03 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8544650 成交:3122.0
+2025-10-05 01:34:03 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:34:03 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:34:03 | INFO     | [TESTNET SELL] 做空 FXS/USDT:USDT: 355.7 @ 2.3229
+2025-10-05 01:34:03 | INFO     | [TESTNET MARKET] 创建市价单 FXS/USDT:USDT: sell 355.7
+2025-10-05 01:34:03 | INFO     | [TESTNET SUCCESS] FXS/USDT:USDT 市价单创建成功 ID:18411719 成交:355.7
+2025-10-05 01:34:03 | INFO     | [TESTNET SELL] 做空 FIS/USDT:USDT: 10074.1 @ 0.08201
+2025-10-05 01:34:03 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: sell 10074.1
+2025-10-05 01:34:03 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6708685 成交:10074.0
+2025-10-05 01:34:03 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:34:03 | INFO     | [POSITIONS] 新仓位已添加到字典: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 44925.3}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 3122.4}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 355.7}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10074.1}}
+2025-10-05 01:34:03 | INFO     | [POSITIONS] 当前仓位字典: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 44925.3}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 3122.4}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 355.7}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10074.1}}
+2025-10-05 01:34:03 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:34:03 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:34:03 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:34:03 | INFO     | [TIME] 周期耗时: 26.1秒
+2025-10-05 01:34:03 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:37:53 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-05 01:37:53 | INFO     | ============================================================
+2025-10-05 01:37:53 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-05 01:37:53 | INFO     | ============================================================
+2025-10-05 01:37:53 | INFO     | [INIT] 初始化交易组件...
+2025-10-05 01:37:53 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-05 01:37:53 | INFO     | [BALANCE] USDT总余额: 3317.63
+2025-10-05 01:37:53 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-05 01:37:53 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-05 01:37:53 | INFO     | [OK] 交易执行器初始化成功
+2025-10-05 01:37:54 | INFO     | [OK] API连接测试成功，耗时: 0.481秒
+2025-10-05 01:37:54 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-05 01:37:54 | ERROR    | [ERROR] 加载模型失败: Error(s) in loading state_dict for Net:
+	Missing key(s) in state_dict: "fc1.0.weight", "fc1.0.bias". 
+	Unexpected key(s) in state_dict: "fc1.1.weight", "fc1.1.bias". 
+2025-10-05 01:37:54 | ERROR    | [ERROR] 优化因子计算器初始化失败: Error(s) in loading state_dict for Net:
+	Missing key(s) in state_dict: "fc1.0.weight", "fc1.0.bias". 
+	Unexpected key(s) in state_dict: "fc1.1.weight", "fc1.1.bias". 
+2025-10-05 01:37:54 | ERROR    | [ERROR] 组件初始化失败: Error(s) in loading state_dict for Net:
+	Missing key(s) in state_dict: "fc1.0.weight", "fc1.0.bias". 
+	Unexpected key(s) in state_dict: "fc1.1.weight", "fc1.1.bias". 
+2025-10-05 01:45:14 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-05 01:45:14 | INFO     | ============================================================
+2025-10-05 01:45:14 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-05 01:45:14 | INFO     | ============================================================
+2025-10-05 01:45:14 | INFO     | [INIT] 初始化交易组件...
+2025-10-05 01:45:14 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-05 01:45:14 | INFO     | [BALANCE] USDT总余额: 3317.63
+2025-10-05 01:45:14 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-05 01:45:14 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-05 01:45:14 | INFO     | [OK] 交易执行器初始化成功
+2025-10-05 01:45:15 | INFO     | [OK] API连接测试成功，耗时: 0.489秒
+2025-10-05 01:45:15 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-05 01:45:15 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-05 01:45:15 | INFO     |    设备: cpu
+2025-10-05 01:45:15 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-05 01:45:15 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-05 01:45:15 | INFO     | [BALANCE] 当前账户余额: 3317.63 USDT
+2025-10-05 01:45:16 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:45:15
+💰 USDT余额: 3317.63
+🔧 环境: 测试网
+2025-10-05 01:45:16 | INFO     | [BALANCE] 余额通知已发送: 3317.63 USDT
+2025-10-05 01:45:16 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-10-05 01:45:16 | INFO     | [LOOP] 开始主交易循环
+2025-10-05 01:45:16 | INFO     | 
+==================================================
+2025-10-05 01:45:16 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-10-05 01:45:16 | INFO     | [TIME] 开始时间: 2025-10-05 01:45:16
+2025-10-05 01:45:16 | INFO     | ==================================================
+2025-10-05 01:45:16 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:45:16 | INFO     | [INFO] 仓位字典为空，无需平仓
+2025-10-05 01:45:16 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:45:16 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:45:16 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:45:38 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:45:38 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:45:38 | INFO     | [STATS] 因子统计:
+2025-10-05 01:45:38 | INFO     |    总计: 496 个标的
+2025-10-05 01:45:38 | INFO     |    因子值范围: -0.053676 ~ 0.077312
+2025-10-05 01:45:38 | INFO     |    选择做多: 2 个
+2025-10-05 01:45:38 | INFO     |    选择做空: 2 个
+2025-10-05 01:45:38 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:45:38 | INFO     |    ZEREBRO/USDT:USDT: 0.077312
+2025-10-05 01:45:38 | INFO     |    TREE/USDT:USDT: 0.069400
+2025-10-05 01:45:38 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:45:38 | INFO     |    FXS/USDT:USDT: -0.048501
+2025-10-05 01:45:38 | INFO     |    FIS/USDT:USDT: -0.053676
+2025-10-05 01:45:38 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:45:38 | INFO     |    做多: ['ZEREBRO/USDT:USDT', 'TREE/USDT:USDT']
+2025-10-05 01:45:38 | INFO     |    做空: ['FXS/USDT:USDT', 'FIS/USDT:USDT']
+2025-10-05 01:45:39 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  ZEREBRO/USDT:USDT: 0.077312
+  TREE/USDT:USDT: 0.069400
+做空 (2个):
+  FXS/USDT:USDT: -0.048501
+  FIS/USDT:USDT: -0.053676
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.053676 ~ 0.077312
+2025-10-05 01:45:39 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:45:39 | INFO     | [BALANCE] 当前保证金余额: 3317.63 USDT
+2025-10-05 01:45:39 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:45:39
+💰 USDT余额: 3317.63
+🔧 环境: 测试网
+2025-10-05 01:45:39 | INFO     | [BALANCE] 余额通知已发送: 3317.63 USDT
+2025-10-05 01:45:39 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:45:39 | INFO     | [BALANCE] 总余额: 3317.63 USDT
+2025-10-05 01:45:39 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:45:39 | INFO     | [VALUE] 单仓价值: 821.11 USDT
+2025-10-05 01:45:39 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:45:39 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:45:39 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 44698.6 @ 0.01837
+2025-10-05 01:45:39 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 44698.6
+2025-10-05 01:45:39 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20593287 成交:44698.0
+2025-10-05 01:45:39 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 3083.4 @ 0.2663
+2025-10-05 01:45:39 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 3083.4
+2025-10-05 01:45:39 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8546702 成交:3083.0
+2025-10-05 01:45:40 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:45:40 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:45:40 | INFO     | [TESTNET SELL] 做空 FXS/USDT:USDT: 353.6 @ 2.322
+2025-10-05 01:45:40 | INFO     | [TESTNET MARKET] 创建市价单 FXS/USDT:USDT: sell 353.6
+2025-10-05 01:45:40 | INFO     | [TESTNET SUCCESS] FXS/USDT:USDT 市价单创建成功 ID:18412409 成交:353.6
+2025-10-05 01:45:40 | INFO     | [TESTNET SELL] 做空 FIS/USDT:USDT: 10000.2 @ 0.08211
+2025-10-05 01:45:40 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: sell 10000.2
+2025-10-05 01:45:40 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6709350 成交:10000.0
+2025-10-05 01:45:40 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:45:40 | INFO     | [POSITIONS] 新仓位已添加到字典: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 44698.6}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 3083.4}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 353.6}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10000.2}}
+2025-10-05 01:45:40 | INFO     | [POSITIONS] 当前仓位字典: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 44698.6}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 3083.4}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 353.6}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10000.2}}
+2025-10-05 01:45:40 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:45:40 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:45:40 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:45:40 | INFO     | [TIME] 周期耗时: 24.0秒
+2025-10-05 01:45:40 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:46:40 | INFO     | 
+==================================================
+2025-10-05 01:46:40 | INFO     | [CYCLE] 第 2 轮交易周期
+2025-10-05 01:46:40 | INFO     | [TIME] 开始时间: 2025-10-05 01:46:40
+2025-10-05 01:46:40 | INFO     | ==================================================
+2025-10-05 01:46:40 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:46:40 | INFO     | [POSITIONS] 当前持有仓位: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 44698.6}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 3083.4}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 353.6}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 10000.2}}
+2025-10-05 01:46:40 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 01:46:40 | INFO     | [TESTNET CLOSE] 平仓 ZEREBRO/USDT:USDT: sell 44698.6 (原long仓位)
+2025-10-05 01:46:40 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: sell 44698.6
+2025-10-05 01:46:40 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20593394 成交:44698.0
+2025-10-05 01:46:40 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ZEREBRO/USDT:USDT: 20593394
+2025-10-05 01:46:40 | INFO     | [TESTNET CLOSE] 平仓 TREE/USDT:USDT: sell 3083.4 (原long仓位)
+2025-10-05 01:46:40 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: sell 3083.4
+2025-10-05 01:46:40 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8546797 成交:3083.0
+2025-10-05 01:46:40 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TREE/USDT:USDT: 8546797
+2025-10-05 01:46:40 | INFO     | [TESTNET CLOSE] 平仓 FXS/USDT:USDT: buy 353.6 (原short仓位)
+2025-10-05 01:46:40 | INFO     | [TESTNET MARKET] 创建市价单 FXS/USDT:USDT: buy 353.6
+2025-10-05 01:46:40 | INFO     | [TESTNET SUCCESS] FXS/USDT:USDT 市价单创建成功 ID:18412464 成交:353.6
+2025-10-05 01:46:40 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FXS/USDT:USDT: 18412464
+2025-10-05 01:46:40 | INFO     | [TESTNET CLOSE] 平仓 FIS/USDT:USDT: buy 10000.2 (原short仓位)
+2025-10-05 01:46:40 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: buy 10000.2
+2025-10-05 01:46:40 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6709419 成交:10000.0
+2025-10-05 01:46:40 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FIS/USDT:USDT: 6709419
+2025-10-05 01:46:40 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 01:46:42 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 01:46:42 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 01:46:42 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:46:42 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:46:42 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:47:04 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:47:04 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:47:04 | INFO     | [STATS] 因子统计:
+2025-10-05 01:47:04 | INFO     |    总计: 496 个标的
+2025-10-05 01:47:04 | INFO     |    因子值范围: -0.048501 ~ 0.069646
+2025-10-05 01:47:04 | INFO     |    选择做多: 2 个
+2025-10-05 01:47:04 | INFO     |    选择做空: 2 个
+2025-10-05 01:47:04 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:47:04 | INFO     |    TREE/USDT:USDT: 0.069646
+2025-10-05 01:47:04 | INFO     |    ZEREBRO/USDT:USDT: 0.064346
+2025-10-05 01:47:04 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:47:04 | INFO     |    IOST/USDT:USDT: -0.047320
+2025-10-05 01:47:04 | INFO     |    FXS/USDT:USDT: -0.048501
+2025-10-05 01:47:04 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:47:04 | INFO     |    做多: ['TREE/USDT:USDT', 'ZEREBRO/USDT:USDT']
+2025-10-05 01:47:04 | INFO     |    做空: ['IOST/USDT:USDT', 'FXS/USDT:USDT']
+2025-10-05 01:47:04 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  TREE/USDT:USDT: 0.069646
+  ZEREBRO/USDT:USDT: 0.064346
+做空 (2个):
+  IOST/USDT:USDT: -0.047320
+  FXS/USDT:USDT: -0.048501
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.048501 ~ 0.069646
+2025-10-05 01:47:04 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:47:04 | INFO     | [BALANCE] 当前保证金余额: 3296.71 USDT
+2025-10-05 01:47:05 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:47:04
+💰 USDT余额: 3296.71
+🔧 环境: 测试网
+2025-10-05 01:47:05 | INFO     | [BALANCE] 余额通知已发送: 3296.71 USDT
+2025-10-05 01:47:05 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:47:05 | INFO     | [BALANCE] 总余额: 3296.71 USDT
+2025-10-05 01:47:05 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:47:05 | INFO     | [VALUE] 单仓价值: 815.94 USDT
+2025-10-05 01:47:05 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:47:05 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:47:05 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 3065.1 @ 0.2662
+2025-10-05 01:47:05 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 3065.1
+2025-10-05 01:47:05 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8546840 成交:3065.0
+2025-10-05 01:47:05 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 44416.7 @ 0.01837
+2025-10-05 01:47:05 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 44416.7
+2025-10-05 01:47:05 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20593443 成交:44416.0
+2025-10-05 01:47:05 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:47:05 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:47:05 | INFO     | [TESTNET SELL] 做空 IOST/USDT:USDT: 265344.9 @ 0.003075
+2025-10-05 01:47:05 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: sell 265344.9
+2025-10-05 01:47:05 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120811962 成交:265344.0
+2025-10-05 01:47:06 | INFO     | [TESTNET SELL] 做空 FXS/USDT:USDT: 351.5 @ 2.3212
+2025-10-05 01:47:06 | INFO     | [TESTNET MARKET] 创建市价单 FXS/USDT:USDT: sell 351.5
+2025-10-05 01:47:06 | INFO     | [TESTNET SUCCESS] FXS/USDT:USDT 市价单创建成功 ID:18412499 成交:351.5
+2025-10-05 01:47:06 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:47:06 | INFO     | [POSITIONS] 新仓位已添加到字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3065.1}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 44416.7}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 265344.9}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 351.5}}
+2025-10-05 01:47:06 | INFO     | [POSITIONS] 当前仓位字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3065.1}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 44416.7}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 265344.9}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 351.5}}
+2025-10-05 01:47:06 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:47:06 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:47:06 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:47:06 | INFO     | [TIME] 周期耗时: 25.8秒
+2025-10-05 01:47:06 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:50:39 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-05 01:50:39 | INFO     | ============================================================
+2025-10-05 01:50:39 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-05 01:50:39 | INFO     | ============================================================
+2025-10-05 01:50:39 | INFO     | [INIT] 初始化交易组件...
+2025-10-05 01:50:40 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-05 01:50:40 | INFO     | [BALANCE] USDT总余额: 3283.93
+2025-10-05 01:50:40 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-05 01:50:40 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-05 01:50:40 | INFO     | [OK] 交易执行器初始化成功
+2025-10-05 01:50:40 | INFO     | [OK] API连接测试成功，耗时: 0.481秒
+2025-10-05 01:50:40 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-05 01:50:40 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-05 01:50:40 | INFO     |    设备: cpu
+2025-10-05 01:50:40 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-05 01:50:40 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-05 01:50:40 | INFO     | [BALANCE] 当前账户余额: 20.02 USDT
+2025-10-05 01:50:41 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:50:40
+💰 USDT余额: 20.02
+🔧 环境: 测试网
+2025-10-05 01:50:41 | INFO     | [BALANCE] 余额通知已发送: 20.02 USDT
+2025-10-05 01:50:41 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-10-05 01:50:41 | INFO     | [LOOP] 开始主交易循环
+2025-10-05 01:50:41 | INFO     | 
+==================================================
+2025-10-05 01:50:41 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-10-05 01:50:41 | INFO     | [TIME] 开始时间: 2025-10-05 01:50:41
+2025-10-05 01:50:41 | INFO     | ==================================================
+2025-10-05 01:50:41 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:50:41 | INFO     | [INFO] 仓位字典为空，无需平仓
+2025-10-05 01:50:41 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:50:41 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:50:41 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:50:57 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-05 01:50:57 | INFO     | ============================================================
+2025-10-05 01:50:57 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-05 01:50:57 | INFO     | ============================================================
+2025-10-05 01:50:57 | INFO     | [INIT] 初始化交易组件...
+2025-10-05 01:50:58 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-05 01:50:58 | INFO     | [BALANCE] USDT总余额: 3271.94
+2025-10-05 01:50:58 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-05 01:50:58 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-05 01:50:58 | INFO     | [OK] 交易执行器初始化成功
+2025-10-05 01:50:58 | INFO     | [OK] API连接测试成功，耗时: 0.502秒
+2025-10-05 01:50:58 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-05 01:50:58 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-05 01:50:58 | INFO     |    设备: cpu
+2025-10-05 01:50:58 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-05 01:50:58 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-05 01:50:58 | INFO     | [BALANCE] 当前账户余额: 3271.94 USDT
+2025-10-05 01:50:59 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:50:58
+💰 USDT余额: 3271.94
+🔧 环境: 测试网
+2025-10-05 01:50:59 | INFO     | [BALANCE] 余额通知已发送: 3271.94 USDT
+2025-10-05 01:50:59 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-10-05 01:50:59 | INFO     | [LOOP] 开始主交易循环
+2025-10-05 01:50:59 | INFO     | 
+==================================================
+2025-10-05 01:50:59 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-10-05 01:50:59 | INFO     | [TIME] 开始时间: 2025-10-05 01:50:59
+2025-10-05 01:50:59 | INFO     | ==================================================
+2025-10-05 01:50:59 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:50:59 | INFO     | [INFO] 仓位字典为空，无需平仓
+2025-10-05 01:50:59 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:50:59 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:50:59 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:51:22 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:51:22 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:51:22 | INFO     | [STATS] 因子统计:
+2025-10-05 01:51:22 | INFO     |    总计: 496 个标的
+2025-10-05 01:51:22 | INFO     |    因子值范围: -0.053676 ~ 0.071910
+2025-10-05 01:51:22 | INFO     |    选择做多: 2 个
+2025-10-05 01:51:22 | INFO     |    选择做空: 2 个
+2025-10-05 01:51:22 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:51:22 | INFO     |    TREE/USDT:USDT: 0.071910
+2025-10-05 01:51:22 | INFO     |    ZEREBRO/USDT:USDT: 0.071374
+2025-10-05 01:51:22 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:51:22 | INFO     |    IOST/USDT:USDT: -0.049513
+2025-10-05 01:51:22 | INFO     |    FIS/USDT:USDT: -0.053676
+2025-10-05 01:51:22 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:51:22 | INFO     |    做多: ['TREE/USDT:USDT', 'ZEREBRO/USDT:USDT']
+2025-10-05 01:51:22 | INFO     |    做空: ['IOST/USDT:USDT', 'FIS/USDT:USDT']
+2025-10-05 01:51:23 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  TREE/USDT:USDT: 0.071910
+  ZEREBRO/USDT:USDT: 0.071374
+做空 (2个):
+  IOST/USDT:USDT: -0.049513
+  FIS/USDT:USDT: -0.053676
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.053676 ~ 0.071910
+2025-10-05 01:51:23 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:51:23 | INFO     | [BALANCE] 当前保证金余额: 3271.94 USDT
+2025-10-05 01:51:23 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:51:23
+💰 USDT余额: 3271.94
+🔧 环境: 测试网
+2025-10-05 01:51:23 | INFO     | [BALANCE] 余额通知已发送: 3271.94 USDT
+2025-10-05 01:51:23 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:51:23 | INFO     | [BALANCE] 总余额: 3271.94 USDT
+2025-10-05 01:51:23 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:51:23 | INFO     | [VALUE] 单仓价值: 809.80 USDT
+2025-10-05 01:51:23 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:51:23 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:51:23 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 3044.4 @ 0.266
+2025-10-05 01:51:23 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 3044.4
+2025-10-05 01:51:23 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8547308 成交:3044.0
+2025-10-05 01:51:23 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 44035.0 @ 0.01839
+2025-10-05 01:51:23 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 44035.0
+2025-10-05 01:51:23 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594046 成交:44035.0
+2025-10-05 01:51:24 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:51:24 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:51:24 | INFO     | [TESTNET SELL] 做空 IOST/USDT:USDT: 263522.4 @ 0.003073
+2025-10-05 01:51:24 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: sell 263522.4
+2025-10-05 01:51:24 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812260 成交:263522.0
+2025-10-05 01:51:24 | INFO     | [TESTNET SELL] 做空 FIS/USDT:USDT: 9870.8 @ 0.08204
+2025-10-05 01:51:24 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: sell 9870.8
+2025-10-05 01:51:24 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6709726 成交:9870.0
+2025-10-05 01:51:24 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:51:24 | INFO     | [POSITIONS] 新仓位已添加到字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3044.4}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 44035.0}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 263522.4}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9870.8}}
+2025-10-05 01:51:24 | INFO     | [POSITIONS] 当前仓位字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3044.4}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 44035.0}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 263522.4}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9870.8}}
+2025-10-05 01:51:24 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:51:24 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:51:24 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:51:24 | INFO     | [TIME] 周期耗时: 24.9秒
+2025-10-05 01:51:24 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:52:24 | INFO     | 
+==================================================
+2025-10-05 01:52:24 | INFO     | [CYCLE] 第 2 轮交易周期
+2025-10-05 01:52:24 | INFO     | [TIME] 开始时间: 2025-10-05 01:52:24
+2025-10-05 01:52:24 | INFO     | ==================================================
+2025-10-05 01:52:24 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:52:24 | INFO     | [POSITIONS] 当前持有仓位: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3044.4}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 44035.0}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 263522.4}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9870.8}}
+2025-10-05 01:52:24 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 01:52:24 | INFO     | [TESTNET CLOSE] 平仓 TREE/USDT:USDT: sell 3044.4 (原long仓位)
+2025-10-05 01:52:24 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: sell 3044.4
+2025-10-05 01:52:24 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8547379 成交:3044.0
+2025-10-05 01:52:24 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TREE/USDT:USDT: 8547379
+2025-10-05 01:52:24 | INFO     | [TESTNET CLOSE] 平仓 ZEREBRO/USDT:USDT: sell 44035.0 (原long仓位)
+2025-10-05 01:52:24 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: sell 44035.0
+2025-10-05 01:52:24 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594095 成交:44035.0
+2025-10-05 01:52:24 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ZEREBRO/USDT:USDT: 20594095
+2025-10-05 01:52:24 | INFO     | [TESTNET CLOSE] 平仓 IOST/USDT:USDT: buy 263522.4 (原short仓位)
+2025-10-05 01:52:24 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: buy 263522.4
+2025-10-05 01:52:24 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812307 成交:263522.0
+2025-10-05 01:52:24 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 IOST/USDT:USDT: 120812307
+2025-10-05 01:52:24 | INFO     | [TESTNET CLOSE] 平仓 FIS/USDT:USDT: buy 9870.8 (原short仓位)
+2025-10-05 01:52:24 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: buy 9870.8
+2025-10-05 01:52:24 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6709787 成交:9870.0
+2025-10-05 01:52:24 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FIS/USDT:USDT: 6709787
+2025-10-05 01:52:24 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 01:52:26 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 01:52:26 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 01:52:26 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:52:26 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:52:26 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:52:49 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:52:49 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:52:49 | INFO     | [STATS] 因子统计:
+2025-10-05 01:52:49 | INFO     |    总计: 496 个标的
+2025-10-05 01:52:49 | INFO     |    因子值范围: -0.053676 ~ 0.073979
+2025-10-05 01:52:49 | INFO     |    选择做多: 2 个
+2025-10-05 01:52:49 | INFO     |    选择做空: 2 个
+2025-10-05 01:52:49 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:52:49 | INFO     |    TREE/USDT:USDT: 0.073979
+2025-10-05 01:52:49 | INFO     |    ZEREBRO/USDT:USDT: 0.071374
+2025-10-05 01:52:49 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:52:49 | INFO     |    IOST/USDT:USDT: -0.046862
+2025-10-05 01:52:49 | INFO     |    FIS/USDT:USDT: -0.053676
+2025-10-05 01:52:49 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:52:49 | INFO     |    做多: ['TREE/USDT:USDT', 'ZEREBRO/USDT:USDT']
+2025-10-05 01:52:49 | INFO     |    做空: ['IOST/USDT:USDT', 'FIS/USDT:USDT']
+2025-10-05 01:52:50 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  TREE/USDT:USDT: 0.073979
+  ZEREBRO/USDT:USDT: 0.071374
+做空 (2个):
+  IOST/USDT:USDT: -0.046862
+  FIS/USDT:USDT: -0.053676
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.053676 ~ 0.073979
+2025-10-05 01:52:50 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:52:50 | INFO     | [BALANCE] 当前保证金余额: 3246.98 USDT
+2025-10-05 01:52:50 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:52:50
+💰 USDT余额: 3246.98
+🔧 环境: 测试网
+2025-10-05 01:52:50 | INFO     | [BALANCE] 余额通知已发送: 3246.98 USDT
+2025-10-05 01:52:50 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:52:50 | INFO     | [BALANCE] 总余额: 3246.98 USDT
+2025-10-05 01:52:50 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:52:50 | INFO     | [VALUE] 单仓价值: 803.63 USDT
+2025-10-05 01:52:50 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:52:51 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:52:51 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 3023.4 @ 0.2658
+2025-10-05 01:52:51 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 3023.4
+2025-10-05 01:52:51 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8547676 成交:3023.0
+2025-10-05 01:52:51 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 43675.4 @ 0.0184
+2025-10-05 01:52:51 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 43675.4
+2025-10-05 01:52:51 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594126 成交:43675.0
+2025-10-05 01:52:51 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:52:51 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:52:51 | INFO     | [TESTNET SELL] 做空 IOST/USDT:USDT: 261257.1 @ 0.003076
+2025-10-05 01:52:51 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: sell 261257.1
+2025-10-05 01:52:51 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812336 成交:261257.0
+2025-10-05 01:52:51 | INFO     | [TESTNET SELL] 做空 FIS/USDT:USDT: 9784.8 @ 0.08213
+2025-10-05 01:52:51 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: sell 9784.8
+2025-10-05 01:52:51 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6709822 成交:9784.0
+2025-10-05 01:52:51 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:52:51 | INFO     | [POSITIONS] 新仓位已添加到字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3023.4}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 43675.4}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 261257.1}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9784.8}}
+2025-10-05 01:52:51 | INFO     | [POSITIONS] 当前仓位字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3023.4}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 43675.4}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 261257.1}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9784.8}}
+2025-10-05 01:52:51 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:52:51 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:52:51 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:52:51 | INFO     | [TIME] 周期耗时: 27.5秒
+2025-10-05 01:52:51 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:53:51 | INFO     | 
+==================================================
+2025-10-05 01:53:51 | INFO     | [CYCLE] 第 3 轮交易周期
+2025-10-05 01:53:51 | INFO     | [TIME] 开始时间: 2025-10-05 01:53:51
+2025-10-05 01:53:51 | INFO     | ==================================================
+2025-10-05 01:53:51 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:53:51 | INFO     | [POSITIONS] 当前持有仓位: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3023.4}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 43675.4}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 261257.1}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9784.8}}
+2025-10-05 01:53:51 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 01:53:51 | INFO     | [TESTNET CLOSE] 平仓 TREE/USDT:USDT: sell 3023.4 (原long仓位)
+2025-10-05 01:53:51 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: sell 3023.4
+2025-10-05 01:53:51 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8547973 成交:3023.0
+2025-10-05 01:53:51 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TREE/USDT:USDT: 8547973
+2025-10-05 01:53:51 | INFO     | [TESTNET CLOSE] 平仓 ZEREBRO/USDT:USDT: sell 43675.4 (原long仓位)
+2025-10-05 01:53:51 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: sell 43675.4
+2025-10-05 01:53:52 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594211 成交:43675.0
+2025-10-05 01:53:52 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ZEREBRO/USDT:USDT: 20594211
+2025-10-05 01:53:52 | INFO     | [TESTNET CLOSE] 平仓 IOST/USDT:USDT: buy 261257.1 (原short仓位)
+2025-10-05 01:53:52 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: buy 261257.1
+2025-10-05 01:53:52 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812409 成交:261257.0
+2025-10-05 01:53:52 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 IOST/USDT:USDT: 120812409
+2025-10-05 01:53:52 | INFO     | [TESTNET CLOSE] 平仓 FIS/USDT:USDT: buy 9784.8 (原short仓位)
+2025-10-05 01:53:52 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: buy 9784.8
+2025-10-05 01:53:52 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6709897 成交:9784.0
+2025-10-05 01:53:52 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FIS/USDT:USDT: 6709897
+2025-10-05 01:53:52 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 01:53:54 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 01:53:54 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 01:53:54 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:53:54 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:53:54 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:54:17 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:54:17 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:54:17 | INFO     | [STATS] 因子统计:
+2025-10-05 01:54:17 | INFO     |    总计: 496 个标的
+2025-10-05 01:54:17 | INFO     |    因子值范围: -0.048501 ~ 0.073979
+2025-10-05 01:54:17 | INFO     |    选择做多: 2 个
+2025-10-05 01:54:17 | INFO     |    选择做空: 2 个
+2025-10-05 01:54:17 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:54:17 | INFO     |    TREE/USDT:USDT: 0.073979
+2025-10-05 01:54:17 | INFO     |    ZEREBRO/USDT:USDT: 0.073167
+2025-10-05 01:54:17 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:54:17 | INFO     |    IOST/USDT:USDT: -0.046862
+2025-10-05 01:54:17 | INFO     |    FXS/USDT:USDT: -0.048501
+2025-10-05 01:54:17 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:54:17 | INFO     |    做多: ['TREE/USDT:USDT', 'ZEREBRO/USDT:USDT']
+2025-10-05 01:54:17 | INFO     |    做空: ['IOST/USDT:USDT', 'FXS/USDT:USDT']
+2025-10-05 01:54:17 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  TREE/USDT:USDT: 0.073979
+  ZEREBRO/USDT:USDT: 0.073167
+做空 (2个):
+  IOST/USDT:USDT: -0.046862
+  FXS/USDT:USDT: -0.048501
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.048501 ~ 0.073979
+2025-10-05 01:54:17 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:54:17 | INFO     | [BALANCE] 当前保证金余额: 3221.50 USDT
+2025-10-05 01:54:18 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:54:17
+💰 USDT余额: 3221.50
+🔧 环境: 测试网
+2025-10-05 01:54:18 | INFO     | [BALANCE] 余额通知已发送: 3221.50 USDT
+2025-10-05 01:54:18 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:54:18 | INFO     | [BALANCE] 总余额: 3221.50 USDT
+2025-10-05 01:54:18 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:54:18 | INFO     | [VALUE] 单仓价值: 797.32 USDT
+2025-10-05 01:54:18 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:54:18 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:54:18 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 3000.8 @ 0.2657
+2025-10-05 01:54:18 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 3000.8
+2025-10-05 01:54:18 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8548030 成交:3000.0
+2025-10-05 01:54:18 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 43332.7 @ 0.0184
+2025-10-05 01:54:18 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 43332.7
+2025-10-05 01:54:18 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594238 成交:43332.0
+2025-10-05 01:54:18 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:54:18 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:54:18 | INFO     | [TESTNET SELL] 做空 IOST/USDT:USDT: 259207.3 @ 0.003076
+2025-10-05 01:54:18 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: sell 259207.3
+2025-10-05 01:54:18 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812442 成交:259207.0
+2025-10-05 01:54:18 | INFO     | [TESTNET SELL] 做空 FXS/USDT:USDT: 343.3 @ 2.3226
+2025-10-05 01:54:18 | INFO     | [TESTNET MARKET] 创建市价单 FXS/USDT:USDT: sell 343.3
+2025-10-05 01:54:18 | INFO     | [TESTNET SUCCESS] FXS/USDT:USDT 市价单创建成功 ID:18412971 成交:343.3
+2025-10-05 01:54:19 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:54:19 | INFO     | [POSITIONS] 新仓位已添加到字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3000.8}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 43332.7}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 259207.3}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 343.3}}
+2025-10-05 01:54:19 | INFO     | [POSITIONS] 当前仓位字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3000.8}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 43332.7}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 259207.3}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 343.3}}
+2025-10-05 01:54:19 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:54:19 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:54:19 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:54:19 | INFO     | [TIME] 周期耗时: 27.3秒
+2025-10-05 01:54:19 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:55:19 | INFO     | 
+==================================================
+2025-10-05 01:55:19 | INFO     | [CYCLE] 第 4 轮交易周期
+2025-10-05 01:55:19 | INFO     | [TIME] 开始时间: 2025-10-05 01:55:19
+2025-10-05 01:55:19 | INFO     | ==================================================
+2025-10-05 01:55:19 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:55:19 | INFO     | [POSITIONS] 当前持有仓位: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 3000.8}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 43332.7}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 259207.3}, 'FXS/USDT:USDT': {'side': 'short', 'quantity': 343.3}}
+2025-10-05 01:55:19 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 01:55:19 | INFO     | [TESTNET CLOSE] 平仓 TREE/USDT:USDT: sell 3000.8 (原long仓位)
+2025-10-05 01:55:19 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: sell 3000.8
+2025-10-05 01:55:19 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8548203 成交:3000.0
+2025-10-05 01:55:19 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TREE/USDT:USDT: 8548203
+2025-10-05 01:55:19 | INFO     | [TESTNET CLOSE] 平仓 ZEREBRO/USDT:USDT: sell 43332.7 (原long仓位)
+2025-10-05 01:55:19 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: sell 43332.7
+2025-10-05 01:55:19 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594323 成交:43332.0
+2025-10-05 01:55:19 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ZEREBRO/USDT:USDT: 20594323
+2025-10-05 01:55:19 | INFO     | [TESTNET CLOSE] 平仓 IOST/USDT:USDT: buy 259207.3 (原short仓位)
+2025-10-05 01:55:19 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: buy 259207.3
+2025-10-05 01:55:19 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812513 成交:259207.0
+2025-10-05 01:55:19 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 IOST/USDT:USDT: 120812513
+2025-10-05 01:55:19 | INFO     | [TESTNET CLOSE] 平仓 FXS/USDT:USDT: buy 343.3 (原short仓位)
+2025-10-05 01:55:19 | INFO     | [TESTNET MARKET] 创建市价单 FXS/USDT:USDT: buy 343.3
+2025-10-05 01:55:19 | INFO     | [TESTNET SUCCESS] FXS/USDT:USDT 市价单创建成功 ID:18413058 成交:343.3
+2025-10-05 01:55:19 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FXS/USDT:USDT: 18413058
+2025-10-05 01:55:19 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 01:55:21 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 01:55:21 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 01:55:21 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:55:21 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:55:21 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:55:43 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:55:43 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:55:43 | INFO     | [STATS] 因子统计:
+2025-10-05 01:55:43 | INFO     |    总计: 496 个标的
+2025-10-05 01:55:43 | INFO     |    因子值范围: -0.053676 ~ 0.073979
+2025-10-05 01:55:43 | INFO     |    选择做多: 2 个
+2025-10-05 01:55:43 | INFO     |    选择做空: 2 个
+2025-10-05 01:55:43 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:55:43 | INFO     |    TREE/USDT:USDT: 0.073979
+2025-10-05 01:55:43 | INFO     |    ZEREBRO/USDT:USDT: 0.073167
+2025-10-05 01:55:43 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:55:43 | INFO     |    IOST/USDT:USDT: -0.048299
+2025-10-05 01:55:43 | INFO     |    FIS/USDT:USDT: -0.053676
+2025-10-05 01:55:43 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:55:43 | INFO     |    做多: ['TREE/USDT:USDT', 'ZEREBRO/USDT:USDT']
+2025-10-05 01:55:43 | INFO     |    做空: ['IOST/USDT:USDT', 'FIS/USDT:USDT']
+2025-10-05 01:55:44 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  TREE/USDT:USDT: 0.073979
+  ZEREBRO/USDT:USDT: 0.073167
+做空 (2个):
+  IOST/USDT:USDT: -0.048299
+  FIS/USDT:USDT: -0.053676
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.053676 ~ 0.073979
+2025-10-05 01:55:44 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:55:44 | INFO     | [BALANCE] 当前保证金余额: 3196.70 USDT
+2025-10-05 01:55:45 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:55:44
+💰 USDT余额: 3196.70
+🔧 环境: 测试网
+2025-10-05 01:55:45 | INFO     | [BALANCE] 余额通知已发送: 3196.70 USDT
+2025-10-05 01:55:45 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:55:45 | INFO     | [BALANCE] 总余额: 3196.70 USDT
+2025-10-05 01:55:45 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:55:45 | INFO     | [VALUE] 单仓价值: 791.18 USDT
+2025-10-05 01:55:45 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:55:45 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:55:45 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 2983.3 @ 0.2652
+2025-10-05 01:55:45 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 2983.3
+2025-10-05 01:55:45 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8548272 成交:2983.0
+2025-10-05 01:55:45 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 43069.3 @ 0.01837
+2025-10-05 01:55:45 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 43069.3
+2025-10-05 01:55:45 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594348 成交:43069.0
+2025-10-05 01:55:45 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:55:45 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:55:45 | INFO     | [TESTNET SELL] 做空 IOST/USDT:USDT: 257462.8 @ 0.003073
+2025-10-05 01:55:45 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: sell 257462.8
+2025-10-05 01:55:45 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812534 成交:257462.0
+2025-10-05 01:55:45 | INFO     | [TESTNET SELL] 做空 FIS/USDT:USDT: 9641.5 @ 0.08206
+2025-10-05 01:55:45 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: sell 9641.5
+2025-10-05 01:55:45 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6710012 成交:9641.0
+2025-10-05 01:55:45 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:55:45 | INFO     | [POSITIONS] 新仓位已添加到字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 2983.3}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 43069.3}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 257462.8}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9641.5}}
+2025-10-05 01:55:45 | INFO     | [POSITIONS] 当前仓位字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 2983.3}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 43069.3}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 257462.8}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9641.5}}
+2025-10-05 01:55:45 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:55:45 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:55:45 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:55:45 | INFO     | [TIME] 周期耗时: 26.7秒
+2025-10-05 01:55:45 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:56:45 | INFO     | 
+==================================================
+2025-10-05 01:56:45 | INFO     | [CYCLE] 第 5 轮交易周期
+2025-10-05 01:56:45 | INFO     | [TIME] 开始时间: 2025-10-05 01:56:45
+2025-10-05 01:56:45 | INFO     | ==================================================
+2025-10-05 01:56:45 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:56:45 | INFO     | [POSITIONS] 当前持有仓位: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 2983.3}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 43069.3}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 257462.8}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9641.5}}
+2025-10-05 01:56:45 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 01:56:45 | INFO     | [TESTNET CLOSE] 平仓 TREE/USDT:USDT: sell 2983.3 (原long仓位)
+2025-10-05 01:56:45 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: sell 2983.3
+2025-10-05 01:56:45 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8548369 成交:2983.0
+2025-10-05 01:56:45 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TREE/USDT:USDT: 8548369
+2025-10-05 01:56:46 | INFO     | [TESTNET CLOSE] 平仓 ZEREBRO/USDT:USDT: sell 43069.3 (原long仓位)
+2025-10-05 01:56:46 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: sell 43069.3
+2025-10-05 01:56:46 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594424 成交:43069.0
+2025-10-05 01:56:46 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ZEREBRO/USDT:USDT: 20594424
+2025-10-05 01:56:46 | INFO     | [TESTNET CLOSE] 平仓 IOST/USDT:USDT: buy 257462.8 (原short仓位)
+2025-10-05 01:56:46 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: buy 257462.8
+2025-10-05 01:56:46 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812617 成交:257462.0
+2025-10-05 01:56:46 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 IOST/USDT:USDT: 120812617
+2025-10-05 01:56:46 | INFO     | [TESTNET CLOSE] 平仓 FIS/USDT:USDT: buy 9641.5 (原short仓位)
+2025-10-05 01:56:46 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: buy 9641.5
+2025-10-05 01:56:46 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6710079 成交:9641.0
+2025-10-05 01:56:46 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FIS/USDT:USDT: 6710079
+2025-10-05 01:56:46 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 01:56:48 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 01:56:48 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 01:56:48 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:56:48 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:56:48 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:57:11 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:57:11 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:57:11 | INFO     | [STATS] 因子统计:
+2025-10-05 01:57:11 | INFO     |    总计: 496 个标的
+2025-10-05 01:57:11 | INFO     |    因子值范围: -0.052767 ~ 0.069483
+2025-10-05 01:57:11 | INFO     |    选择做多: 2 个
+2025-10-05 01:57:11 | INFO     |    选择做空: 2 个
+2025-10-05 01:57:11 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:57:11 | INFO     |    TREE/USDT:USDT: 0.069483
+2025-10-05 01:57:11 | INFO     |    ZEREBRO/USDT:USDT: 0.061449
+2025-10-05 01:57:11 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:57:11 | INFO     |    IOST/USDT:USDT: -0.048299
+2025-10-05 01:57:11 | INFO     |    FIS/USDT:USDT: -0.052767
+2025-10-05 01:57:11 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:57:11 | INFO     |    做多: ['TREE/USDT:USDT', 'ZEREBRO/USDT:USDT']
+2025-10-05 01:57:11 | INFO     |    做空: ['IOST/USDT:USDT', 'FIS/USDT:USDT']
+2025-10-05 01:57:12 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  TREE/USDT:USDT: 0.069483
+  ZEREBRO/USDT:USDT: 0.061449
+做空 (2个):
+  IOST/USDT:USDT: -0.048299
+  FIS/USDT:USDT: -0.052767
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.052767 ~ 0.069483
+2025-10-05 01:57:12 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:57:12 | INFO     | [BALANCE] 当前保证金余额: 3168.60 USDT
+2025-10-05 01:57:12 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:57:12
+💰 USDT余额: 3168.60
+🔧 环境: 测试网
+2025-10-05 01:57:12 | INFO     | [BALANCE] 余额通知已发送: 3168.60 USDT
+2025-10-05 01:57:12 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:57:12 | INFO     | [BALANCE] 总余额: 3168.60 USDT
+2025-10-05 01:57:12 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:57:12 | INFO     | [VALUE] 单仓价值: 784.23 USDT
+2025-10-05 01:57:12 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:57:12 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:57:12 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 2965.0 @ 0.2645
+2025-10-05 01:57:12 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 2965.0
+2025-10-05 01:57:12 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8548438 成交:2965.0
+2025-10-05 01:57:13 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 42644.3 @ 0.01839
+2025-10-05 01:57:13 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 42644.3
+2025-10-05 01:57:13 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594463 成交:42644.0
+2025-10-05 01:57:13 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:57:13 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:57:13 | INFO     | [TESTNET SELL] 做空 IOST/USDT:USDT: 255199.9 @ 0.003073
+2025-10-05 01:57:13 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: sell 255199.9
+2025-10-05 01:57:13 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812654 成交:255199.0
+2025-10-05 01:57:13 | INFO     | [TESTNET SELL] 做空 FIS/USDT:USDT: 9566.1 @ 0.08198
+2025-10-05 01:57:13 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: sell 9566.1
+2025-10-05 01:57:13 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6710114 成交:9566.0
+2025-10-05 01:57:13 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:57:13 | INFO     | [POSITIONS] 新仓位已添加到字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 2965.0}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 42644.3}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 255199.9}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9566.1}}
+2025-10-05 01:57:13 | INFO     | [POSITIONS] 当前仓位字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 2965.0}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 42644.3}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 255199.9}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9566.1}}
+2025-10-05 01:57:13 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:57:13 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:57:13 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:57:13 | INFO     | [TIME] 周期耗时: 27.5秒
+2025-10-05 01:57:13 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:58:13 | INFO     | 
+==================================================
+2025-10-05 01:58:13 | INFO     | [CYCLE] 第 6 轮交易周期
+2025-10-05 01:58:13 | INFO     | [TIME] 开始时间: 2025-10-05 01:58:13
+2025-10-05 01:58:13 | INFO     | ==================================================
+2025-10-05 01:58:13 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:58:13 | INFO     | [POSITIONS] 当前持有仓位: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 2965.0}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 42644.3}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 255199.9}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9566.1}}
+2025-10-05 01:58:13 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 01:58:13 | INFO     | [TESTNET CLOSE] 平仓 TREE/USDT:USDT: sell 2965.0 (原long仓位)
+2025-10-05 01:58:13 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: sell 2965.0
+2025-10-05 01:58:13 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8548539 成交:2965.0
+2025-10-05 01:58:13 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TREE/USDT:USDT: 8548539
+2025-10-05 01:58:13 | INFO     | [TESTNET CLOSE] 平仓 ZEREBRO/USDT:USDT: sell 42644.3 (原long仓位)
+2025-10-05 01:58:13 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: sell 42644.3
+2025-10-05 01:58:13 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594540 成交:42644.0
+2025-10-05 01:58:13 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ZEREBRO/USDT:USDT: 20594540
+2025-10-05 01:58:13 | INFO     | [TESTNET CLOSE] 平仓 IOST/USDT:USDT: buy 255199.9 (原short仓位)
+2025-10-05 01:58:13 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: buy 255199.9
+2025-10-05 01:58:13 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812715 成交:255199.0
+2025-10-05 01:58:13 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 IOST/USDT:USDT: 120812715
+2025-10-05 01:58:13 | INFO     | [TESTNET CLOSE] 平仓 FIS/USDT:USDT: buy 9566.1 (原short仓位)
+2025-10-05 01:58:13 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: buy 9566.1
+2025-10-05 01:58:13 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6710177 成交:9566.0
+2025-10-05 01:58:13 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FIS/USDT:USDT: 6710177
+2025-10-05 01:58:13 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 01:58:15 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 01:58:15 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 01:58:15 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:58:15 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:58:15 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 01:58:38 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 01:58:38 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 01:58:38 | INFO     | [STATS] 因子统计:
+2025-10-05 01:58:38 | INFO     |    总计: 496 个标的
+2025-10-05 01:58:38 | INFO     |    因子值范围: -0.052767 ~ 0.065393
+2025-10-05 01:58:38 | INFO     |    选择做多: 2 个
+2025-10-05 01:58:38 | INFO     |    选择做空: 2 个
+2025-10-05 01:58:38 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 01:58:38 | INFO     |    TREE/USDT:USDT: 0.065393
+2025-10-05 01:58:38 | INFO     |    ZEREBRO/USDT:USDT: 0.061449
+2025-10-05 01:58:38 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 01:58:38 | INFO     |    IOST/USDT:USDT: -0.048299
+2025-10-05 01:58:38 | INFO     |    FIS/USDT:USDT: -0.052767
+2025-10-05 01:58:38 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 01:58:38 | INFO     |    做多: ['TREE/USDT:USDT', 'ZEREBRO/USDT:USDT']
+2025-10-05 01:58:38 | INFO     |    做空: ['IOST/USDT:USDT', 'FIS/USDT:USDT']
+2025-10-05 01:58:38 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  TREE/USDT:USDT: 0.065393
+  ZEREBRO/USDT:USDT: 0.061449
+做空 (2个):
+  IOST/USDT:USDT: -0.048299
+  FIS/USDT:USDT: -0.052767
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.052767 ~ 0.065393
+2025-10-05 01:58:38 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 01:58:38 | INFO     | [BALANCE] 当前保证金余额: 3139.85 USDT
+2025-10-05 01:58:39 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 01:58:38
+💰 USDT余额: 3139.85
+🔧 环境: 测试网
+2025-10-05 01:58:39 | INFO     | [BALANCE] 余额通知已发送: 3139.85 USDT
+2025-10-05 01:58:39 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 01:58:39 | INFO     | [BALANCE] 总余额: 3139.85 USDT
+2025-10-05 01:58:39 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 01:58:39 | INFO     | [VALUE] 单仓价值: 777.11 USDT
+2025-10-05 01:58:39 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 01:58:39 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 01:58:39 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 2939.2 @ 0.2644
+2025-10-05 01:58:39 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 2939.2
+2025-10-05 01:58:39 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8548576 成交:2939.0
+2025-10-05 01:58:39 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 42280.4 @ 0.01838
+2025-10-05 01:58:39 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 42280.4
+2025-10-05 01:58:39 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594557 成交:42280.0
+2025-10-05 01:58:39 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 01:58:39 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 01:58:39 | INFO     | [TESTNET SELL] 做空 IOST/USDT:USDT: 252801.9 @ 0.003074
+2025-10-05 01:58:39 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: sell 252801.9
+2025-10-05 01:58:39 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812736 成交:252801.0
+2025-10-05 01:58:39 | INFO     | [TESTNET SELL] 做空 FIS/USDT:USDT: 9478.1 @ 0.08199
+2025-10-05 01:58:39 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: sell 9478.1
+2025-10-05 01:58:39 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6710192 成交:9478.0
+2025-10-05 01:58:39 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 01:58:39 | INFO     | [POSITIONS] 新仓位已添加到字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 2939.2}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 42280.4}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 252801.9}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9478.1}}
+2025-10-05 01:58:39 | INFO     | [POSITIONS] 当前仓位字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 2939.2}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 42280.4}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 252801.9}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9478.1}}
+2025-10-05 01:58:39 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 01:58:39 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 01:58:39 | INFO     | [OK] 交易周期执行成功
+2025-10-05 01:58:39 | INFO     | [TIME] 周期耗时: 26.5秒
+2025-10-05 01:58:39 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 01:59:39 | INFO     | 
+==================================================
+2025-10-05 01:59:39 | INFO     | [CYCLE] 第 7 轮交易周期
+2025-10-05 01:59:39 | INFO     | [TIME] 开始时间: 2025-10-05 01:59:39
+2025-10-05 01:59:39 | INFO     | ==================================================
+2025-10-05 01:59:39 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 01:59:39 | INFO     | [POSITIONS] 当前持有仓位: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 2939.2}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 42280.4}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 252801.9}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9478.1}}
+2025-10-05 01:59:39 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 01:59:39 | INFO     | [TESTNET CLOSE] 平仓 TREE/USDT:USDT: sell 2939.2 (原long仓位)
+2025-10-05 01:59:39 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: sell 2939.2
+2025-10-05 01:59:39 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8548627 成交:2939.0
+2025-10-05 01:59:39 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TREE/USDT:USDT: 8548627
+2025-10-05 01:59:40 | INFO     | [TESTNET CLOSE] 平仓 ZEREBRO/USDT:USDT: sell 42280.4 (原long仓位)
+2025-10-05 01:59:40 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: sell 42280.4
+2025-10-05 01:59:40 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594616 成交:42280.0
+2025-10-05 01:59:40 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ZEREBRO/USDT:USDT: 20594616
+2025-10-05 01:59:40 | INFO     | [TESTNET CLOSE] 平仓 IOST/USDT:USDT: buy 252801.9 (原short仓位)
+2025-10-05 01:59:40 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: buy 252801.9
+2025-10-05 01:59:40 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812781 成交:252801.0
+2025-10-05 01:59:40 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 IOST/USDT:USDT: 120812781
+2025-10-05 01:59:40 | INFO     | [TESTNET CLOSE] 平仓 FIS/USDT:USDT: buy 9478.1 (原short仓位)
+2025-10-05 01:59:40 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: buy 9478.1
+2025-10-05 01:59:40 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6710247 成交:9478.0
+2025-10-05 01:59:40 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FIS/USDT:USDT: 6710247
+2025-10-05 01:59:40 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 01:59:42 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 01:59:42 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 01:59:42 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 01:59:42 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 01:59:42 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 02:00:07 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 02:00:07 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 02:00:07 | INFO     | [STATS] 因子统计:
+2025-10-05 02:00:07 | INFO     |    总计: 496 个标的
+2025-10-05 02:00:07 | INFO     |    因子值范围: -0.056148 ~ 0.071374
+2025-10-05 02:00:07 | INFO     |    选择做多: 2 个
+2025-10-05 02:00:07 | INFO     |    选择做空: 2 个
+2025-10-05 02:00:07 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 02:00:07 | INFO     |    ZEREBRO/USDT:USDT: 0.071374
+2025-10-05 02:00:07 | INFO     |    TREE/USDT:USDT: 0.065124
+2025-10-05 02:00:07 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 02:00:07 | INFO     |    IOST/USDT:USDT: -0.048299
+2025-10-05 02:00:07 | INFO     |    FIS/USDT:USDT: -0.056148
+2025-10-05 02:00:07 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 02:00:07 | INFO     |    做多: ['ZEREBRO/USDT:USDT', 'TREE/USDT:USDT']
+2025-10-05 02:00:07 | INFO     |    做空: ['IOST/USDT:USDT', 'FIS/USDT:USDT']
+2025-10-05 02:00:07 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  ZEREBRO/USDT:USDT: 0.071374
+  TREE/USDT:USDT: 0.065124
+做空 (2个):
+  IOST/USDT:USDT: -0.048299
+  FIS/USDT:USDT: -0.056148
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.056148 ~ 0.071374
+2025-10-05 02:00:07 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 02:00:07 | INFO     | [BALANCE] 当前保证金余额: 3111.36 USDT
+2025-10-05 02:00:08 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 02:00:07
+💰 USDT余额: 3111.36
+🔧 环境: 测试网
+2025-10-05 02:00:08 | INFO     | [BALANCE] 余额通知已发送: 3111.36 USDT
+2025-10-05 02:00:08 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 02:00:08 | INFO     | [BALANCE] 总余额: 3111.36 USDT
+2025-10-05 02:00:08 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 02:00:08 | INFO     | [VALUE] 单仓价值: 770.06 USDT
+2025-10-05 02:00:08 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 02:00:08 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 02:00:08 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 41873.9 @ 0.01839
+2025-10-05 02:00:08 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 41873.9
+2025-10-05 02:00:08 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594639 成交:41873.0
+2025-10-05 02:00:08 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 2911.4 @ 0.2645
+2025-10-05 02:00:08 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 2911.4
+2025-10-05 02:00:08 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8548646 成交:2911.0
+2025-10-05 02:00:08 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 02:00:08 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 02:00:08 | INFO     | [TESTNET SELL] 做空 IOST/USDT:USDT: 250507.6 @ 0.003074
+2025-10-05 02:00:08 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: sell 250507.6
+2025-10-05 02:00:08 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812802 成交:250507.0
+2025-10-05 02:00:08 | INFO     | [TESTNET SELL] 做空 FIS/USDT:USDT: 9371.6 @ 0.08217
+2025-10-05 02:00:08 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: sell 9371.6
+2025-10-05 02:00:08 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6710274 成交:9371.0
+2025-10-05 02:00:08 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 02:00:08 | INFO     | [POSITIONS] 新仓位已添加到字典: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 41873.9}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 2911.4}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 250507.6}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9371.6}}
+2025-10-05 02:00:08 | INFO     | [POSITIONS] 当前仓位字典: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 41873.9}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 2911.4}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 250507.6}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9371.6}}
+2025-10-05 02:00:08 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 02:00:08 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 02:00:08 | INFO     | [OK] 交易周期执行成功
+2025-10-05 02:00:08 | INFO     | [TIME] 周期耗时: 29.0秒
+2025-10-05 02:00:08 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 02:01:08 | INFO     | 
+==================================================
+2025-10-05 02:01:08 | INFO     | [CYCLE] 第 8 轮交易周期
+2025-10-05 02:01:08 | INFO     | [TIME] 开始时间: 2025-10-05 02:01:08
+2025-10-05 02:01:08 | INFO     | ==================================================
+2025-10-05 02:01:08 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 02:01:08 | INFO     | [POSITIONS] 当前持有仓位: {'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 41873.9}, 'TREE/USDT:USDT': {'side': 'long', 'quantity': 2911.4}, 'IOST/USDT:USDT': {'side': 'short', 'quantity': 250507.6}, 'FIS/USDT:USDT': {'side': 'short', 'quantity': 9371.6}}
+2025-10-05 02:01:08 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 02:01:08 | INFO     | [TESTNET CLOSE] 平仓 ZEREBRO/USDT:USDT: sell 41873.9 (原long仓位)
+2025-10-05 02:01:08 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: sell 41873.9
+2025-10-05 02:01:09 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594694 成交:41873.0
+2025-10-05 02:01:09 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ZEREBRO/USDT:USDT: 20594694
+2025-10-05 02:01:09 | INFO     | [TESTNET CLOSE] 平仓 TREE/USDT:USDT: sell 2911.4 (原long仓位)
+2025-10-05 02:01:09 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: sell 2911.4
+2025-10-05 02:01:09 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8548937 成交:2911.0
+2025-10-05 02:01:09 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TREE/USDT:USDT: 8548937
+2025-10-05 02:01:09 | INFO     | [TESTNET CLOSE] 平仓 IOST/USDT:USDT: buy 250507.6 (原short仓位)
+2025-10-05 02:01:09 | INFO     | [TESTNET MARKET] 创建市价单 IOST/USDT:USDT: buy 250507.6
+2025-10-05 02:01:09 | INFO     | [TESTNET SUCCESS] IOST/USDT:USDT 市价单创建成功 ID:120812853 成交:250507.0
+2025-10-05 02:01:09 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 IOST/USDT:USDT: 120812853
+2025-10-05 02:01:09 | INFO     | [TESTNET CLOSE] 平仓 FIS/USDT:USDT: buy 9371.6 (原short仓位)
+2025-10-05 02:01:09 | INFO     | [TESTNET MARKET] 创建市价单 FIS/USDT:USDT: buy 9371.6
+2025-10-05 02:01:09 | INFO     | [TESTNET SUCCESS] FIS/USDT:USDT 市价单创建成功 ID:6710331 成交:9371.0
+2025-10-05 02:01:09 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FIS/USDT:USDT: 6710331
+2025-10-05 02:01:09 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 02:01:11 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 02:01:11 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 02:01:11 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 02:01:11 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 02:01:11 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 02:01:32 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 02:01:32 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 02:01:32 | INFO     | [STATS] 因子统计:
+2025-10-05 02:01:32 | INFO     |    总计: 496 个标的
+2025-10-05 02:01:32 | INFO     |    因子值范围: -0.063050 ~ 0.065124
+2025-10-05 02:01:32 | INFO     |    选择做多: 2 个
+2025-10-05 02:01:32 | INFO     |    选择做空: 2 个
+2025-10-05 02:01:32 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 02:01:32 | INFO     |    TREE/USDT:USDT: 0.065124
+2025-10-05 02:01:32 | INFO     |    ZEREBRO/USDT:USDT: 0.055888
+2025-10-05 02:01:32 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 02:01:32 | INFO     |    BULLA/USDT:USDT: -0.062107
+2025-10-05 02:01:32 | INFO     |    B/USDT:USDT: -0.063050
+2025-10-05 02:01:32 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 02:01:32 | INFO     |    做多: ['TREE/USDT:USDT', 'ZEREBRO/USDT:USDT']
+2025-10-05 02:01:32 | INFO     |    做空: ['BULLA/USDT:USDT', 'B/USDT:USDT']
+2025-10-05 02:01:33 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  TREE/USDT:USDT: 0.065124
+  ZEREBRO/USDT:USDT: 0.055888
+做空 (2个):
+  BULLA/USDT:USDT: -0.062107
+  B/USDT:USDT: -0.063050
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.063050 ~ 0.065124
+2025-10-05 02:01:33 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 02:01:33 | INFO     | [BALANCE] 当前保证金余额: 3079.90 USDT
+2025-10-05 02:01:33 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 02:01:33
+💰 USDT余额: 3079.90
+🔧 环境: 测试网
+2025-10-05 02:01:33 | INFO     | [BALANCE] 余额通知已发送: 3079.90 USDT
+2025-10-05 02:01:33 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 02:01:33 | INFO     | [BALANCE] 总余额: 3079.90 USDT
+2025-10-05 02:01:33 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 02:01:33 | INFO     | [VALUE] 单仓价值: 762.28 USDT
+2025-10-05 02:01:33 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 02:01:34 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 02:01:34 | INFO     | [TESTNET BUY] 做多 TREE/USDT:USDT: 2895.1 @ 0.2633
+2025-10-05 02:01:34 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: buy 2895.1
+2025-10-05 02:01:34 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8548968 成交:2895.0
+2025-10-05 02:01:34 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 41540.9 @ 0.01835
+2025-10-05 02:01:34 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 41540.9
+2025-10-05 02:01:34 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594713 成交:41540.0
+2025-10-05 02:01:34 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 02:01:34 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 02:01:34 | INFO     | [TESTNET SELL] 做空 BULLA/USDT:USDT: 12034.7 @ 0.06334
+2025-10-05 02:01:34 | INFO     | [TESTNET MARKET] 创建市价单 BULLA/USDT:USDT: sell 12034.7
+2025-10-05 02:01:34 | INFO     | [TESTNET SUCCESS] BULLA/USDT:USDT 市价单创建成功 ID:6682846 成交:12034.0
+2025-10-05 02:01:34 | INFO     | [TESTNET SELL] 做空 B/USDT:USDT: 2700.7 @ 0.28225
+2025-10-05 02:01:34 | INFO     | [TESTNET MARKET] 创建市价单 B/USDT:USDT: sell 2700.7
+2025-10-05 02:01:34 | INFO     | [TESTNET SUCCESS] B/USDT:USDT 市价单创建成功 ID:7229230 成交:2700.0
+2025-10-05 02:01:34 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 02:01:34 | INFO     | [POSITIONS] 新仓位已添加到字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 2895.1}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 41540.9}, 'BULLA/USDT:USDT': {'side': 'short', 'quantity': 12034.7}, 'B/USDT:USDT': {'side': 'short', 'quantity': 2700.7}}
+2025-10-05 02:01:34 | INFO     | [POSITIONS] 当前仓位字典: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 2895.1}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 41540.9}, 'BULLA/USDT:USDT': {'side': 'short', 'quantity': 12034.7}, 'B/USDT:USDT': {'side': 'short', 'quantity': 2700.7}}
+2025-10-05 02:01:34 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 02:01:34 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 02:01:34 | INFO     | [OK] 交易周期执行成功
+2025-10-05 02:01:34 | INFO     | [TIME] 周期耗时: 25.7秒
+2025-10-05 02:01:34 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 02:02:34 | INFO     | 
+==================================================
+2025-10-05 02:02:34 | INFO     | [CYCLE] 第 9 轮交易周期
+2025-10-05 02:02:34 | INFO     | [TIME] 开始时间: 2025-10-05 02:02:34
+2025-10-05 02:02:34 | INFO     | ==================================================
+2025-10-05 02:02:34 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 02:02:34 | INFO     | [POSITIONS] 当前持有仓位: {'TREE/USDT:USDT': {'side': 'long', 'quantity': 2895.1}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 41540.9}, 'BULLA/USDT:USDT': {'side': 'short', 'quantity': 12034.7}, 'B/USDT:USDT': {'side': 'short', 'quantity': 2700.7}}
+2025-10-05 02:02:34 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 02:02:34 | INFO     | [TESTNET CLOSE] 平仓 TREE/USDT:USDT: sell 2895.1 (原long仓位)
+2025-10-05 02:02:34 | INFO     | [TESTNET MARKET] 创建市价单 TREE/USDT:USDT: sell 2895.1
+2025-10-05 02:02:34 | INFO     | [TESTNET SUCCESS] TREE/USDT:USDT 市价单创建成功 ID:8549085 成交:2895.0
+2025-10-05 02:02:34 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TREE/USDT:USDT: 8549085
+2025-10-05 02:02:34 | INFO     | [TESTNET CLOSE] 平仓 ZEREBRO/USDT:USDT: sell 41540.9 (原long仓位)
+2025-10-05 02:02:34 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: sell 41540.9
+2025-10-05 02:02:34 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20594990 成交:41540.0
+2025-10-05 02:02:34 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 ZEREBRO/USDT:USDT: 20594990
+2025-10-05 02:02:34 | INFO     | [TESTNET CLOSE] 平仓 BULLA/USDT:USDT: buy 12034.7 (原short仓位)
+2025-10-05 02:02:34 | INFO     | [TESTNET MARKET] 创建市价单 BULLA/USDT:USDT: buy 12034.7
+2025-10-05 02:02:34 | INFO     | [TESTNET SUCCESS] BULLA/USDT:USDT 市价单创建成功 ID:6682907 成交:12034.0
+2025-10-05 02:02:34 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 BULLA/USDT:USDT: 6682907
+2025-10-05 02:02:35 | INFO     | [TESTNET CLOSE] 平仓 B/USDT:USDT: buy 2700.7 (原short仓位)
+2025-10-05 02:02:35 | INFO     | [TESTNET MARKET] 创建市价单 B/USDT:USDT: buy 2700.7
+2025-10-05 02:02:35 | INFO     | [TESTNET SUCCESS] B/USDT:USDT 市价单创建成功 ID:7229320 成交:2700.0
+2025-10-05 02:02:35 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 B/USDT:USDT: 7229320
+2025-10-05 02:02:35 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 02:02:37 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 02:02:37 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 02:02:37 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 02:02:37 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 02:02:37 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 02:03:00 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 02:03:00 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 02:03:00 | INFO     | [STATS] 因子统计:
+2025-10-05 02:03:00 | INFO     |    总计: 496 个标的
+2025-10-05 02:03:00 | INFO     |    因子值范围: -0.070638 ~ 0.058287
+2025-10-05 02:03:00 | INFO     |    选择做多: 2 个
+2025-10-05 02:03:00 | INFO     |    选择做空: 2 个
+2025-10-05 02:03:00 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 02:03:00 | INFO     |    DOLO/USDT:USDT: 0.058287
+2025-10-05 02:03:00 | INFO     |    ZEREBRO/USDT:USDT: 0.042090
+2025-10-05 02:03:00 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 02:03:00 | INFO     |    B/USDT:USDT: -0.063050
+2025-10-05 02:03:00 | INFO     |    C/USDT:USDT: -0.070638
+2025-10-05 02:03:00 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 02:03:00 | INFO     |    做多: ['DOLO/USDT:USDT', 'ZEREBRO/USDT:USDT']
+2025-10-05 02:03:00 | INFO     |    做空: ['B/USDT:USDT', 'C/USDT:USDT']
+2025-10-05 02:03:01 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  DOLO/USDT:USDT: 0.058287
+  ZEREBRO/USDT:USDT: 0.042090
+做空 (2个):
+  B/USDT:USDT: -0.063050
+  C/USDT:USDT: -0.070638
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.070638 ~ 0.058287
+2025-10-05 02:03:01 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 02:03:01 | INFO     | [BALANCE] 当前保证金余额: 3062.15 USDT
+2025-10-05 02:03:01 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 02:03:01
+💰 USDT余额: 3062.15
+🔧 环境: 测试网
+2025-10-05 02:03:01 | INFO     | [BALANCE] 余额通知已发送: 3062.15 USDT
+2025-10-05 02:03:01 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 02:03:01 | INFO     | [BALANCE] 总余额: 3062.15 USDT
+2025-10-05 02:03:01 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 02:03:01 | INFO     | [VALUE] 单仓价值: 757.88 USDT
+2025-10-05 02:03:01 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 02:03:02 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 02:03:02 | INFO     | [TESTNET BUY] 做多 DOLO/USDT:USDT: 6687.4 @ 0.11333
+2025-10-05 02:03:02 | INFO     | [TESTNET MARKET] 创建市价单 DOLO/USDT:USDT: buy 6687.4
+2025-10-05 02:03:02 | INFO     | [TESTNET SUCCESS] DOLO/USDT:USDT 市价单创建成功 ID:7862384 成交:6687.0
+2025-10-05 02:03:02 | INFO     | [TESTNET BUY] 做多 ZEREBRO/USDT:USDT: 41301.4 @ 0.01835
+2025-10-05 02:03:02 | INFO     | [TESTNET MARKET] 创建市价单 ZEREBRO/USDT:USDT: buy 41301.4
+2025-10-05 02:03:02 | INFO     | [TESTNET SUCCESS] ZEREBRO/USDT:USDT 市价单创建成功 ID:20595039 成交:41301.0
+2025-10-05 02:03:02 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 02:03:02 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 02:03:02 | INFO     | [TESTNET SELL] 做空 B/USDT:USDT: 2688.5 @ 0.2819
+2025-10-05 02:03:02 | INFO     | [TESTNET MARKET] 创建市价单 B/USDT:USDT: sell 2688.5
+2025-10-05 02:03:02 | INFO     | [TESTNET SUCCESS] B/USDT:USDT 市价单创建成功 ID:7229366 成交:2688.0
+2025-10-05 02:03:02 | INFO     | [TESTNET SELL] 做空 C/USDT:USDT: 4224.1 @ 0.17942
+2025-10-05 02:03:02 | INFO     | [TESTNET MARKET] 创建市价单 C/USDT:USDT: sell 4224.1
+2025-10-05 02:03:02 | INFO     | [TESTNET SUCCESS] C/USDT:USDT 市价单创建成功 ID:7083273 成交:4224.0
+2025-10-05 02:03:02 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 02:03:02 | INFO     | [POSITIONS] 新仓位已添加到字典: {'DOLO/USDT:USDT': {'side': 'long', 'quantity': 6687.4}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 41301.4}, 'B/USDT:USDT': {'side': 'short', 'quantity': 2688.5}, 'C/USDT:USDT': {'side': 'short', 'quantity': 4224.1}}
+2025-10-05 02:03:02 | INFO     | [POSITIONS] 当前仓位字典: {'DOLO/USDT:USDT': {'side': 'long', 'quantity': 6687.4}, 'ZEREBRO/USDT:USDT': {'side': 'long', 'quantity': 41301.4}, 'B/USDT:USDT': {'side': 'short', 'quantity': 2688.5}, 'C/USDT:USDT': {'side': 'short', 'quantity': 4224.1}}
+2025-10-05 02:03:02 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 02:03:02 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 02:03:02 | INFO     | [OK] 交易周期执行成功
+2025-10-05 02:03:02 | INFO     | [TIME] 周期耗时: 28.2秒
+2025-10-05 02:03:02 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 02:09:20 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-05 02:09:20 | INFO     | ============================================================
+2025-10-05 02:09:20 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-05 02:09:20 | INFO     | ============================================================
+2025-10-05 02:09:20 | INFO     | [INIT] 初始化交易组件...
+2025-10-05 02:09:21 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-05 02:09:21 | INFO     | [BALANCE] USDT总余额: 3057.44
+2025-10-05 02:09:21 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-05 02:09:21 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-05 02:09:21 | INFO     | [OK] 交易执行器初始化成功
+2025-10-05 02:09:21 | INFO     | [OK] API连接测试成功，耗时: 0.481秒
+2025-10-05 02:09:21 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-05 02:09:21 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-05 02:09:21 | INFO     |    设备: cpu
+2025-10-05 02:09:21 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-05 02:09:21 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-05 02:09:21 | INFO     | [BALANCE] 当前账户余额: 19.37 USDT
+2025-10-05 02:09:22 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 02:09:21
+💰 USDT余额: 19.37
+🔧 环境: 测试网
+2025-10-05 02:09:22 | INFO     | [BALANCE] 余额通知已发送: 19.37 USDT
+2025-10-05 02:09:22 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-10-05 02:09:22 | INFO     | [LOOP] 开始主交易循环
+2025-10-05 02:09:22 | INFO     | 
+==================================================
+2025-10-05 02:09:22 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-10-05 02:09:22 | INFO     | [TIME] 开始时间: 2025-10-05 02:09:22
+2025-10-05 02:09:22 | INFO     | ==================================================
+2025-10-05 02:09:22 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 02:09:22 | INFO     | [INFO] 仓位字典为空，无需平仓
+2025-10-05 02:09:22 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 02:09:22 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 02:09:22 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 02:09:37 | INFO     | [LOG] 日志文件: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/logs/testnet1005-1.log
+2025-10-05 02:09:37 | INFO     | ============================================================
+2025-10-05 02:09:37 | INFO     | [SYSTEM] 启动自动化交易系统
+2025-10-05 02:09:37 | INFO     | ============================================================
+2025-10-05 02:09:37 | INFO     | [INIT] 初始化交易组件...
+2025-10-05 02:09:37 | INFO     | [OK] API连接成功 - TESTNET
+2025-10-05 02:09:37 | INFO     | [BALANCE] USDT总余额: 3050.65
+2025-10-05 02:09:37 | INFO     | [INFO] 找到 496 个活跃USDT永续合约
+2025-10-05 02:09:37 | INFO     | 示例交易对: 0G/USDT:USDT, 1000000BOB/USDT:USDT, 1000000MOG/USDT:USDT, 1000BONK/USDT:USDT, 1000CAT/USDT:USDT, 1000CHEEMS/USDT:USDT, 1000FLOKI/USDT:USDT, 1000LUNC/USDT:USDT, 1000PEPE/USDT:USDT, 1000RATS/USDT:USDT
+2025-10-05 02:09:37 | INFO     | [OK] 交易执行器初始化成功
+2025-10-05 02:09:38 | INFO     | [OK] API连接测试成功，耗时: 0.492秒
+2025-10-05 02:09:38 | INFO     | [OK] 优化数据处理器初始化成功
+2025-10-05 02:09:38 | INFO     | [OK] 优化因子计算器初始化成功
+2025-10-05 02:09:38 | INFO     |    设备: cpu
+2025-10-05 02:09:38 | INFO     |    时间框架: ['1h', '2h', '4h']
+2025-10-05 02:09:38 | INFO     |    模型路径: /home/ubuntu/crypto_trading_code/binance_implement/neural_strategy/../../figure_model/model_saved/baseline_epoch_50_train_0.02188_val_0.02376.pt
+2025-10-05 02:09:38 | INFO     | [BALANCE] 当前账户余额: 3050.65 USDT
+2025-10-05 02:09:38 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 02:09:38
+💰 USDT余额: 3050.65
+🔧 环境: 测试网
+2025-10-05 02:09:38 | INFO     | [BALANCE] 余额通知已发送: 3050.65 USDT
+2025-10-05 02:09:38 | INFO     | [OK] 系统初始化完成，每 1 分钟执行交易
+2025-10-05 02:09:38 | INFO     | [LOOP] 开始主交易循环
+2025-10-05 02:09:38 | INFO     | 
+==================================================
+2025-10-05 02:09:38 | INFO     | [CYCLE] 第 1 轮交易周期
+2025-10-05 02:09:38 | INFO     | [TIME] 开始时间: 2025-10-05 02:09:38
+2025-10-05 02:09:38 | INFO     | ==================================================
+2025-10-05 02:09:38 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 02:09:38 | INFO     | [INFO] 仓位字典为空，无需平仓
+2025-10-05 02:09:38 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 02:09:38 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 02:09:38 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 02:10:00 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 02:10:00 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 02:10:00 | INFO     | [STATS] 因子统计:
+2025-10-05 02:10:00 | INFO     |    总计: 496 个标的
+2025-10-05 02:10:00 | INFO     |    因子值范围: -0.068039 ~ 0.090163
+2025-10-05 02:10:00 | INFO     |    选择做多: 2 个
+2025-10-05 02:10:00 | INFO     |    选择做空: 2 个
+2025-10-05 02:10:00 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 02:10:00 | INFO     |    TUT/USDT:USDT: 0.090163
+2025-10-05 02:10:00 | INFO     |    FLOCK/USDT:USDT: 0.065754
+2025-10-05 02:10:00 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 02:10:00 | INFO     |    OG/USDT:USDT: -0.060873
+2025-10-05 02:10:00 | INFO     |    CELO/USDT:USDT: -0.068039
+2025-10-05 02:10:00 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 02:10:00 | INFO     |    做多: ['TUT/USDT:USDT', 'FLOCK/USDT:USDT']
+2025-10-05 02:10:00 | INFO     |    做空: ['OG/USDT:USDT', 'CELO/USDT:USDT']
+2025-10-05 02:10:00 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  TUT/USDT:USDT: 0.090163
+  FLOCK/USDT:USDT: 0.065754
+做空 (2个):
+  OG/USDT:USDT: -0.060873
+  CELO/USDT:USDT: -0.068039
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.068039 ~ 0.090163
+2025-10-05 02:10:00 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 02:10:00 | INFO     | [BALANCE] 当前保证金余额: 3050.65 USDT
+2025-10-05 02:10:01 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 02:10:01
+💰 USDT余额: 3050.65
+🔧 环境: 测试网
+2025-10-05 02:10:01 | INFO     | [BALANCE] 余额通知已发送: 3050.65 USDT
+2025-10-05 02:10:01 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 02:10:01 | INFO     | [BALANCE] 总余额: 3050.65 USDT
+2025-10-05 02:10:01 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 02:10:01 | INFO     | [VALUE] 单仓价值: 755.04 USDT
+2025-10-05 02:10:01 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 02:10:01 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 02:10:01 | INFO     | [TESTNET BUY] 做多 TUT/USDT:USDT: 7156.1 @ 0.10551
+2025-10-05 02:10:01 | INFO     | [TESTNET MARKET] 创建市价单 TUT/USDT:USDT: buy 7156.1
+2025-10-05 02:10:01 | INFO     | [TESTNET SUCCESS] TUT/USDT:USDT 市价单创建成功 ID:14982562 成交:7156.1
+2025-10-05 02:10:02 | INFO     | [TESTNET BUY] 做多 FLOCK/USDT:USDT: 2618.0 @ 0.2884
+2025-10-05 02:10:02 | INFO     | [TESTNET MARKET] 创建市价单 FLOCK/USDT:USDT: buy 2618.0
+2025-10-05 02:10:02 | INFO     | [TESTNET SUCCESS] FLOCK/USDT:USDT 市价单创建成功 ID:3775906 成交:2618.0
+2025-10-05 02:10:02 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 02:10:02 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 02:10:02 | INFO     | [TESTNET SELL] 做空 OG/USDT:USDT: 55.88 @ 13.512
+2025-10-05 02:10:02 | INFO     | [TESTNET MARKET] 创建市价单 OG/USDT:USDT: sell 55.88
+2025-10-05 02:10:02 | INFO     | [TESTNET SUCCESS] OG/USDT:USDT 市价单创建成功 ID:8406137 成交:55.88
+2025-10-05 02:10:02 | INFO     | [TESTNET SELL] 做空 CELO/USDT:USDT: 2057.3 @ 0.367
+2025-10-05 02:10:02 | INFO     | [TESTNET MARKET] 创建市价单 CELO/USDT:USDT: sell 2057.3
+2025-10-05 02:10:02 | INFO     | [TESTNET SUCCESS] CELO/USDT:USDT 市价单创建成功 ID:14689784 成交:2057.3
+2025-10-05 02:10:02 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 02:10:02 | INFO     | [POSITIONS] 新仓位已添加到字典: {'TUT/USDT:USDT': {'side': 'long', 'quantity': 7156.1}, 'FLOCK/USDT:USDT': {'side': 'long', 'quantity': 2618.0}, 'OG/USDT:USDT': {'side': 'short', 'quantity': 55.88}, 'CELO/USDT:USDT': {'side': 'short', 'quantity': 2057.3}}
+2025-10-05 02:10:02 | INFO     | [POSITIONS] 当前仓位字典: {'TUT/USDT:USDT': {'side': 'long', 'quantity': 7156.1}, 'FLOCK/USDT:USDT': {'side': 'long', 'quantity': 2618.0}, 'OG/USDT:USDT': {'side': 'short', 'quantity': 55.88}, 'CELO/USDT:USDT': {'side': 'short', 'quantity': 2057.3}}
+2025-10-05 02:10:02 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 02:10:02 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 02:10:02 | INFO     | [OK] 交易周期执行成功
+2025-10-05 02:10:02 | INFO     | [TIME] 周期耗时: 24.0秒
+2025-10-05 02:10:02 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)
+2025-10-05 02:11:02 | INFO     | 
+==================================================
+2025-10-05 02:11:02 | INFO     | [CYCLE] 第 2 轮交易周期
+2025-10-05 02:11:02 | INFO     | [TIME] 开始时间: 2025-10-05 02:11:02
+2025-10-05 02:11:02 | INFO     | ==================================================
+2025-10-05 02:11:02 | INFO     | [STEP 1] 平仓字典中存储的仓位...
+2025-10-05 02:11:02 | INFO     | [POSITIONS] 当前持有仓位: {'TUT/USDT:USDT': {'side': 'long', 'quantity': 7156.1}, 'FLOCK/USDT:USDT': {'side': 'long', 'quantity': 2618.0}, 'OG/USDT:USDT': {'side': 'short', 'quantity': 55.88}, 'CELO/USDT:USDT': {'side': 'short', 'quantity': 2057.3}}
+2025-10-05 02:11:02 | INFO     | [TESTNET CLOSE] 开始平仓指定仓位: 4 个
+2025-10-05 02:11:02 | INFO     | [TESTNET CLOSE] 平仓 TUT/USDT:USDT: sell 7156.1 (原long仓位)
+2025-10-05 02:11:02 | INFO     | [TESTNET MARKET] 创建市价单 TUT/USDT:USDT: sell 7156.1
+2025-10-05 02:11:02 | INFO     | [TESTNET SUCCESS] TUT/USDT:USDT 市价单创建成功 ID:14982851 成交:7156.1
+2025-10-05 02:11:02 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 TUT/USDT:USDT: 14982851
+2025-10-05 02:11:02 | INFO     | [TESTNET CLOSE] 平仓 FLOCK/USDT:USDT: sell 2618.0 (原long仓位)
+2025-10-05 02:11:02 | INFO     | [TESTNET MARKET] 创建市价单 FLOCK/USDT:USDT: sell 2618.0
+2025-10-05 02:11:02 | INFO     | [TESTNET SUCCESS] FLOCK/USDT:USDT 市价单创建成功 ID:3775957 成交:2618.0
+2025-10-05 02:11:02 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 FLOCK/USDT:USDT: 3775957
+2025-10-05 02:11:02 | INFO     | [TESTNET CLOSE] 平仓 OG/USDT:USDT: buy 55.88 (原short仓位)
+2025-10-05 02:11:02 | INFO     | [TESTNET MARKET] 创建市价单 OG/USDT:USDT: buy 55.88
+2025-10-05 02:11:02 | INFO     | [TESTNET SUCCESS] OG/USDT:USDT 市价单创建成功 ID:8406206 成交:55.88
+2025-10-05 02:11:02 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 OG/USDT:USDT: 8406206
+2025-10-05 02:11:02 | INFO     | [TESTNET CLOSE] 平仓 CELO/USDT:USDT: buy 2057.3 (原short仓位)
+2025-10-05 02:11:02 | INFO     | [TESTNET MARKET] 创建市价单 CELO/USDT:USDT: buy 2057.3
+2025-10-05 02:11:02 | INFO     | [TESTNET SUCCESS] CELO/USDT:USDT 市价单创建成功 ID:14689873 成交:2057.3
+2025-10-05 02:11:02 | INFO     | [TESTNET SUCCESS] 平仓订单创建成功 CELO/USDT:USDT: 14689873
+2025-10-05 02:11:03 | INFO     | [TESTNET WAIT] 等待 4 个平仓订单执行...
+2025-10-05 02:11:05 | INFO     | [TESTNET OK] 平仓操作完成，成功: 4/4
+2025-10-05 02:11:05 | INFO     | [INFO] 仓位字典已清空
+2025-10-05 02:11:05 | INFO     | [STEP 2] 跳过验证步骤...
+2025-10-05 02:11:05 | INFO     | [STEP 3] 提取OHLC数据并计算因子...
+2025-10-05 02:11:05 | INFO     | [OK] 获取活跃交易对完成，耗时: 0.001秒
+2025-10-05 02:11:27 | INFO     | [FACTORS] 计算得到 496 个有效因子
+2025-10-05 02:11:27 | INFO     | [STEP 4] 根据因子值选择交易标的...
+2025-10-05 02:11:27 | INFO     | [STATS] 因子统计:
+2025-10-05 02:11:27 | INFO     |    总计: 496 个标的
+2025-10-05 02:11:27 | INFO     |    因子值范围: -0.068039 ~ 0.090163
+2025-10-05 02:11:27 | INFO     |    选择做多: 2 个
+2025-10-05 02:11:27 | INFO     |    选择做空: 2 个
+2025-10-05 02:11:27 | INFO     | [LONG SYMBOLS] 做多标的详情:
+2025-10-05 02:11:27 | INFO     |    TUT/USDT:USDT: 0.090163
+2025-10-05 02:11:27 | INFO     |    FLOCK/USDT:USDT: 0.065754
+2025-10-05 02:11:27 | INFO     | [SHORT SYMBOLS] 做空标的详情:
+2025-10-05 02:11:27 | INFO     |    OG/USDT:USDT: -0.060873
+2025-10-05 02:11:27 | INFO     |    CELO/USDT:USDT: -0.068039
+2025-10-05 02:11:27 | INFO     | [SELECTION] 选择交易标的:
+2025-10-05 02:11:27 | INFO     |    做多: ['TUT/USDT:USDT', 'FLOCK/USDT:USDT']
+2025-10-05 02:11:27 | INFO     |    做空: ['OG/USDT:USDT', 'CELO/USDT:USDT']
+2025-10-05 02:11:27 | INFO     | [DINGDING] 通知已发送: 交易标的选择完成:
+做多 (2个):
+  TUT/USDT:USDT: 0.090163
+  FLOCK/USDT:USDT: 0.065754
+做空 (2个):
+  OG/USDT:USDT: -0.060873
+  CELO/USDT:USDT: -0.068039
+
+因子统计:
+  总计: 496 个标的
+  范围: -0.068039 ~ 0.090163
+2025-10-05 02:11:27 | INFO     | [STEP 5] 获取当前合约保证金...
+2025-10-05 02:11:27 | INFO     | [BALANCE] 当前保证金余额: 3025.16 USDT
+2025-10-05 02:11:27 | INFO     | [DINGDING] 通知已发送: 📊 账户余额报告
+⏰ 时间: 2025-10-05 02:11:27
+💰 USDT余额: 3025.16
+🔧 环境: 测试网
+2025-10-05 02:11:27 | INFO     | [BALANCE] 余额通知已发送: 3025.16 USDT
+2025-10-05 02:11:27 | INFO     | [STEP 6] 执行开仓交易...
+2025-10-05 02:11:27 | INFO     | [BALANCE] 总余额: 3025.16 USDT
+2025-10-05 02:11:27 | INFO     | [INFO] 总仓位数: 4
+2025-10-05 02:11:27 | INFO     | [VALUE] 单仓价值: 748.73 USDT
+2025-10-05 02:11:27 | INFO     | [LEVERAGE] 设置杠杆为 1x...
+2025-10-05 02:11:28 | INFO     | [TESTNET LONG] 开多头仓位: 2 个
+2025-10-05 02:11:28 | INFO     | [TESTNET BUY] 做多 TUT/USDT:USDT: 7178.6 @ 0.1043
+2025-10-05 02:11:28 | INFO     | [TESTNET MARKET] 创建市价单 TUT/USDT:USDT: buy 7178.6
+2025-10-05 02:11:28 | INFO     | [TESTNET SUCCESS] TUT/USDT:USDT 市价单创建成功 ID:14982877 成交:7178.6
+2025-10-05 02:11:28 | INFO     | [TESTNET BUY] 做多 FLOCK/USDT:USDT: 2593.4 @ 0.2887
+2025-10-05 02:11:28 | INFO     | [TESTNET MARKET] 创建市价单 FLOCK/USDT:USDT: buy 2593.4
+2025-10-05 02:11:28 | INFO     | [TESTNET SUCCESS] FLOCK/USDT:USDT 市价单创建成功 ID:3775980 成交:2593.0
+2025-10-05 02:11:28 | INFO     | [TESTNET OK] 多头开仓: 2/2 成功
+2025-10-05 02:11:28 | INFO     | [TESTNET SHORT] 开空头仓位: 2 个
+2025-10-05 02:11:28 | INFO     | [TESTNET SELL] 做空 OG/USDT:USDT: 55.44 @ 13.504
+2025-10-05 02:11:28 | INFO     | [TESTNET MARKET] 创建市价单 OG/USDT:USDT: sell 55.44
+2025-10-05 02:11:28 | INFO     | [TESTNET SUCCESS] OG/USDT:USDT 市价单创建成功 ID:8406247 成交:55.44
+2025-10-05 02:11:28 | INFO     | [TESTNET SELL] 做空 CELO/USDT:USDT: 2034.6 @ 0.368
+2025-10-05 02:11:28 | INFO     | [TESTNET MARKET] 创建市价单 CELO/USDT:USDT: sell 2034.6
+2025-10-05 02:11:28 | INFO     | [TESTNET SUCCESS] CELO/USDT:USDT 市价单创建成功 ID:14689922 成交:2034.6
+2025-10-05 02:11:28 | INFO     | [TESTNET OK] 空头开仓: 2/2 成功
+2025-10-05 02:11:28 | INFO     | [POSITIONS] 新仓位已添加到字典: {'TUT/USDT:USDT': {'side': 'long', 'quantity': 7178.6}, 'FLOCK/USDT:USDT': {'side': 'long', 'quantity': 2593.4}, 'OG/USDT:USDT': {'side': 'short', 'quantity': 55.44}, 'CELO/USDT:USDT': {'side': 'short', 'quantity': 2034.6}}
+2025-10-05 02:11:28 | INFO     | [POSITIONS] 当前仓位字典: {'TUT/USDT:USDT': {'side': 'long', 'quantity': 7178.6}, 'FLOCK/USDT:USDT': {'side': 'long', 'quantity': 2593.4}, 'OG/USDT:USDT': {'side': 'short', 'quantity': 55.44}, 'CELO/USDT:USDT': {'side': 'short', 'quantity': 2034.6}}
+2025-10-05 02:11:28 | INFO     | [STEP 7] 开仓交易完成
+2025-10-05 02:11:28 | INFO     | [INFO] 跳过详细仓位验证，交易周期完成
+2025-10-05 02:11:28 | INFO     | [OK] 交易周期执行成功
+2025-10-05 02:11:28 | INFO     | [TIME] 周期耗时: 26.2秒
+2025-10-05 02:11:28 | INFO     | [INTERVAL] 间隔执行模式 - 等待 60 秒 (1 分钟)

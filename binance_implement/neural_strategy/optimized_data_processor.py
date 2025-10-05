@@ -116,15 +116,15 @@ class OptimizedDataProcessor:
                 try:
                     # 记录单个API调用时间
                     api_start_time = datetime.now()
-                    # 直接获取指定时间框架的数据
+                    # 直接获取指定时间框架的数据 (获取limit+1根k线，排除最后一根不完整的)
                     ohlcv = self.exchange.fetch_ohlcv(
                         symbol=symbol,
                         timeframe=timeframe,
-                        limit=limit
+                        limit=limit + 1
                     )
                     api_duration = (datetime.now() - api_start_time).total_seconds()
 
-                    if not ohlcv or len(ohlcv) < limit:
+                    if not ohlcv or len(ohlcv) < limit + 1:
                         # 如果数据不足，跳过这个交易对
                         return None
 
@@ -141,12 +141,15 @@ class OptimizedDataProcessor:
                     # 移除异常数据
                     df = df.dropna()
 
+                    # 排除最后一根不完整的k线，保留limit根完整k线
+                    df = df.iloc[:-1]
+
                     # 确保有足够的数据
                     if len(df) < limit:
                         return None
 
                     # 只保留最新的limit条数据
-                    df = df.tail(limit).copy()
+                    # df = df.tail(limit).copy()
                     result[timeframe] = df
 
                     # 记录成功的API调用时间（可选，用于调试）
