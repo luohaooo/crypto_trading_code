@@ -253,6 +253,10 @@ class AutomatedTradingSystem:
             self.logger.info(f"   做多: {long_symbols}")
             self.logger.info(f"   做空: {short_symbols}")
 
+            # 发送交易标的选择通知
+            selection_message = f"交易标的选择完成:\n做多 ({len(long_symbols)}个): {', '.join(long_symbols) if long_symbols else '无'}\n做空 ({len(short_symbols)}个): {', '.join(short_symbols) if short_symbols else '无'}"
+            self.executor._send_dingding_notification(selection_message)
+
             # 6. 开仓交易 (现在是同步方法)
             self.logger.info("[STEP 6] 执行开仓交易...")
             position_success, opened_positions = self.executor.open_positions(
