@@ -254,7 +254,31 @@ class AutomatedTradingSystem:
             self.logger.info(f"   做空: {short_symbols}")
 
             # 发送交易标的选择通知
-            selection_message = f"交易标的选择完成:\n做多 ({len(long_symbols)}个): {', '.join(long_symbols) if long_symbols else '无'}\n做空 ({len(short_symbols)}个): {', '.join(short_symbols) if short_symbols else '无'}"
+            selection_message = f"交易标的选择完成:\n"
+
+            # 添加做多标的及其因子值
+            if long_symbols:
+                selection_message += f"做多 ({len(long_symbols)}个):\n"
+                for symbol in long_symbols:
+                    factor_value = factors[symbol]
+                    selection_message += f"  {symbol}: {factor_value:.6f}\n"
+            else:
+                selection_message += "做多: 无\n"
+
+            # 添加做空标的及其因子值
+            if short_symbols:
+                selection_message += f"做空 ({len(short_symbols)}个):\n"
+                for symbol in short_symbols:
+                    factor_value = factors[symbol]
+                    selection_message += f"  {symbol}: {factor_value:.6f}\n"
+            else:
+                selection_message += "做空: 无\n"
+
+            # 添加因子统计信息
+            selection_message += f"\n因子统计:\n"
+            selection_message += f"  总计: {len(factors)} 个标的\n"
+            selection_message += f"  范围: {factors.min():.6f} ~ {factors.max():.6f}"
+
             self.executor._send_dingding_notification(selection_message)
 
             # 6. 开仓交易 (现在是同步方法)
@@ -361,7 +385,8 @@ class AutomatedTradingSystem:
         now = datetime.now()
 
         # 16小时模式的执行时间点
-        execution_hours = [0, 8, 16]
+        # execution_hours = [0, 8, 16]
+        execution_hours = [4, 12, 20]
 
         # 获取当前日期，时分秒设为0
         today = now.replace(hour=0, minute=0, second=0, microsecond=0)
