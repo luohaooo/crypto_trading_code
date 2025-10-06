@@ -322,6 +322,7 @@ def create_model(device=None, use_parallel=False):
     # )
 
     if device.type == 'cuda':
+        model.eval()  # Set to eval mode for inference
         model = model.to(device)
         if use_parallel and torch.cuda.device_count() > 1:
             model = nn.DataParallel(model)

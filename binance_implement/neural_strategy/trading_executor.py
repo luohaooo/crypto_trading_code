@@ -263,7 +263,7 @@ class TradingExecutor:
                         symbol=symbol,
                         side=side,
                         amount=size,
-                        params={'reduceOnly': True, 'positionSide': position_side}
+                        params={'positionSide': position_side}
                         # 分批逻辑在_create_market_order_live内部处理
                     )
 
@@ -337,11 +337,40 @@ class TradingExecutor:
                 try:
                     side = position_info['side']
                     quantity = position_info['quantity']
+                    open_price = position_info.get('open_price', 0)  # 获取开仓价格，如果没有则默认为0
+
+                    # 获取当前价格用于计算收益
+                    try:
+                        ticker = self.exchange.fetch_ticker(symbol)
+                        current_price = ticker['last'] if ticker else 0
+                    except Exception as e:
+                        self.logger.error(f"[TESTNET ERROR] 无法获取 {symbol} 当前价格: {e}")
+                        current_price = 0
+
+                    # 计算预期收益（只有在有开仓价格和当前价格时才计算）
+                    profit_loss = 0
+                    profit_percentage = 0
+                    if open_price > 0 and current_price > 0:
+                        if side == 'long':
+                            # 多头：(当前价格 - 开仓价格) / 开仓价格 * 100%
+                            profit_percentage = ((current_price - open_price) / open_price) * 100
+                            profit_loss = (current_price - open_price) * quantity
+                        else:  # short
+                            # 空头：(开仓价格 - 当前价格) / 开仓价格 * 100%
+                            profit_percentage = ((open_price - current_price) / open_price) * 100
+                            profit_loss = (open_price - current_price) * quantity
 
                     # 确定平仓方向 (做多仓位用sell平仓，做空仓位用buy平仓)
                     close_side = 'sell' if side == 'long' else 'buy'
 
-                    self.logger.info(f"[TESTNET CLOSE] 平仓 {symbol}: {close_side} {quantity} (原{side}仓位)")
+                    # 记录平仓信息和收益
+                    if open_price > 0 and current_price > 0:
+                        self.logger.info(f"[TESTNET CLOSE] 平仓 {symbol}: {close_side} {quantity} (原{side}仓位)")
+                        self.logger.info(f"[TESTNET PROFIT] {symbol} 开仓价格: {open_price:.8f}, 当前价格: {current_price:.8f}")
+                        self.logger.info(f"[TESTNET PROFIT] {symbol} 预期收益: {profit_percentage:.2f}% (约 {profit_loss:.8f} USDT)")
+                    else:
+                        self.logger.info(f"[TESTNET CLOSE] 平仓 {symbol}: {close_side} {quantity} (原{side}仓位)")
+                        self.logger.warning(f"[TESTNET WARNING] {symbol} 缺少价格信息，无法计算收益")
 
                     # 模拟盘平仓
                     order = self._create_market_order_testnet(
@@ -353,6 +382,22 @@ class TradingExecutor:
                     if order:
                         close_orders.append(order)
                         self.logger.info(f"[TESTNET SUCCESS] 平仓订单创建成功 {symbol}: {order.get('id', 'Unknown')}")
+
+                        # 发送DingTalk收益通知
+                        if open_price > 0 and current_price > 0:
+                            profit_emoji = "💰" if profit_loss > 0 else "📉" if profit_loss < 0 else "➖"
+                            direction_text = "做多" if side == 'long' else "做空"
+
+                            dingding_msg = (
+                                f"🔔 [测试盘] 平仓通知\n"
+                                f"📊 交易对: {symbol}\n"
+                                f"📈 方向: {direction_text}\n"
+                                f"🔢 数量: {quantity:.8f}\n"
+                                f"💵 开仓价: {open_price:.8f}\n"
+                                f"💵 平仓价: {current_price:.8f}\n"
+                                f"{profit_emoji} 收益: {profit_percentage:.2f}% ({profit_loss:.8f} USDT)"
+                            )
+                            self._send_dingding_notification(dingding_msg)
                     else:
                         self.logger.error(f"[TESTNET ERROR] 平仓失败 {symbol}")
                         failed_positions.append(symbol)
@@ -406,22 +451,71 @@ class TradingExecutor:
                 try:
                     side = position_info['side']
                     quantity = position_info['quantity']
+                    open_price = position_info.get('open_price', 0)  # 获取开仓价格，如果没有则默认为0
+
+                    # 获取当前价格用于计算收益
+                    try:
+                        ticker = self.exchange.fetch_ticker(symbol)
+                        current_price = ticker['last'] if ticker else 0
+                    except Exception as e:
+                        self.logger.error(f"[LIVE ERROR] 无法获取 {symbol} 当前价格: {e}")
+                        current_price = 0
+
+                    # 计算预期收益（只有在有开仓价格和当前价格时才计算）
+                    profit_loss = 0
+                    profit_percentage = 0
+                    if open_price > 0 and current_price > 0:
+                        if side == 'long':
+                            # 多头：(当前价格 - 开仓价格) / 开仓价格 * 100%
+                            profit_percentage = ((current_price - open_price) / open_price) * 100
+                            profit_loss = (current_price - open_price) * quantity
+                        else:  # short
+                            # 空头：(开仓价格 - 当前价格) / 开仓价格 * 100%
+                            profit_percentage = ((open_price - current_price) / open_price) * 100
+                            profit_loss = (open_price - current_price) * quantity
 
                     # 确定平仓方向 (做多仓位用sell平仓，做空仓位用buy平仓)
                     close_side = 'sell' if side == 'long' else 'buy'
 
-                    self.logger.info(f"[LIVE CLOSE] 平仓 {symbol}: {close_side} {quantity} (原{side}仓位)")
+                    # 记录平仓信息和收益
+                    if open_price > 0 and current_price > 0:
+                        self.logger.info(f"[LIVE CLOSE] 平仓 {symbol}: {close_side} {quantity} (原{side}仓位)")
+                        self.logger.info(f"[LIVE PROFIT] {symbol} 开仓价格: {open_price:.8f}, 当前价格: {current_price:.8f}")
+                        self.logger.info(f"[LIVE PROFIT] {symbol} 预期收益: {profit_percentage:.2f}% (约 {profit_loss:.8f} USDT)")
+                    else:
+                        self.logger.info(f"[LIVE CLOSE] 平仓 {symbol}: {close_side} {quantity} (原{side}仓位)")
+                        self.logger.warning(f"[LIVE WARNING] {symbol} 缺少价格信息，无法计算收益")
+
+                    # 确定positionSide参数
+                    position_side = 'LONG' if side == 'long' else 'SHORT'
 
                     # 实盘平仓
                     order = self._create_market_order_live(
                         symbol=symbol,
                         side=close_side,
-                        amount=abs(quantity)
+                        amount=abs(quantity),
+                        params={'positionSide': position_side}
                     )
 
                     if order:
                         close_orders.append(order)
                         self.logger.info(f"[LIVE SUCCESS] 平仓订单创建成功 {symbol}: {order.get('id', 'Unknown')}")
+
+                        # 发送DingTalk收益通知
+                        if open_price > 0 and current_price > 0:
+                            profit_emoji = "💰" if profit_loss > 0 else "📉" if profit_loss < 0 else "➖"
+                            direction_text = "做多" if side == 'long' else "做空"
+
+                            dingding_msg = (
+                                f"🔔 [实盘] 平仓通知\n"
+                                f"📊 交易对: {symbol}\n"
+                                f"📈 方向: {direction_text}\n"
+                                f"🔢 数量: {quantity:.8f}\n"
+                                f"💵 开仓价: {open_price:.8f}\n"
+                                f"💵 平仓价: {current_price:.8f}\n"
+                                f"{profit_emoji} 收益: {profit_percentage:.2f}% ({profit_loss:.8f} USDT)"
+                            )
+                            self._send_dingding_notification(dingding_msg)
                     else:
                         self.logger.error(f"[LIVE ERROR] 平仓失败 {symbol}")
                         failed_positions.append(symbol)
@@ -475,7 +569,7 @@ class TradingExecutor:
                 return True, opened_positions
 
             # 计算每个仓位的资金
-            position_value =  0.99 * total_balance / total_positions # 防止资金不足
+            position_value =  0.95 * total_balance / total_positions # 防止资金不足
             self.logger.info(f"[BALANCE] 总余额: {total_balance:.2f} USDT")
             self.logger.info(f"[INFO] 总仓位数: {total_positions}")
             self.logger.info(f"[VALUE] 单仓价值: {position_value:.2f} USDT")
@@ -571,10 +665,11 @@ class TradingExecutor:
 
                 if order:
                     success_count += 1
-                    # 记录成功开仓的位置
+                    # 记录成功开仓的位置（包含开仓价格）
                     opened_positions[symbol] = {
                         'side': 'long',
-                        'quantity': quantity
+                        'quantity': quantity,
+                        'open_price': current_price
                     }
                 else:
                     # 订单失败，发送钉钉通知
@@ -641,10 +736,11 @@ class TradingExecutor:
 
                 if order:
                     success_count += 1
-                    # 记录成功开仓的位置
+                    # 记录成功开仓的位置（包含开仓价格）
                     opened_positions[symbol] = {
                         'side': 'long',
-                        'quantity': quantity
+                        'quantity': quantity,
+                        'open_price': current_price
                     }
                 else:
                     # 订单失败，发送钉钉通知
@@ -718,10 +814,11 @@ class TradingExecutor:
 
                 if order:
                     success_count += 1
-                    # 记录成功开仓的位置
+                    # 记录成功开仓的位置（包含开仓价格）
                     opened_positions[symbol] = {
                         'side': 'short',
-                        'quantity': quantity
+                        'quantity': quantity,
+                        'open_price': current_price
                     }
                 else:
                     # 订单失败，发送钉钉通知
@@ -788,10 +885,11 @@ class TradingExecutor:
 
                 if order:
                     success_count += 1
-                    # 记录成功开仓的位置
+                    # 记录成功开仓的位置（包含开仓价格）
                     opened_positions[symbol] = {
                         'side': 'short',
-                        'quantity': quantity
+                        'quantity': quantity,
+                        'open_price': current_price
                     }
                 else:
                     # 订单失败，发送钉钉通知

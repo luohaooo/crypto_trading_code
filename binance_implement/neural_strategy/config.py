@@ -43,7 +43,7 @@ class TradingConfig:
         # 模型路径配置
         self.MODEL_PATH = os.path.join(
             os.path.dirname(__file__), '..', '..', 'figure_model', 'model_saved',
-            'baseline_epoch_50_train_0.02188_val_0.02376.pt'
+            'baseline_epoch_52_train_0.02124_val_0.02302.pt'
         )
 
         # API配置
@@ -51,7 +51,7 @@ class TradingConfig:
 
         # 日志配置
         self.LOG_LEVEL = 'INFO'
-        self.LOG_FILENAME = "testnet1005-1"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
+        self.LOG_FILENAME = "donk"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
 
         # 创建日志目录路径
         log_dir = os.path.join(os.path.dirname(__file__), 'logs')

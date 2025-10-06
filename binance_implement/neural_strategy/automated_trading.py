@@ -219,21 +219,8 @@ class AutomatedTradingSystem:
             # 2. 跳过验证步骤
             self.logger.info("[STEP 2] 跳过验证步骤...")
 
-            # 3. 获取当前保证金余额 (现在是同步方法)
-            self.logger.info("[STEP 3] 获取当前合约保证金...")
-            balance = self.executor.get_account_balance()
-            if balance is None:
-                self.logger.error("[ERROR] 无法获取账户余额")
-                return False
-
-            self.current_balance = balance
-            self.logger.info(f"[BALANCE] 当前保证金余额: {balance:.2f} USDT")
-
-            # 发送交易前余额通知
-            self.executor.send_balance_notification()
-
-            # 4. 数据处理和因子计算
-            self.logger.info("[STEP 4] 提取OHLC数据并计算因子...")
+            # 3. 数据处理和因子计算
+            self.logger.info("[STEP 3] 提取OHLC数据并计算因子...")
             factors = self._calculate_factors()
             if factors is None or len(factors) == 0:
                 self.logger.error("[ERROR] 因子计算失败或无有效因子")
@@ -241,8 +228,8 @@ class AutomatedTradingSystem:
 
             self.logger.info(f"[FACTORS] 计算得到 {len(factors)} 个有效因子")
 
-            # 5. 选币策略
-            self.logger.info("[STEP 5] 根据因子值选择交易标的...")
+            # 4. 选币策略
+            self.logger.info("[STEP 4] 根据因子值选择交易标的...")
             long_symbols, short_symbols = self._select_trading_symbols(factors)
 
             if len(long_symbols) == 0 and len(short_symbols) == 0:
@@ -280,6 +267,19 @@ class AutomatedTradingSystem:
             selection_message += f"  范围: {factors.min():.6f} ~ {factors.max():.6f}"
 
             self.executor._send_dingding_notification(selection_message)
+
+            # 5. 获取当前保证金余额 (现在是同步方法)
+            self.logger.info("[STEP 5] 获取当前合约保证金...")
+            balance = self.executor.get_account_balance()
+            if balance is None:
+                self.logger.error("[ERROR] 无法获取账户余额")
+                return False
+
+            self.current_balance = balance
+            self.logger.info(f"[BALANCE] 当前保证金余额: {balance:.2f} USDT")
+
+            # 发送交易前余额通知
+            self.executor.send_balance_notification()
 
             # 6. 开仓交易 (现在是同步方法)
             self.logger.info("[STEP 6] 执行开仓交易...")
