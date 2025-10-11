@@ -58,6 +58,12 @@ class AutomatedTradingSystem:
         self.current_positions = {}
         self.current_balance = 0.0
 
+        # 因子表现分析
+        self.symbol_info = None  # 存储上一周期的symbol价格和因子信息
+        self.ic_history = []     # IC历史记录
+        self.rankic_history = []  # RankIC历史记录
+        self.max_history_length = 20  # 保留最近20期的历史记录
+
         self.is_16h_open = False  # 标记是否刚执行完16小时的开仓
 
         # 注册信号处理
@@ -219,6 +225,18 @@ class AutomatedTradingSystem:
             # 2. 跳过验证步骤
             self.logger.info("[STEP 2] 跳过验证步骤...")
 
+            # 2.5. 因子表现分析 (基于上一周期因子预测当前收益)
+            self.logger.info("[STEP 2.5] 分析上一轮因子表现 (IC/RankIC)...")
+            if self.symbol_info is not None:
+                # 创建上一轮的因子序列用于IC分析
+                previous_factors = pd.Series(
+                    {symbol: data['factor'] for symbol, data in self.symbol_info['data'].items()},
+                    name='previous_factors'
+                )
+                self._calculate_factor_performance(previous_factors)
+            else:
+                self.logger.info("[FACTOR PERFORMANCE] 首次运行，无历史数据进行IC分析")
+
             # 3. 数据处理和因子计算
             self.logger.info("[STEP 3] 提取OHLC数据并计算因子...")
             factors = self._calculate_factors()
@@ -301,6 +319,10 @@ class AutomatedTradingSystem:
             self.logger.info("[STEP 7] 开仓交易完成")
             self.logger.info("[INFO] 跳过详细仓位验证，交易周期完成")
 
+            # 8. 记录symbol信息用于下次IC分析
+            self.logger.info("[STEP 8] 记录当前交易对价格和因子信息...")
+            self._record_symbol_info(factors)
+
             return True
 
         except Exception as e:
@@ -353,6 +375,24 @@ class AutomatedTradingSystem:
         self.logger.info(f"   选择做多: {len(long_symbols)} 个")
         self.logger.info(f"   选择做空: {len(short_symbols)} 个")
 
+        # 打印因子值排名前20的交易对和对应的因子值
+        top_20_count = min(20, len(sorted_factors))
+        self.logger.info(f"[TOP 20] 因子值排名前{top_20_count}的交易对:")
+        for i in range(top_20_count):
+            symbol = sorted_factors.index[i]
+            factor_value = sorted_factors.iloc[i]
+            self.logger.info(f"   第{i+1}名: {symbol}: {factor_value:.6f}")
+
+        # 打印因子值排名后20的交易对和对应的因子值
+        bottom_20_count = min(20, len(sorted_factors))
+        self.logger.info(f"[BOTTOM 20] 因子值排名后{bottom_20_count}的交易对:")
+        for i in range(bottom_20_count):
+            idx = len(sorted_factors) - bottom_20_count + i
+            symbol = sorted_factors.index[idx]
+            factor_value = sorted_factors.iloc[idx]
+            rank = len(sorted_factors) - bottom_20_count + i + 1
+            self.logger.info(f"   第{rank}名: {symbol}: {factor_value:.6f}")
+
         # 打印详细的做多标的及其因子值
         if len(long_symbols) > 0:
             self.logger.info("[LONG SYMBOLS] 做多标的详情:")
@@ -368,6 +408,191 @@ class AutomatedTradingSystem:
                 self.logger.info(f"   {symbol}: {factor_value:.6f}")
 
         return long_symbols, short_symbols
+
+    def _calculate_factor_performance(self, current_factors: pd.Series) -> None:
+        """
+        计算因子表现 - IC和RankIC
+        Args:
+            current_factors: 当前周期的因子值序列
+        """
+        try:
+            # 检查是否有上一周期的数据
+            if self.symbol_info is None:
+                self.logger.info("[FACTOR PERFORMANCE] 首次运行，无历史数据进行IC分析")
+                return
+
+            # 获取当前所有symbol的价格
+            current_prices = {}
+            failed_symbols = []
+
+            for symbol in current_factors.index:
+                try:
+                    ticker = self.executor.exchange.fetch_ticker(symbol)
+                    if ticker and 'last' in ticker and ticker['last']:
+                        current_prices[symbol] = ticker['last']
+                    else:
+                        failed_symbols.append(symbol)
+                except Exception as e:
+                    self.logger.warning(f"[PRICE FETCH] 获取 {symbol} 价格失败: {e}")
+                    failed_symbols.append(symbol)
+
+            if failed_symbols:
+                self.logger.warning(f"[PRICE FETCH] {len(failed_symbols)} 个交易对价格获取失败: {failed_symbols[:5]}...")
+
+            # 计算收益率和IC
+            valid_symbols = []
+            returns = []
+            factor_values = []
+
+            for symbol in current_factors.index:
+                if (symbol in current_prices and
+                    symbol in self.symbol_info['data']):
+
+                    current_price = current_prices[symbol]
+                    previous_price = self.symbol_info['data'][symbol]['price']
+                    previous_factor = self.symbol_info['data'][symbol]['factor']
+
+                    # 计算收益率
+                    if previous_price > 0:
+                        return_rate = (current_price - previous_price) / previous_price
+                        returns.append(return_rate)
+                        factor_values.append(previous_factor)
+                        valid_symbols.append(symbol)
+
+            # 检查是否有足够的数据进行分析
+            if len(returns) < 10:
+                self.logger.warning(f"[FACTOR PERFORMANCE] 有效数据不足 ({len(returns)} < 10)，跳过IC分析")
+                return
+
+            # 转换为pandas Series进行相关性计算
+            returns_series = pd.Series(returns, index=valid_symbols)
+            factors_series = pd.Series(factor_values, index=valid_symbols)
+
+            # 计算IC (Information Coefficient)
+            ic = returns_series.corr(factors_series)
+
+            # 计算RankIC (Rank Information Coefficient)
+            returns_rank = returns_series.rank()
+            factors_rank = factors_series.rank()
+            rank_ic = returns_rank.corr(factors_rank)
+
+            # 记录到历史
+            if not pd.isna(ic):
+                self.ic_history.append(ic)
+                if len(self.ic_history) > self.max_history_length:
+                    self.ic_history.pop(0)
+
+            if not pd.isna(rank_ic):
+                self.rankic_history.append(rank_ic)
+                if len(self.rankic_history) > self.max_history_length:
+                    self.rankic_history.pop(0)
+
+            # 计算历史统计
+            ic_mean = pd.Series(self.ic_history).mean() if self.ic_history else 0
+            ic_std = pd.Series(self.ic_history).std() if len(self.ic_history) > 1 else 0
+            rankic_mean = pd.Series(self.rankic_history).mean() if self.rankic_history else 0
+            rankic_std = pd.Series(self.rankic_history).std() if len(self.rankic_history) > 1 else 0
+
+            # 记录详细日志
+            self.logger.info("="*50)
+            self.logger.info("[FACTOR PERFORMANCE] IC分析结果:")
+            self.logger.info(f"   参与分析的交易对数量: {len(valid_symbols)}")
+            self.logger.info(f"   时间跨度: {self.symbol_info['timestamp'].strftime('%Y-%m-%d %H:%M')} -> {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+            self.logger.info(f"   因子IC: {ic:.4f} {'(正相关)' if ic > 0 else '(负相关)' if ic < 0 else '(无相关)'}")
+            self.logger.info(f"   因子RankIC: {rank_ic:.4f} {'(正相关)' if rank_ic > 0 else '(负相关)' if rank_ic < 0 else '(无相关)'}")
+
+            if len(self.ic_history) > 1:
+                self.logger.info(f"   历史IC均值: {ic_mean:.4f} (最近{len(self.ic_history)}期)")
+                self.logger.info(f"   历史IC标准差: {ic_std:.4f}")
+                self.logger.info(f"   历史RankIC均值: {rankic_mean:.4f} (最近{len(self.rankic_history)}期)")
+                self.logger.info(f"   历史RankIC标准差: {rankic_std:.4f}")
+
+            # 统计收益率分布
+            positive_returns = sum(1 for r in returns if r > 0)
+            negative_returns = sum(1 for r in returns if r < 0)
+            self.logger.info(f"   收益率分布: {positive_returns}个正收益, {negative_returns}个负收益")
+            self.logger.info(f"   收益率范围: {min(returns):.4f} ~ {max(returns):.4f}")
+            self.logger.info("="*50)
+
+            # 发送DingTalk通知
+            self._send_factor_performance_notification(
+                ic, rank_ic, len(valid_symbols), ic_mean, ic_std,
+                len(self.ic_history), positive_returns, negative_returns
+            )
+
+        except Exception as e:
+            self.logger.error(f"[ERROR] 因子表现分析异常: {e}")
+
+    def _send_factor_performance_notification(self, ic: float, rank_ic: float,
+                                            sample_size: int, ic_mean: float, ic_std: float,
+                                            history_length: int, positive_returns: int,
+                                            negative_returns: int) -> None:
+        """发送因子表现分析的DingTalk通知"""
+        try:
+            # 判断IC表现
+            ic_status = "✅" if ic > 0.02 else "⚠️" if ic > -0.02 else "❌"
+            rankic_status = "✅" if rank_ic > 0.02 else "⚠️" if rank_ic > -0.02 else "❌"
+
+            message = f"🔍 因子表现分析:\n"
+            message += f"IC: {ic:.4f} {ic_status}\n"
+            message += f"RankIC: {rank_ic:.4f} {rankic_status}\n"
+            message += f"分析样本: {sample_size}个交易对\n"
+            message += f"收益分布: {positive_returns}↗️ {negative_returns}↘️\n"
+
+            if history_length > 1:
+                message += f"历史表现: 均值{ic_mean:.4f}±{ic_std:.4f} ({history_length}期)\n"
+
+            # 添加表现评价
+            if ic > 0.05:
+                message += "📈 因子表现优秀"
+            elif ic > 0.02:
+                message += "📊 因子表现良好"
+            elif ic > -0.02:
+                message += "📉 因子表现一般"
+            else:
+                message += "⚠️ 因子表现较差"
+
+            self.executor._send_dingding_notification(message)
+
+        except Exception as e:
+            self.logger.error(f"[ERROR] 发送因子表现通知失败: {e}")
+
+    def _record_symbol_info(self, factors: pd.Series) -> None:
+        """
+        记录当前周期的symbol信息（价格和因子值）
+        Args:
+            factors: 当前因子值序列
+        """
+        try:
+            current_data = {}
+            failed_symbols = []
+
+            for symbol in factors.index:
+                try:
+                    ticker = self.executor.exchange.fetch_ticker(symbol)
+                    if ticker and 'last' in ticker and ticker['last']:
+                        current_data[symbol] = {
+                            'price': ticker['last'],
+                            'factor': factors[symbol]
+                        }
+                    else:
+                        failed_symbols.append(symbol)
+                except Exception as e:
+                    self.logger.warning(f"[RECORD] 获取 {symbol} 价格失败: {e}")
+                    failed_symbols.append(symbol)
+
+            # 更新symbol_info
+            self.symbol_info = {
+                'timestamp': datetime.now(),
+                'data': current_data
+            }
+
+            self.logger.info(f"[RECORD] 记录了 {len(current_data)} 个交易对的价格和因子信息")
+            if failed_symbols:
+                self.logger.warning(f"[RECORD] {len(failed_symbols)} 个交易对记录失败: {failed_symbols[:5]}...")
+
+        except Exception as e:
+            self.logger.error(f"[ERROR] 记录symbol信息异常: {e}")
 
     def _get_next_execution_time(self) -> datetime:
         """获取下次执行时间"""
