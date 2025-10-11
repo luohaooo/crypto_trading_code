@@ -569,10 +569,13 @@ class TradingExecutor:
                 return True, opened_positions
 
             # 计算每个仓位的资金
-            position_value =  0.95 * total_balance / total_positions # 防止资金不足
+            position_value = 0.995 * total_balance / total_positions # 防止资金不足
             self.logger.info(f"[BALANCE] 总余额: {total_balance:.2f} USDT")
             self.logger.info(f"[INFO] 总仓位数: {total_positions}")
             self.logger.info(f"[VALUE] 单仓价值: {position_value:.2f} USDT")
+
+            # 设置保证金模式
+            self._set_margin_type_for_symbols(all_symbols)
 
             # 设置杠杆
             self._set_leverage_for_symbols(all_symbols)
@@ -606,6 +609,62 @@ class TradingExecutor:
             except Exception as e:
                 self.logger.warning(f"[WARNING] 设置 {symbol} 杠杆失败: {e}")
                 continue
+
+    def _set_margin_type_for_symbols(self, symbols: List[str]):
+        """为交易对设置保证金模式"""
+        if not self.config.ENABLE_MARGIN_TYPE_SETTING:
+            self.logger.info("[MARGIN] 保证金模式设置已禁用，跳过")
+            return
+
+        self.logger.info(f"[MARGIN] 设置保证金模式为 {self.config.MARGIN_TYPE}...")
+        success_count = 0
+        failed_symbols = []
+
+        for symbol in symbols:
+            retry_count = 0
+            while retry_count < self.config.MARGIN_TYPE_RETRY_COUNT:
+                try:
+                    # 获取市场信息进行symbol格式转换
+                    market = self.exchange.market(symbol)
+                    binance_symbol = market['id']  # 获取Binance原生格式 (如: BTCUSDT)
+
+                    # 使用CCXT直接调用Binance API
+                    response = self.exchange.fapiprivate_post_margintype({
+                        'symbol': binance_symbol,  # 使用转换后的格式
+                        'marginType': self.config.MARGIN_TYPE,
+                    })
+                    self.logger.info(f"[MARGIN] {symbol} ({binance_symbol}) 保证金模式设置为 {self.config.MARGIN_TYPE} ✓")
+                    success_count += 1
+                    time.sleep(0.05)  # 避免请求过快
+                    break  # 成功则跳出重试循环
+                except Exception as e:
+                    error_msg = str(e).lower()
+
+                    # 检查是否是市场信息获取失败（symbol格式问题）
+                    if ('market' in error_msg and ('not found' in error_msg or 'not loaded' in error_msg)) or \
+                       'exchangeerror' in type(e).__name__.lower():
+                        self.logger.warning(f"[WARNING] {symbol} 市场信息获取失败，可能不支持futures交易，跳过保证金模式设置")
+                        failed_symbols.append(symbol)
+                        break
+
+                    # 检查是否已经是目标保证金模式
+                    if 'no need to change margin type' in error_msg or 'margin type is not modified' in error_msg:
+                        self.logger.info(f"[MARGIN] {symbol} 已经是 {self.config.MARGIN_TYPE} 模式")
+                        success_count += 1
+                        break
+
+                    retry_count += 1
+                    if retry_count < self.config.MARGIN_TYPE_RETRY_COUNT:
+                        self.logger.warning(f"[WARNING] 设置 {symbol} 保证金模式失败 (重试 {retry_count}/{self.config.MARGIN_TYPE_RETRY_COUNT}): {e}")
+                        time.sleep(0.1)  # 重试前等待
+                    else:
+                        self.logger.error(f"[ERROR] 设置 {symbol} 保证金模式最终失败: {e}")
+                        failed_symbols.append(symbol)
+
+        # 汇总结果
+        self.logger.info(f"[MARGIN] 保证金模式设置完成: {success_count}/{len(symbols)} 成功")
+        if failed_symbols:
+            self.logger.warning(f"[MARGIN] 失败的交易对: {failed_symbols}")
 
     def _open_long_positions(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
         """开多头仓位 - 环境路由方法"""

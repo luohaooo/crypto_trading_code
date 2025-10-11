@@ -27,6 +27,11 @@ class TradingConfig:
         self.LEVERAGE = 1                 # 杠杆倍数
         self.LOOKBACK_HOURS = 80          # 历史数据回看小时数
 
+        # 保证金模式配置
+        self.MARGIN_TYPE = 'ISOLATED'           # 保证金模式: 'ISOLATED' 或 'CROSSED'
+        self.ENABLE_MARGIN_TYPE_SETTING = True  # 是否启用保证金模式设置
+        self.MARGIN_TYPE_RETRY_COUNT = 3        # 设置失败重试次数
+
         # 分批交易配置
         self.ENABLE_BATCH_TRADING = True    # 是否启用分批交易
         self.MAX_BATCH_COUNT = 999          # 最大分批数量（设为很大的值，实际不限制）
@@ -51,7 +56,7 @@ class TradingConfig:
 
         # 日志配置
         self.LOG_LEVEL = 'INFO'
-        self.LOG_FILENAME = "donk"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
+        self.LOG_FILENAME = "dank1ng"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
 
         # 创建日志目录路径
         log_dir = os.path.join(os.path.dirname(__file__), 'logs')
@@ -169,6 +174,14 @@ class TradingConfig:
             print("错误: 批次等待时间必须在0-10秒之间")
             return False
 
+        # 检查保证金模式配置
+        if self.MARGIN_TYPE not in ['ISOLATED', 'CROSSED']:
+            print("错误: 保证金模式必须是 'ISOLATED' 或 'CROSSED'")
+            return False
+        if self.MARGIN_TYPE_RETRY_COUNT <= 0 or self.MARGIN_TYPE_RETRY_COUNT > 10:
+            print("错误: 保证金模式重试次数必须在1-10之间")
+            return False
+
         return True
 
     def print_config(self):
@@ -187,6 +200,10 @@ class TradingConfig:
         print(f"做多标的数量: {self.TOP_N_LONG}")
         print(f"做空标的数量: {self.TOP_N_SHORT}")
         print(f"杠杆倍数: {self.LEVERAGE}x")
+        print(f"保证金模式: {self.MARGIN_TYPE}")
+        print(f"保证金模式设置: {'启用' if self.ENABLE_MARGIN_TYPE_SETTING else '禁用'}")
+        if self.ENABLE_MARGIN_TYPE_SETTING:
+            print(f"  重试次数: {self.MARGIN_TYPE_RETRY_COUNT}")
         print(f"历史数据回看: {self.LOOKBACK_HOURS}小时")
         print(f"时间框架: {', '.join(self.TIMEFRAMES)}")
         print(f"OHLC回看周期: {self.LOOKBACK_PERIODS}")
