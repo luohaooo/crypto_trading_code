@@ -124,7 +124,6 @@ class BaseStrategy(ABC):
         self.positions: Dict[str, Position] = {}
         self.completed_trades: List[Trade] = []
         self.cash = initial_capital
-        self.equity_curve: List[Dict] = []
         
     @abstractmethod
     def generate_signals(self, data: pd.DataFrame, timestamp: pd.Timestamp) -> Dict[str, Any]:
@@ -282,12 +281,13 @@ class BaseStrategy(ABC):
         
         for symbol, position in list(self.positions.items()):
             try:
-                # Get current price (use close price)
+                # Get current price (use open price for actual execution)
                 symbol_data = current_data.loc[current_data.index.get_level_values('symbol') == symbol]
                 if len(symbol_data) == 0:
                     raise ValueError(f"No current data available for {symbol}")
-                
-                current_price = symbol_data['close'].iloc[0]
+
+                # Use open price to simulate realistic execution at the start of the bar
+                current_price = symbol_data['open'].iloc[0]
                 trade = self.close_position(symbol, current_price, timestamp)
                 trades.append(trade)
                 
@@ -331,56 +331,7 @@ class BaseStrategy(ABC):
                 continue
         
         return portfolio_value
-    
-    def update_equity_curve(self, data: pd.DataFrame, timestamp: pd.Timestamp) -> None:
-        """
-        Update equity curve with current portfolio value.
-        
-        Args:
-            data: Multi-symbol OHLCV data
-            timestamp: Current timestamp
-        """
-        portfolio_value = self.calculate_portfolio_value(data, timestamp)
-        
-        equity_point = {
-            'timestamp': timestamp,
-            'portfolio_value': portfolio_value,
-            'cash': self.cash,
-            'num_positions': len(self.positions),
-            'num_trades': len(self.completed_trades)
-        }
-        
-        self.equity_curve.append(equity_point)
-    
-    def get_performance_summary(self) -> Dict[str, Any]:
-        """
-        Get basic performance summary.
-        
-        Returns:
-            Dictionary with performance metrics
-        """
-        if not self.equity_curve:
-            return {'error': 'No equity curve data available'}
-        
-        final_value = self.equity_curve[-1]['portfolio_value']
-        total_return = (final_value - self.initial_capital) / self.initial_capital
-        
-        # Calculate trade statistics
-        winning_trades = [t for t in self.completed_trades if t.pnl > 0]
-        losing_trades = [t for t in self.completed_trades if t.pnl < 0]
-        
-        return {
-            'initial_capital': self.initial_capital,
-            'final_portfolio_value': final_value,
-            'total_return_pct': total_return * 100,
-            'total_trades': len(self.completed_trades),
-            'winning_trades': len(winning_trades),
-            'losing_trades': len(losing_trades),
-            'win_rate_pct': (len(winning_trades) / len(self.completed_trades)) * 100 if self.completed_trades else 0,
-            'total_pnl': sum(trade.pnl for trade in self.completed_trades),
-            'avg_trade_pnl': sum(trade.pnl for trade in self.completed_trades) / len(self.completed_trades) if self.completed_trades else 0
-        }
-    
+
     def __str__(self) -> str:
         return f"{self.name}(capital={self.initial_capital:,.0f}, commission={self.commission_rate:.3f})"
     
