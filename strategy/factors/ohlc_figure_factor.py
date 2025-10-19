@@ -19,8 +19,8 @@ from tqdm import tqdm
 from typing import Optional, Dict, List, Tuple
 from pathlib import Path
 
-from factor_utils.ohlc2fig import ohlc_to_image_with_volume
-from base_factor import BaseFactor
+from .factor_utils.ohlc2fig import ohlc_to_image_with_volume
+from .base_factor import BaseFactor
 
 
 class OHLCImageCNN(nn.Module):
