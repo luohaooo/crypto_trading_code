@@ -765,8 +765,40 @@ def batch_backtest(
 
     # Save batch summary
     summary_file = os.path.join(base_output_dir, 'batch_summary.json')
-    with open(summary_file, 'w') as f:
-        # Prepare JSON-serializable results
+
+    # Check if summary file already exists
+    if os.path.exists(summary_file):
+        # Load existing data
+        with open(summary_file, 'r') as f:
+            existing_data = json.load(f)
+
+        # Prepare new backtests to append
+        new_backtests = []
+        for bt in results['backtests']:
+            bt_json = {
+                'rebalance_hours': bt['rebalance_hours'],
+                'top_n': bt['top_n'],
+                'bottom_n': bt['bottom_n'],
+                'num_periods': bt['num_periods'],
+                'output_dir': bt['output_dir']
+            }
+            # Add metrics if no error
+            if 'error' not in bt['metrics']:
+                bt_json['total_return'] = float(bt['metrics']['total_return'])
+                bt_json['sharpe_ratio'] = float(bt['metrics']['sharpe_ratio'])
+                bt_json['max_drawdown'] = float(bt['metrics']['max_drawdown'])
+                bt_json['win_rate'] = float(bt['metrics']['win_rate'])
+
+            new_backtests.append(bt_json)
+
+        # Append new backtests to existing list
+        existing_data['backtests'].extend(new_backtests)
+        existing_data['total_backtests'] = len(existing_data['backtests'])
+
+        results_json = existing_data
+        print(f"\n[INFO] Appended {len(new_backtests)} new backtests to existing summary")
+    else:
+        # Create new summary file
         results_json = {
             'factor_name': results['factor_name'],
             'start_time': results['start_time'],
@@ -792,6 +824,10 @@ def batch_backtest(
 
             results_json['backtests'].append(bt_json)
 
+        print(f"\n[INFO] Created new summary file with {len(results_json['backtests'])} backtests")
+
+    # Write to file
+    with open(summary_file, 'w') as f:
         json.dump(results_json, f, indent=2)
 
     print(f"\n{'='*80}")
@@ -815,7 +851,7 @@ if __name__ == "__main__":
         factor_name='precious_ohlc_cnn',
         start_time='2025-01-01 00:00:00',
         end_time='2025-03-31 23:00:00',
-        rebalance_hours_list=[6, 8, 10],
+        rebalance_hours_list=[18],
         top_bottom_n_list=[[i, i] for i in range(1, 10)],
         output_base_dir='./factor_report'
     )
