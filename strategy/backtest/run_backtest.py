@@ -840,18 +840,13 @@ def batch_backtest(
 
     return results
 
-
-# ============================================================================
-# MAIN / EXAMPLE USAGE
-# ============================================================================
-
 if __name__ == "__main__":
     # Example usage
     results = batch_backtest(
         factor_name='precious_ohlc_cnn',
         start_time='2025-01-01 00:00:00',
         end_time='2025-03-31 23:00:00',
-        rebalance_hours_list=[18],
+        rebalance_hours_list=[54],
         top_bottom_n_list=[[i, i] for i in range(1, 10)],
         output_base_dir='./factor_report'
     )

@@ -407,7 +407,7 @@ def main():
     # Calculate factors for specific date and time range
     # Note: Ensure you have hourly data files for these months in pickle_hour_cache
 
-    START_DATE = '2024-01-01 00:00:00'  # Format: 'YYYY-MM-DD HH:MM:SS'
+    START_DATE = '2025-01-01 00:00:00'  # Format: 'YYYY-MM-DD HH:MM:SS'
     END_DATE = '2025-03-31 23:00:00'    # Format: 'YYYY-MM-DD HH:MM:SS'
 
     # 3. Set output directory
