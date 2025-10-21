@@ -456,6 +456,70 @@ def create_ic_bar_chart(ic_series: pd.Series, title: str, output_path: str,
     print(f"Saved chart: {output_path}")
 
 
+def create_monthly_ic_chart(ic_timeseries: pd.Series, title: str, output_path: str,
+                            figsize: Tuple[int, int] = (12, 5)) -> None:
+    """
+    Create and save monthly aggregated IC bar chart.
+
+    Args:
+        ic_timeseries: IC time series data with datetime index
+        title: Chart title
+        output_path: Output file path
+        figsize: Figure size (width, height)
+    """
+    # Ensure index is DatetimeIndex
+    if not isinstance(ic_timeseries.index, pd.DatetimeIndex):
+        ic_timeseries.index = pd.to_datetime(ic_timeseries.index)
+
+    # Aggregate by month (calculate mean for each month)
+    monthly_avg = ic_timeseries.groupby(pd.Grouper(freq='ME')).mean()
+
+    # Remove NaN values (months with no data)
+    monthly_avg = monthly_avg.dropna()
+
+    if len(monthly_avg) == 0:
+        print(f"No monthly data to plot for: {output_path}")
+        return
+
+    # Prepare data
+    month_labels = [ts.strftime('%Y-%m') for ts in monthly_avg.index]
+    values = monthly_avg.values
+    positions = range(len(month_labels))
+
+    # Create bar chart
+    _, ax = plt.subplots(figsize=figsize)
+
+    # Color bars based on positive/negative monthly average
+    colors = ['#2E8B57' if v > 0 else '#DC143C' for v in values]
+    bars = ax.bar(positions, values, color=colors, alpha=0.7,
+                  edgecolor='black', linewidth=0.5)
+
+    # Customize chart
+    ax.set_xlabel('Month')
+    ax.set_ylabel('IC Value (Monthly Average)')
+    ax.set_title(title)
+    ax.grid(True, alpha=0.3)
+    ax.axhline(y=0, color='black', linestyle='-', linewidth=0.5)
+
+    # Set x-axis ticks
+    ax.set_xticks(positions)
+
+    # Rotate labels if there are many months
+    rotation = 45 if len(month_labels) > 12 else 0
+    ax.set_xticklabels(month_labels, rotation=rotation, fontsize=9)
+
+    plt.tight_layout()
+
+    # Create output directory if needed
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    # Save chart
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    plt.close()
+
+    print(f"Saved monthly chart: {output_path}")
+
+
 def save_detailed_results(ic_df: pd.DataFrame, rank_ic_df: pd.DataFrame,
                          statistics: Dict[str, pd.Series], output_dir: str) -> None:
     """
@@ -632,6 +696,14 @@ def run_ic_analysis(factor_name: str, start_time: str, end_time: str,
                 plt.savefig(ic_ts_path, dpi=300, bbox_inches='tight')
                 plt.close()
 
+                # Generate monthly aggregated IC chart
+                ic_month_path = os.path.join(horizon_dir, "ic_month_timeseries.png")
+                create_monthly_ic_chart(
+                    ic_timeseries,
+                    f'IC Monthly Average - {factor_name} - {hours}h Return Horizon',
+                    ic_month_path
+                )
+
             # Rank IC time series chart for this horizon
             rank_ic_timeseries = rank_ic_df[return_col].dropna()
             if len(rank_ic_timeseries) > 0:
@@ -682,6 +754,14 @@ def run_ic_analysis(factor_name: str, start_time: str, end_time: str,
                 plt.savefig(rank_ic_ts_path, dpi=300, bbox_inches='tight')
                 plt.close()
 
+                # Generate monthly aggregated Rank IC chart
+                rank_ic_month_path = os.path.join(horizon_dir, "rank_ic_month_timeseries.png")
+                create_monthly_ic_chart(
+                    rank_ic_timeseries,
+                    f'Rank IC Monthly Average - {factor_name} - {hours}h Return Horizon',
+                    rank_ic_month_path
+                )
+
         print("\n" + "="*80)
         print("IC ANALYSIS COMPLETED SUCCESSFULLY")
         print("="*80)
@@ -700,7 +780,7 @@ def main():
     """
     # Example configuration
     factor_name = "precious_ohlc_cnn"
-    start_time = "2025-01-01 00:00:00"
+    start_time = "2024-07-01 00:00:00"
     end_time = "2025-03-31 23:00:00"
 
     print("IC Analysis Example")
