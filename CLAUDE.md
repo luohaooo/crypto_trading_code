@@ -464,3 +464,5 @@ python ohlc_backtest.py
 - Comprehensive error handling prevents system crashes
 - Unit tests for critical functionality
 - always write code and text in English even if I write prompt in Chinese.
+- use conda activate bt
+- use pickle.load(f) 来读取pkl文件

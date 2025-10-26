@@ -378,7 +378,7 @@ def main():
     # Example: OHLC Figure Factor with trained model
     # Adjust the model_path to point to your trained model file
 
-    MODEL_PATH = "/home/craz/crypto/crypto-trading/figure_model/model_saved/baseline_epoch_69_train_0.02644_val_0.02999.pt"
+    MODEL_PATH = "/home/craz/crypto/crypto-trading/figure_model/model_checkpoint/model_saved/baseline_epoch_15_train_0.40650_val_0.50340.pt"
 
     # Check if model exists
     if not os.path.exists(MODEL_PATH):
@@ -396,7 +396,7 @@ def main():
     factor = OHLCFigureFactor(
         model_path=MODEL_PATH,
         device='auto',  # Use 'cuda' if GPU available, otherwise 'cpu'
-        name="precious_ohlc_cnn",  # Auto-generate name based on timeframes
+        name="cnn_04_09_48h_v1",  # Auto-generate name based on timeframes
         lookback_periods=20,
         timeframes=['1h', '2h', '4h']  # Multi-timeframe analysis
     )
@@ -407,8 +407,8 @@ def main():
     # Calculate factors for specific date and time range
     # Note: Ensure you have hourly data files for these months in pickle_hour_cache
 
-    START_DATE = '2025-01-01 00:00:00'  # Format: 'YYYY-MM-DD HH:MM:SS'
-    END_DATE = '2025-03-31 23:00:00'    # Format: 'YYYY-MM-DD HH:MM:SS'
+    START_DATE = '2024-09-01 00:00:00'  # Format: 'YYYY-MM-DD HH:MM:SS'
+    END_DATE = '2024-09-30 23:00:00'    # Format: 'YYYY-MM-DD HH:MM:SS'
 
     # 3. Set output directory
     # -------------------------------------------------------------------------

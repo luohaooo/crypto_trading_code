@@ -139,6 +139,73 @@ def load_factor_data(factor_name: str, start_date: str, end_date: str,
     return combined
 
 
+def load_ohlc_data(start_date: str, end_date: str,
+                   ohlc_base_dir: str = '/home/craz/crypto/crypto-data/pickle_hour_cache') -> pd.DataFrame:
+    """
+    Load hourly OHLC data for a date range.
+
+    Args:
+        start_date: Start date in 'YYYY-MM' or 'YYYY-MM-DD' format
+        end_date: End date in 'YYYY-MM' or 'YYYY-MM-DD' format
+        ohlc_base_dir: Base directory containing hourly OHLC pickle files
+
+    Returns:
+        DataFrame with MultiIndex (open_time, symbol) and OHLC columns (open, high, low, close, volume)
+    """
+    print(f"\n[LOAD] Loading OHLC data")
+    print(f"       Date range: {start_date} to {end_date}")
+
+    # Parse dates to get month range
+    start_dt = pd.to_datetime(start_date)
+    end_dt = pd.to_datetime(end_date)
+
+    # Generate month list
+    months = pd.date_range(start=start_dt.replace(day=1),
+                          end=end_dt.replace(day=1),
+                          freq='MS')
+
+    if not os.path.exists(ohlc_base_dir):
+        raise FileNotFoundError(f"OHLC directory not found: {ohlc_base_dir}")
+
+    # Load monthly files
+    ohlc_dfs = []
+    for month in months:
+        filename = f"usdt_data_{month.year:04d}-{month.month:02d}.pkl"
+        filepath = os.path.join(ohlc_base_dir, filename)
+
+        if not os.path.exists(filepath):
+            warnings.warn(f"OHLC file not found: {filename}")
+            continue
+
+        df = load_pickle_safely(filepath)
+        if df is not None:
+            ohlc_dfs.append(df)
+            print(f"       Loaded {filename}: {len(df)} rows")
+
+    if not ohlc_dfs:
+        raise ValueError("No OHLC data found")
+
+    # Combine all months
+    combined = pd.concat(ohlc_dfs, axis=0)
+    combined = combined.sort_index()
+
+    # Filter to month range (not specific timestamps)
+    # If start_date is 'YYYY-MM', include the entire month
+    timestamps = combined.index.get_level_values('open_time')
+
+    # Parse dates - if only YYYY-MM format, include full month
+    if len(start_date) <= 7:  # YYYY-MM format
+        month_start = pd.to_datetime(start_date + '-01')
+        # Get last day of end month
+        month_end = pd.to_datetime(end_date + '-01') + pd.offsets.MonthEnd(0) + pd.Timedelta(hours=23, minutes=59, seconds=59)
+        combined = combined[(timestamps >= month_start) & (timestamps <= month_end)]
+    else:  # Full datetime format
+        combined = combined[(timestamps >= start_dt) & (timestamps <= end_dt)]
+
+    print(f"       Total: {len(combined)} rows, {len(combined.index.get_level_values('symbol').unique())} symbols")
+    return combined
+
+
 def load_returns_data(start_date: str, end_date: str,
                      returns_base_dir: str = '../../../crypto-data/future_returns') -> pd.DataFrame:
     """
@@ -210,23 +277,124 @@ def load_returns_data(start_date: str, end_date: str,
 # REBALANCING STRATEGY ENGINE
 # ============================================================================
 
+def calculate_return_with_stop_loss(
+    symbol: str,
+    direction: str,
+    entry_price: float,
+    period_ohlc: pd.DataFrame,
+    exit_price: float,
+    stop_profit_pct: float,
+    stop_loss_pct: float,
+) -> Tuple[float, str, float]:
+    """
+    Calculate return with stop-loss and take-profit logic.
+
+    Logic:
+    - Priority: Stop-loss is checked FIRST (conservative strategy)
+    - For Long: Stop-loss checks low, take-profit checks high
+    - For Short: Stop-loss checks high, take-profit checks low
+    - Uses boundary prices (stop-loss price or take-profit price)
+
+    Args:
+        symbol: Symbol name
+        direction: 'long' or 'short'
+        entry_price: Entry price (open price at entry timestamp)
+        period_ohlc: OHLC data during rebalance period (hourly)
+        exit_price: Default exit price (open price at next rebalance timestamp)
+        stop_profit_pct: Take-profit percentage (0 = disabled)
+        stop_loss_pct: Stop-loss percentage (0 = disabled)
+
+    Returns:
+        Tuple of (return, trigger_type, actual_exit_price)
+        - return: Return percentage
+        - trigger_type: 'stop_loss', 'take_profit', or 'normal'
+        - actual_exit_price: Actual exit price used for calculation
+    """
+
+    if direction == 'long':
+        # Calculate boundary prices for long position
+        if stop_profit_pct > 0:
+            take_profit_price = entry_price * (1 + stop_profit_pct)
+        else:
+            take_profit_price = float('inf')
+
+        if stop_loss_pct > 0:
+            stop_loss_price = entry_price * (1 - stop_loss_pct)
+        else:
+            stop_loss_price = 0
+
+        # Check each hour in chronological order
+        for timestamp, row in period_ohlc.iterrows():
+            # Priority 1: Check stop-loss (conservative)
+            if stop_loss_pct > 0 and row['low'] <= stop_loss_price:
+                # Stop-loss triggered
+                actual_exit_price = stop_loss_price
+                ret = (actual_exit_price - entry_price) / entry_price
+                return ret, 'stop_loss', actual_exit_price
+
+            # Priority 2: Check take-profit
+            if stop_profit_pct > 0 and row['high'] >= take_profit_price:
+                # Take-profit triggered
+                actual_exit_price = take_profit_price
+                ret = (actual_exit_price - entry_price) / entry_price
+                return ret, 'take_profit', actual_exit_price
+
+        # Not triggered, use default exit price
+        ret = (exit_price - entry_price) / entry_price
+        return ret, 'normal', exit_price
+
+    else:  # short
+        # Calculate boundary prices for short position
+        if stop_profit_pct > 0:
+            take_profit_price = entry_price * (1 - stop_profit_pct)
+        else:
+            take_profit_price = 0
+
+        if stop_loss_pct > 0:
+            stop_loss_price = entry_price * (1 + stop_loss_pct)
+        else:
+            stop_loss_price = float('inf')
+
+        # Check each hour in chronological order
+        for timestamp, row in period_ohlc.iterrows():
+            # Priority 1: Check stop-loss (conservative)
+            if stop_loss_pct > 0 and row['high'] >= stop_loss_price:
+                # Stop-loss triggered
+                actual_exit_price = stop_loss_price
+                ret = (entry_price - actual_exit_price) / entry_price
+                return ret, 'stop_loss', actual_exit_price
+
+            # Priority 2: Check take-profit
+            if stop_profit_pct > 0 and row['low'] <= take_profit_price:
+                # Take-profit triggered
+                actual_exit_price = take_profit_price
+                ret = (entry_price - actual_exit_price) / entry_price
+                return ret, 'take_profit', actual_exit_price
+
+        # Not triggered, use default exit price
+        ret = (entry_price - exit_price) / entry_price
+        return ret, 'normal', exit_price
+
+
 def run_single_backtest(
     factor_df: pd.DataFrame,
-    returns_df: pd.DataFrame,
+    ohlc_df: pd.DataFrame,
     rebalance_hours: int,
     top_n: int,
     bottom_n: int,
     start_time: str,
     end_time: str,
     log_file: str,
-    fee_rate: float = 0.002
+    fee_rate: float = 0.005,
+    stop_profit_pct: float = 0.0,
+    stop_loss_pct: float = 0.0
 ) -> Tuple[pd.Series, List[Dict]]:
     """
-    Run a single backtest with specified parameters.
+    Run a single backtest with specified parameters, supporting stop-loss and take-profit.
 
     Args:
         factor_df: Factor data with MultiIndex (open_time, symbol)
-        returns_df: Returns data with MultiIndex (open_time, symbol)
+        ohlc_df: Hourly OHLC data with MultiIndex (open_time, symbol)
         rebalance_hours: Hours between rebalances (e.g., 5)
         top_n: Number of symbols to long
         bottom_n: Number of symbols to short
@@ -234,6 +402,8 @@ def run_single_backtest(
         end_time: End timestamp 'YYYY-MM-DD HH:00:00'
         log_file: Path to save detailed log
         fee_rate: Transaction fee rate (default 0.2%)
+        stop_profit_pct: Take-profit percentage (0 = disabled, e.g., 0.05 = 5%)
+        stop_loss_pct: Stop-loss percentage (0 = disabled, e.g., 0.03 = 3%)
 
     Returns:
         Tuple of (pnl_series, period_logs)
@@ -243,6 +413,7 @@ def run_single_backtest(
     print(f"\n[BACKTEST] Starting backtest")
     print(f"           Rebalance: {rebalance_hours}h, Top: {top_n}, Bottom: {bottom_n}")
     print(f"           Period: {start_time} to {end_time}")
+    print(f"           Stop Profit: {stop_profit_pct*100:.2f}%, Stop Loss: {stop_loss_pct*100:.2f}%")
 
     # Parse timestamps
     start_dt = pd.to_datetime(start_time)
@@ -256,12 +427,6 @@ def run_single_backtest(
         current += timedelta(hours=rebalance_hours)
 
     print(f"           Total rebalance periods: {len(rebalance_timestamps)}")
-
-    # Check if we have the required return column
-    return_col = f'return_{rebalance_hours}h'
-    if return_col not in returns_df.columns:
-        raise ValueError(f"Return column '{return_col}' not found in returns data. "
-                        f"Available columns: {returns_df.columns.tolist()}")
 
     # Initialize
     pnl = 1.0  # Start with 1.0 (100%)
@@ -278,6 +443,8 @@ def run_single_backtest(
         log.write(f"Start Time: {start_time}\n")
         log.write(f"End Time: {end_time}\n")
         log.write(f"Fee Rate: {fee_rate * 100:.2f}%\n")
+        log.write(f"Stop Profit: {stop_profit_pct * 100:.2f}%\n")
+        log.write(f"Stop Loss: {stop_loss_pct * 100:.2f}%\n")
         log.write("=" * 80 + "\n\n")
 
         # Process each rebalance period
@@ -293,28 +460,49 @@ def run_single_backtest(
 
                 factor_values = factor_df.xs(timestamp, level='open_time')
 
-                # Get returns at this timestamp
-                if timestamp not in returns_df.index.get_level_values('open_time'):
-                    log.write(f"[SKIP] No returns data at {timestamp}, skipping period\n")
+                # Check OHLC data availability at this timestamp
+                if timestamp not in ohlc_df.index.get_level_values('open_time'):
+                    log.write(f"[SKIP] No OHLC data at {timestamp}, skipping period\n")
                     continue
 
-                returns_values = returns_df.xs(timestamp, level='open_time')[return_col]
+                # Get next rebalance timestamp for exit
+                next_timestamp = timestamp + timedelta(hours=rebalance_hours)
+                if next_timestamp not in ohlc_df.index.get_level_values('open_time'):
+                    log.write(f"[SKIP] No OHLC data at next timestamp {next_timestamp}, skipping period\n")
+                    continue
 
-                # Merge factor and returns
+                # Get available symbols at current timestamp
+                available_symbols = ohlc_df.xs(timestamp, level='open_time').index.tolist()
+
+                # Filter factor values to only include symbols with OHLC data
+                factor_values_filtered = factor_values[factor_values.index.isin(available_symbols)]
+
+                if len(factor_values_filtered) == 0:
+                    log.write(f"[SKIP] No valid symbols with both factor and OHLC data at {timestamp}, skipping period\n")
+                    continue
+
+                # Convert to DataFrame for easier handling
                 merged = pd.DataFrame({
-                    'factor': factor_values.iloc[:, 0] if isinstance(factor_values, pd.DataFrame) else factor_values,
-                    'return': returns_values
+                    'factor': factor_values_filtered.iloc[:, 0] if isinstance(factor_values_filtered, pd.DataFrame) else factor_values_filtered
                 })
 
                 # Remove NaN values
                 merged = merged.dropna()
+
+                # Filter out symbols with factor value equal to 0
+                original_count = len(merged)
+                merged = merged[merged['factor'] > 0.00001]
+                filtered_count = original_count - len(merged)
+
+                if filtered_count > 0:
+                     log.write(f"[FILTER] Removed {filtered_count} symbols with factor value = 0\n")
 
                 if len(merged) == 0:
                     log.write(f"[SKIP] No valid data at {timestamp}, skipping period\n")
                     continue
 
                 # Sort by factor value (descending - higher is better)
-                merged_sorted = merged.sort_values('factor', ascending=False)
+                merged_sorted = merged.sort_values('factor', ascending=True)
 
                 # Select top-n for long and bottom-n for short
                 actual_top_n = min(top_n, len(merged_sorted))
@@ -327,12 +515,97 @@ def run_single_backtest(
                 long_positions = merged_sorted.head(actual_top_n)
                 short_positions = merged_sorted.tail(actual_bottom_n)
 
-                # Calculate returns
-                long_return_mean = long_positions['return'].mean()
-                short_return_mean = short_positions['return'].mean()
+                # Calculate returns with stop-loss and take-profit logic
+                long_returns = []
+                short_returns = []
+                long_triggers = []
+                short_triggers = []
+                long_entry_prices = []
+                long_exit_prices = []
+                short_entry_prices = []
+                short_exit_prices = []
 
-                # Period return: (long_return - short_return) / 2 - fee
-                period_return = (long_return_mean - short_return_mean) / 2 - fee_rate
+                # Process long positions
+                for symbol in long_positions.index:
+                    try:
+                        # Get entry price (open at current timestamp)
+                        entry_price = ohlc_df.loc[(timestamp, symbol), 'open']
+
+                        # Get exit price (open at next timestamp)
+                        exit_price = ohlc_df.loc[(next_timestamp, symbol), 'open']
+
+                        # Get OHLC data during rebalance period
+                        period_ohlc = ohlc_df.loc[
+                            (ohlc_df.index.get_level_values('open_time') >= timestamp) &
+                            (ohlc_df.index.get_level_values('open_time') < next_timestamp) &
+                            (ohlc_df.index.get_level_values('symbol') == symbol)
+                        ]
+
+                        if len(period_ohlc) == 0:
+                            log.write(f"[WARN] No period OHLC data for {symbol}, skipping\n")
+                            continue
+
+                        # Calculate return with stop-loss and take-profit
+                        ret, trigger, actual_exit = calculate_return_with_stop_loss(
+                            symbol, 'long', entry_price, period_ohlc,
+                            exit_price, stop_profit_pct, stop_loss_pct
+                        )
+
+                        long_returns.append(ret)
+                        long_triggers.append((symbol, trigger))
+                        long_entry_prices.append(entry_price)
+                        long_exit_prices.append(actual_exit)
+
+                    except KeyError as e:
+                        log.write(f"[WARN] Missing data for long symbol {symbol}: {e}\n")
+                        continue
+
+                # Process short positions
+                for symbol in short_positions.index:
+                    try:
+                        # Get entry price (open at current timestamp)
+                        entry_price = ohlc_df.loc[(timestamp, symbol), 'open']
+
+                        # Get exit price (open at next timestamp)
+                        exit_price = ohlc_df.loc[(next_timestamp, symbol), 'open']
+
+                        # Get OHLC data during rebalance period
+                        period_ohlc = ohlc_df.loc[
+                            (ohlc_df.index.get_level_values('open_time') >= timestamp) &
+                            (ohlc_df.index.get_level_values('open_time') < next_timestamp) &
+                            (ohlc_df.index.get_level_values('symbol') == symbol)
+                        ]
+
+                        if len(period_ohlc) == 0:
+                            log.write(f"[WARN] No period OHLC data for {symbol}, skipping\n")
+                            continue
+
+                        # Calculate return with stop-loss and take-profit
+                        ret, trigger, actual_exit = calculate_return_with_stop_loss(
+                            symbol, 'short', entry_price, period_ohlc,
+                            exit_price, stop_profit_pct, stop_loss_pct
+                        )
+
+                        short_returns.append(ret)
+                        short_triggers.append((symbol, trigger))
+                        short_entry_prices.append(entry_price)
+                        short_exit_prices.append(actual_exit)
+
+                    except KeyError as e:
+                        log.write(f"[WARN] Missing data for short symbol {symbol}: {e}\n")
+                        continue
+
+                # Check if we have valid returns
+                if len(long_returns) == 0 or len(short_returns) == 0:
+                    log.write(f"[SKIP] Insufficient valid returns (long: {len(long_returns)}, short: {len(short_returns)}), skipping period\n")
+                    continue
+
+                # Calculate mean returns
+                long_return_mean = np.mean(long_returns)
+                short_return_mean = np.mean(short_returns)
+
+                # Period return
+                period_return = (long_return_mean + short_return_mean) / 2 - fee_rate - (1 + (long_return_mean + short_return_mean) / 2) * fee_rate
                 # period_return = (-long_return_mean + short_return_mean) / 2 - fee_rate
 
                 # Update PnL
@@ -340,14 +613,28 @@ def run_single_backtest(
 
                 # Log details
                 log.write(f"\nLong Positions (Top {actual_top_n}):\n")
-                for symbol, row in long_positions.iterrows():
-                    log.write(f"  {symbol:12s}: factor={row['factor']:8.4f}, "
-                            f"return={row['return']:7.4f} ({row['return']*100:6.2f}%)\n")
+                for i, symbol in enumerate(long_positions.index):
+                    if i < len(long_returns):
+                        factor_val = long_positions.loc[symbol, 'factor']
+                        ret = long_returns[i]
+                        trigger = long_triggers[i][1] if i < len(long_triggers) else 'unknown'
+                        entry_p = long_entry_prices[i] if i < len(long_entry_prices) else 0.0
+                        exit_p = long_exit_prices[i] if i < len(long_exit_prices) else 0.0
+                        log.write(f"  {symbol:12s}: factor={factor_val:8.4f}, "
+                                f"entry={entry_p:16.6f}, exit={exit_p:16.6f}, "
+                                f"return={ret:7.4f} ({ret*100:6.2f}%), trigger={trigger}\n")
 
                 log.write(f"\nShort Positions (Bottom {actual_bottom_n}):\n")
-                for symbol, row in short_positions.iterrows():
-                    log.write(f"  {symbol:12s}: factor={row['factor']:8.4f}, "
-                            f"return={row['return']:7.4f} ({row['return']*100:6.2f}%)\n")
+                for i, symbol in enumerate(short_positions.index):
+                    if i < len(short_returns):
+                        factor_val = short_positions.loc[symbol, 'factor']
+                        ret = short_returns[i]
+                        trigger = short_triggers[i][1] if i < len(short_triggers) else 'unknown'
+                        entry_p = short_entry_prices[i] if i < len(short_entry_prices) else 0.0
+                        exit_p = short_exit_prices[i] if i < len(short_exit_prices) else 0.0
+                        log.write(f"  {symbol:12s}: factor={factor_val:8.4f}, "
+                                f"entry={entry_p:16.6f}, exit={exit_p:16.6f}, "
+                                f"return={ret:7.4f} ({ret*100:6.2f}%), trigger={trigger}\n")
 
                 log.write(f"\nLong Mean Return:  {long_return_mean:7.4f} ({long_return_mean*100:6.2f}%)\n")
                 log.write(f"Short Mean Return: {short_return_mean:7.4f} ({short_return_mean*100:6.2f}%)\n")
@@ -629,10 +916,12 @@ def batch_backtest(
     top_bottom_n_list: List[List[int]] = [[5, 5], [10, 10], [15, 15]],
     output_base_dir: str = './factor_report',
     factor_base_dir: str = './factor_data',
-    returns_base_dir: str = '../../../crypto-data/future_returns'
+    ohlc_base_dir: str = '/home/craz/crypto/crypto-data/pickle_hour_cache',
+    stop_profit_pct: float = 0.0,
+    stop_loss_pct: float = 0.0
 ) -> Dict:
     """
-    Run batch backtesting with multiple parameter combinations.
+    Run batch backtesting with multiple parameter combinations, supporting stop-loss and take-profit.
 
     Args:
         factor_name: Name of factor (subdirectory in factor_data)
@@ -642,7 +931,9 @@ def batch_backtest(
         top_bottom_n_list: List of [top_n, bottom_n] pairs to test (e.g., [[5, 5], [10, 10]])
         output_base_dir: Base directory for output
         factor_base_dir: Base directory for factor data
-        returns_base_dir: Base directory for returns data
+        ohlc_base_dir: Base directory for OHLC data
+        stop_profit_pct: Take-profit percentage (0 = disabled, e.g., 0.05 = 5%)
+        stop_loss_pct: Stop-loss percentage (0 = disabled, e.g., 0.03 = 3%)
 
     Returns:
         Dictionary with batch processing results
@@ -654,6 +945,7 @@ def batch_backtest(
     print(f"Period: {start_time} to {end_time}")
     print(f"Rebalance Hours: {rebalance_hours_list}")
     print(f"Top-Bottom-N Pairs: {top_bottom_n_list}")
+    print(f"Stop Profit: {stop_profit_pct*100:.2f}%, Stop Loss: {stop_loss_pct*100:.2f}%")
     print("=" * 80)
 
     # Load data once
@@ -661,11 +953,20 @@ def batch_backtest(
     end_date = end_time.split()[0][:7]
 
     factor_df = load_factor_data(factor_name, start_date, end_date, factor_base_dir)
-    returns_df = load_returns_data(start_date, end_date, returns_base_dir)
+    ohlc_df = load_ohlc_data(start_date, end_date, ohlc_base_dir)
 
-    # Create base output directory
+    # Create base output directory with stop-profit/stop-loss info
     date_range_str = f"{start_time.split()[0].replace('-', '')}_{end_time.split()[0].replace('-', '')}"
-    base_output_dir = os.path.join(output_base_dir, factor_name, date_range_str)
+
+    # Generate stop-profit/stop-loss directory name
+    if stop_profit_pct == 0.0 and stop_loss_pct == 0.0:
+        stopprofit_dir = "backtest_no_stopprofit"
+    else:
+        profit_pct = int(stop_profit_pct * 100)
+        loss_pct = int(stop_loss_pct * 100)
+        stopprofit_dir = f"backtest_profit_{profit_pct}_stop_{loss_pct}"
+
+    base_output_dir = os.path.join(output_base_dir, factor_name, date_range_str, stopprofit_dir)
     os.makedirs(base_output_dir, exist_ok=True)
 
     # Track results
@@ -697,13 +998,15 @@ def batch_backtest(
                 log_file = os.path.join(combo_dir, 'backtest_log.txt')
                 pnl_series, period_logs = run_single_backtest(
                     factor_df=factor_df,
-                    returns_df=returns_df,
+                    ohlc_df=ohlc_df,
                     rebalance_hours=rebalance_hours,
                     top_n=top_n,
                     bottom_n=bottom_n,
                     start_time=start_time,
                     end_time=end_time,
-                    log_file=log_file
+                    log_file=log_file,
+                    stop_profit_pct=stop_profit_pct,
+                    stop_loss_pct=stop_loss_pct
                 )
 
                 if len(pnl_series) == 0:
@@ -841,14 +1144,16 @@ def batch_backtest(
     return results
 
 if __name__ == "__main__":
-    # Example usage
+    # Example usage with stop-loss and take-profit
     results = batch_backtest(
-        factor_name='precious_ohlc_cnn',
+        factor_name='cnn_04_09_72h_v1',
         start_time='2024-07-01 00:00:00',
         end_time='2025-03-31 23:00:00',
-        rebalance_hours_list=[144],
-        top_bottom_n_list=[[i, i] for i in range(6, 71, 5)],
-        output_base_dir='./factor_report'
+        rebalance_hours_list=[72],
+        top_bottom_n_list=[[i, i] for i in [1,2,3,4,6,8,10,12,15,18,21,24,30,35,40,48,60]],
+        output_base_dir='./factor_report',
+        stop_profit_pct=0, 
+        stop_loss_pct=0.10     
     )
 
     print(f"\nProcessed {len(results['backtests'])} parameter combinations")
