@@ -385,9 +385,10 @@ def run_single_backtest(
     start_time: str,
     end_time: str,
     log_file: str,
-    fee_rate: float = 0.005,
+    fee_rate: float = 0.0005,
     stop_profit_pct: float = 0.0,
-    stop_loss_pct: float = 0.0
+    stop_loss_pct: float = 0.0,
+    leverage: float = 1.0
 ) -> Tuple[pd.Series, List[Dict]]:
     """
     Run a single backtest with specified parameters, supporting stop-loss and take-profit.
@@ -404,6 +405,7 @@ def run_single_backtest(
         fee_rate: Transaction fee rate (default 0.2%)
         stop_profit_pct: Take-profit percentage (0 = disabled, e.g., 0.05 = 5%)
         stop_loss_pct: Stop-loss percentage (0 = disabled, e.g., 0.03 = 3%)
+        leverage: Leverage multiplier (default 1.0, e.g., 2.0 = 2x leverage)
 
     Returns:
         Tuple of (pnl_series, period_logs)
@@ -414,6 +416,7 @@ def run_single_backtest(
     print(f"           Rebalance: {rebalance_hours}h, Top: {top_n}, Bottom: {bottom_n}")
     print(f"           Period: {start_time} to {end_time}")
     print(f"           Stop Profit: {stop_profit_pct*100:.2f}%, Stop Loss: {stop_loss_pct*100:.2f}%")
+    print(f"           Leverage: {leverage}x")
 
     # Parse timestamps
     start_dt = pd.to_datetime(start_time)
@@ -445,6 +448,7 @@ def run_single_backtest(
         log.write(f"Fee Rate: {fee_rate * 100:.2f}%\n")
         log.write(f"Stop Profit: {stop_profit_pct * 100:.2f}%\n")
         log.write(f"Stop Loss: {stop_loss_pct * 100:.2f}%\n")
+        log.write(f"Leverage: {leverage}x\n")
         log.write("=" * 80 + "\n\n")
 
         # Process each rebalance period
@@ -608,8 +612,8 @@ def run_single_backtest(
                 period_return = (long_return_mean + short_return_mean) / 2 - fee_rate - (1 + (long_return_mean + short_return_mean) / 2) * fee_rate
                 # period_return = (-long_return_mean + short_return_mean) / 2 - fee_rate
 
-                # Update PnL
-                pnl *= (1 + period_return)
+                # Update PnL with leverage
+                pnl *= (1 + period_return * leverage)
 
                 # Log details
                 log.write(f"\nLong Positions (Top {actual_top_n}):\n")
@@ -918,7 +922,8 @@ def batch_backtest(
     factor_base_dir: str = './factor_data',
     ohlc_base_dir: str = '/home/craz/crypto/crypto-data/pickle_hour_cache',
     stop_profit_pct: float = 0.0,
-    stop_loss_pct: float = 0.0
+    stop_loss_pct: float = 0.0,
+    leverage: float = 1.0
 ) -> Dict:
     """
     Run batch backtesting with multiple parameter combinations, supporting stop-loss and take-profit.
@@ -934,6 +939,7 @@ def batch_backtest(
         ohlc_base_dir: Base directory for OHLC data
         stop_profit_pct: Take-profit percentage (0 = disabled, e.g., 0.05 = 5%)
         stop_loss_pct: Stop-loss percentage (0 = disabled, e.g., 0.03 = 3%)
+        leverage: Leverage multiplier (default 1.0, e.g., 2.0 = 2x leverage)
 
     Returns:
         Dictionary with batch processing results
@@ -946,6 +952,7 @@ def batch_backtest(
     print(f"Rebalance Hours: {rebalance_hours_list}")
     print(f"Top-Bottom-N Pairs: {top_bottom_n_list}")
     print(f"Stop Profit: {stop_profit_pct*100:.2f}%, Stop Loss: {stop_loss_pct*100:.2f}%")
+    print(f"Leverage: {leverage}x")
     print("=" * 80)
 
     # Load data once
@@ -958,13 +965,17 @@ def batch_backtest(
     # Create base output directory with stop-profit/stop-loss info
     date_range_str = f"{start_time.split()[0].replace('-', '')}_{end_time.split()[0].replace('-', '')}"
 
-    # Generate stop-profit/stop-loss directory name
+    # Generate directory name with leverage, stop-profit, and stop-loss info
     if stop_profit_pct == 0.0 and stop_loss_pct == 0.0:
         stopprofit_dir = "backtest_no_stopprofit"
     else:
         profit_pct = int(stop_profit_pct * 100)
         loss_pct = int(stop_loss_pct * 100)
         stopprofit_dir = f"backtest_profit_{profit_pct}_stop_{loss_pct}"
+
+    # Add leverage prefix
+    lev_str = f"lev_{int(leverage)}" if leverage == int(leverage) else f"lev_{leverage}"
+    stopprofit_dir = f"{lev_str}_{stopprofit_dir}"
 
     base_output_dir = os.path.join(output_base_dir, factor_name, date_range_str, stopprofit_dir)
     os.makedirs(base_output_dir, exist_ok=True)
@@ -1006,7 +1017,8 @@ def batch_backtest(
                     end_time=end_time,
                     log_file=log_file,
                     stop_profit_pct=stop_profit_pct,
-                    stop_loss_pct=stop_loss_pct
+                    stop_loss_pct=stop_loss_pct,
+                    leverage=leverage
                 )
 
                 if len(pnl_series) == 0:
@@ -1144,16 +1156,18 @@ def batch_backtest(
     return results
 
 if __name__ == "__main__":
-    # Example usage with stop-loss and take-profit
-    results = batch_backtest(
-        factor_name='cnn_04_09_72h_v1',
-        start_time='2024-07-01 00:00:00',
-        end_time='2025-03-31 23:00:00',
-        rebalance_hours_list=[72],
-        top_bottom_n_list=[[i, i] for i in [1,2,3,4,6,8,10,12,15,18,21,24,30,35,40,48,60]],
-        output_base_dir='./factor_report',
-        stop_profit_pct=0, 
-        stop_loss_pct=0.10     
-    )
+    # Example usage with stop-loss, take-profit, and leverage
+    for lev in [1, 2, 3, 5, 8]:
+        results = batch_backtest(
+            factor_name='cnn_04_09_72h_v1',
+            start_time='2024-07-01 00:00:00',
+            end_time='2025-03-31 23:00:00',
+            rebalance_hours_list=[72],
+            top_bottom_n_list=[[i, i] for i in [4, 8, 12]],
+            output_base_dir='./factor_report',
+            stop_profit_pct=0.8,
+            stop_loss_pct=0.02,
+            leverage=lev
+        )
 
-    print(f"\nProcessed {len(results['backtests'])} parameter combinations")
+    # print(f"\nProcessed {len(results['backtests'])} parameter combinations")
