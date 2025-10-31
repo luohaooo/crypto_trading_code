@@ -1,0 +1,3665 @@
+================================================================================
+BACKTEST LOG
+Factor: factor_value
+Rebalance Period: 16 hours
+Long Top: 2, Short Bottom: 2
+Start Time: 2025-04-02 00:00:00
+End Time: 2025-08-31 23:00:00
+Fee Rate: 0.05%
+================================================================================
+
+
+Rebalance #1: 2025-04-02 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  HIPPOUSDT   : factor=  0.0754, return= 0.0616 (  6.16%)
+  SKLUSDT     : factor=  0.0718, return=-0.0684 ( -6.84%)
+
+Short Positions (Bottom 2):
+  SAFEUSDT    : factor= -0.1032, return=-0.1040 (-10.40%)
+  RAREUSDT    : factor= -0.1054, return=-0.1020 (-10.20%)
+
+Long Mean Return:  -0.0034 ( -0.34%)
+Short Mean Return: -0.1030 (-10.30%)
+Period Return:      0.0493 (  4.93%) [after 0.05% fee]
+Current PnL:       1.049321
+
+Rebalance #2: 2025-04-02 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.0879, return= 0.0003 (  0.03%)
+  SFPUSDT     : factor=  0.0706, return=-0.0115 ( -1.15%)
+
+Short Positions (Bottom 2):
+  SOLUSDT     : factor= -0.0863, return=-0.0570 ( -5.70%)
+  NILUSDT     : factor= -0.0868, return=-0.0602 ( -6.02%)
+
+Long Mean Return:  -0.0056 ( -0.56%)
+Short Mean Return: -0.0586 ( -5.86%)
+Period Return:      0.0260 (  2.60%) [after 0.05% fee]
+Current PnL:       1.076593
+
+Rebalance #3: 2025-04-03 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ONTUSDT     : factor=  0.1013, return=-0.0084 ( -0.84%)
+  MOCAUSDT    : factor=  0.0979, return= 0.0064 (  0.64%)
+
+Short Positions (Bottom 2):
+  SUNUSDT     : factor= -0.0567, return= 0.0010 (  0.10%)
+  ALCHUSDT    : factor= -0.0596, return=-0.0635 ( -6.35%)
+
+Long Mean Return:  -0.0010 ( -0.10%)
+Short Mean Return: -0.0312 ( -3.12%)
+Period Return:      0.0146 (  1.46%) [after 0.05% fee]
+Current PnL:       1.092336
+
+Rebalance #4: 2025-04-04 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SONICUSDT   : factor=  0.0826, return= 0.0018 (  0.18%)
+  ARUSDT      : factor=  0.0762, return= 0.0281 (  2.81%)
+
+Short Positions (Bottom 2):
+  ACTUSDT     : factor= -0.0804, return=-0.0181 ( -1.81%)
+  GRASSUSDT   : factor= -0.0904, return= 0.2579 ( 25.79%)
+
+Long Mean Return:   0.0149 (  1.49%)
+Short Mean Return:  0.1199 ( 11.99%)
+Period Return:     -0.0530 ( -5.30%) [after 0.05% fee]
+Current PnL:       1.034467
+
+Rebalance #5: 2025-04-04 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ACHUSDT     : factor=  0.0935, return= 0.0058 (  0.58%)
+  AXLUSDT     : factor=  0.0888, return=-0.0017 ( -0.17%)
+
+Short Positions (Bottom 2):
+  MAGICUSDT   : factor= -0.1044, return=-0.0206 ( -2.06%)
+  SUIUSDT     : factor= -0.1261, return=-0.0015 ( -0.15%)
+
+Long Mean Return:   0.0020 (  0.20%)
+Short Mean Return: -0.0111 ( -1.11%)
+Period Return:      0.0060 (  0.60%) [after 0.05% fee]
+Current PnL:       1.040719
+
+Rebalance #6: 2025-04-05 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ETCUSDT     : factor=  0.0823, return=-0.0196 ( -1.96%)
+  BANANAS31USDT: factor=  0.0657, return= 0.0391 (  3.91%)
+
+Short Positions (Bottom 2):
+  GHSTUSDT    : factor= -0.0766, return=-0.0273 ( -2.73%)
+  TUTUSDT     : factor= -0.0856, return= 0.1272 ( 12.72%)
+
+Long Mean Return:   0.0098 (  0.98%)
+Short Mean Return:  0.0499 (  4.99%)
+Period Return:     -0.0206 ( -2.06%) [after 0.05% fee]
+Current PnL:       1.019289
+
+Rebalance #7: 2025-04-06 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PENDLEUSDT  : factor=  0.0757, return=-0.0176 ( -1.76%)
+  SCRUSDT     : factor=  0.0718, return= 0.0053 (  0.53%)
+
+Short Positions (Bottom 2):
+  TONUSDT     : factor= -0.0843, return= 0.0076 (  0.76%)
+  TSTUSDT     : factor= -0.0971, return= 0.0591 (  5.91%)
+
+Long Mean Return:  -0.0061 ( -0.61%)
+Short Mean Return:  0.0334 (  3.34%)
+Period Return:     -0.0202 ( -2.02%) [after 0.05% fee]
+Current PnL:       0.998656
+
+Rebalance #8: 2025-04-06 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BBUSDT      : factor=  0.1046, return=-0.1590 (-15.90%)
+  STGUSDT     : factor=  0.0945, return=-0.0708 ( -7.08%)
+
+Short Positions (Bottom 2):
+  SKLUSDT     : factor= -0.0846, return=-0.0911 ( -9.11%)
+  COMPUSDT    : factor= -0.1047, return=-0.0899 ( -8.99%)
+
+Long Mean Return:  -0.1149 (-11.49%)
+Short Mean Return: -0.0905 ( -9.05%)
+Period Return:     -0.0127 ( -1.27%) [after 0.05% fee]
+Current PnL:       0.985949
+
+Rebalance #9: 2025-04-07 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  KMNOUSDT    : factor=  0.0988, return= 0.0344 (  3.44%)
+  VIRTUALUSDT : factor=  0.0753, return= 0.0103 (  1.03%)
+
+Short Positions (Bottom 2):
+  FLMUSDT     : factor= -0.0676, return= 0.0227 (  2.27%)
+  ATOMUSDT    : factor= -0.0695, return= 0.0018 (  0.18%)
+
+Long Mean Return:   0.0224 (  2.24%)
+Short Mean Return:  0.0123 (  1.23%)
+Period Return:      0.0045 (  0.45%) [after 0.05% fee]
+Current PnL:       0.990430
+
+Rebalance #10: 2025-04-08 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SPELLUSDT   : factor=  0.1135, return= 0.0055 (  0.55%)
+  DASHUSDT    : factor=  0.1071, return=-0.0046 ( -0.46%)
+
+Short Positions (Bottom 2):
+  KAVAUSDT    : factor= -0.0639, return=-0.0282 ( -2.82%)
+  TUTUSDT     : factor= -0.0670, return=-0.0073 ( -0.73%)
+
+Long Mean Return:   0.0004 (  0.04%)
+Short Mean Return: -0.0177 ( -1.77%)
+Period Return:      0.0086 (  0.86%) [after 0.05% fee]
+Current PnL:       0.998920
+
+Rebalance #11: 2025-04-08 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  OMUSDT      : factor=  0.0892, return=-0.0140 ( -1.40%)
+  PORTALUSDT  : factor=  0.0891, return=-0.0251 ( -2.51%)
+
+Short Positions (Bottom 2):
+  BMTUSDT     : factor= -0.0762, return=-0.0651 ( -6.51%)
+  USUALUSDT   : factor= -0.0768, return= 0.0196 (  1.96%)
+
+Long Mean Return:  -0.0196 ( -1.96%)
+Short Mean Return: -0.0227 ( -2.27%)
+Period Return:      0.0011 (  0.11%) [after 0.05% fee]
+Current PnL:       0.999997
+
+Rebalance #12: 2025-04-09 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  POLUSDT     : factor=  0.0729, return= 0.0288 (  2.88%)
+  AAVEUSDT    : factor=  0.0702, return= 0.0257 (  2.57%)
+
+Short Positions (Bottom 2):
+  AIXBTUSDT   : factor= -0.0741, return= 0.0556 (  5.56%)
+  MAVIAUSDT   : factor= -0.0783, return=-0.0274 ( -2.74%)
+
+Long Mean Return:   0.0272 (  2.72%)
+Short Mean Return:  0.0141 (  1.41%)
+Period Return:      0.0061 (  0.61%) [after 0.05% fee]
+Current PnL:       1.006085
+
+Rebalance #13: 2025-04-10 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  COTIUSDT    : factor=  0.0886, return= 0.0766 (  7.66%)
+  SWELLUSDT   : factor=  0.0788, return= 0.0707 (  7.07%)
+
+Short Positions (Bottom 2):
+  GUNUSDT     : factor= -0.0906, return= 0.0000 (  0.00%)
+  CATIUSDT    : factor= -0.1011, return=-0.1927 (-19.27%)
+
+Long Mean Return:   0.0736 (  7.36%)
+Short Mean Return: -0.0963 ( -9.63%)
+Period Return:      0.0845 (  8.45%) [after 0.05% fee]
+Current PnL:       1.091079
+
+Rebalance #14: 2025-04-10 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.0928, return= 0.0001 (  0.01%)
+  BABYUSDT    : factor=  0.0618, return= 0.1301 ( 13.01%)
+
+Short Positions (Bottom 2):
+  QUICKUSDT   : factor= -0.0989, return=-0.0073 ( -0.73%)
+  RAREUSDT    : factor= -0.1176, return=-0.0331 ( -3.31%)
+
+Long Mean Return:   0.0651 (  6.51%)
+Short Mean Return: -0.0202 ( -2.02%)
+Period Return:      0.0422 (  4.22%) [after 0.05% fee]
+Current PnL:       1.137078
+
+Rebalance #15: 2025-04-11 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.0823, return=-0.0000 ( -0.00%)
+  BSWUSDT     : factor=  0.0511, return=-0.0084 ( -0.84%)
+
+Short Positions (Bottom 2):
+  FIOUSDT     : factor= -0.0806, return= 0.0329 (  3.29%)
+  MUBARAKUSDT : factor= -0.0817, return= 0.0528 (  5.28%)
+
+Long Mean Return:  -0.0042 ( -0.42%)
+Short Mean Return:  0.0428 (  4.28%)
+Period Return:     -0.0240 ( -2.40%) [after 0.05% fee]
+Current PnL:       1.109754
+
+Rebalance #16: 2025-04-12 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  LPTUSDT     : factor=  0.0726, return= 0.0025 (  0.25%)
+  USDCUSDT    : factor=  0.0701, return=-0.0002 ( -0.02%)
+
+Short Positions (Bottom 2):
+  KAIAUSDT    : factor= -0.1091, return= 0.0049 (  0.49%)
+  KAITOUSDT   : factor= -0.1195, return=-0.0067 ( -0.67%)
+
+Long Mean Return:   0.0012 (  0.12%)
+Short Mean Return: -0.0009 ( -0.09%)
+Period Return:      0.0005 (  0.05%) [after 0.05% fee]
+Current PnL:       1.110359
+
+Rebalance #17: 2025-04-12 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.0655, return=-0.0001 ( -0.01%)
+  IOTXUSDT    : factor=  0.0519, return= 0.0041 (  0.41%)
+
+Short Positions (Bottom 2):
+  KOMAUSDT    : factor= -0.1151, return= 0.0020 (  0.20%)
+  ENJUSDT     : factor= -0.1178, return= 0.0428 (  4.28%)
+
+Long Mean Return:   0.0020 (  0.20%)
+Short Mean Return:  0.0224 (  2.24%)
+Period Return:     -0.0107 ( -1.07%) [after 0.05% fee]
+Current PnL:       1.098461
+
+Rebalance #18: 2025-04-13 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PIXELUSDT   : factor=  0.0778, return=-0.0460 ( -4.60%)
+  OXTUSDT     : factor=  0.0761, return=-0.0168 ( -1.68%)
+
+Short Positions (Bottom 2):
+  1000CHEEMSUSDT: factor= -0.0854, return=-0.0355 ( -3.55%)
+  THETAUSDT   : factor= -0.0976, return=-0.0470 ( -4.70%)
+
+Long Mean Return:  -0.0314 ( -3.14%)
+Short Mean Return: -0.0413 ( -4.13%)
+Period Return:      0.0044 (  0.44%) [after 0.05% fee]
+Current PnL:       1.103325
+
+Rebalance #19: 2025-04-14 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ATOMUSDT    : factor=  0.0944, return=-0.0200 ( -2.00%)
+  CELOUSDT    : factor=  0.0691, return=-0.0168 ( -1.68%)
+
+Short Positions (Bottom 2):
+  ZECUSDT     : factor= -0.1034, return=-0.0692 ( -6.92%)
+  PAXGUSDT    : factor= -0.1054, return=-0.0038 ( -0.38%)
+
+Long Mean Return:  -0.0184 ( -1.84%)
+Short Mean Return: -0.0365 ( -3.65%)
+Period Return:      0.0086 (  0.86%) [after 0.05% fee]
+Current PnL:       1.112765
+
+Rebalance #20: 2025-04-14 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  GRIFFAINUSDT: factor=  0.0873, return=-0.0325 ( -3.25%)
+  YGGUSDT     : factor=  0.0859, return=-0.0160 ( -1.60%)
+
+Short Positions (Bottom 2):
+  FORMUSDT    : factor= -0.0676, return= 0.0070 (  0.70%)
+  ZKUSDT      : factor= -0.0688, return=-0.0561 ( -5.61%)
+
+Long Mean Return:  -0.0242 ( -2.42%)
+Short Mean Return: -0.0245 ( -2.45%)
+Period Return:     -0.0003 ( -0.03%) [after 0.05% fee]
+Current PnL:       1.112377
+
+Rebalance #21: 2025-04-15 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ICXUSDT     : factor=  0.0671, return= 0.0267 (  2.67%)
+  FARTCOINUSDT: factor=  0.0667, return=-0.0597 ( -5.97%)
+
+Short Positions (Bottom 2):
+  1000PEPEUSDT: factor= -0.0920, return=-0.0280 ( -2.80%)
+  BNBUSDT     : factor= -0.1143, return= 0.0003 (  0.03%)
+
+Long Mean Return:  -0.0165 ( -1.65%)
+Short Mean Return: -0.0138 ( -1.38%)
+Period Return:     -0.0018 ( -0.18%) [after 0.05% fee]
+Current PnL:       1.110359
+
+Rebalance #22: 2025-04-16 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  REIUSDT     : factor=  0.1065, return=-0.0406 ( -4.06%)
+  IOSTUSDT    : factor=  0.0715, return=-0.0088 ( -0.88%)
+
+Short Positions (Bottom 2):
+  TSTUSDT     : factor= -0.0923, return= 0.0070 (  0.70%)
+  BIOUSDT     : factor= -0.0970, return=-0.0563 ( -5.63%)
+
+Long Mean Return:  -0.0247 ( -2.47%)
+Short Mean Return: -0.0246 ( -2.46%)
+Period Return:     -0.0005 ( -0.05%) [after 0.05% fee]
+Current PnL:       1.109758
+
+Rebalance #23: 2025-04-16 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  VTHOUSDT    : factor=  0.0841, return=-0.0871 ( -8.71%)
+  FHEUSDT     : factor=  0.0689, return=-0.1823 (-18.23%)
+
+Short Positions (Bottom 2):
+  MEWUSDT     : factor= -0.1111, return= 0.0467 (  4.67%)
+  PONKEUSDT   : factor= -0.1118, return= 0.0128 (  1.28%)
+
+Long Mean Return:  -0.1347 (-13.47%)
+Short Mean Return:  0.0297 (  2.97%)
+Period Return:     -0.0827 ( -8.27%) [after 0.05% fee]
+Current PnL:       1.017986
+
+Rebalance #24: 2025-04-17 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  OMUSDT      : factor=  0.0923, return=-0.0389 ( -3.89%)
+  USDCUSDT    : factor=  0.0704, return= 0.0002 (  0.02%)
+
+Short Positions (Bottom 2):
+  GLMUSDT     : factor= -0.0974, return= 0.0088 (  0.88%)
+  ORCAUSDT    : factor= -0.1078, return=-0.0448 ( -4.48%)
+
+Long Mean Return:  -0.0193 ( -1.93%)
+Short Mean Return: -0.0180 ( -1.80%)
+Period Return:     -0.0011 ( -0.11%) [after 0.05% fee]
+Current PnL:       1.016822
+
+Rebalance #25: 2025-04-18 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SOLVUSDT    : factor=  0.0891, return= 0.0479 (  4.79%)
+  NEARUSDT    : factor=  0.0760, return= 0.0192 (  1.92%)
+
+Short Positions (Bottom 2):
+  AIXBTUSDT   : factor= -0.0911, return= 0.0379 (  3.79%)
+  VINEUSDT    : factor= -0.1027, return=-0.0321 ( -3.21%)
+
+Long Mean Return:   0.0335 (  3.35%)
+Short Mean Return:  0.0029 (  0.29%)
+Period Return:      0.0148 (  1.48%) [after 0.05% fee]
+Current PnL:       1.031883
+
+Rebalance #26: 2025-04-18 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  HIPPOUSDT   : factor=  0.0802, return= 0.0645 (  6.45%)
+  GHSTUSDT    : factor=  0.0718, return=-0.0012 ( -0.12%)
+
+Short Positions (Bottom 2):
+  ANKRUSDT    : factor= -0.0962, return= 0.0158 (  1.58%)
+  GUNUSDT     : factor= -0.1258, return=-0.0415 ( -4.15%)
+
+Long Mean Return:   0.0316 (  3.16%)
+Short Mean Return: -0.0128 ( -1.28%)
+Period Return:      0.0217 (  2.17%) [after 0.05% fee]
+Current PnL:       1.054321
+
+Rebalance #27: 2025-04-19 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  B3USDT      : factor=  0.0979, return= 0.0318 (  3.18%)
+  PIPPINUSDT  : factor=  0.0643, return= 0.0008 (  0.08%)
+
+Short Positions (Bottom 2):
+  LINKUSDT    : factor= -0.1271, return= 0.0152 (  1.52%)
+  OGNUSDT     : factor= -0.1348, return= 0.0212 (  2.12%)
+
+Long Mean Return:   0.0163 (  1.63%)
+Short Mean Return:  0.0182 (  1.82%)
+Period Return:     -0.0015 ( -0.15%) [after 0.05% fee]
+Current PnL:       1.052790
+
+Rebalance #28: 2025-04-20 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  MEMEUSDT    : factor=  0.1879, return= 0.0409 (  4.09%)
+  USDCUSDT    : factor=  0.0742, return= 0.0000 (  0.00%)
+
+Short Positions (Bottom 2):
+  SNXUSDT     : factor= -0.0873, return= 0.0063 (  0.63%)
+  1000SHIBUSDT: factor= -0.0883, return= 0.0187 (  1.87%)
+
+Long Mean Return:   0.0204 (  2.04%)
+Short Mean Return:  0.0125 (  1.25%)
+Period Return:      0.0035 (  0.35%) [after 0.05% fee]
+Current PnL:       1.056450
+
+Rebalance #29: 2025-04-20 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SANTOSUSDT  : factor=  0.0790, return=-0.0359 ( -3.59%)
+  IOSTUSDT    : factor=  0.0731, return= 0.0268 (  2.68%)
+
+Short Positions (Bottom 2):
+  ACHUSDT     : factor= -0.1048, return= 0.1292 ( 12.92%)
+  NKNUSDT     : factor= -0.1128, return= 0.0865 (  8.65%)
+
+Long Mean Return:  -0.0045 ( -0.45%)
+Short Mean Return:  0.1079 ( 10.79%)
+Period Return:     -0.0567 ( -5.67%) [after 0.05% fee]
+Current PnL:       0.996552
+
+Rebalance #30: 2025-04-21 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  WLDUSDT     : factor=  0.1074, return= 0.0187 (  1.87%)
+  DOGEUSDT    : factor=  0.0908, return= 0.0338 (  3.38%)
+
+Short Positions (Bottom 2):
+  MANAUSDT    : factor= -0.0835, return= 0.0889 (  8.89%)
+  ACHUSDT     : factor= -0.1027, return=-0.0423 ( -4.23%)
+
+Long Mean Return:   0.0262 (  2.62%)
+Short Mean Return:  0.0233 (  2.33%)
+Period Return:      0.0010 (  0.10%) [after 0.05% fee]
+Current PnL:       0.997517
+
+Rebalance #31: 2025-04-22 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  CHESSUSDT   : factor=  0.1097, return=-0.0400 ( -4.00%)
+  BROCCOLIF3BUSDT: factor=  0.0709, return=-0.2302 (-23.02%)
+
+Short Positions (Bottom 2):
+  THETAUSDT   : factor= -0.0991, return=-0.0573 ( -5.73%)
+  PIPPINUSDT  : factor= -0.1449, return=-0.0615 ( -6.15%)
+
+Long Mean Return:  -0.1351 (-13.51%)
+Short Mean Return: -0.0594 ( -5.94%)
+Period Return:     -0.0384 ( -3.84%) [after 0.05% fee]
+Current PnL:       0.959261
+
+Rebalance #32: 2025-04-22 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.0790, return=-0.0004 ( -0.04%)
+  AI16ZUSDT   : factor=  0.0671, return= 0.2977 ( 29.77%)
+
+Short Positions (Bottom 2):
+  WAXPUSDT    : factor= -0.0954, return= 0.0422 (  4.22%)
+  VOXELUSDT   : factor= -0.1227, return=-0.0216 ( -2.16%)
+
+Long Mean Return:   0.1486 ( 14.86%)
+Short Mean Return:  0.0103 (  1.03%)
+Period Return:      0.0686 (  6.86%) [after 0.05% fee]
+Current PnL:       1.025101
+
+Rebalance #33: 2025-04-23 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BROCCOLIF3BUSDT: factor=  0.0745, return=-0.1095 (-10.95%)
+  TSTUSDT     : factor=  0.0704, return= 0.0473 (  4.73%)
+
+Short Positions (Bottom 2):
+  DOTUSDT     : factor= -0.0915, return= 0.0175 (  1.75%)
+  BMTUSDT     : factor= -0.1037, return= 0.0425 (  4.25%)
+
+Long Mean Return:  -0.0311 ( -3.11%)
+Short Mean Return:  0.0300 (  3.00%)
+Period Return:     -0.0310 ( -3.10%) [after 0.05% fee]
+Current PnL:       0.993291
+
+Rebalance #34: 2025-04-24 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TAOUSDT     : factor=  0.0775, return= 0.0157 (  1.57%)
+  ZENUSDT     : factor=  0.0699, return=-0.0168 ( -1.68%)
+
+Short Positions (Bottom 2):
+  GMTUSDT     : factor= -0.0735, return=-0.0384 ( -3.84%)
+  SUNUSDT     : factor= -0.0775, return=-0.0149 ( -1.49%)
+
+Long Mean Return:  -0.0005 ( -0.05%)
+Short Mean Return: -0.0267 ( -2.67%)
+Period Return:      0.0126 (  1.26%) [after 0.05% fee]
+Current PnL:       1.005766
+
+Rebalance #35: 2025-04-24 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  IMXUSDT     : factor=  0.0906, return= 0.0719 (  7.19%)
+  NKNUSDT     : factor=  0.0868, return= 0.2090 ( 20.90%)
+
+Short Positions (Bottom 2):
+  GUNUSDT     : factor= -0.0833, return= 0.1263 ( 12.63%)
+  TRUMPUSDT   : factor= -0.0950, return= 0.0171 (  1.71%)
+
+Long Mean Return:   0.1405 ( 14.05%)
+Short Mean Return:  0.0717 (  7.17%)
+Period Return:      0.0339 (  3.39%) [after 0.05% fee]
+Current PnL:       1.039855
+
+Rebalance #36: 2025-04-25 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  YFIUSDT     : factor=  0.0768, return= 0.0051 (  0.51%)
+  QTUMUSDT    : factor=  0.0746, return= 0.0245 (  2.45%)
+
+Short Positions (Bottom 2):
+  SPXUSDT     : factor= -0.1049, return= 0.1768 ( 17.68%)
+  BRUSDT      : factor= -0.1407, return=-0.0073 ( -0.73%)
+
+Long Mean Return:   0.0148 (  1.48%)
+Short Mean Return:  0.0848 (  8.48%)
+Period Return:     -0.0355 ( -3.55%) [after 0.05% fee]
+Current PnL:       1.002975
+
+Rebalance #37: 2025-04-26 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  RPLUSDT     : factor=  0.0686, return= 0.0163 (  1.63%)
+  PROMPTUSDT  : factor=  0.0678, return= 0.0382 (  3.82%)
+
+Short Positions (Bottom 2):
+  WLDUSDT     : factor= -0.0735, return= 0.1982 ( 19.82%)
+  REIUSDT     : factor= -0.1027, return= 0.0018 (  0.18%)
+
+Long Mean Return:   0.0272 (  2.72%)
+Short Mean Return:  0.1000 ( 10.00%)
+Period Return:     -0.0369 ( -3.69%) [after 0.05% fee]
+Current PnL:       0.965972
+
+Rebalance #38: 2025-04-26 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ALTUSDT     : factor=  0.0884, return= 0.0199 (  1.99%)
+  RIFUSDT     : factor=  0.0830, return=-0.0263 ( -2.63%)
+
+Short Positions (Bottom 2):
+  TRUUSDT     : factor= -0.0940, return=-0.0150 ( -1.50%)
+  RPLUSDT     : factor= -0.1074, return=-0.0132 ( -1.32%)
+
+Long Mean Return:  -0.0032 ( -0.32%)
+Short Mean Return: -0.0141 ( -1.41%)
+Period Return:      0.0050 (  0.50%) [after 0.05% fee]
+Current PnL:       0.970771
+
+Rebalance #39: 2025-04-27 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BRETTUSDT   : factor=  0.0599, return=-0.0555 ( -5.55%)
+  SAGAUSDT    : factor=  0.0484, return=-0.0980 ( -9.80%)
+
+Short Positions (Bottom 2):
+  STXUSDT     : factor= -0.1047, return= 0.0247 (  2.47%)
+  REDUSDT     : factor= -0.1196, return=-0.0899 ( -8.99%)
+
+Long Mean Return:  -0.0768 ( -7.68%)
+Short Mean Return: -0.0326 ( -3.26%)
+Period Return:     -0.0226 ( -2.26%) [after 0.05% fee]
+Current PnL:       0.948858
+
+Rebalance #40: 2025-04-28 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BROCCOLIF3BUSDT: factor=  0.0545, return= 0.0576 (  5.76%)
+  BIDUSDT     : factor=  0.0528, return= 0.0356 (  3.56%)
+
+Short Positions (Bottom 2):
+  QNTUSDT     : factor= -0.0918, return= 0.0365 (  3.65%)
+  RAREUSDT    : factor= -0.1086, return=-0.0332 ( -3.32%)
+
+Long Mean Return:   0.0466 (  4.66%)
+Short Mean Return:  0.0017 (  0.17%)
+Period Return:      0.0220 (  2.20%) [after 0.05% fee]
+Current PnL:       0.969698
+
+Rebalance #41: 2025-04-28 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PROMUSDT    : factor=  0.0879, return= 0.0070 (  0.70%)
+  ENSUSDT     : factor=  0.0821, return=-0.0050 ( -0.50%)
+
+Short Positions (Bottom 2):
+  DFUSDT      : factor= -0.0784, return=-0.0258 ( -2.58%)
+  VANAUSDT    : factor= -0.0882, return= 0.0185 (  1.85%)
+
+Long Mean Return:   0.0010 (  0.10%)
+Short Mean Return: -0.0037 ( -0.37%)
+Period Return:      0.0018 (  0.18%) [after 0.05% fee]
+Current PnL:       0.971468
+
+Rebalance #42: 2025-04-29 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  XMRUSDT     : factor=  0.0750, return= 0.0250 (  2.50%)
+  NOTUSDT     : factor=  0.0703, return= 0.0688 (  6.88%)
+
+Short Positions (Bottom 2):
+  TOKENUSDT   : factor= -0.0927, return=-0.1477 (-14.77%)
+  FETUSDT     : factor= -0.1134, return=-0.0066 ( -0.66%)
+
+Long Mean Return:   0.0469 (  4.69%)
+Short Mean Return: -0.0771 ( -7.71%)
+Period Return:      0.0615 (  6.15%) [after 0.05% fee]
+Current PnL:       1.031238
+
+Rebalance #43: 2025-04-30 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  KOMAUSDT    : factor=  0.0788, return=-0.0097 ( -0.97%)
+  SHELLUSDT   : factor=  0.0620, return= 0.0887 (  8.87%)
+
+Short Positions (Bottom 2):
+  FISUSDT     : factor= -0.0852, return= 0.0798 (  7.98%)
+  HEIUSDT     : factor= -0.1181, return= 0.0316 (  3.16%)
+
+Long Mean Return:   0.0395 (  3.95%)
+Short Mean Return:  0.0557 (  5.57%)
+Period Return:     -0.0086 ( -0.86%) [after 0.05% fee]
+Current PnL:       1.022362
+
+Rebalance #44: 2025-04-30 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  OMUSDT      : factor=  0.0591, return=-0.0187 ( -1.87%)
+  VTHOUSDT    : factor=  0.0524, return=-0.0127 ( -1.27%)
+
+Short Positions (Bottom 2):
+  KSMUSDT     : factor= -0.0983, return=-0.0206 ( -2.06%)
+  VOXELUSDT   : factor= -0.1012, return= 0.5729 ( 57.29%)
+
+Long Mean Return:  -0.0157 ( -1.57%)
+Short Mean Return:  0.2761 ( 27.61%)
+Period Return:     -0.1464 (-14.64%) [after 0.05% fee]
+Current PnL:       0.872677
+
+Rebalance #45: 2025-05-01 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  STXUSDT     : factor=  0.0952, return= 0.0349 (  3.49%)
+  MTLUSDT     : factor=  0.0937, return= 0.0062 (  0.62%)
+
+Short Positions (Bottom 2):
+  RAREUSDT    : factor= -0.0925, return= 0.0228 (  2.28%)
+  EPICUSDT    : factor= -0.0948, return= 0.0007 (  0.07%)
+
+Long Mean Return:   0.0206 (  2.06%)
+Short Mean Return:  0.0118 (  1.18%)
+Period Return:      0.0039 (  0.39%) [after 0.05% fee]
+Current PnL:       0.876080
+
+Rebalance #46: 2025-05-02 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SUSHIUSDT   : factor=  0.0851, return=-0.0133 ( -1.33%)
+  COWUSDT     : factor=  0.0788, return=-0.0186 ( -1.86%)
+
+Short Positions (Bottom 2):
+  TOKENUSDT   : factor= -0.0942, return=-0.0340 ( -3.40%)
+  DIAUSDT     : factor= -0.1160, return=-0.0292 ( -2.92%)
+
+Long Mean Return:  -0.0160 ( -1.60%)
+Short Mean Return: -0.0316 ( -3.16%)
+Period Return:      0.0073 (  0.73%) [after 0.05% fee]
+Current PnL:       0.882491
+
+Rebalance #47: 2025-05-02 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  QNTUSDT     : factor=  0.1045, return= 0.0354 (  3.54%)
+  CTSIUSDT    : factor=  0.1004, return= 0.0088 (  0.88%)
+
+Short Positions (Bottom 2):
+  ETHWUSDT    : factor= -0.0828, return=-0.0011 ( -0.11%)
+  BCHUSDT     : factor= -0.1129, return= 0.0374 (  3.74%)
+
+Long Mean Return:   0.0221 (  2.21%)
+Short Mean Return:  0.0181 (  1.81%)
+Period Return:      0.0015 (  0.15%) [after 0.05% fee]
+Current PnL:       0.883816
+
+Rebalance #48: 2025-05-03 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BANDUSDT    : factor=  0.0899, return=-0.0417 ( -4.17%)
+  IOUSDT      : factor=  0.0885, return=-0.0501 ( -5.01%)
+
+Short Positions (Bottom 2):
+  CRVUSDT     : factor= -0.1021, return=-0.0272 ( -2.72%)
+  1000RATSUSDT: factor= -0.1041, return=-0.0637 ( -6.37%)
+
+Long Mean Return:  -0.0459 ( -4.59%)
+Short Mean Return: -0.0455 ( -4.55%)
+Period Return:     -0.0007 ( -0.07%) [after 0.05% fee]
+Current PnL:       0.883189
+
+Rebalance #49: 2025-05-04 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  STOUSDT     : factor=  0.0679, return=-0.0974 ( -9.74%)
+  BANANAUSDT  : factor=  0.0577, return=-0.0402 ( -4.02%)
+
+Short Positions (Bottom 2):
+  XTZUSDT     : factor= -0.1088, return=-0.0018 ( -0.18%)
+  HIVEUSDT    : factor= -0.1318, return=-0.0761 ( -7.61%)
+
+Long Mean Return:  -0.0688 ( -6.88%)
+Short Mean Return: -0.0390 ( -3.90%)
+Period Return:     -0.0154 ( -1.54%) [after 0.05% fee]
+Current PnL:       0.869575
+
+Rebalance #50: 2025-05-04 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  EPICUSDT    : factor=  0.0616, return= 0.0138 (  1.38%)
+  VINEUSDT    : factor=  0.0563, return= 0.0010 (  0.10%)
+
+Short Positions (Bottom 2):
+  ZETAUSDT    : factor= -0.0872, return=-0.0167 ( -1.67%)
+  XLMUSDT     : factor= -0.1173, return=-0.0215 ( -2.15%)
+
+Long Mean Return:   0.0074 (  0.74%)
+Short Mean Return: -0.0191 ( -1.91%)
+Period Return:      0.0128 (  1.28%) [after 0.05% fee]
+Current PnL:       0.880677
+
+Rebalance #51: 2025-05-05 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  HMSTRUSDT   : factor=  0.0880, return=-0.0111 ( -1.11%)
+  PONKEUSDT   : factor=  0.0679, return= 0.0030 (  0.30%)
+
+Short Positions (Bottom 2):
+  BANANAS31USDT: factor= -0.1016, return=-0.0208 ( -2.08%)
+  ARUSDT      : factor= -0.1030, return=-0.0458 ( -4.58%)
+
+Long Mean Return:  -0.0041 ( -0.41%)
+Short Mean Return: -0.0333 ( -3.33%)
+Period Return:      0.0141 (  1.41%) [after 0.05% fee]
+Current PnL:       0.893124
+
+Rebalance #52: 2025-05-06 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  LUMIAUSDT   : factor=  0.0846, return=-0.0129 ( -1.29%)
+  BTCUSDT     : factor=  0.0653, return= 0.0067 (  0.67%)
+
+Short Positions (Bottom 2):
+  MOVRUSDT    : factor= -0.0913, return= 0.0270 (  2.70%)
+  GMTUSDT     : factor= -0.1157, return= 0.0071 (  0.71%)
+
+Long Mean Return:  -0.0031 ( -0.31%)
+Short Mean Return:  0.0171 (  1.71%)
+Period Return:     -0.0106 ( -1.06%) [after 0.05% fee]
+Current PnL:       0.883673
+
+Rebalance #53: 2025-05-06 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  RDNTUSDT    : factor=  0.0583, return=-0.0088 ( -0.88%)
+  USDCUSDT    : factor=  0.0550, return=-0.0000 ( -0.00%)
+
+Short Positions (Bottom 2):
+  KSMUSDT     : factor= -0.0907, return= 0.0050 (  0.50%)
+  STGUSDT     : factor= -0.0916, return=-0.0133 ( -1.33%)
+
+Long Mean Return:  -0.0044 ( -0.44%)
+Short Mean Return: -0.0041 ( -0.41%)
+Period Return:     -0.0006 ( -0.06%) [after 0.05% fee]
+Current PnL:       0.883105
+
+Rebalance #54: 2025-05-07 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  LRCUSDT     : factor=  0.0651, return=-0.0004 ( -0.04%)
+  AUCTIONUSDT : factor=  0.0600, return= 0.0188 (  1.88%)
+
+Short Positions (Bottom 2):
+  DOTUSDT     : factor= -0.0996, return=-0.0126 ( -1.26%)
+  WIFUSDT     : factor= -0.1333, return=-0.0224 ( -2.24%)
+
+Long Mean Return:   0.0092 (  0.92%)
+Short Mean Return: -0.0175 ( -1.75%)
+Period Return:      0.0129 (  1.29%) [after 0.05% fee]
+Current PnL:       0.894467
+
+Rebalance #55: 2025-05-08 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BBUSDT      : factor=  0.0705, return= 0.1499 ( 14.99%)
+  UXLINKUSDT  : factor=  0.0688, return= 0.0439 (  4.39%)
+
+Short Positions (Bottom 2):
+  PROMPTUSDT  : factor= -0.0933, return= 0.1456 ( 14.56%)
+  DEEPUSDT    : factor= -0.0954, return= 0.1116 ( 11.16%)
+
+Long Mean Return:   0.0969 (  9.69%)
+Short Mean Return:  0.1286 ( 12.86%)
+Period Return:     -0.0163 ( -1.63%) [after 0.05% fee]
+Current PnL:       0.879853
+
+Rebalance #56: 2025-05-08 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  1000BONKUSDT: factor=  0.1023, return= 0.0769 (  7.69%)
+  ORDIUSDT    : factor=  0.0894, return= 0.1228 ( 12.28%)
+
+Short Positions (Bottom 2):
+  USTCUSDT    : factor= -0.0851, return= 0.0505 (  5.05%)
+  1000RATSUSDT: factor= -0.1011, return= 0.0664 (  6.64%)
+
+Long Mean Return:   0.0999 (  9.99%)
+Short Mean Return:  0.0585 (  5.85%)
+Period Return:      0.0202 (  2.02%) [after 0.05% fee]
+Current PnL:       0.897625
+
+Rebalance #57: 2025-05-09 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  FIDAUSDT    : factor=  0.1022, return=-0.0279 ( -2.79%)
+  BANUSDT     : factor=  0.0868, return= 0.0072 (  0.72%)
+
+Short Positions (Bottom 2):
+  KOMAUSDT    : factor= -0.0893, return= 0.2680 ( 26.80%)
+  LUMIAUSDT   : factor= -0.1019, return= 0.0858 (  8.58%)
+
+Long Mean Return:  -0.0103 ( -1.03%)
+Short Mean Return:  0.1769 ( 17.69%)
+Period Return:     -0.0941 ( -9.41%) [after 0.05% fee]
+Current PnL:       0.813159
+
+Rebalance #58: 2025-05-10 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PHAUSDT     : factor=  0.0920, return= 0.0363 (  3.63%)
+  RPLUSDT     : factor=  0.0883, return= 0.0231 (  2.31%)
+
+Short Positions (Bottom 2):
+  HAEDALUSDT  : factor= -0.0733, return=-0.0489 ( -4.89%)
+  LAYERUSDT   : factor= -0.1133, return= 0.0388 (  3.88%)
+
+Long Mean Return:   0.0297 (  2.97%)
+Short Mean Return: -0.0050 ( -0.50%)
+Period Return:      0.0169 (  1.69%) [after 0.05% fee]
+Current PnL:       0.826865
+
+Rebalance #59: 2025-05-10 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  CELRUSDT    : factor=  0.0934, return= 0.0603 (  6.03%)
+  LQTYUSDT    : factor=  0.0883, return= 0.0483 (  4.83%)
+
+Short Positions (Bottom 2):
+  POPCATUSDT  : factor= -0.0909, return= 0.0096 (  0.96%)
+  PENGUUSDT   : factor= -0.0943, return= 0.0540 (  5.40%)
+
+Long Mean Return:   0.0543 (  5.43%)
+Short Mean Return:  0.0318 (  3.18%)
+Period Return:      0.0107 (  1.07%) [after 0.05% fee]
+Current PnL:       0.835742
+
+Rebalance #60: 2025-05-11 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  MYROUSDT    : factor=  0.0626, return= 0.0017 (  0.17%)
+  MAVUSDT     : factor=  0.0530, return=-0.0344 ( -3.44%)
+
+Short Positions (Bottom 2):
+  AIOTUSDT    : factor= -0.0963, return=-0.0363 ( -3.63%)
+  STXUSDT     : factor= -0.0974, return=-0.0485 ( -4.85%)
+
+Long Mean Return:  -0.0163 ( -1.63%)
+Short Mean Return: -0.0424 ( -4.24%)
+Period Return:      0.0125 (  1.25%) [after 0.05% fee]
+Current PnL:       0.846215
+
+Rebalance #61: 2025-05-12 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  RUNEUSDT    : factor=  0.0803, return= 0.1746 ( 17.46%)
+  PARTIUSDT   : factor=  0.0744, return= 0.0175 (  1.75%)
+
+Short Positions (Bottom 2):
+  AI16ZUSDT   : factor= -0.0819, return= 0.1841 ( 18.41%)
+  PNUTUSDT    : factor= -0.0857, return= 0.0392 (  3.92%)
+
+Long Mean Return:   0.0961 (  9.61%)
+Short Mean Return:  0.1116 ( 11.16%)
+Period Return:     -0.0083 ( -0.83%) [after 0.05% fee]
+Current PnL:       0.839206
+
+Rebalance #62: 2025-05-12 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  DOGEUSDT    : factor=  0.0706, return=-0.0536 ( -5.36%)
+  HEIUSDT     : factor=  0.0668, return=-0.0208 ( -2.08%)
+
+Short Positions (Bottom 2):
+  GOATUSDT    : factor= -0.0766, return=-0.0820 ( -8.20%)
+  MEMEFIUSDT  : factor= -0.0884, return=-0.0298 ( -2.98%)
+
+Long Mean Return:  -0.0372 ( -3.72%)
+Short Mean Return: -0.0559 ( -5.59%)
+Period Return:      0.0089 (  0.89%) [after 0.05% fee]
+Current PnL:       0.846649
+
+Rebalance #63: 2025-05-13 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  RPLUSDT     : factor=  0.0665, return=-0.0313 ( -3.13%)
+  UXLINKUSDT  : factor=  0.0639, return=-0.0254 ( -2.54%)
+
+Short Positions (Bottom 2):
+  BANKUSDT    : factor= -0.0856, return= 0.0244 (  2.44%)
+  EPTUSDT     : factor= -0.1019, return= 0.0820 (  8.20%)
+
+Long Mean Return:  -0.0283 ( -2.83%)
+Short Mean Return:  0.0532 (  5.32%)
+Period Return:     -0.0413 ( -4.13%) [after 0.05% fee]
+Current PnL:       0.811715
+
+Rebalance #64: 2025-05-14 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.0983, return= 0.0000 (  0.00%)
+  B2USDT      : factor=  0.0796, return=-0.0141 ( -1.41%)
+
+Short Positions (Bottom 2):
+  PERPUSDT    : factor= -0.1005, return= 0.0717 (  7.17%)
+  CTSIUSDT    : factor= -0.1009, return= 0.0283 (  2.83%)
+
+Long Mean Return:  -0.0070 ( -0.70%)
+Short Mean Return:  0.0500 (  5.00%)
+Period Return:     -0.0290 ( -2.90%) [after 0.05% fee]
+Current PnL:       0.788166
+
+Rebalance #65: 2025-05-14 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PUNDIXUSDT  : factor=  0.0762, return=-0.0083 ( -0.83%)
+  BCHUSDT     : factor=  0.0693, return=-0.0124 ( -1.24%)
+
+Short Positions (Bottom 2):
+  SIRENUSDT   : factor= -0.0881, return=-0.1072 (-10.72%)
+  GOATUSDT    : factor= -0.1267, return=-0.1038 (-10.38%)
+
+Long Mean Return:  -0.0104 ( -1.04%)
+Short Mean Return: -0.1055 (-10.55%)
+Period Return:      0.0471 (  4.71%) [after 0.05% fee]
+Current PnL:       0.825260
+
+Rebalance #66: 2025-05-15 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ATHUSDT     : factor=  0.0668, return= 0.1066 ( 10.66%)
+  SCRUSDT     : factor=  0.0639, return=-0.0472 ( -4.72%)
+
+Short Positions (Bottom 2):
+  KNCUSDT     : factor= -0.1102, return=-0.0321 ( -3.21%)
+  SIGNUSDT    : factor= -0.1198, return=-0.0922 ( -9.22%)
+
+Long Mean Return:   0.0297 (  2.97%)
+Short Mean Return: -0.0622 ( -6.22%)
+Period Return:      0.0454 (  4.54%) [after 0.05% fee]
+Current PnL:       0.862747
+
+Rebalance #67: 2025-05-16 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  B2USDT      : factor=  0.0631, return= 0.0132 (  1.32%)
+  PAXGUSDT    : factor=  0.0610, return=-0.0041 ( -0.41%)
+
+Short Positions (Bottom 2):
+  IDUSDT      : factor= -0.0819, return=-0.0167 ( -1.67%)
+  SIGNUSDT    : factor= -0.0881, return=-0.0119 ( -1.19%)
+
+Long Mean Return:   0.0046 (  0.46%)
+Short Mean Return: -0.0143 ( -1.43%)
+Period Return:      0.0089 (  0.89%) [after 0.05% fee]
+Current PnL:       0.870436
+
+Rebalance #68: 2025-05-16 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  DFUSDT      : factor=  0.0637, return=-0.0291 ( -2.91%)
+  SYRUPUSDT   : factor=  0.0619, return=-0.0024 ( -0.24%)
+
+Short Positions (Bottom 2):
+  ALCHUSDT    : factor= -0.0892, return=-0.0130 ( -1.30%)
+  EIGENUSDT   : factor= -0.0914, return=-0.0725 ( -7.25%)
+
+Long Mean Return:  -0.0157 ( -1.57%)
+Short Mean Return: -0.0427 ( -4.27%)
+Period Return:      0.0130 (  1.30%) [after 0.05% fee]
+Current PnL:       0.881754
+
+Rebalance #69: 2025-05-17 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  DENTUSDT    : factor=  0.0710, return=-0.0425 ( -4.25%)
+  ZENUSDT     : factor=  0.0595, return=-0.0082 ( -0.82%)
+
+Short Positions (Bottom 2):
+  PARTIUSDT   : factor= -0.0899, return=-0.0433 ( -4.33%)
+  PROMUSDT    : factor= -0.0945, return=-0.0045 ( -0.45%)
+
+Long Mean Return:  -0.0253 ( -2.53%)
+Short Mean Return: -0.0239 ( -2.39%)
+Period Return:     -0.0012 ( -0.12%) [after 0.05% fee]
+Current PnL:       0.880692
+
+Rebalance #70: 2025-05-18 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SUSDT       : factor=  0.0608, return= 0.0201 (  2.01%)
+  FORMUSDT    : factor=  0.0596, return= 0.0481 (  4.81%)
+
+Short Positions (Bottom 2):
+  VINEUSDT    : factor= -0.1015, return= 0.0892 (  8.92%)
+  NTRNUSDT    : factor= -0.1118, return= 0.0435 (  4.35%)
+
+Long Mean Return:   0.0341 (  3.41%)
+Short Mean Return:  0.0664 (  6.64%)
+Period Return:     -0.0166 ( -1.66%) [after 0.05% fee]
+Current PnL:       0.866042
+
+Rebalance #71: 2025-05-18 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BABYUSDT    : factor=  0.0746, return= 0.0770 (  7.70%)
+  ALPHAUSDT   : factor=  0.0601, return= 0.0406 (  4.06%)
+
+Short Positions (Bottom 2):
+  NTRNUSDT    : factor= -0.1234, return=-0.0114 ( -1.14%)
+  PIPPINUSDT  : factor= -0.1311, return=-0.0100 ( -1.00%)
+
+Long Mean Return:   0.0588 (  5.88%)
+Short Mean Return: -0.0107 ( -1.07%)
+Period Return:      0.0342 (  3.42%) [after 0.05% fee]
+Current PnL:       0.895689
+
+Rebalance #72: 2025-05-19 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BSVUSDT     : factor=  0.0800, return=-0.0413 ( -4.13%)
+  ZECUSDT     : factor=  0.0630, return=-0.0077 ( -0.77%)
+
+Short Positions (Bottom 2):
+  PIPPINUSDT  : factor= -0.0808, return=-0.0633 ( -6.33%)
+  HIPPOUSDT   : factor= -0.0862, return=-0.0131 ( -1.31%)
+
+Long Mean Return:  -0.0245 ( -2.45%)
+Short Mean Return: -0.0382 ( -3.82%)
+Period Return:      0.0063 (  0.63%) [after 0.05% fee]
+Current PnL:       0.901376
+
+Rebalance #73: 2025-05-20 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  EPICUSDT    : factor=  0.0687, return=-0.0134 ( -1.34%)
+  OGNUSDT     : factor=  0.0607, return= 0.0127 (  1.27%)
+
+Short Positions (Bottom 2):
+  WLDUSDT     : factor= -0.0937, return= 0.0075 (  0.75%)
+  KAVAUSDT    : factor= -0.1041, return=-0.0009 ( -0.09%)
+
+Long Mean Return:  -0.0004 ( -0.04%)
+Short Mean Return:  0.0033 (  0.33%)
+Period Return:     -0.0023 ( -0.23%) [after 0.05% fee]
+Current PnL:       0.899292
+
+Rebalance #74: 2025-05-20 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  B2USDT      : factor=  0.0539, return=-0.0018 ( -0.18%)
+  VIRTUALUSDT : factor=  0.0485, return=-0.0057 ( -0.57%)
+
+Short Positions (Bottom 2):
+  CGPTUSDT    : factor= -0.1023, return= 0.0020 (  0.20%)
+  REIUSDT     : factor= -0.1041, return= 0.0475 (  4.75%)
+
+Long Mean Return:  -0.0037 ( -0.37%)
+Short Mean Return:  0.0248 (  2.48%)
+Period Return:     -0.0148 ( -1.48%) [after 0.05% fee]
+Current PnL:       0.886026
+
+Rebalance #75: 2025-05-21 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.0714, return=-0.0000 ( -0.00%)
+  DODOXUSDT   : factor=  0.0610, return= 0.0156 (  1.56%)
+
+Short Positions (Bottom 2):
+  ARPAUSDT    : factor= -0.0835, return= 0.0098 (  0.98%)
+  FILUSDT     : factor= -0.0881, return= 0.0178 (  1.78%)
+
+Long Mean Return:   0.0078 (  0.78%)
+Short Mean Return:  0.0138 (  1.38%)
+Period Return:     -0.0035 ( -0.35%) [after 0.05% fee]
+Current PnL:       0.882914
+
+Rebalance #76: 2025-05-22 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  WCTUSDT     : factor=  0.0569, return=-0.0322 ( -3.22%)
+  AVAAIUSDT   : factor=  0.0486, return= 0.1802 ( 18.02%)
+
+Short Positions (Bottom 2):
+  NEOUSDT     : factor= -0.1528, return= 0.0332 (  3.32%)
+  ZILUSDT     : factor= -0.1548, return= 0.0329 (  3.29%)
+
+Long Mean Return:   0.0740 (  7.40%)
+Short Mean Return:  0.0330 (  3.30%)
+Period Return:      0.0200 (  2.00%) [after 0.05% fee]
+Current PnL:       0.900536
+
+Rebalance #77: 2025-05-22 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TRXUSDT     : factor=  0.0718, return= 0.0138 (  1.38%)
+  ACXUSDT     : factor=  0.0603, return= 0.0156 (  1.56%)
+
+Short Positions (Bottom 2):
+  CTKUSDT     : factor= -0.0860, return= 0.0202 (  2.02%)
+  PARTIUSDT   : factor= -0.0871, return= 0.0152 (  1.52%)
+
+Long Mean Return:   0.0147 (  1.47%)
+Short Mean Return:  0.0177 (  1.77%)
+Period Return:     -0.0020 ( -0.20%) [after 0.05% fee]
+Current PnL:       0.898743
+
+Rebalance #78: 2025-05-23 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PAXGUSDT    : factor=  0.0680, return= 0.0157 (  1.57%)
+  COOKIEUSDT  : factor=  0.0627, return= 0.1164 ( 11.64%)
+
+Short Positions (Bottom 2):
+  POWRUSDT    : factor= -0.0747, return=-0.0265 ( -2.65%)
+  SIRENUSDT   : factor= -0.0800, return=-0.0814 ( -8.14%)
+
+Long Mean Return:   0.0661 (  6.61%)
+Short Mean Return: -0.0539 ( -5.39%)
+Period Return:      0.0595 (  5.95%) [after 0.05% fee]
+Current PnL:       0.952220
+
+Rebalance #79: 2025-05-24 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  VVVUSDT     : factor=  0.1167, return=-0.0309 ( -3.09%)
+  MEMEUSDT    : factor=  0.1105, return=-0.0505 ( -5.05%)
+
+Short Positions (Bottom 2):
+  FORMUSDT    : factor= -0.0683, return=-0.0001 ( -0.01%)
+  VIRTUALUSDT : factor= -0.0723, return=-0.0641 ( -6.41%)
+
+Long Mean Return:  -0.0407 ( -4.07%)
+Short Mean Return: -0.0321 ( -3.21%)
+Period Return:     -0.0048 ( -0.48%) [after 0.05% fee]
+Current PnL:       0.947631
+
+Rebalance #80: 2025-05-24 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.0602, return=-0.0002 ( -0.02%)
+  KERNELUSDT  : factor=  0.0529, return=-0.0029 ( -0.29%)
+
+Short Positions (Bottom 2):
+  SCRUSDT     : factor= -0.0773, return= 0.0009 (  0.09%)
+  GHSTUSDT    : factor= -0.0839, return= 0.0041 (  0.41%)
+
+Long Mean Return:  -0.0015 ( -0.15%)
+Short Mean Return:  0.0025 (  0.25%)
+Period Return:     -0.0025 ( -0.25%) [after 0.05% fee]
+Current PnL:       0.945241
+
+Rebalance #81: 2025-05-25 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  B2USDT      : factor=  0.0676, return= 0.0002 (  0.02%)
+  PROMUSDT    : factor=  0.0345, return=-0.0002 ( -0.02%)
+
+Short Positions (Bottom 2):
+  GMTUSDT     : factor= -0.1287, return=-0.0304 ( -3.04%)
+  DEGOUSDT    : factor= -0.1312, return= 0.0098 (  0.98%)
+
+Long Mean Return:  -0.0000 ( -0.00%)
+Short Mean Return: -0.0103 ( -1.03%)
+Period Return:      0.0046 (  0.46%) [after 0.05% fee]
+Current PnL:       0.949615
+
+Rebalance #82: 2025-05-26 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SYRUPUSDT   : factor=  0.0510, return= 0.0111 (  1.11%)
+  LISTAUSDT   : factor=  0.0416, return= 0.0800 (  8.00%)
+
+Short Positions (Bottom 2):
+  PERPUSDT    : factor= -0.1089, return= 0.0625 (  6.25%)
+  SFPUSDT     : factor= -0.1181, return= 0.0226 (  2.26%)
+
+Long Mean Return:   0.0455 (  4.55%)
+Short Mean Return:  0.0426 (  4.26%)
+Period Return:      0.0010 (  0.10%) [after 0.05% fee]
+Current PnL:       0.950556
+
+Rebalance #83: 2025-05-26 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  CHESSUSDT   : factor=  0.0710, return= 0.0370 (  3.70%)
+  EPICUSDT    : factor=  0.0684, return=-0.0332 ( -3.32%)
+
+Short Positions (Bottom 2):
+  FLOWUSDT    : factor= -0.0920, return=-0.0296 ( -2.96%)
+  CELOUSDT    : factor= -0.0941, return=-0.0262 ( -2.62%)
+
+Long Mean Return:   0.0019 (  0.19%)
+Short Mean Return: -0.0279 ( -2.79%)
+Period Return:      0.0144 (  1.44%) [after 0.05% fee]
+Current PnL:       0.964265
+
+Rebalance #84: 2025-05-27 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  1000WHYUSDT : factor=  0.0656, return= 0.0102 (  1.02%)
+  ILVUSDT     : factor=  0.0650, return= 0.0165 (  1.65%)
+
+Short Positions (Bottom 2):
+  ACTUSDT     : factor= -0.0956, return= 0.0329 (  3.29%)
+  NXPCUSDT    : factor= -0.0986, return=-0.0083 ( -0.83%)
+
+Long Mean Return:   0.0133 (  1.33%)
+Short Mean Return:  0.0123 (  1.23%)
+Period Return:     -0.0000 ( -0.00%) [after 0.05% fee]
+Current PnL:       0.964259
+
+Rebalance #85: 2025-05-28 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  GMXUSDT     : factor=  0.0755, return=-0.0212 ( -2.12%)
+  TRUUSDT     : factor=  0.0721, return=-0.0296 ( -2.96%)
+
+Short Positions (Bottom 2):
+  TRBUSDT     : factor= -0.0890, return= 0.0299 (  2.99%)
+  COOKIEUSDT  : factor= -0.0935, return=-0.0167 ( -1.67%)
+
+Long Mean Return:  -0.0254 ( -2.54%)
+Short Mean Return:  0.0066 (  0.66%)
+Period Return:     -0.0165 ( -1.65%) [after 0.05% fee]
+Current PnL:       0.948357
+
+Rebalance #86: 2025-05-28 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  IPUSDT      : factor=  0.0583, return=-0.0150 ( -1.50%)
+  USDCUSDT    : factor=  0.0530, return= 0.0000 (  0.00%)
+
+Short Positions (Bottom 2):
+  DODOXUSDT   : factor= -0.1050, return= 0.0073 (  0.73%)
+  SUPERUSDT   : factor= -0.1091, return=-0.0121 ( -1.21%)
+
+Long Mean Return:  -0.0075 ( -0.75%)
+Short Mean Return: -0.0024 ( -0.24%)
+Period Return:     -0.0030 ( -0.30%) [after 0.05% fee]
+Current PnL:       0.945472
+
+Rebalance #87: 2025-05-29 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  OMNIUSDT    : factor=  0.0736, return=-0.0444 ( -4.44%)
+  1INCHUSDT   : factor=  0.0705, return= 0.0106 (  1.06%)
+
+Short Positions (Bottom 2):
+  SYRUPUSDT   : factor= -0.1092, return=-0.0556 ( -5.56%)
+  STEEMUSDT   : factor= -0.1145, return=-0.0048 ( -0.48%)
+
+Long Mean Return:  -0.0169 ( -1.69%)
+Short Mean Return: -0.0302 ( -3.02%)
+Period Return:      0.0061 (  0.61%) [after 0.05% fee]
+Current PnL:       0.951283
+
+Rebalance #88: 2025-05-30 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  AIOTUSDT    : factor=  0.0681, return=-0.0173 ( -1.73%)
+  SYNUSDT     : factor=  0.0577, return=-0.0836 ( -8.36%)
+
+Short Positions (Bottom 2):
+  FORTHUSDT   : factor= -0.0896, return=-0.0803 ( -8.03%)
+  ORCAUSDT    : factor= -0.0993, return=-0.0542 ( -5.42%)
+
+Long Mean Return:  -0.0505 ( -5.05%)
+Short Mean Return: -0.0673 ( -6.73%)
+Period Return:      0.0079 (  0.79%) [after 0.05% fee]
+Current PnL:       0.958798
+
+Rebalance #89: 2025-05-30 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  FORMUSDT    : factor=  0.0672, return=-0.0490 ( -4.90%)
+  IPUSDT      : factor=  0.0628, return=-0.0558 ( -5.58%)
+
+Short Positions (Bottom 2):
+  ASRUSDT     : factor= -0.0831, return=-0.0086 ( -0.86%)
+  GHSTUSDT    : factor= -0.0911, return=-0.0420 ( -4.20%)
+
+Long Mean Return:  -0.0524 ( -5.24%)
+Short Mean Return: -0.0253 ( -2.53%)
+Period Return:     -0.0141 ( -1.41%) [after 0.05% fee]
+Current PnL:       0.945314
+
+Rebalance #90: 2025-05-31 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  OGNUSDT     : factor=  0.0519, return=-0.1512 (-15.12%)
+  CVCUSDT     : factor=  0.0509, return=-0.1176 (-11.76%)
+
+Short Positions (Bottom 2):
+  SYRUPUSDT   : factor= -0.0956, return=-0.0294 ( -2.94%)
+  LDOUSDT     : factor= -0.1100, return= 0.0038 (  0.38%)
+
+Long Mean Return:  -0.1344 (-13.44%)
+Short Mean Return: -0.0128 ( -1.28%)
+Period Return:     -0.0613 ( -6.13%) [after 0.05% fee]
+Current PnL:       0.887349
+
+Rebalance #91: 2025-06-01 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  VTHOUSDT    : factor=  0.0820, return=-0.0066 ( -0.66%)
+  TRUMPUSDT   : factor=  0.0816, return=-0.0028 ( -0.28%)
+
+Short Positions (Bottom 2):
+  SKYAIUSDT   : factor= -0.0684, return= 0.1039 ( 10.39%)
+  B2USDT      : factor= -0.1343, return= 0.0062 (  0.62%)
+
+Long Mean Return:  -0.0047 ( -0.47%)
+Short Mean Return:  0.0550 (  5.50%)
+Period Return:     -0.0303 ( -3.03%) [after 0.05% fee]
+Current PnL:       0.860424
+
+Rebalance #92: 2025-06-01 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  RVNUSDT     : factor=  0.0715, return= 0.0195 (  1.95%)
+  LQTYUSDT    : factor=  0.0713, return= 0.0357 (  3.57%)
+
+Short Positions (Bottom 2):
+  OBOLUSDT    : factor= -0.0945, return= 0.0296 (  2.96%)
+  VVVUSDT     : factor= -0.1068, return= 0.0742 (  7.42%)
+
+Long Mean Return:   0.0276 (  2.76%)
+Short Mean Return:  0.0519 (  5.19%)
+Period Return:     -0.0127 ( -1.27%) [after 0.05% fee]
+Current PnL:       0.849514
+
+Rebalance #93: 2025-06-02 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  JASMYUSDT   : factor=  0.0613, return=-0.0225 ( -2.25%)
+  SUSDT       : factor=  0.0606, return= 0.0371 (  3.71%)
+
+Short Positions (Bottom 2):
+  1000FLOKIUSDT: factor= -0.0894, return=-0.0158 ( -1.58%)
+  MILKUSDT    : factor= -0.1002, return=-0.0169 ( -1.69%)
+
+Long Mean Return:   0.0073 (  0.73%)
+Short Mean Return: -0.0164 ( -1.64%)
+Period Return:      0.0113 (  1.13%) [after 0.05% fee]
+Current PnL:       0.859144
+
+Rebalance #94: 2025-06-03 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ZENUSDT     : factor=  0.0896, return= 0.1464 ( 14.64%)
+  BTCDOMUSDT  : factor=  0.0637, return=-0.0150 ( -1.50%)
+
+Short Positions (Bottom 2):
+  SANTOSUSDT  : factor= -0.1143, return=-0.0051 ( -0.51%)
+  LRCUSDT     : factor= -0.1255, return= 0.0179 (  1.79%)
+
+Long Mean Return:   0.0657 (  6.57%)
+Short Mean Return:  0.0064 (  0.64%)
+Period Return:      0.0291 (  2.91%) [after 0.05% fee]
+Current PnL:       0.884179
+
+Rebalance #95: 2025-06-03 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.0856, return=-0.0002 ( -0.02%)
+  BRETTUSDT   : factor=  0.0756, return= 0.0216 (  2.16%)
+
+Short Positions (Bottom 2):
+  DRIFTUSDT   : factor= -0.0626, return= 0.0037 (  0.37%)
+  DEGOUSDT    : factor= -0.0806, return= 0.0162 (  1.62%)
+
+Long Mean Return:   0.0107 (  1.07%)
+Short Mean Return:  0.0099 (  0.99%)
+Period Return:     -0.0001 ( -0.01%) [after 0.05% fee]
+Current PnL:       0.884080
+
+Rebalance #96: 2025-06-04 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  GRASSUSDT   : factor=  0.0609, return= 0.0968 (  9.68%)
+  ORDIUSDT    : factor=  0.0600, return= 0.0170 (  1.70%)
+
+Short Positions (Bottom 2):
+  BTCUSDT     : factor= -0.0908, return=-0.0007 ( -0.07%)
+  HUMAUSDT    : factor= -0.0944, return=-0.0381 ( -3.81%)
+
+Long Mean Return:   0.0569 (  5.69%)
+Short Mean Return: -0.0194 ( -1.94%)
+Period Return:      0.0377 (  3.77%) [after 0.05% fee]
+Current PnL:       0.917378
+
+Rebalance #97: 2025-06-05 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  DEGOUSDT    : factor=  0.0837, return=-0.0808 ( -8.08%)
+  USDCUSDT    : factor=  0.0707, return=-0.0000 ( -0.00%)
+
+Short Positions (Bottom 2):
+  TURBOUSDT   : factor= -0.1066, return=-0.0400 ( -4.00%)
+  ZECUSDT     : factor= -0.1096, return=-0.0310 ( -3.10%)
+
+Long Mean Return:  -0.0404 ( -4.04%)
+Short Mean Return: -0.0355 ( -3.55%)
+Period Return:     -0.0030 ( -0.30%) [after 0.05% fee]
+Current PnL:       0.914645
+
+Rebalance #98: 2025-06-05 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  MEUSDT      : factor=  0.0906, return=-0.0655 ( -6.55%)
+  HEIUSDT     : factor=  0.0681, return=-0.0388 ( -3.88%)
+
+Short Positions (Bottom 2):
+  MILKUSDT    : factor= -0.0887, return=-0.0727 ( -7.27%)
+  EDUUSDT     : factor= -0.0915, return=-0.0616 ( -6.16%)
+
+Long Mean Return:  -0.0521 ( -5.21%)
+Short Mean Return: -0.0671 ( -6.71%)
+Period Return:      0.0070 (  0.70%) [after 0.05% fee]
+Current PnL:       0.921066
+
+Rebalance #99: 2025-06-06 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  RVNUSDT     : factor=  0.1258, return=-0.0156 ( -1.56%)
+  BNBUSDT     : factor=  0.0911, return= 0.0230 (  2.30%)
+
+Short Positions (Bottom 2):
+  AEVOUSDT    : factor= -0.0642, return= 0.0288 (  2.88%)
+  SOPHUSDT    : factor= -0.1042, return=-0.0088 ( -0.88%)
+
+Long Mean Return:   0.0037 (  0.37%)
+Short Mean Return:  0.0100 (  1.00%)
+Period Return:     -0.0036 ( -0.36%) [after 0.05% fee]
+Current PnL:       0.917709
+
+Rebalance #100: 2025-06-07 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TRUMPUSDT   : factor=  0.0855, return= 0.0420 (  4.20%)
+  FISUSDT     : factor=  0.0722, return=-0.0258 ( -2.58%)
+
+Short Positions (Bottom 2):
+  CTKUSDT     : factor= -0.0687, return= 0.0003 (  0.03%)
+  PARTIUSDT   : factor= -0.0719, return= 0.0517 (  5.17%)
+
+Long Mean Return:   0.0081 (  0.81%)
+Short Mean Return:  0.0260 (  2.60%)
+Period Return:     -0.0095 ( -0.95%) [after 0.05% fee]
+Current PnL:       0.909018
+
+Rebalance #101: 2025-06-07 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  POLYXUSDT   : factor=  0.0941, return= 0.0025 (  0.25%)
+  NKNUSDT     : factor=  0.0858, return= 0.0064 (  0.64%)
+
+Short Positions (Bottom 2):
+  MOVRUSDT    : factor= -0.0882, return=-0.0069 ( -0.69%)
+  SOONUSDT    : factor= -0.0977, return=-0.0118 ( -1.18%)
+
+Long Mean Return:   0.0044 (  0.44%)
+Short Mean Return: -0.0093 ( -0.93%)
+Period Return:      0.0064 (  0.64%) [after 0.05% fee]
+Current PnL:       0.914822
+
+Rebalance #102: 2025-06-08 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  METISUSDT   : factor=  0.0746, return=-0.0253 ( -2.53%)
+  TRBUSDT     : factor=  0.0699, return=-0.0077 ( -0.77%)
+
+Short Positions (Bottom 2):
+  SWELLUSDT   : factor= -0.1070, return=-0.0147 ( -1.47%)
+  FIOUSDT     : factor= -0.1114, return=-0.0013 ( -0.13%)
+
+Long Mean Return:  -0.0165 ( -1.65%)
+Short Mean Return: -0.0080 ( -0.80%)
+Period Return:     -0.0047 ( -0.47%) [after 0.05% fee]
+Current PnL:       0.910482
+
+Rebalance #103: 2025-06-09 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  MORPHOUSDT  : factor=  0.0760, return= 0.0115 (  1.15%)
+  BELUSDT     : factor=  0.0717, return=-0.0160 ( -1.60%)
+
+Short Positions (Bottom 2):
+  1000WHYUSDT : factor= -0.0905, return= 0.0028 (  0.28%)
+  STGUSDT     : factor= -0.1021, return=-0.0177 ( -1.77%)
+
+Long Mean Return:  -0.0022 ( -0.22%)
+Short Mean Return: -0.0074 ( -0.74%)
+Period Return:      0.0021 (  0.21%) [after 0.05% fee]
+Current PnL:       0.912401
+
+Rebalance #104: 2025-06-09 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  IOSTUSDT    : factor=  0.0920, return= 0.0871 (  8.71%)
+  ACXUSDT     : factor=  0.0700, return= 0.0563 (  5.63%)
+
+Short Positions (Bottom 2):
+  PENGUUSDT   : factor= -0.1066, return= 0.1123 ( 11.23%)
+  1000FLOKIUSDT: factor= -0.1085, return= 0.0993 (  9.93%)
+
+Long Mean Return:   0.0717 (  7.17%)
+Short Mean Return:  0.1058 ( 10.58%)
+Period Return:     -0.0175 ( -1.75%) [after 0.05% fee]
+Current PnL:       0.896403
+
+Rebalance #105: 2025-06-10 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  VVVUSDT     : factor=  0.0836, return= 0.0003 (  0.03%)
+  ACXUSDT     : factor=  0.0831, return= 0.0140 (  1.40%)
+
+Short Positions (Bottom 2):
+  FORMUSDT    : factor= -0.0786, return=-0.0102 ( -1.02%)
+  FLMUSDT     : factor= -0.0885, return= 0.0396 (  3.96%)
+
+Long Mean Return:   0.0072 (  0.72%)
+Short Mean Return:  0.0147 (  1.47%)
+Period Return:     -0.0043 ( -0.43%) [after 0.05% fee]
+Current PnL:       0.892579
+
+Rebalance #106: 2025-06-11 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BIDUSDT     : factor=  0.1113, return=-0.0324 ( -3.24%)
+  1000000BOBUSDT: factor=  0.0897, return=-0.1661 (-16.61%)
+
+Short Positions (Bottom 2):
+  BICOUSDT    : factor= -0.0841, return= 0.0387 (  3.87%)
+  BMTUSDT     : factor= -0.0843, return=-0.0326 ( -3.26%)
+
+Long Mean Return:  -0.0993 ( -9.93%)
+Short Mean Return:  0.0031 (  0.31%)
+Period Return:     -0.0517 ( -5.17%) [after 0.05% fee]
+Current PnL:       0.846465
+
+Rebalance #107: 2025-06-11 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TUSDT       : factor=  0.1021, return=-0.0360 ( -3.60%)
+  WALUSDT     : factor=  0.0773, return=-0.0282 ( -2.82%)
+
+Short Positions (Bottom 2):
+  IMXUSDT     : factor= -0.0685, return=-0.0177 ( -1.77%)
+  FLOWUSDT    : factor= -0.0891, return=-0.0354 ( -3.54%)
+
+Long Mean Return:  -0.0321 ( -3.21%)
+Short Mean Return: -0.0266 ( -2.66%)
+Period Return:     -0.0033 ( -0.33%) [after 0.05% fee]
+Current PnL:       0.843705
+
+Rebalance #108: 2025-06-12 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  VVVUSDT     : factor=  0.0767, return= 0.0065 (  0.65%)
+  ARCUSDT     : factor=  0.0759, return=-0.0831 ( -8.31%)
+
+Short Positions (Bottom 2):
+  PAXGUSDT    : factor= -0.0798, return= 0.0062 (  0.62%)
+  EIGENUSDT   : factor= -0.0844, return=-0.0718 ( -7.18%)
+
+Long Mean Return:  -0.0383 ( -3.83%)
+Short Mean Return: -0.0328 ( -3.28%)
+Period Return:     -0.0032 ( -0.32%) [after 0.05% fee]
+Current PnL:       0.840984
+
+Rebalance #109: 2025-06-13 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  HMSTRUSDT   : factor=  0.0736, return=-0.1319 (-13.19%)
+  1000000BOBUSDT: factor=  0.0675, return=-0.1136 (-11.36%)
+
+Short Positions (Bottom 2):
+  ANIMEUSDT   : factor= -0.0947, return=-0.1247 (-12.47%)
+  CHILLGUYUSDT: factor= -0.0997, return=-0.0955 ( -9.55%)
+
+Long Mean Return:  -0.1227 (-12.27%)
+Short Mean Return: -0.1101 (-11.01%)
+Period Return:     -0.0068 ( -0.68%) [after 0.05% fee]
+Current PnL:       0.835268
+
+Rebalance #110: 2025-06-13 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  IPUSDT      : factor=  0.0549, return= 0.0073 (  0.73%)
+  AUSDT       : factor=  0.0548, return= 0.0199 (  1.99%)
+
+Short Positions (Bottom 2):
+  SHELLUSDT   : factor= -0.0783, return= 0.0282 (  2.82%)
+  REDUSDT     : factor= -0.0886, return= 0.0092 (  0.92%)
+
+Long Mean Return:   0.0136 (  1.36%)
+Short Mean Return:  0.0187 (  1.87%)
+Period Return:     -0.0030 ( -0.30%) [after 0.05% fee]
+Current PnL:       0.832725
+
+Rebalance #111: 2025-06-14 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  VELODROMEUSDT: factor=  0.0675, return=-0.0066 ( -0.66%)
+  ZROUSDT     : factor=  0.0668, return=-0.0212 ( -2.12%)
+
+Short Positions (Bottom 2):
+  BRUSDT      : factor= -0.0751, return=-0.0101 ( -1.01%)
+  SOLVUSDT    : factor= -0.0971, return=-0.0063 ( -0.63%)
+
+Long Mean Return:  -0.0139 ( -1.39%)
+Short Mean Return: -0.0082 ( -0.82%)
+Period Return:     -0.0033 ( -0.33%) [after 0.05% fee]
+Current PnL:       0.829951
+
+Rebalance #112: 2025-06-15 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BRETTUSDT   : factor=  0.0650, return=-0.0101 ( -1.01%)
+  INITUSDT    : factor=  0.0551, return= 0.0138 (  1.38%)
+
+Short Positions (Bottom 2):
+  FXSUSDT     : factor= -0.1003, return=-0.0027 ( -0.27%)
+  SIRENUSDT   : factor= -0.1004, return=-0.0167 ( -1.67%)
+
+Long Mean Return:   0.0019 (  0.19%)
+Short Mean Return: -0.0097 ( -0.97%)
+Period Return:      0.0053 (  0.53%) [after 0.05% fee]
+Current PnL:       0.834335
+
+Rebalance #113: 2025-06-15 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ORCAUSDT    : factor=  0.0716, return= 0.0173 (  1.73%)
+  TONUSDT     : factor=  0.0706, return= 0.0048 (  0.48%)
+
+Short Positions (Bottom 2):
+  SQDUSDT     : factor= -0.0924, return=-0.0799 ( -7.99%)
+  EPICUSDT    : factor= -0.1310, return= 0.0008 (  0.08%)
+
+Long Mean Return:   0.0111 (  1.11%)
+Short Mean Return: -0.0395 ( -3.95%)
+Period Return:      0.0248 (  2.48%) [after 0.05% fee]
+Current PnL:       0.855033
+
+Rebalance #114: 2025-06-16 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  1000CATUSDT : factor=  0.1223, return= 0.0725 (  7.25%)
+  USDCUSDT    : factor=  0.1178, return=-0.0000 ( -0.00%)
+
+Short Positions (Bottom 2):
+  KMNOUSDT    : factor= -0.0996, return= 0.0192 (  1.92%)
+  RONINUSDT   : factor= -0.1040, return= 0.0610 (  6.10%)
+
+Long Mean Return:   0.0362 (  3.62%)
+Short Mean Return:  0.0401 (  4.01%)
+Period Return:     -0.0025 ( -0.25%) [after 0.05% fee]
+Current PnL:       0.852938
+
+Rebalance #115: 2025-06-17 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TUSDT       : factor=  0.0787, return=-0.0095 ( -0.95%)
+  SFPUSDT     : factor=  0.0504, return=-0.0064 ( -0.64%)
+
+Short Positions (Bottom 2):
+  PLUMEUSDT   : factor= -0.0860, return=-0.0673 ( -6.73%)
+  B2USDT      : factor= -0.0915, return=-0.0130 ( -1.30%)
+
+Long Mean Return:  -0.0080 ( -0.80%)
+Short Mean Return: -0.0402 ( -4.02%)
+Period Return:      0.0156 (  1.56%) [after 0.05% fee]
+Current PnL:       0.866235
+
+Rebalance #116: 2025-06-17 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ASRUSDT     : factor=  0.0745, return=-0.0036 ( -0.36%)
+  HAEDALUSDT  : factor=  0.0612, return= 0.0467 (  4.67%)
+
+Short Positions (Bottom 2):
+  CELRUSDT    : factor= -0.1027, return=-0.0858 ( -8.58%)
+  OXTUSDT     : factor= -0.1198, return=-0.0447 ( -4.47%)
+
+Long Mean Return:   0.0216 (  2.16%)
+Short Mean Return: -0.0653 ( -6.53%)
+Period Return:      0.0429 (  4.29%) [after 0.05% fee]
+Current PnL:       0.903401
+
+Rebalance #117: 2025-06-18 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TRXUSDT     : factor=  0.0822, return=-0.0025 ( -0.25%)
+  1000WHYUSDT : factor=  0.0658, return=-0.0619 ( -6.19%)
+
+Short Positions (Bottom 2):
+  ALPINEUSDT  : factor= -0.1015, return= 0.0009 (  0.09%)
+  1000LUNCUSDT: factor= -0.1070, return=-0.0102 ( -1.02%)
+
+Long Mean Return:  -0.0322 ( -3.22%)
+Short Mean Return: -0.0047 ( -0.47%)
+Period Return:     -0.0143 ( -1.43%) [after 0.05% fee]
+Current PnL:       0.890512
+
+Rebalance #118: 2025-06-19 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  NTRNUSDT    : factor=  0.0806, return=-0.0011 ( -0.11%)
+  IPUSDT      : factor=  0.0673, return=-0.0403 ( -4.03%)
+
+Short Positions (Bottom 2):
+  SONICUSDT   : factor= -0.0910, return=-0.0097 ( -0.97%)
+  QUICKUSDT   : factor= -0.0950, return=-0.0293 ( -2.93%)
+
+Long Mean Return:  -0.0207 ( -2.07%)
+Short Mean Return: -0.0195 ( -1.95%)
+Period Return:     -0.0011 ( -0.11%) [after 0.05% fee]
+Current PnL:       0.889519
+
+Rebalance #119: 2025-06-19 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  1000XUSDT   : factor=  0.0820, return= 0.0637 (  6.37%)
+  ADAUSDT     : factor=  0.0817, return= 0.0060 (  0.60%)
+
+Short Positions (Bottom 2):
+  SOLVUSDT    : factor= -0.0744, return=-0.0044 ( -0.44%)
+  LQTYUSDT    : factor= -0.0751, return= 0.0514 (  5.14%)
+
+Long Mean Return:   0.0349 (  3.49%)
+Short Mean Return:  0.0235 (  2.35%)
+Period Return:      0.0052 (  0.52%) [after 0.05% fee]
+Current PnL:       0.894130
+
+Rebalance #120: 2025-06-20 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BIDUSDT     : factor=  0.0783, return= 0.0303 (  3.03%)
+  DFUSDT      : factor=  0.0691, return= 0.0024 (  0.24%)
+
+Short Positions (Bottom 2):
+  KAIAUSDT    : factor= -0.0871, return= 0.0389 (  3.89%)
+  FORTHUSDT   : factor= -0.1028, return=-0.0055 ( -0.55%)
+
+Long Mean Return:   0.0164 (  1.64%)
+Short Mean Return:  0.0167 (  1.67%)
+Period Return:     -0.0007 ( -0.07%) [after 0.05% fee]
+Current PnL:       0.893513
+
+Rebalance #121: 2025-06-21 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BANANAS31USDT: factor=  0.0963, return=-0.0254 ( -2.54%)
+  DFUSDT      : factor=  0.0922, return=-0.0294 ( -2.94%)
+
+Short Positions (Bottom 2):
+  MUBARAKUSDT : factor= -0.1061, return= 0.0163 (  1.63%)
+  KAITOUSDT   : factor= -0.1196, return=-0.0240 ( -2.40%)
+
+Long Mean Return:  -0.0274 ( -2.74%)
+Short Mean Return: -0.0039 ( -0.39%)
+Period Return:     -0.0123 ( -1.23%) [after 0.05% fee]
+Current PnL:       0.882549
+
+Rebalance #122: 2025-06-21 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  MOCAUSDT    : factor=  0.0770, return=-0.0515 ( -5.15%)
+  SIRENUSDT   : factor=  0.0645, return=-0.0485 ( -4.85%)
+
+Short Positions (Bottom 2):
+  CHILLGUYUSDT: factor= -0.0909, return=-0.1019 (-10.19%)
+  VOXELUSDT   : factor= -0.0990, return=-0.0766 ( -7.66%)
+
+Long Mean Return:  -0.0500 ( -5.00%)
+Short Mean Return: -0.0892 ( -8.92%)
+Period Return:      0.0191 (  1.91%) [after 0.05% fee]
+Current PnL:       0.899409
+
+Rebalance #123: 2025-06-22 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  AERGOUSDT   : factor=  0.0883, return=-0.1249 (-12.49%)
+  SOLVUSDT    : factor=  0.0626, return=-0.0140 ( -1.40%)
+
+Short Positions (Bottom 2):
+  HAEDALUSDT  : factor= -0.0877, return=-0.0671 ( -6.71%)
+  SOONUSDT    : factor= -0.0905, return=-0.0638 ( -6.38%)
+
+Long Mean Return:  -0.0695 ( -6.95%)
+Short Mean Return: -0.0655 ( -6.55%)
+Period Return:     -0.0025 ( -0.25%) [after 0.05% fee]
+Current PnL:       0.897164
+
+Rebalance #124: 2025-06-23 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ILVUSDT     : factor=  0.0751, return= 0.0586 (  5.86%)
+  GUNUSDT     : factor=  0.0746, return= 0.0537 (  5.37%)
+
+Short Positions (Bottom 2):
+  ATHUSDT     : factor= -0.0671, return=-0.0499 ( -4.99%)
+  ASRUSDT     : factor= -0.0788, return= 0.0452 (  4.52%)
+
+Long Mean Return:   0.0562 (  5.62%)
+Short Mean Return: -0.0023 ( -0.23%)
+Period Return:      0.0288 (  2.88%) [after 0.05% fee]
+Current PnL:       0.922970
+
+Rebalance #125: 2025-06-23 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SOLUSDT     : factor=  0.0931, return= 0.0752 (  7.52%)
+  ATAUSDT     : factor=  0.0905, return= 0.0844 (  8.44%)
+
+Short Positions (Bottom 2):
+  PORT3USDT   : factor= -0.1003, return= 0.0246 (  2.46%)
+  RESOLVUSDT  : factor= -0.1074, return= 0.0920 (  9.20%)
+
+Long Mean Return:   0.0798 (  7.98%)
+Short Mean Return:  0.0583 (  5.83%)
+Period Return:      0.0103 (  1.03%) [after 0.05% fee]
+Current PnL:       0.932446
+
+Rebalance #126: 2025-06-24 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BATUSDT     : factor=  0.0797, return= 0.0082 (  0.82%)
+  POLYXUSDT   : factor=  0.0706, return= 0.0081 (  0.81%)
+
+Short Positions (Bottom 2):
+  GPSUSDT     : factor= -0.0921, return=-0.0401 ( -4.01%)
+  TUSDT       : factor= -0.1109, return=-0.0246 ( -2.46%)
+
+Long Mean Return:   0.0081 (  0.81%)
+Short Mean Return: -0.0324 ( -3.24%)
+Period Return:      0.0198 (  1.98%) [after 0.05% fee]
+Current PnL:       0.950866
+
+Rebalance #127: 2025-06-25 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BRUSDT      : factor=  0.1212, return=-0.0009 ( -0.09%)
+  SONICUSDT   : factor=  0.0747, return=-0.0107 ( -1.07%)
+
+Short Positions (Bottom 2):
+  GPSUSDT     : factor= -0.0865, return= 0.0818 (  8.18%)
+  SIGNUSDT    : factor= -0.1127, return=-0.0090 ( -0.90%)
+
+Long Mean Return:  -0.0058 ( -0.58%)
+Short Mean Return:  0.0364 (  3.64%)
+Period Return:     -0.0216 ( -2.16%) [after 0.05% fee]
+Current PnL:       0.930355
+
+Rebalance #128: 2025-06-25 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  JASMYUSDT   : factor=  0.0777, return=-0.0226 ( -2.26%)
+  SUSDT       : factor=  0.0678, return=-0.0727 ( -7.27%)
+
+Short Positions (Bottom 2):
+  RPLUSDT     : factor= -0.1031, return=-0.0419 ( -4.19%)
+  LTCUSDT     : factor= -0.1044, return=-0.0060 ( -0.60%)
+
+Long Mean Return:  -0.0477 ( -4.77%)
+Short Mean Return: -0.0239 ( -2.39%)
+Period Return:     -0.0124 ( -1.24%) [after 0.05% fee]
+Current PnL:       0.918856
+
+Rebalance #129: 2025-06-26 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  B3USDT      : factor=  0.0664, return=-0.0147 ( -1.47%)
+  NEWTUSDT    : factor=  0.0623, return=-0.1462 (-14.62%)
+
+Short Positions (Bottom 2):
+  ACXUSDT     : factor= -0.1023, return= 0.0007 (  0.07%)
+  1000CHEEMSUSDT: factor= -0.1024, return=-0.0033 ( -0.33%)
+
+Long Mean Return:  -0.0804 ( -8.04%)
+Short Mean Return: -0.0013 ( -0.13%)
+Period Return:     -0.0401 ( -4.01%) [after 0.05% fee]
+Current PnL:       0.882051
+
+Rebalance #130: 2025-06-27 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  DEXEUSDT    : factor=  0.0860, return=-0.0278 ( -2.78%)
+  OXTUSDT     : factor=  0.0658, return= 0.0026 (  0.26%)
+
+Short Positions (Bottom 2):
+  CELOUSDT    : factor= -0.1044, return= 0.0000 (  0.00%)
+  PUMPBTCUSDT : factor= -0.1048, return= 0.0406 (  4.06%)
+
+Long Mean Return:  -0.0126 ( -1.26%)
+Short Mean Return:  0.0203 (  2.03%)
+Period Return:     -0.0169 ( -1.69%) [after 0.05% fee]
+Current PnL:       0.867122
+
+Rebalance #131: 2025-06-27 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  LDOUSDT     : factor=  0.0882, return=-0.0060 ( -0.60%)
+  ZILUSDT     : factor=  0.0878, return= 0.0047 (  0.47%)
+
+Short Positions (Bottom 2):
+  FORTHUSDT   : factor= -0.0898, return=-0.0026 ( -0.26%)
+  OBOLUSDT    : factor= -0.0923, return=-0.0376 ( -3.76%)
+
+Long Mean Return:  -0.0006 ( -0.06%)
+Short Mean Return: -0.0201 ( -2.01%)
+Period Return:      0.0092 (  0.92%) [after 0.05% fee]
+Current PnL:       0.875116
+
+Rebalance #132: 2025-06-28 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PROMPTUSDT  : factor=  0.1046, return= 0.0061 (  0.61%)
+  SHELLUSDT   : factor=  0.0728, return=-0.0113 ( -1.13%)
+
+Short Positions (Bottom 2):
+  BRUSDT      : factor= -0.1095, return=-0.0011 ( -0.11%)
+  ARPAUSDT    : factor= -0.1209, return= 0.0114 (  1.14%)
+
+Long Mean Return:  -0.0026 ( -0.26%)
+Short Mean Return:  0.0051 (  0.51%)
+Period Return:     -0.0044 ( -0.44%) [after 0.05% fee]
+Current PnL:       0.871270
+
+Rebalance #133: 2025-06-29 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  B2USDT      : factor=  0.0764, return= 0.0809 (  8.09%)
+  PUFFERUSDT  : factor=  0.0741, return= 0.0052 (  0.52%)
+
+Short Positions (Bottom 2):
+  STORJUSDT   : factor= -0.1177, return= 0.0083 (  0.83%)
+  TUTUSDT     : factor= -0.1193, return=-0.0223 ( -2.23%)
+
+Long Mean Return:   0.0430 (  4.30%)
+Short Mean Return: -0.0070 ( -0.70%)
+Period Return:      0.0245 (  2.45%) [after 0.05% fee]
+Current PnL:       0.892634
+
+Rebalance #134: 2025-06-29 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SXTUSDT     : factor=  0.0839, return= 0.0263 (  2.63%)
+  AVAUSDT     : factor=  0.0768, return= 0.0183 (  1.83%)
+
+Short Positions (Bottom 2):
+  SYNUSDT     : factor= -0.0953, return= 0.0163 (  1.63%)
+  COMPUSDT    : factor= -0.1105, return= 0.0184 (  1.84%)
+
+Long Mean Return:   0.0223 (  2.23%)
+Short Mean Return:  0.0174 (  1.74%)
+Period Return:      0.0020 (  0.20%) [after 0.05% fee]
+Current PnL:       0.894401
+
+Rebalance #135: 2025-06-30 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  HOMEUSDT    : factor=  0.0820, return=-0.0193 ( -1.93%)
+  BRUSDT      : factor=  0.0804, return=-0.0004 ( -0.04%)
+
+Short Positions (Bottom 2):
+  AERGOUSDT   : factor= -0.1126, return=-0.0682 ( -6.82%)
+  GRASSUSDT   : factor= -0.1157, return=-0.0514 ( -5.14%)
+
+Long Mean Return:  -0.0098 ( -0.98%)
+Short Mean Return: -0.0598 ( -5.98%)
+Period Return:      0.0245 (  2.45%) [after 0.05% fee]
+Current PnL:       0.916324
+
+Rebalance #136: 2025-07-01 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ARKUSDT     : factor=  0.1046, return=-0.0217 ( -2.17%)
+  ALCHUSDT    : factor=  0.0871, return=-0.0286 ( -2.86%)
+
+Short Positions (Bottom 2):
+  USDCUSDT    : factor= -0.0929, return= 0.0000 (  0.00%)
+  SHELLUSDT   : factor= -0.0939, return=-0.0034 ( -0.34%)
+
+Long Mean Return:  -0.0251 ( -2.51%)
+Short Mean Return: -0.0017 ( -0.17%)
+Period Return:     -0.0122 ( -1.22%) [after 0.05% fee]
+Current PnL:       0.905129
+
+Rebalance #137: 2025-07-01 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  DMCUSDT     : factor=  0.0891, return= 0.1925 ( 19.25%)
+  BELUSDT     : factor=  0.0777, return= 0.1494 ( 14.94%)
+
+Short Positions (Bottom 2):
+  SPXUSDT     : factor= -0.0847, return=-0.0695 ( -6.95%)
+  SPELLUSDT   : factor= -0.0920, return=-0.0146 ( -1.46%)
+
+Long Mean Return:   0.1710 ( 17.10%)
+Short Mean Return: -0.0420 ( -4.20%)
+Period Return:      0.1060 ( 10.60%) [after 0.05% fee]
+Current PnL:       1.001071
+
+Rebalance #138: 2025-07-02 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  HFTUSDT     : factor=  0.0911, return= 0.0146 (  1.46%)
+  MAVUSDT     : factor=  0.0778, return=-0.0226 ( -2.26%)
+
+Short Positions (Bottom 2):
+  DOGEUSDT    : factor= -0.1022, return= 0.0509 (  5.09%)
+  KAITOUSDT   : factor= -0.1060, return=-0.0204 ( -2.04%)
+
+Long Mean Return:  -0.0040 ( -0.40%)
+Short Mean Return:  0.0153 (  1.53%)
+Period Return:     -0.0101 ( -1.01%) [after 0.05% fee]
+Current PnL:       0.990937
+
+Rebalance #139: 2025-07-03 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  GRASSUSDT   : factor=  0.0757, return= 0.0530 (  5.30%)
+  ALPINEUSDT  : factor=  0.0587, return= 0.0345 (  3.45%)
+
+Short Positions (Bottom 2):
+  ZRXUSDT     : factor= -0.0800, return= 0.0451 (  4.51%)
+  B2USDT      : factor= -0.0972, return=-0.0085 ( -0.85%)
+
+Long Mean Return:   0.0437 (  4.37%)
+Short Mean Return:  0.0183 (  1.83%)
+Period Return:      0.0122 (  1.22%) [after 0.05% fee]
+Current PnL:       1.003050
+
+Rebalance #140: 2025-07-03 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SLERFUSDT   : factor=  0.0674, return=-0.0327 ( -3.27%)
+  PORTALUSDT  : factor=  0.0604, return= 0.1537 ( 15.37%)
+
+Short Positions (Bottom 2):
+  BNBUSDT     : factor= -0.1026, return= 0.0017 (  0.17%)
+  ONDOUSDT    : factor= -0.1045, return=-0.0107 ( -1.07%)
+
+Long Mean Return:   0.0605 (  6.05%)
+Short Mean Return: -0.0045 ( -0.45%)
+Period Return:      0.0320 (  3.20%) [after 0.05% fee]
+Current PnL:       1.035137
+
+Rebalance #141: 2025-07-04 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  FUNUSDT     : factor=  0.0945, return= 0.3080 ( 30.80%)
+  CATIUSDT    : factor=  0.0819, return=-0.0618 ( -6.18%)
+
+Short Positions (Bottom 2):
+  AIOTUSDT    : factor= -0.0872, return=-0.0671 ( -6.71%)
+  DEXEUSDT    : factor= -0.1124, return=-0.0119 ( -1.19%)
+
+Long Mean Return:   0.1231 ( 12.31%)
+Short Mean Return: -0.0395 ( -3.95%)
+Period Return:      0.0808 (  8.08%) [after 0.05% fee]
+Current PnL:       1.118768
+
+Rebalance #142: 2025-07-05 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BROCCOLIF3BUSDT: factor=  0.0659, return= 0.0176 (  1.76%)
+  BUSDT       : factor=  0.0622, return=-0.0192 ( -1.92%)
+
+Short Positions (Bottom 2):
+  APTUSDT     : factor= -0.1044, return= 0.0150 (  1.50%)
+  JTOUSDT     : factor= -0.1354, return= 0.0140 (  1.40%)
+
+Long Mean Return:  -0.0008 ( -0.08%)
+Short Mean Return:  0.0145 (  1.45%)
+Period Return:     -0.0082 ( -0.82%) [after 0.05% fee]
+Current PnL:       1.109642
+
+Rebalance #143: 2025-07-05 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SAGAUSDT    : factor=  0.0692, return=-0.0143 ( -1.43%)
+  RESOLVUSDT  : factor=  0.0670, return=-0.0414 ( -4.14%)
+
+Short Positions (Bottom 2):
+  SYRUPUSDT   : factor= -0.0854, return= 0.0057 (  0.57%)
+  SEIUSDT     : factor= -0.0992, return= 0.0023 (  0.23%)
+
+Long Mean Return:  -0.0278 ( -2.78%)
+Short Mean Return:  0.0040 (  0.40%)
+Period Return:     -0.0164 ( -1.64%) [after 0.05% fee]
+Current PnL:       1.091429
+
+Rebalance #144: 2025-07-06 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  FLMUSDT     : factor=  0.0991, return=-0.0361 ( -3.61%)
+  SPKUSDT     : factor=  0.0696, return= 0.0328 (  3.28%)
+
+Short Positions (Bottom 2):
+  GRIFFAINUSDT: factor= -0.0957, return= 0.0254 (  2.54%)
+  LQTYUSDT    : factor= -0.1070, return= 0.0386 (  3.86%)
+
+Long Mean Return:  -0.0016 ( -0.16%)
+Short Mean Return:  0.0320 (  3.20%)
+Period Return:     -0.0173 ( -1.73%) [after 0.05% fee]
+Current PnL:       1.072508
+
+Rebalance #145: 2025-07-07 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BTCDOMUSDT  : factor=  0.0610, return=-0.0031 ( -0.31%)
+  PROMUSDT    : factor=  0.0539, return= 0.0190 (  1.90%)
+
+Short Positions (Bottom 2):
+  CTKUSDT     : factor= -0.1013, return=-0.0086 ( -0.86%)
+  TONUSDT     : factor= -0.1067, return=-0.0330 ( -3.30%)
+
+Long Mean Return:   0.0079 (  0.79%)
+Short Mean Return: -0.0208 ( -2.08%)
+Period Return:      0.0139 (  1.39%) [after 0.05% fee]
+Current PnL:       1.087365
+
+Rebalance #146: 2025-07-07 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.0755, return=-0.0000 ( -0.00%)
+  IPUSDT      : factor=  0.0735, return= 0.0052 (  0.52%)
+
+Short Positions (Bottom 2):
+  FIDAUSDT    : factor= -0.0975, return=-0.0458 ( -4.58%)
+  FARTCOINUSDT: factor= -0.1167, return=-0.0710 ( -7.10%)
+
+Long Mean Return:   0.0026 (  0.26%)
+Short Mean Return: -0.0584 ( -5.84%)
+Period Return:      0.0300 (  3.00%) [after 0.05% fee]
+Current PnL:       1.119989
+
+Rebalance #147: 2025-07-08 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BRUSDT      : factor=  0.0798, return=-0.0016 ( -0.16%)
+  SYNUSDT     : factor=  0.0742, return= 0.1321 ( 13.21%)
+
+Short Positions (Bottom 2):
+  LISTAUSDT   : factor= -0.0782, return=-0.0080 ( -0.80%)
+  BERAUSDT    : factor= -0.0816, return= 0.0030 (  0.30%)
+
+Long Mean Return:   0.0653 (  6.53%)
+Short Mean Return: -0.0025 ( -0.25%)
+Period Return:      0.0334 (  3.34%) [after 0.05% fee]
+Current PnL:       1.157363
+
+Rebalance #148: 2025-07-09 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ASRUSDT     : factor=  0.1107, return=-0.0149 ( -1.49%)
+  MEMEFIUSDT  : factor=  0.0976, return= 0.1412 ( 14.12%)
+
+Short Positions (Bottom 2):
+  USUALUSDT   : factor= -0.0885, return= 0.0282 (  2.82%)
+  BUSDT       : factor= -0.1068, return= 0.0405 (  4.05%)
+
+Long Mean Return:   0.0631 (  6.31%)
+Short Mean Return:  0.0344 (  3.44%)
+Period Return:      0.0139 (  1.39%) [after 0.05% fee]
+Current PnL:       1.173443
+
+Rebalance #149: 2025-07-09 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PUFFERUSDT  : factor=  0.1010, return= 0.0397 (  3.97%)
+  ASRUSDT     : factor=  0.0754, return=-0.0134 ( -1.34%)
+
+Short Positions (Bottom 2):
+  BANANAS31USDT: factor= -0.0977, return= 0.2154 ( 21.54%)
+  NMRUSDT     : factor= -0.1067, return= 0.0323 (  3.23%)
+
+Long Mean Return:   0.0132 (  1.32%)
+Short Mean Return:  0.1238 ( 12.38%)
+Period Return:     -0.0558 ( -5.58%) [after 0.05% fee]
+Current PnL:       1.107936
+
+Rebalance #150: 2025-07-10 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  AGTUSDT     : factor=  0.0942, return= 0.0222 (  2.22%)
+  MAGICUSDT   : factor=  0.0878, return=-0.0838 ( -8.38%)
+
+Short Positions (Bottom 2):
+  JTOUSDT     : factor= -0.0912, return=-0.0331 ( -3.31%)
+  QTUMUSDT    : factor= -0.1049, return=-0.0123 ( -1.23%)
+
+Long Mean Return:  -0.0308 ( -3.08%)
+Short Mean Return: -0.0227 ( -2.27%)
+Period Return:     -0.0045 ( -0.45%) [after 0.05% fee]
+Current PnL:       1.102911
+
+Rebalance #151: 2025-07-11 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  HYPERUSDT   : factor=  0.2076, return= 0.1314 ( 13.14%)
+  BANKUSDT    : factor=  0.0837, return=-0.0185 ( -1.85%)
+
+Short Positions (Bottom 2):
+  BIDUSDT     : factor= -0.0920, return= 0.0148 (  1.48%)
+  PARTIUSDT   : factor= -0.0945, return= 0.1555 ( 15.55%)
+
+Long Mean Return:   0.0564 (  5.64%)
+Short Mean Return:  0.0852 (  8.52%)
+Period Return:     -0.0149 ( -1.49%) [after 0.05% fee]
+Current PnL:       1.086500
+
+Rebalance #152: 2025-07-11 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  OGNUSDT     : factor=  0.1246, return=-0.0103 ( -1.03%)
+  HYPERUSDT   : factor=  0.1127, return= 0.0694 (  6.94%)
+
+Short Positions (Bottom 2):
+  RESOLVUSDT  : factor= -0.0739, return=-0.2551 (-25.51%)
+  SQDUSDT     : factor= -0.0761, return=-0.0341 ( -3.41%)
+
+Long Mean Return:   0.0295 (  2.95%)
+Short Mean Return: -0.1446 (-14.46%)
+Period Return:      0.0865 (  8.65%) [after 0.05% fee]
+Current PnL:       1.180524
+
+Rebalance #153: 2025-07-12 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  KAVAUSDT    : factor=  0.1019, return= 0.0053 (  0.53%)
+  B3USDT      : factor=  0.0972, return= 0.0132 (  1.32%)
+
+Short Positions (Bottom 2):
+  NEIROETHUSDT: factor= -0.0796, return= 0.1273 ( 12.73%)
+  BRUSDT      : factor= -0.0797, return=-0.0018 ( -0.18%)
+
+Long Mean Return:   0.0092 (  0.92%)
+Short Mean Return:  0.0628 (  6.28%)
+Period Return:     -0.0273 ( -2.73%) [after 0.05% fee]
+Current PnL:       1.148344
+
+Rebalance #154: 2025-07-13 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BNBUSDT     : factor=  0.1071, return= 0.0134 (  1.34%)
+  BANDUSDT    : factor=  0.0971, return= 0.0475 (  4.75%)
+
+Short Positions (Bottom 2):
+  FISUSDT     : factor= -0.0864, return=-0.0106 ( -1.06%)
+  MLNUSDT     : factor= -0.0865, return=-0.0018 ( -0.18%)
+
+Long Mean Return:   0.0305 (  3.05%)
+Short Mean Return: -0.0062 ( -0.62%)
+Period Return:      0.0178 (  1.78%) [after 0.05% fee]
+Current PnL:       1.168809
+
+Rebalance #155: 2025-07-13 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BCHUSDT     : factor=  0.0868, return= 0.0007 (  0.07%)
+  XCNUSDT     : factor=  0.0851, return= 0.0322 (  3.22%)
+
+Short Positions (Bottom 2):
+  MYXUSDT     : factor= -0.0857, return=-0.1194 (-11.94%)
+  VICUSDT     : factor= -0.1080, return=-0.0344 ( -3.44%)
+
+Long Mean Return:   0.0164 (  1.64%)
+Short Mean Return: -0.0769 ( -7.69%)
+Period Return:      0.0462 (  4.62%) [after 0.05% fee]
+Current PnL:       1.222762
+
+Rebalance #156: 2025-07-14 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  MOCAUSDT    : factor=  0.0709, return=-0.0082 ( -0.82%)
+  VVVUSDT     : factor=  0.0686, return=-0.0014 ( -0.14%)
+
+Short Positions (Bottom 2):
+  MLNUSDT     : factor= -0.1008, return=-0.0003 ( -0.03%)
+  OMNIUSDT    : factor= -0.1130, return=-0.0303 ( -3.03%)
+
+Long Mean Return:  -0.0048 ( -0.48%)
+Short Mean Return: -0.0153 ( -1.53%)
+Period Return:      0.0048 (  0.48%) [after 0.05% fee]
+Current PnL:       1.228587
+
+Rebalance #157: 2025-07-15 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  MLNUSDT     : factor=  0.0763, return=-0.0050 ( -0.50%)
+  GHSTUSDT    : factor=  0.0737, return= 0.0044 (  0.44%)
+
+Short Positions (Bottom 2):
+  BOMEUSDT    : factor= -0.0709, return=-0.0296 ( -2.96%)
+  1000SATSUSDT: factor= -0.0980, return=-0.0409 ( -4.09%)
+
+Long Mean Return:  -0.0003 ( -0.03%)
+Short Mean Return: -0.0352 ( -3.52%)
+Period Return:      0.0170 (  1.70%) [after 0.05% fee]
+Current PnL:       1.249442
+
+Rebalance #158: 2025-07-15 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TAIKOUSDT   : factor=  0.0878, return= 0.0338 (  3.38%)
+  VICUSDT     : factor=  0.0648, return= 0.0146 (  1.46%)
+
+Short Positions (Bottom 2):
+  HIFIUSDT    : factor= -0.0893, return= 0.0046 (  0.46%)
+  ETHFIUSDT   : factor= -0.0924, return= 0.1245 ( 12.45%)
+
+Long Mean Return:   0.0242 (  2.42%)
+Short Mean Return:  0.0645 (  6.45%)
+Period Return:     -0.0207 ( -2.07%) [after 0.05% fee]
+Current PnL:       1.223631
+
+Rebalance #159: 2025-07-16 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.0898, return=-0.0001 ( -0.01%)
+  PROMPTUSDT  : factor=  0.0609, return=-0.0327 ( -3.27%)
+
+Short Positions (Bottom 2):
+  1000WHYUSDT : factor= -0.1130, return= 0.0188 (  1.88%)
+  PORTALUSDT  : factor= -0.1353, return=-0.0152 ( -1.52%)
+
+Long Mean Return:  -0.0164 ( -1.64%)
+Short Mean Return:  0.0018 (  0.18%)
+Period Return:     -0.0096 ( -0.96%) [after 0.05% fee]
+Current PnL:       1.211880
+
+Rebalance #160: 2025-07-17 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  NXPCUSDT    : factor=  0.0770, return=-0.0019 ( -0.19%)
+  CYBERUSDT   : factor=  0.0645, return= 0.0496 (  4.96%)
+
+Short Positions (Bottom 2):
+  XVGUSDT     : factor= -0.0894, return= 0.0365 (  3.65%)
+  MUSDT       : factor= -0.1248, return=-0.1737 (-17.37%)
+
+Long Mean Return:   0.0238 (  2.38%)
+Short Mean Return: -0.0686 ( -6.86%)
+Period Return:      0.0457 (  4.57%) [after 0.05% fee]
+Current PnL:       1.267281
+
+Rebalance #161: 2025-07-17 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BROCCOLIF3BUSDT: factor=  0.0876, return=-0.0320 ( -3.20%)
+  DEEPUSDT    : factor=  0.0742, return= 0.0499 (  4.99%)
+
+Short Positions (Bottom 2):
+  THEUSDT     : factor= -0.0829, return=-0.0781 ( -7.81%)
+  CKBUSDT     : factor= -0.0879, return= 0.0119 (  1.19%)
+
+Long Mean Return:   0.0089 (  0.89%)
+Short Mean Return: -0.0331 ( -3.31%)
+Period Return:      0.0205 (  2.05%) [after 0.05% fee]
+Current PnL:       1.293281
+
+Rebalance #162: 2025-07-18 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  DOGEUSDT    : factor=  0.0882, return= 0.0868 (  8.68%)
+  PROMUSDT    : factor=  0.0863, return=-0.0518 ( -5.18%)
+
+Short Positions (Bottom 2):
+  HAEDALUSDT  : factor= -0.0878, return= 0.0090 (  0.90%)
+  ZECUSDT     : factor= -0.0904, return=-0.0092 ( -0.92%)
+
+Long Mean Return:   0.0175 (  1.75%)
+Short Mean Return: -0.0001 ( -0.01%)
+Period Return:      0.0083 (  0.83%) [after 0.05% fee]
+Current PnL:       1.304048
+
+Rebalance #163: 2025-07-19 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ETCUSDT     : factor=  0.0717, return= 0.0652 (  6.52%)
+  GLMUSDT     : factor=  0.0706, return=-0.0316 ( -3.16%)
+
+Short Positions (Bottom 2):
+  VICUSDT     : factor= -0.0824, return=-0.0216 ( -2.16%)
+  FUSDT       : factor= -0.0966, return=-0.0635 ( -6.35%)
+
+Long Mean Return:   0.0168 (  1.68%)
+Short Mean Return: -0.0426 ( -4.26%)
+Period Return:      0.0292 (  2.92%) [after 0.05% fee]
+Current PnL:       1.342111
+
+Rebalance #164: 2025-07-19 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TUTUSDT     : factor=  0.0662, return= 0.0216 (  2.16%)
+  AERGOUSDT   : factor=  0.0625, return= 0.0057 (  0.57%)
+
+Short Positions (Bottom 2):
+  XTZUSDT     : factor= -0.0800, return= 0.2976 ( 29.76%)
+  FISUSDT     : factor= -0.0801, return= 0.0116 (  1.16%)
+
+Long Mean Return:   0.0136 (  1.36%)
+Short Mean Return:  0.1546 ( 15.46%)
+Period Return:     -0.0710 ( -7.10%) [after 0.05% fee]
+Current PnL:       1.246838
+
+Rebalance #165: 2025-07-20 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  FIOUSDT     : factor=  0.0503, return= 0.0518 (  5.18%)
+  EPTUSDT     : factor=  0.0492, return= 0.0402 (  4.02%)
+
+Short Positions (Bottom 2):
+  SKLUSDT     : factor= -0.1294, return= 0.0270 (  2.70%)
+  TWTUSDT     : factor= -0.1638, return= 0.0174 (  1.74%)
+
+Long Mean Return:   0.0460 (  4.60%)
+Short Mean Return:  0.0222 (  2.22%)
+Period Return:      0.0114 (  1.14%) [after 0.05% fee]
+Current PnL:       1.261031
+
+Rebalance #166: 2025-07-21 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  HUSDT       : factor=  0.0683, return= 0.0039 (  0.39%)
+  FISUSDT     : factor=  0.0658, return=-0.0019 ( -0.19%)
+
+Short Positions (Bottom 2):
+  ZILUSDT     : factor= -0.1037, return= 0.0066 (  0.66%)
+  B2USDT      : factor= -0.1046, return=-0.0269 ( -2.69%)
+
+Long Mean Return:   0.0010 (  0.10%)
+Short Mean Return: -0.0102 ( -1.02%)
+Period Return:      0.0051 (  0.51%) [after 0.05% fee]
+Current PnL:       1.267423
+
+Rebalance #167: 2025-07-21 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PUNDIXUSDT  : factor=  0.0767, return= 0.0110 (  1.10%)
+  LRCUSDT     : factor=  0.0720, return=-0.0305 ( -3.05%)
+
+Short Positions (Bottom 2):
+  PENGUUSDT   : factor= -0.0917, return= 0.0006 (  0.06%)
+  WLDUSDT     : factor= -0.0937, return=-0.0062 ( -0.62%)
+
+Long Mean Return:  -0.0097 ( -0.97%)
+Short Mean Return: -0.0028 ( -0.28%)
+Period Return:     -0.0040 ( -0.40%) [after 0.05% fee]
+Current PnL:       1.262392
+
+Rebalance #168: 2025-07-22 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  POLUSDT     : factor=  0.0984, return=-0.0279 ( -2.79%)
+  ANKRUSDT    : factor=  0.0802, return=-0.0241 ( -2.41%)
+
+Short Positions (Bottom 2):
+  UMAUSDT     : factor= -0.0960, return=-0.1353 (-13.53%)
+  PUMPUSDT    : factor= -0.1117, return=-0.0994 ( -9.94%)
+
+Long Mean Return:  -0.0260 ( -2.60%)
+Short Mean Return: -0.1174 (-11.74%)
+Period Return:      0.0452 (  4.52%) [after 0.05% fee]
+Current PnL:       1.319449
+
+Rebalance #169: 2025-07-23 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  AXLUSDT     : factor=  0.0640, return= 0.0105 (  1.05%)
+  TONUSDT     : factor=  0.0603, return=-0.0435 ( -4.35%)
+
+Short Positions (Bottom 2):
+  FLUXUSDT    : factor= -0.0755, return= 0.0200 (  2.00%)
+  ATAUSDT     : factor= -0.0886, return= 0.0451 (  4.51%)
+
+Long Mean Return:  -0.0165 ( -1.65%)
+Short Mean Return:  0.0326 (  3.26%)
+Period Return:     -0.0250 ( -2.50%) [after 0.05% fee]
+Current PnL:       1.286414
+
+Rebalance #170: 2025-07-23 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  LTCUSDT     : factor=  0.0755, return=-0.0475 ( -4.75%)
+  ENSUSDT     : factor=  0.0593, return=-0.0338 ( -3.38%)
+
+Short Positions (Bottom 2):
+  USTCUSDT    : factor= -0.1162, return=-0.1314 (-13.14%)
+  FUNUSDT     : factor= -0.1402, return=-0.1366 (-13.66%)
+
+Long Mean Return:  -0.0407 ( -4.07%)
+Short Mean Return: -0.1340 (-13.40%)
+Period Return:      0.0462 (  4.62%) [after 0.05% fee]
+Current PnL:       1.345807
+
+Rebalance #171: 2025-07-24 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SPKUSDT     : factor=  0.0828, return=-0.3123 (-31.23%)
+  BIDUSDT     : factor=  0.0749, return=-0.0413 ( -4.13%)
+
+Short Positions (Bottom 2):
+  IOTXUSDT    : factor= -0.0835, return=-0.0396 ( -3.96%)
+  LAUSDT      : factor= -0.0840, return= 0.0236 (  2.36%)
+
+Long Mean Return:  -0.1768 (-17.68%)
+Short Mean Return: -0.0080 ( -0.80%)
+Period Return:     -0.0849 ( -8.49%) [after 0.05% fee]
+Current PnL:       1.231559
+
+Rebalance #172: 2025-07-25 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  VANAUSDT    : factor=  0.0809, return=-0.0243 ( -2.43%)
+  DOGSUSDT    : factor=  0.0762, return=-0.0065 ( -0.65%)
+
+Short Positions (Bottom 2):
+  DIAUSDT     : factor= -0.0860, return= 0.0966 (  9.66%)
+  FORMUSDT    : factor= -0.0871, return=-0.0503 ( -5.03%)
+
+Long Mean Return:  -0.0154 ( -1.54%)
+Short Mean Return:  0.0231 (  2.31%)
+Period Return:     -0.0198 ( -1.98%) [after 0.05% fee]
+Current PnL:       1.207227
+
+Rebalance #173: 2025-07-25 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  FORTHUSDT   : factor=  0.0948, return= 0.0177 (  1.77%)
+  FISUSDT     : factor=  0.0791, return= 0.0125 (  1.25%)
+
+Short Positions (Bottom 2):
+  HIVEUSDT    : factor= -0.0782, return= 0.0146 (  1.46%)
+  REZUSDT     : factor= -0.0839, return= 0.0216 (  2.16%)
+
+Long Mean Return:   0.0151 (  1.51%)
+Short Mean Return:  0.0181 (  1.81%)
+Period Return:     -0.0020 ( -0.20%) [after 0.05% fee]
+Current PnL:       1.204838
+
+Rebalance #174: 2025-07-26 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  VINEUSDT    : factor=  0.1490, return= 0.1501 ( 15.01%)
+  ONGUSDT     : factor=  0.0702, return=-0.0072 ( -0.72%)
+
+Short Positions (Bottom 2):
+  FISUSDT     : factor= -0.1071, return=-0.0417 ( -4.17%)
+  1000BONKUSDT: factor= -0.1219, return=-0.0256 ( -2.56%)
+
+Long Mean Return:   0.0715 (  7.15%)
+Short Mean Return: -0.0337 ( -3.37%)
+Period Return:      0.0521 (  5.21%) [after 0.05% fee]
+Current PnL:       1.267556
+
+Rebalance #175: 2025-07-27 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ORCAUSDT    : factor=  0.0721, return= 0.0148 (  1.48%)
+  DRIFTUSDT   : factor=  0.0660, return= 0.0086 (  0.86%)
+
+Short Positions (Bottom 2):
+  VIRTUALUSDT : factor= -0.0897, return=-0.0055 ( -0.55%)
+  SYRUPUSDT   : factor= -0.0958, return=-0.0151 ( -1.51%)
+
+Long Mean Return:   0.0117 (  1.17%)
+Short Mean Return: -0.0103 ( -1.03%)
+Period Return:      0.0105 (  1.05%) [after 0.05% fee]
+Current PnL:       1.280878
+
+Rebalance #176: 2025-07-27 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  DFUSDT      : factor=  0.0672, return= 0.0280 (  2.80%)
+  CUSDT       : factor=  0.0639, return=-0.0571 ( -5.71%)
+
+Short Positions (Bottom 2):
+  HYPERUSDT   : factor= -0.1104, return=-0.0188 ( -1.88%)
+  FLOWUSDT    : factor= -0.1134, return= 0.0119 (  1.19%)
+
+Long Mean Return:  -0.0145 ( -1.45%)
+Short Mean Return: -0.0034 ( -0.34%)
+Period Return:     -0.0061 ( -0.61%) [after 0.05% fee]
+Current PnL:       1.273125
+
+Rebalance #177: 2025-07-28 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  DEEPUSDT    : factor=  0.0881, return=-0.0619 ( -6.19%)
+  ASRUSDT     : factor=  0.0581, return= 0.1822 ( 18.22%)
+
+Short Positions (Bottom 2):
+  GASUSDT     : factor= -0.1206, return=-0.0342 ( -3.42%)
+  BSWUSDT     : factor= -0.1282, return= 0.0171 (  1.71%)
+
+Long Mean Return:   0.0602 (  6.02%)
+Short Mean Return: -0.0086 ( -0.86%)
+Period Return:      0.0339 (  3.39%) [after 0.05% fee]
+Current PnL:       1.316235
+
+Rebalance #178: 2025-07-29 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  MOCAUSDT    : factor=  0.0840, return= 0.0071 (  0.71%)
+  AVAUSDT     : factor=  0.0782, return=-0.0056 ( -0.56%)
+
+Short Positions (Bottom 2):
+  PARTIUSDT   : factor= -0.0948, return=-0.0512 ( -5.12%)
+  BANANAS31USDT: factor= -0.1294, return= 0.0089 (  0.89%)
+
+Long Mean Return:   0.0008 (  0.08%)
+Short Mean Return: -0.0212 ( -2.12%)
+Period Return:      0.0105 (  1.05%) [after 0.05% fee]
+Current PnL:       1.330021
+
+Rebalance #179: 2025-07-29 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BNBUSDT     : factor=  0.0782, return=-0.0244 ( -2.44%)
+  BMTUSDT     : factor=  0.0624, return=-0.0427 ( -4.27%)
+
+Short Positions (Bottom 2):
+  THETAUSDT   : factor= -0.1051, return=-0.0363 ( -3.63%)
+  BOMEUSDT    : factor= -0.1183, return=-0.0671 ( -6.71%)
+
+Long Mean Return:  -0.0335 ( -3.35%)
+Short Mean Return: -0.0517 ( -5.17%)
+Period Return:      0.0086 (  0.86%) [after 0.05% fee]
+Current PnL:       1.341462
+
+Rebalance #180: 2025-07-30 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PROMUSDT    : factor=  0.0740, return= 0.0136 (  1.36%)
+  DEEPUSDT    : factor=  0.0610, return=-0.0615 ( -6.15%)
+
+Short Positions (Bottom 2):
+  RLCUSDT     : factor= -0.1176, return=-0.0270 ( -2.70%)
+  FLUXUSDT    : factor= -0.1287, return=-0.0239 ( -2.39%)
+
+Long Mean Return:  -0.0239 ( -2.39%)
+Short Mean Return: -0.0255 ( -2.55%)
+Period Return:      0.0003 (  0.03%) [after 0.05% fee]
+Current PnL:       1.341818
+
+Rebalance #181: 2025-07-31 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  OMNIUSDT    : factor=  0.0634, return=-0.0581 ( -5.81%)
+  BTCUSDT     : factor=  0.0553, return= 0.0057 (  0.57%)
+
+Short Positions (Bottom 2):
+  GTCUSDT     : factor= -0.0931, return=-0.0034 ( -0.34%)
+  CUSDT       : factor= -0.1002, return= 0.0121 (  1.21%)
+
+Long Mean Return:  -0.0262 ( -2.62%)
+Short Mean Return:  0.0044 (  0.44%)
+Period Return:     -0.0158 ( -1.58%) [after 0.05% fee]
+Current PnL:       1.320654
+
+Rebalance #182: 2025-07-31 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  IOTXUSDT    : factor=  0.0950, return= 0.0123 (  1.23%)
+  EPTUSDT     : factor=  0.0731, return=-0.0523 ( -5.23%)
+
+Short Positions (Bottom 2):
+  AVAAIUSDT   : factor= -0.0875, return=-0.0952 ( -9.52%)
+  BROCCOLIF3BUSDT: factor= -0.1003, return=-0.0447 ( -4.47%)
+
+Long Mean Return:  -0.0200 ( -2.00%)
+Short Mean Return: -0.0699 ( -6.99%)
+Period Return:      0.0245 (  2.45%) [after 0.05% fee]
+Current PnL:       1.352969
+
+Rebalance #183: 2025-08-01 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  CATIUSDT    : factor=  0.0836, return= 0.0348 (  3.48%)
+  KSMUSDT     : factor=  0.0775, return=-0.0107 ( -1.07%)
+
+Short Positions (Bottom 2):
+  TAGUSDT     : factor= -0.0775, return= 0.0405 (  4.05%)
+  BTCDOMUSDT  : factor= -0.0821, return= 0.0117 (  1.17%)
+
+Long Mean Return:   0.0120 (  1.20%)
+Short Mean Return:  0.0261 (  2.61%)
+Period Return:     -0.0075 ( -0.75%) [after 0.05% fee]
+Current PnL:       1.342797
+
+Rebalance #184: 2025-08-02 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  1000WHYUSDT : factor=  0.0577, return= 0.0076 (  0.76%)
+  MELANIAUSDT : factor=  0.0535, return=-0.0304 ( -3.04%)
+
+Short Positions (Bottom 2):
+  INJUSDT     : factor= -0.0886, return=-0.0216 ( -2.16%)
+  SKATEUSDT   : factor= -0.1000, return=-0.0102 ( -1.02%)
+
+Long Mean Return:  -0.0114 ( -1.14%)
+Short Mean Return: -0.0159 ( -1.59%)
+Period Return:      0.0017 (  0.17%) [after 0.05% fee]
+Current PnL:       1.345137
+
+Rebalance #185: 2025-08-02 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  JOEUSDT     : factor=  0.0719, return=-0.0282 ( -2.82%)
+  MKRUSDT     : factor=  0.0697, return=-0.0281 ( -2.81%)
+
+Short Positions (Bottom 2):
+  SUSDT       : factor= -0.1016, return=-0.0417 ( -4.17%)
+  ZKJUSDT     : factor= -0.1032, return= 0.0034 (  0.34%)
+
+Long Mean Return:  -0.0281 ( -2.81%)
+Short Mean Return: -0.0192 ( -1.92%)
+Period Return:     -0.0050 ( -0.50%) [after 0.05% fee]
+Current PnL:       1.338425
+
+Rebalance #186: 2025-08-03 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TUTUSDT     : factor=  0.0865, return= 0.0227 (  2.27%)
+  LAUSDT      : factor=  0.0602, return=-0.0153 ( -1.53%)
+
+Short Positions (Bottom 2):
+  KAVAUSDT    : factor= -0.0830, return= 0.0154 (  1.54%)
+  CATIUSDT    : factor= -0.1011, return= 0.0235 (  2.35%)
+
+Long Mean Return:   0.0037 (  0.37%)
+Short Mean Return:  0.0195 (  1.95%)
+Period Return:     -0.0084 ( -0.84%) [after 0.05% fee]
+Current PnL:       1.327205
+
+Rebalance #187: 2025-08-04 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SYNUSDT     : factor=  0.0509, return= 0.0057 (  0.57%)
+  LTCUSDT     : factor=  0.0478, return= 0.0145 (  1.45%)
+
+Short Positions (Bottom 2):
+  BANANAUSDT  : factor= -0.1077, return= 0.0548 (  5.48%)
+  RONINUSDT   : factor= -0.1134, return= 0.0188 (  1.88%)
+
+Long Mean Return:   0.0101 (  1.01%)
+Short Mean Return:  0.0368 (  3.68%)
+Period Return:     -0.0138 ( -1.38%) [after 0.05% fee]
+Current PnL:       1.308842
+
+Rebalance #188: 2025-08-04 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  RESOLVUSDT  : factor=  0.0808, return= 0.0370 (  3.70%)
+  BANKUSDT    : factor=  0.0789, return=-0.0312 ( -3.12%)
+
+Short Positions (Bottom 2):
+  IOTXUSDT    : factor= -0.0823, return= 0.0460 (  4.60%)
+  TONUSDT     : factor= -0.0831, return=-0.0462 ( -4.62%)
+
+Long Mean Return:   0.0029 (  0.29%)
+Short Mean Return: -0.0001 ( -0.01%)
+Period Return:      0.0010 (  0.10%) [after 0.05% fee]
+Current PnL:       1.310158
+
+Rebalance #189: 2025-08-05 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  MYXUSDT     : factor=  0.1306, return= 2.5910 (259.10%)
+  FHEUSDT     : factor=  0.0752, return=-0.0374 ( -3.74%)
+
+Short Positions (Bottom 2):
+  ZORAUSDT    : factor= -0.0936, return=-0.0553 ( -5.53%)
+  CROSSUSDT   : factor= -0.1031, return=-0.0027 ( -0.27%)
+
+Long Mean Return:   1.2768 (127.68%)
+Short Mean Return: -0.0290 ( -2.90%)
+Period Return:      0.6524 ( 65.24%) [after 0.05% fee]
+Current PnL:       2.164923
+
+Rebalance #190: 2025-08-06 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ILVUSDT     : factor=  0.0987, return= 0.0897 (  8.97%)
+  HEIUSDT     : factor=  0.0656, return=-0.0165 ( -1.65%)
+
+Short Positions (Bottom 2):
+  IMXUSDT     : factor= -0.1122, return= 0.0128 (  1.28%)
+  HOMEUSDT    : factor= -0.1135, return=-0.0362 ( -3.62%)
+
+Long Mean Return:   0.0366 (  3.66%)
+Short Mean Return: -0.0117 ( -1.17%)
+Period Return:      0.0237 (  2.37%) [after 0.05% fee]
+Current PnL:       2.216135
+
+Rebalance #191: 2025-08-06 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  LRCUSDT     : factor=  0.0557, return= 0.0078 (  0.78%)
+  DUSDT       : factor=  0.0536, return= 0.0177 (  1.77%)
+
+Short Positions (Bottom 2):
+  HFTUSDT     : factor= -0.0923, return= 0.0929 (  9.29%)
+  HOOKUSDT    : factor= -0.0957, return= 0.0371 (  3.71%)
+
+Long Mean Return:   0.0127 (  1.27%)
+Short Mean Return:  0.0650 (  6.50%)
+Period Return:     -0.0266 ( -2.66%) [after 0.05% fee]
+Current PnL:       2.157102
+
+Rebalance #192: 2025-08-07 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PROMUSDT    : factor=  0.0615, return=-0.1109 (-11.09%)
+  OBOLUSDT    : factor=  0.0611, return=-0.0388 ( -3.88%)
+
+Short Positions (Bottom 2):
+  HUSDT       : factor= -0.1078, return=-0.0131 ( -1.31%)
+  VELVETUSDT  : factor= -0.1216, return= 0.1297 ( 12.97%)
+
+Long Mean Return:  -0.0749 ( -7.49%)
+Short Mean Return:  0.0583 (  5.83%)
+Period Return:     -0.0671 ( -6.71%) [after 0.05% fee]
+Current PnL:       2.012367
+
+Rebalance #193: 2025-08-08 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SWELLUSDT   : factor=  0.1312, return= 0.0298 (  2.98%)
+  DRIFTUSDT   : factor=  0.0916, return= 0.0972 (  9.72%)
+
+Short Positions (Bottom 2):
+  1000FLOKIUSDT: factor= -0.1060, return= 0.0154 (  1.54%)
+  ALPHAUSDT   : factor= -0.1110, return=-0.0288 ( -2.88%)
+
+Long Mean Return:   0.0635 (  6.35%)
+Short Mean Return: -0.0067 ( -0.67%)
+Period Return:      0.0346 (  3.46%) [after 0.05% fee]
+Current PnL:       2.081989
+
+Rebalance #194: 2025-08-08 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.1031, return=-0.0001 ( -0.01%)
+  ARCUSDT     : factor=  0.0897, return=-0.0135 ( -1.35%)
+
+Short Positions (Bottom 2):
+  1000WHYUSDT : factor= -0.0860, return= 0.0545 (  5.45%)
+  BIDUSDT     : factor= -0.0867, return=-0.0149 ( -1.49%)
+
+Long Mean Return:  -0.0068 ( -0.68%)
+Short Mean Return:  0.0198 (  1.98%)
+Period Return:     -0.0138 ( -1.38%) [after 0.05% fee]
+Current PnL:       2.053230
+
+Rebalance #195: 2025-08-09 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  MERLUSDT    : factor=  0.0648, return= 0.0090 (  0.90%)
+  PLUMEUSDT   : factor=  0.0599, return=-0.0010 ( -0.10%)
+
+Short Positions (Bottom 2):
+  WUSDT       : factor= -0.0988, return= 0.0008 (  0.08%)
+  ENAUSDT     : factor= -0.1116, return= 0.1383 ( 13.83%)
+
+Long Mean Return:   0.0040 (  0.40%)
+Short Mean Return:  0.0695 (  6.95%)
+Period Return:     -0.0333 ( -3.33%) [after 0.05% fee]
+Current PnL:       1.984930
+
+Rebalance #196: 2025-08-10 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  HFTUSDT     : factor=  0.0687, return= 0.0232 (  2.32%)
+  FORTHUSDT   : factor=  0.0616, return=-0.0103 ( -1.03%)
+
+Short Positions (Bottom 2):
+  DIAUSDT     : factor= -0.0965, return= 0.1020 ( 10.20%)
+  ZRCUSDT     : factor= -0.1008, return=-0.0301 ( -3.01%)
+
+Long Mean Return:   0.0065 (  0.65%)
+Short Mean Return:  0.0360 (  3.60%)
+Period Return:     -0.0152 ( -1.52%) [after 0.05% fee]
+Current PnL:       1.954664
+
+Rebalance #197: 2025-08-10 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  EIGENUSDT   : factor=  0.0846, return= 0.0369 (  3.69%)
+  ORDIUSDT    : factor=  0.0769, return= 0.0290 (  2.90%)
+
+Short Positions (Bottom 2):
+  DEXEUSDT    : factor= -0.0962, return=-0.0152 ( -1.52%)
+  OGUSDT      : factor= -0.1097, return=-0.0937 ( -9.37%)
+
+Long Mean Return:   0.0330 (  3.30%)
+Short Mean Return: -0.0544 ( -5.44%)
+Period Return:      0.0432 (  4.32%) [after 0.05% fee]
+Current PnL:       2.039080
+
+Rebalance #198: 2025-08-11 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PUNDIXUSDT  : factor=  0.0844, return=-0.0198 ( -1.98%)
+  DOODUSDT    : factor=  0.0832, return=-0.0758 ( -7.58%)
+
+Short Positions (Bottom 2):
+  SANTOSUSDT  : factor= -0.0946, return=-0.0483 ( -4.83%)
+  PARTIUSDT   : factor= -0.0996, return=-0.0225 ( -2.25%)
+
+Long Mean Return:  -0.0478 ( -4.78%)
+Short Mean Return: -0.0354 ( -3.54%)
+Period Return:     -0.0067 ( -0.67%) [after 0.05% fee]
+Current PnL:       2.025425
+
+Rebalance #199: 2025-08-12 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BUSDT       : factor=  0.1009, return=-0.0220 ( -2.20%)
+  STGUSDT     : factor=  0.0724, return=-0.0140 ( -1.40%)
+
+Short Positions (Bottom 2):
+  TOKENUSDT   : factor= -0.0947, return=-0.0075 ( -0.75%)
+  ORCAUSDT    : factor= -0.0962, return=-0.0133 ( -1.33%)
+
+Long Mean Return:  -0.0180 ( -1.80%)
+Short Mean Return: -0.0104 ( -1.04%)
+Period Return:     -0.0043 ( -0.43%) [after 0.05% fee]
+Current PnL:       2.016679
+
+Rebalance #200: 2025-08-12 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  FLUXUSDT    : factor=  0.0690, return= 0.0368 (  3.68%)
+  STGUSDT     : factor=  0.0680, return= 0.0318 (  3.18%)
+
+Short Positions (Bottom 2):
+  MAGICUSDT   : factor= -0.0987, return=-0.0269 ( -2.69%)
+  CROSSUSDT   : factor= -0.1227, return= 0.0229 (  2.29%)
+
+Long Mean Return:   0.0343 (  3.43%)
+Short Mean Return: -0.0020 ( -0.20%)
+Period Return:      0.0176 (  1.76%) [after 0.05% fee]
+Current PnL:       2.052268
+
+Rebalance #201: 2025-08-13 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  CYBERUSDT   : factor=  0.1233, return=-0.0416 ( -4.16%)
+  PORT3USDT   : factor=  0.0728, return=-0.0487 ( -4.87%)
+
+Short Positions (Bottom 2):
+  AI16ZUSDT   : factor= -0.1081, return= 0.0129 (  1.29%)
+  COOKIEUSDT  : factor= -0.1115, return= 0.0200 (  2.00%)
+
+Long Mean Return:  -0.0451 ( -4.51%)
+Short Mean Return:  0.0164 (  1.64%)
+Period Return:     -0.0313 ( -3.13%) [after 0.05% fee]
+Current PnL:       1.988054
+
+Rebalance #202: 2025-08-14 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BRETTUSDT   : factor=  0.0944, return= 0.0299 (  2.99%)
+  SONICUSDT   : factor=  0.0901, return= 0.0105 (  1.05%)
+
+Short Positions (Bottom 2):
+  TRXUSDT     : factor= -0.0872, return= 0.0215 (  2.15%)
+  RESOLVUSDT  : factor= -0.0929, return=-0.0590 ( -5.90%)
+
+Long Mean Return:   0.0202 (  2.02%)
+Short Mean Return: -0.0188 ( -1.88%)
+Period Return:      0.0190 (  1.90%) [after 0.05% fee]
+Current PnL:       2.025818
+
+Rebalance #203: 2025-08-14 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  CYBERUSDT   : factor=  0.0926, return=-0.0784 ( -7.84%)
+  BOMEUSDT    : factor=  0.0825, return=-0.1218 (-12.18%)
+
+Short Positions (Bottom 2):
+  CTKUSDT     : factor= -0.0800, return=-0.1253 (-12.53%)
+  1000LUNCUSDT: factor= -0.0958, return=-0.0594 ( -5.94%)
+
+Long Mean Return:  -0.1001 (-10.01%)
+Short Mean Return: -0.0923 ( -9.23%)
+Period Return:     -0.0044 ( -0.44%) [after 0.05% fee]
+Current PnL:       2.016954
+
+Rebalance #204: 2025-08-15 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  MAGICUSDT   : factor=  0.0852, return= 0.1011 ( 10.11%)
+  SUNUSDT     : factor=  0.0806, return=-0.0291 ( -2.91%)
+
+Short Positions (Bottom 2):
+  UMAUSDT     : factor= -0.0842, return=-0.0104 ( -1.04%)
+  CHILLGUYUSDT: factor= -0.0842, return=-0.0760 ( -7.60%)
+
+Long Mean Return:   0.0360 (  3.60%)
+Short Mean Return: -0.0432 ( -4.32%)
+Period Return:      0.0391 (  3.91%) [after 0.05% fee]
+Current PnL:       2.095836
+
+Rebalance #205: 2025-08-16 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  HIPPOUSDT   : factor=  0.0806, return= 0.0344 (  3.44%)
+  TWTUSDT     : factor=  0.0629, return= 0.0307 (  3.07%)
+
+Short Positions (Bottom 2):
+  SNXUSDT     : factor= -0.0947, return= 0.0961 (  9.61%)
+  IMXUSDT     : factor= -0.0987, return= 0.0392 (  3.92%)
+
+Long Mean Return:   0.0326 (  3.26%)
+Short Mean Return:  0.0677 (  6.77%)
+Period Return:     -0.0180 ( -1.80%) [after 0.05% fee]
+Current PnL:       2.058027
+
+Rebalance #206: 2025-08-16 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  MOODENGUSDT : factor=  0.1118, return=-0.0031 ( -0.31%)
+  VOXELUSDT   : factor=  0.1050, return= 0.0317 (  3.17%)
+
+Short Positions (Bottom 2):
+  ALPINEUSDT  : factor= -0.0958, return= 0.0842 (  8.42%)
+  TUTUSDT     : factor= -0.1000, return= 0.0027 (  0.27%)
+
+Long Mean Return:   0.0143 (  1.43%)
+Short Mean Return:  0.0435 (  4.35%)
+Period Return:     -0.0151 ( -1.51%) [after 0.05% fee]
+Current PnL:       2.026995
+
+Rebalance #207: 2025-08-17 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  VTHOUSDT    : factor=  0.0854, return= 0.0102 (  1.02%)
+  DASHUSDT    : factor=  0.0806, return= 0.0069 (  0.69%)
+
+Short Positions (Bottom 2):
+  HUSDT       : factor= -0.0881, return= 0.0148 (  1.48%)
+  HOMEUSDT    : factor= -0.1223, return= 0.0233 (  2.33%)
+
+Long Mean Return:   0.0085 (  0.85%)
+Short Mean Return:  0.0190 (  1.90%)
+Period Return:     -0.0057 ( -0.57%) [after 0.05% fee]
+Current PnL:       2.015341
+
+Rebalance #208: 2025-08-18 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PUMPBTCUSDT : factor=  0.0891, return=-0.0494 ( -4.94%)
+  CTSIUSDT    : factor=  0.0642, return=-0.0010 ( -0.10%)
+
+Short Positions (Bottom 2):
+  TAGUSDT     : factor= -0.0867, return=-0.0919 ( -9.19%)
+  KASUSDT     : factor= -0.0976, return=-0.0764 ( -7.64%)
+
+Long Mean Return:  -0.0252 ( -2.52%)
+Short Mean Return: -0.0841 ( -8.41%)
+Period Return:      0.0289 (  2.89%) [after 0.05% fee]
+Current PnL:       2.073679
+
+Rebalance #209: 2025-08-18 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ATAUSDT     : factor=  0.0903, return= 0.0189 (  1.89%)
+  LAUSDT      : factor=  0.0878, return=-0.0203 ( -2.03%)
+
+Short Positions (Bottom 2):
+  ASRUSDT     : factor= -0.0811, return=-0.1083 (-10.83%)
+  SOONUSDT    : factor= -0.0892, return= 0.0222 (  2.22%)
+
+Long Mean Return:  -0.0007 ( -0.07%)
+Short Mean Return: -0.0430 ( -4.30%)
+Period Return:      0.0206 (  2.06%) [after 0.05% fee]
+Current PnL:       2.116492
+
+Rebalance #210: 2025-08-19 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TOKENUSDT   : factor=  0.0893, return=-0.0057 ( -0.57%)
+  CYBERUSDT   : factor=  0.0745, return=-0.0964 ( -9.64%)
+
+Short Positions (Bottom 2):
+  ANKRUSDT    : factor= -0.0814, return=-0.0097 ( -0.97%)
+  MLNUSDT     : factor= -0.0825, return= 0.0259 (  2.59%)
+
+Long Mean Return:  -0.0510 ( -5.10%)
+Short Mean Return:  0.0081 (  0.81%)
+Period Return:     -0.0301 ( -3.01%) [after 0.05% fee]
+Current PnL:       2.052848
+
+Rebalance #211: 2025-08-20 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TUTUSDT     : factor=  0.0901, return= 0.0015 (  0.15%)
+  AIOTUSDT    : factor=  0.0695, return=-0.0271 ( -2.71%)
+
+Short Positions (Bottom 2):
+  ALPHAUSDT   : factor= -0.0952, return=-0.0512 ( -5.12%)
+  ALCHUSDT    : factor= -0.0965, return= 0.0056 (  0.56%)
+
+Long Mean Return:  -0.0128 ( -1.28%)
+Short Mean Return: -0.0228 ( -2.28%)
+Period Return:      0.0045 (  0.45%) [after 0.05% fee]
+Current PnL:       2.062084
+
+Rebalance #212: 2025-08-20 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  USDCUSDT    : factor=  0.0683, return= 0.0000 (  0.00%)
+  ESPORTSUSDT : factor=  0.0565, return= 0.0287 (  2.87%)
+
+Short Positions (Bottom 2):
+  METISUSDT   : factor= -0.0961, return= 0.0447 (  4.47%)
+  INUSDT      : factor= -0.1020, return= 0.0584 (  5.84%)
+
+Long Mean Return:   0.0144 (  1.44%)
+Short Mean Return:  0.0515 (  5.15%)
+Period Return:     -0.0191 ( -1.91%) [after 0.05% fee]
+Current PnL:       2.022754
+
+Rebalance #213: 2025-08-21 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PARTIUSDT   : factor=  0.0637, return=-0.0399 ( -3.99%)
+  SKYAIUSDT   : factor=  0.0601, return=-0.0873 ( -8.73%)
+
+Short Positions (Bottom 2):
+  DRIFTUSDT   : factor= -0.0880, return=-0.0418 ( -4.18%)
+  INUSDT      : factor= -0.1000, return=-0.0341 ( -3.41%)
+
+Long Mean Return:  -0.0636 ( -6.36%)
+Short Mean Return: -0.0380 ( -3.80%)
+Period Return:     -0.0133 ( -1.33%) [after 0.05% fee]
+Current PnL:       1.995817
+
+Rebalance #214: 2025-08-22 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SUNUSDT     : factor=  0.0603, return= 0.0194 (  1.94%)
+  JSTUSDT     : factor=  0.0598, return=-0.0120 ( -1.20%)
+
+Short Positions (Bottom 2):
+  DEGOUSDT    : factor= -0.0992, return= 0.0092 (  0.92%)
+  DMCUSDT     : factor= -0.1064, return= 0.0214 (  2.14%)
+
+Long Mean Return:   0.0037 (  0.37%)
+Short Mean Return:  0.0153 (  1.53%)
+Period Return:     -0.0063 ( -0.63%) [after 0.05% fee]
+Current PnL:       1.983265
+
+Rebalance #215: 2025-08-22 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  SOLUSDT     : factor=  0.0974, return= 0.0914 (  9.14%)
+  1000SHIBUSDT: factor=  0.0971, return= 0.0774 (  7.74%)
+
+Short Positions (Bottom 2):
+  ZORAUSDT    : factor= -0.0882, return= 0.3049 ( 30.49%)
+  CYBERUSDT   : factor= -0.1033, return= 0.0439 (  4.39%)
+
+Long Mean Return:   0.0844 (  8.44%)
+Short Mean Return:  0.1744 ( 17.44%)
+Period Return:     -0.0455 ( -4.55%) [after 0.05% fee]
+Current PnL:       1.893056
+
+Rebalance #216: 2025-08-23 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TUTUSDT     : factor=  0.0519, return= 0.0542 (  5.42%)
+  SNXUSDT     : factor=  0.0505, return= 0.0056 (  0.56%)
+
+Short Positions (Bottom 2):
+  CHILLGUYUSDT: factor= -0.1020, return=-0.0274 ( -2.74%)
+  PLUMEUSDT   : factor= -0.1082, return=-0.0405 ( -4.05%)
+
+Long Mean Return:   0.0299 (  2.99%)
+Short Mean Return: -0.0339 ( -3.39%)
+Period Return:      0.0314 (  3.14%) [after 0.05% fee]
+Current PnL:       1.952557
+
+Rebalance #217: 2025-08-24 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  BRUSDT      : factor=  0.1569, return=-0.0030 ( -0.30%)
+  JTOUSDT     : factor=  0.0535, return=-0.0165 ( -1.65%)
+
+Short Positions (Bottom 2):
+  CHRUSDT     : factor= -0.1211, return=-0.0321 ( -3.21%)
+  SPKUSDT     : factor= -0.1265, return=-0.0170 ( -1.70%)
+
+Long Mean Return:  -0.0098 ( -0.98%)
+Short Mean Return: -0.0245 ( -2.45%)
+Period Return:      0.0069 (  0.69%) [after 0.05% fee]
+Current PnL:       1.965987
+
+Rebalance #218: 2025-08-24 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TURBOUSDT   : factor=  0.1176, return=-0.0048 ( -0.48%)
+  BRUSDT      : factor=  0.1152, return=-0.0223 ( -2.23%)
+
+Short Positions (Bottom 2):
+  STGUSDT     : factor= -0.0967, return=-0.0142 ( -1.42%)
+  SKLUSDT     : factor= -0.1152, return=-0.0262 ( -2.62%)
+
+Long Mean Return:  -0.0136 ( -1.36%)
+Short Mean Return: -0.0202 ( -2.02%)
+Period Return:      0.0028 (  0.28%) [after 0.05% fee]
+Current PnL:       1.971508
+
+Rebalance #219: 2025-08-25 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  DMCUSDT     : factor=  0.1016, return=-0.0504 ( -5.04%)
+  JSTUSDT     : factor=  0.0777, return= 0.0499 (  4.99%)
+
+Short Positions (Bottom 2):
+  ONTUSDT     : factor= -0.1114, return= 0.2470 ( 24.70%)
+  HOOKUSDT    : factor= -0.1269, return=-0.1324 (-13.24%)
+
+Long Mean Return:  -0.0003 ( -0.03%)
+Short Mean Return:  0.0573 (  5.73%)
+Period Return:     -0.0293 ( -2.93%) [after 0.05% fee]
+Current PnL:       1.913792
+
+Rebalance #220: 2025-08-26 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ONTUSDT     : factor=  0.0846, return=-0.1031 (-10.31%)
+  KDAUSDT     : factor=  0.0521, return=-0.0240 ( -2.40%)
+
+Short Positions (Bottom 2):
+  CVXUSDT     : factor= -0.1030, return=-0.0627 ( -6.27%)
+  KAITOUSDT   : factor= -0.1097, return=-0.0197 ( -1.97%)
+
+Long Mean Return:  -0.0636 ( -6.36%)
+Short Mean Return: -0.0412 ( -4.12%)
+Period Return:     -0.0117 ( -1.17%) [after 0.05% fee]
+Current PnL:       1.891433
+
+Rebalance #221: 2025-08-26 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  DOGEUSDT    : factor=  0.0791, return= 0.0341 (  3.41%)
+  TNSRUSDT    : factor=  0.0733, return= 0.0343 (  3.43%)
+
+Short Positions (Bottom 2):
+  TACUSDT     : factor= -0.0976, return=-0.0137 ( -1.37%)
+  JSTUSDT     : factor= -0.0997, return= 0.1100 ( 11.00%)
+
+Long Mean Return:   0.0342 (  3.42%)
+Short Mean Return:  0.0481 (  4.81%)
+Period Return:     -0.0075 ( -0.75%) [after 0.05% fee]
+Current PnL:       1.877305
+
+Rebalance #222: 2025-08-27 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  PORT3USDT   : factor=  0.0695, return= 0.0025 (  0.25%)
+  SNXUSDT     : factor=  0.0561, return=-0.0260 ( -2.60%)
+
+Short Positions (Bottom 2):
+  XNYUSDT     : factor= -0.0931, return=-0.0256 ( -2.56%)
+  STEEMUSDT   : factor= -0.1047, return= 0.0054 (  0.54%)
+
+Long Mean Return:  -0.0118 ( -1.18%)
+Short Mean Return: -0.0101 ( -1.01%)
+Period Return:     -0.0014 ( -0.14%) [after 0.05% fee]
+Current PnL:       1.874745
+
+Rebalance #223: 2025-08-28 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  TUTUSDT     : factor=  0.0847, return=-0.1399 (-13.99%)
+  KSMUSDT     : factor=  0.0647, return=-0.0016 ( -0.16%)
+
+Short Positions (Bottom 2):
+  API3USDT    : factor= -0.1039, return=-0.0441 ( -4.41%)
+  BSWUSDT     : factor= -0.1205, return= 0.0828 (  8.28%)
+
+Long Mean Return:  -0.0708 ( -7.08%)
+Short Mean Return:  0.0194 (  1.94%)
+Period Return:     -0.0456 ( -4.56%) [after 0.05% fee]
+Current PnL:       1.789312
+
+Rebalance #224: 2025-08-28 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  CKBUSDT     : factor=  0.1037, return= 0.0431 (  4.31%)
+  GMTUSDT     : factor=  0.0600, return= 0.0110 (  1.10%)
+
+Short Positions (Bottom 2):
+  COWUSDT     : factor= -0.1209, return= 0.0227 (  2.27%)
+  LEVERUSDT   : factor= -0.1230, return= 0.0313 (  3.13%)
+
+Long Mean Return:   0.0271 (  2.71%)
+Short Mean Return:  0.0270 (  2.70%)
+Period Return:     -0.0005 ( -0.05%) [after 0.05% fee]
+Current PnL:       1.788484
+
+Rebalance #225: 2025-08-29 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  AVAUSDT     : factor=  0.0812, return=-0.0569 ( -5.69%)
+  RDNTUSDT    : factor=  0.0660, return=-0.0607 ( -6.07%)
+
+Short Positions (Bottom 2):
+  IDUSDT      : factor= -0.0901, return=-0.0998 ( -9.98%)
+  PUMPUSDT    : factor= -0.0928, return=-0.0225 ( -2.25%)
+
+Long Mean Return:  -0.0588 ( -5.88%)
+Short Mean Return: -0.0612 ( -6.12%)
+Period Return:      0.0007 (  0.07%) [after 0.05% fee]
+Current PnL:       1.789700
+
+Rebalance #226: 2025-08-30 00:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  FUSDT       : factor=  0.0831, return= 0.0091 (  0.91%)
+  YFIUSDT     : factor=  0.0662, return= 0.0119 (  1.19%)
+
+Short Positions (Bottom 2):
+  SOMIUSDT    : factor= -0.0848, return=-0.0039 ( -0.39%)
+  XMRUSDT     : factor= -0.0913, return= 0.0080 (  0.80%)
+
+Long Mean Return:   0.0105 (  1.05%)
+Short Mean Return:  0.0020 (  0.20%)
+Period Return:      0.0037 (  0.37%) [after 0.05% fee]
+Current PnL:       1.796362
+
+Rebalance #227: 2025-08-30 16:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  ADAUSDT     : factor=  0.0815, return=-0.0177 ( -1.77%)
+  YFIUSDT     : factor=  0.0706, return=-0.0009 ( -0.09%)
+
+Short Positions (Bottom 2):
+  1000CHEEMSUSDT: factor= -0.0944, return=-0.0236 ( -2.36%)
+  AXLUSDT     : factor= -0.1063, return=-0.0006 ( -0.06%)
+
+Long Mean Return:  -0.0093 ( -0.93%)
+Short Mean Return: -0.0121 ( -1.21%)
+Period Return:      0.0009 (  0.09%) [after 0.05% fee]
+Current PnL:       1.797974
+
+Rebalance #228: 2025-08-31 08:00:00
+--------------------------------------------------------------------------------
+
+Long Positions (Top 2):
+  DYDXUSDT    : factor=  0.0656, return=-0.0033 ( -0.33%)
+  TAUSDT      : factor=  0.0627, return=-0.3947 (-39.47%)
+
+Short Positions (Bottom 2):
+  SKLUSDT     : factor= -0.1097, return= 0.0019 (  0.19%)
+  ENAUSDT     : factor= -0.1115, return= 0.0096 (  0.96%)
+
+Long Mean Return:  -0.1990 (-19.90%)
+Short Mean Return:  0.0058 (  0.58%)
+Period Return:     -0.1029 (-10.29%) [after 0.05% fee]
+Current PnL:       1.613010
+
+================================================================================
+BACKTEST COMPLETE
+Total Periods Executed: 228
+Final PnL: 1.613010
+Total Return: 61.30%
+================================================================================

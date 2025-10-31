@@ -13,21 +13,16 @@ from utils.dingding import send_dingtalk_message
 
 
 for model_path in [
-    # '/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-01_2025-01_mse_256_1d.pt',
-    # '/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-02_2025-02_mse_256_1d.pt',
-    # '/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-03_2025-03_mse_256_1d.pt',
-    # '/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-04_2025-04_mse_256_1d.pt',
-    # '/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-05_2025-05_mse_256_1d.pt',
-    '/home/craz/crypto/crypto-trading/figure_model/model_saved/t_2025-06_2025-06_mse_256_1d.pt',
+    '/home/craz/crypto/crypto-trading/figure_model/model_saved/baseline_epoch_52_train_0.02124_val_0.02302.pt',
     ]:
     for [s, e] in [
-                            # ['2025-01-01', '2025-01-31'],
+                            ['2025-01-01', '2025-01-31'],
                             # ['2025-02-01', '2025-02-28'],
                             # ['2025-03-01', '2025-03-31'],
-                            ['2025-04-01', '2025-04-30'],
+                            # ['2025-04-01', '2025-04-30'],
                             # ['2025-05-01', '2025-05-31'],
                             # ['2025-06-01', '2025-06-30'],
-                            # ['2025-07-01', '2025-07-31'],
+                            # ['2024-07-01', '2024-07-31'],
                            ]:
         for top_k in [2]:
 
@@ -58,7 +53,7 @@ for model_path in [
                 commission_rate=0.001,  # 0.1% commission
                 top_n     =  top_k,  # 2 long positions
                 bottom_n  =  top_k,  # 2 short positions
-                rebalance_frequency='1d'  # Rebalance every 4 hours
+                rebalance_frequency='4h'  # Rebalance every 4 hours
             )
 
         # Main backtest configuration

@@ -57,7 +57,8 @@ class OHLCImageCNN(nn.Module):
         x = self.layer3(x)
         x = x.reshape(-1,46080)
         x = self.fc1(x)
-        
+
+        # x = self.softmax(x)
         return x
 
 
@@ -469,14 +470,17 @@ class OHLCFigureFactor(BaseFactor):
             with torch.no_grad():
                 # Forward pass
                 predictions = self.model(images_tensor)
+                # print(predictions.shape)
 
                 # Extract the second value from each sample output (class 1 probability)
                 if predictions.shape[1] >= 2:
                     predictions_np = predictions[:, 1].cpu().numpy()
+                    # print(predictions_np.shape)
                 else:
                     # Fallback to flatten if output has only one dimension
                     predictions_np = predictions.cpu().numpy().flatten()
-
+                
+                # print(f"Predictions shape: {predictions_np.shape}")
                 return predictions_np
 
         except Exception as e:

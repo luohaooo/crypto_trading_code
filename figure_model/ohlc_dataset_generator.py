@@ -316,7 +316,29 @@ class OHLCImageDatasetGenerator:
         data_1h = aggregated_data['1h']
         
         # Get available symbols
-        available_symbols = data_1min.index.get_level_values('symbol').unique().tolist()
+        symbols_path = Path("/home/craz/crypto/crypto-data/available_symbol") / f"{year:04d}-{month:02d}_symbols.pkl"
+        available_symbols: List[str] = []
+
+        if symbols_path.exists():
+            try:
+                loaded_symbols = pd.read_pickle(symbols_path)
+                if isinstance(loaded_symbols, (list, tuple, set, np.ndarray, pd.Index)):
+                    available_symbols = list(loaded_symbols)
+                elif isinstance(loaded_symbols, pd.DataFrame):
+                    if 'symbol' in loaded_symbols.columns:
+                        available_symbols = loaded_symbols['symbol'].astype(str).tolist()
+                    else:
+                        available_symbols = loaded_symbols.squeeze().astype(str).tolist()
+                else:
+                    available_symbols = list(loaded_symbols)
+            except Exception as e:
+                print(f"Warning: failed to load symbols from {symbols_path}: {e}")
+
+        if not available_symbols:
+            available_symbols = data_1min.index.get_level_values('symbol').unique().tolist()
+
+        available_symbols = [s for s in available_symbols if s in data_1min.index.get_level_values('symbol').unique()]
+
         if symbols:
             available_symbols = [s for s in symbols if s in available_symbols]
         

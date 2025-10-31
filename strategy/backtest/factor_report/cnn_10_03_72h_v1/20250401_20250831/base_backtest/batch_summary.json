@@ -1,0 +1,74 @@
+{
+  "factor_name": "cnn_10_03_72h_v1",
+  "start_time": "2025-04-01 00:00:00",
+  "end_time": "2025-08-31 23:00:00",
+  "total_backtests": 6,
+  "backtests": [
+    {
+      "rebalance_hours": 16,
+      "top_n": 4,
+      "bottom_n": 4,
+      "num_periods": 230,
+      "output_dir": "./factor_report/cnn_10_03_72h_v1/20250401_20250831/base_backtest/16h_top4_bottom4",
+      "total_return": 0.14643611042332072,
+      "sharpe_ratio": 0.9583429769421493,
+      "max_drawdown": -0.19678164101410275,
+      "win_rate": 0.5502183406113537
+    },
+    {
+      "rebalance_hours": 16,
+      "top_n": 8,
+      "bottom_n": 8,
+      "num_periods": 230,
+      "output_dir": "./factor_report/cnn_10_03_72h_v1/20250401_20250831/base_backtest/16h_top8_bottom8",
+      "total_return": 0.003985140821591626,
+      "sharpe_ratio": 0.18729630411820308,
+      "max_drawdown": -0.1863463625841642,
+      "win_rate": 0.4978165938864629
+    },
+    {
+      "rebalance_hours": 16,
+      "top_n": 12,
+      "bottom_n": 12,
+      "num_periods": 230,
+      "output_dir": "./factor_report/cnn_10_03_72h_v1/20250401_20250831/base_backtest/16h_top12_bottom12",
+      "total_return": 0.07438116468710909,
+      "sharpe_ratio": 0.7769791375511905,
+      "max_drawdown": -0.14155019834484361,
+      "win_rate": 0.519650655021834
+    },
+    {
+      "rebalance_hours": 16,
+      "top_n": 20,
+      "bottom_n": 20,
+      "num_periods": 230,
+      "output_dir": "./factor_report/cnn_10_03_72h_v1/20250401_20250831/base_backtest/16h_top20_bottom20",
+      "total_return": 0.007875865728438791,
+      "sharpe_ratio": 0.19423239425818734,
+      "max_drawdown": -0.14026839383970907,
+      "win_rate": 0.4847161572052402
+    },
+    {
+      "rebalance_hours": 16,
+      "top_n": 30,
+      "bottom_n": 30,
+      "num_periods": 230,
+      "output_dir": "./factor_report/cnn_10_03_72h_v1/20250401_20250831/base_backtest/16h_top30_bottom30",
+      "total_return": 0.012987449985339294,
+      "sharpe_ratio": 0.2644878590023632,
+      "max_drawdown": -0.12044345256670771,
+      "win_rate": 0.4847161572052402
+    },
+    {
+      "rebalance_hours": 16,
+      "top_n": 45,
+      "bottom_n": 45,
+      "num_periods": 230,
+      "output_dir": "./factor_report/cnn_10_03_72h_v1/20250401_20250831/base_backtest/16h_top45_bottom45",
+      "total_return": 0.038093675346565936,
+      "sharpe_ratio": 0.7027127933467097,
+      "max_drawdown": -0.06549740026786922,
+      "win_rate": 0.4847161572052402
+    }
+  ]
+}

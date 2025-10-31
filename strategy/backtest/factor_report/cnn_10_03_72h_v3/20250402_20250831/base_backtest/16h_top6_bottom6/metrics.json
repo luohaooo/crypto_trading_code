@@ -1,0 +1,15 @@
+{
+  "total_return": 0.24660811439882346,
+  "annual_return": 0.7017294582139204,
+  "sharpe_ratio": 1.4291782966750188,
+  "calmar_ratio": 4.319733648793799,
+  "max_drawdown": -0.16244739034080596,
+  "win_rate": 0.5594713656387665,
+  "profit_loss_ratio": 0.9768947285582361,
+  "num_periods": 227,
+  "num_winning_periods": 127.0,
+  "num_losing_periods": 100.0,
+  "time_span_hours": 3632.0,
+  "time_span_days": 151.33333333333334,
+  "rebalance_hours": 16
+}

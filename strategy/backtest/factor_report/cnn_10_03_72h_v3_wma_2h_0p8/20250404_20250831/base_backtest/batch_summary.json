@@ -1,0 +1,52 @@
+{
+  "factor_name": "cnn_10_03_72h_v3_wma_2h_0p8",
+  "start_time": "2025-04-04 01:00:00",
+  "end_time": "2025-08-31 23:00:00",
+  "total_backtests": 4,
+  "backtests": [
+    {
+      "rebalance_hours": 16,
+      "top_n": 2,
+      "bottom_n": 2,
+      "num_periods": 225,
+      "output_dir": "./factor_report/cnn_10_03_72h_v3_wma_2h_0p8/20250404_20250831/base_backtest/16h_top2_bottom2",
+      "total_return": 2.0442458947940967,
+      "sharpe_ratio": 2.901248765423757,
+      "max_drawdown": -0.2120023414525909,
+      "win_rate": 0.5357142857142857
+    },
+    {
+      "rebalance_hours": 16,
+      "top_n": 4,
+      "bottom_n": 4,
+      "num_periods": 225,
+      "output_dir": "./factor_report/cnn_10_03_72h_v3_wma_2h_0p8/20250404_20250831/base_backtest/16h_top4_bottom4",
+      "total_return": 1.0584058159059397,
+      "sharpe_ratio": 3.0342686923857207,
+      "max_drawdown": -0.21850979352486116,
+      "win_rate": 0.5446428571428571
+    },
+    {
+      "rebalance_hours": 16,
+      "top_n": 6,
+      "bottom_n": 6,
+      "num_periods": 225,
+      "output_dir": "./factor_report/cnn_10_03_72h_v3_wma_2h_0p8/20250404_20250831/base_backtest/16h_top6_bottom6",
+      "total_return": 1.045472712281664,
+      "sharpe_ratio": 3.7431759129750395,
+      "max_drawdown": -0.1635034281148166,
+      "win_rate": 0.5803571428571429
+    },
+    {
+      "rebalance_hours": 16,
+      "top_n": 8,
+      "bottom_n": 8,
+      "num_periods": 225,
+      "output_dir": "./factor_report/cnn_10_03_72h_v3_wma_2h_0p8/20250404_20250831/base_backtest/16h_top8_bottom8",
+      "total_return": 0.5648674527379729,
+      "sharpe_ratio": 2.7654521883256034,
+      "max_drawdown": -0.18215599154049436,
+      "win_rate": 0.5357142857142857
+    }
+  ]
+}

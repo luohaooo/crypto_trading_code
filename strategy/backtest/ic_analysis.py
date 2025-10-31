@@ -244,8 +244,8 @@ def calculate_ic_for_timestamp(factor_values: pd.Series, returns_row: pd.Series,
         aligned_factors = factor_values.loc[common_symbols]
         aligned_returns = returns_row.loc[common_symbols]
 
-        # Remove NaN values
-        factor_valid = pd.notna(aligned_factors) & np.isfinite(aligned_factors)
+        # Remove NaN values and filter factor values 
+        factor_valid = pd.notna(aligned_factors) & np.isfinite(aligned_factors) 
         returns_valid = pd.notna(aligned_returns) & np.isfinite(aligned_returns)
         valid_mask = factor_valid & returns_valid
 
@@ -779,9 +779,9 @@ def main():
     Main function for command-line usage.
     """
     # Example configuration
-    factor_name = "precious_ohlc_cnn"
-    start_time = "2024-07-01 00:00:00"
-    end_time = "2025-03-31 23:00:00"
+    factor_name = "cnn_10_03_72h_v3_wma_2h_0p5"
+    start_time = "2025-04-01 00:00:00"
+    end_time = "2025-08-31 23:00:00"
 
     print("IC Analysis Example")
     print(f"Factor: {factor_name}")

@@ -285,7 +285,7 @@ def create_training_pipeline(data_dir: str,
         print(f"  {key}: {value:,}" if isinstance(value, int) else f"  {key}: {value}")
 
     # Setup training components
-    loss_fn = nn.CrossEntropyLoss()
+    loss_fn = nn.MSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     print(f"\n🎯 Training configuration:")
@@ -341,7 +341,7 @@ if __name__ == "__main__":
         try:
             best_model_path, training_info = create_training_pipeline(
                 data_dir=DATA_DIR,
-                label_horizon='1d',
+                label_horizon='2d',
                 start_date=s,
                 end_date=e,
                 batch_size=256,

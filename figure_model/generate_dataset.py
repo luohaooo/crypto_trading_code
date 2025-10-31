@@ -37,7 +37,7 @@ BEFORE_TIME_SPAN = timedelta(hours=80)
 AFTER_TIME_SPAN = timedelta(hours=168)  
 
 # 输出目录
-OUTPUT_DIR = Path('/home/craz/crypto/model_training/ohlc_img_dataset_3')
+OUTPUT_DIR = Path('/home/craz/crypto/model_training/ohlc_img_dataset_4')
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 def month_iter(start_year, start_month, end_year, end_month):
@@ -174,7 +174,32 @@ def process_single_month(year: int, month: int,
         print(f"✅ 成功加载数据: {len(month_data):,} 条记录")
         
         # 获取可用的交易对列表（在释放数据前）
-        available_symbols = month_data.index.get_level_values('symbol').unique().tolist()
+        symbols_file = Path("/home/craz/crypto/crypto-data/available_symbol") / f"{year:04d}-{month:02d}_symbols.pkl"
+        available_symbols: List[str] = []
+
+        if symbols_file.exists():
+            try:
+                loaded_symbols = pd.read_pickle(symbols_file)
+                if isinstance(loaded_symbols, (list, tuple, set, np.ndarray, pd.Index)):
+                    available_symbols = list(loaded_symbols)
+                elif isinstance(loaded_symbols, pd.DataFrame):
+                    if 'symbol' in loaded_symbols.columns:
+                        available_symbols = loaded_symbols['symbol'].astype(str).tolist()
+                    else:
+                        available_symbols = loaded_symbols.squeeze().astype(str).tolist()
+                else:
+                    available_symbols = list(loaded_symbols)
+            except Exception as exc:
+                print(f"⚠️ 无法从 {symbols_file} 读取交易对列表: {exc}")
+
+        if not available_symbols:
+            available_symbols = month_data.index.get_level_values('symbol').unique().tolist()
+
+        available_symbols = [
+            symbol for symbol in available_symbols
+            if symbol in month_data.index.get_level_values('symbol').unique()
+        ]
+
         if symbols_limit:
             available_symbols = available_symbols[:symbols_limit]
         print(f"处理 {len(available_symbols)} 个交易对")
@@ -465,8 +490,8 @@ def save_monthly_results(year: int, month: int, results: Dict[str, Dict]):
 # 注意: 这个单元格会处理大量数据，运行时间很长，请根据需要调整参数
 
 BATCH_PROCESS = True  # 设置为True以启用批量处理
-START_YEAR, START_MONTH = 2024, 7
-END_YEAR, END_MONTH = 2024, 9
+START_YEAR, START_MONTH = 2025, 4
+END_YEAR, END_MONTH = 2025, 8
 
 if BATCH_PROCESS:
     print(f"开始批量处理: {START_YEAR}-{START_MONTH:02d} 到 {END_YEAR}-{END_MONTH:02d}")

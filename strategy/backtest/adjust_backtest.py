@@ -140,7 +140,7 @@ def load_factor_data(factor_name: str, start_date: str, end_date: str,
 
 
 def load_ohlc_data(start_date: str, end_date: str,
-                   ohlc_base_dir: str = '/home/craz/crypto/crypto-data/pickle_hour_cache') -> pd.DataFrame:
+                   ohlc_base_dir: str = '/home/craz/crypto/crypto-data/filter_hour_cache') -> pd.DataFrame:
     """
     Load hourly OHLC data for a date range.
 
@@ -493,20 +493,20 @@ def run_single_backtest(
                 # Remove NaN values
                 merged = merged.dropna()
 
-                # Filter out symbols with factor value equal to 0
-                original_count = len(merged)
-                merged = merged[merged['factor'] > 0.00001]
-                filtered_count = original_count - len(merged)
+                # # Filter out symbols with factor value equal to 0
+                # original_count = len(merged)
+                # merged = merged[merged['factor'] > 0.00001]
+                # filtered_count = original_count - len(merged)
 
-                if filtered_count > 0:
-                     log.write(f"[FILTER] Removed {filtered_count} symbols with factor value = 0\n")
+                # if filtered_count > 0:
+                #      log.write(f"[FILTER] Removed {filtered_count} symbols with factor value = 0\n")
 
-                if len(merged) == 0:
-                    log.write(f"[SKIP] No valid data at {timestamp}, skipping period\n")
-                    continue
+                # if len(merged) == 0:
+                #     log.write(f"[SKIP] No valid data at {timestamp}, skipping period\n")
+                #     continue
 
                 # Sort by factor value (descending - higher is better)
-                merged_sorted = merged.sort_values('factor', ascending=True)
+                merged_sorted = merged.sort_values('factor', ascending=False)
 
                 # Select top-n for long and bottom-n for short
                 actual_top_n = min(top_n, len(merged_sorted))
@@ -920,7 +920,7 @@ def batch_backtest(
     top_bottom_n_list: List[List[int]] = [[5, 5], [10, 10], [15, 15]],
     output_base_dir: str = './factor_report',
     factor_base_dir: str = './factor_data',
-    ohlc_base_dir: str = '/home/craz/crypto/crypto-data/pickle_hour_cache',
+    ohlc_base_dir: str = '/home/craz/crypto/crypto-data/filter_hour_cache',
     stop_profit_pct: float = 0.0,
     stop_loss_pct: float = 0.0,
     leverage: float = 1.0
@@ -1157,16 +1157,16 @@ def batch_backtest(
 
 if __name__ == "__main__":
     # Example usage with stop-loss, take-profit, and leverage
-    for lev in [1, 2, 3, 5, 8]:
+    for lev in [1]:
         results = batch_backtest(
-            factor_name='cnn_04_09_72h_v1',
-            start_time='2024-07-01 00:00:00',
-            end_time='2025-03-31 23:00:00',
-            rebalance_hours_list=[72],
-            top_bottom_n_list=[[i, i] for i in [4, 8, 12]],
+            factor_name='cnn_10_03_72h_v3',
+            start_time='2025-04-01 00:00:00',
+            end_time='2025-08-31 23:00:00',
+            rebalance_hours_list=[16],
+            top_bottom_n_list=[[i, i] for i in [2,4,6]],
             output_base_dir='./factor_report',
-            stop_profit_pct=0.8,
-            stop_loss_pct=0.02,
+            stop_profit_pct=0, 
+            stop_loss_pct=0,
             leverage=lev
         )
 

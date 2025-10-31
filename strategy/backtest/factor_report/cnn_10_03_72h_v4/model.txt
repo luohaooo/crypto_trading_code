@@ -1,0 +1,3 @@
+/home/craz/crypto/crypto-trading/figure_model/model_checkpoint/model_saved/baseline_epoch_26_train_0.00942_val_0.01010.pt
+
+mse 新训练数据

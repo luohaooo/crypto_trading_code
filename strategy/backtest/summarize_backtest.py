@@ -181,12 +181,12 @@ def summarize_backtest(folder_path: str) -> pd.DataFrame:
 
 if __name__ == "__main__":
     # Example usage - modify this path as needed
-    folder_path = "./factor_report/cnn_04_09_72h_v1/20240701_20250331"
+    folder_path = "./factor_report/cnn_10_03_72h_v1/20250402_20250831"
 
-    # Check if running from project root
-    if not os.path.exists(folder_path):
-        # Try absolute path
-        folder_path = "/home/craz/crypto/crypto-trading/strategy/backtest/factor_report/cnn_04_09_72h_v1/20240701_20250331"
+    # # Check if running from project root
+    # if not os.path.exists(folder_path):
+    #     # Try absolute path
+    #     folder_path = "/home/craz/crypto/crypto-trading/strategy/backtest/factor_report/cnn_04_09_72h_v1/2024070_20250331"
 
     if os.path.exists(folder_path):
         df = summarize_backtest(folder_path)

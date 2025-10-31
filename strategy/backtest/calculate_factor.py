@@ -29,7 +29,7 @@ from factors.base_factor import BaseFactor
 from factors.ohlc_figure_factor import OHLCFigureFactor
 
 
-def load_monthly_data(year: int, month: int, data_dir: str = "/home/craz/crypto/crypto-data/pickle_hour_cache") -> Optional[pd.DataFrame]:
+def load_monthly_data(year: int, month: int, data_dir: str = "/home/craz/crypto/crypto-data/filter_hour_cache") -> Optional[pd.DataFrame]:
     """
     Load hourly data for a specific month from pickle cache.
 
@@ -109,7 +109,7 @@ def calculate_and_save_factor_monthly(
     start_date: str,
     end_date: str,
     output_dir: str = "./factor_data",
-    data_dir: str = "/home/craz/crypto/crypto-data/pickle_hour_cache",
+    data_dir: str = "/home/craz/crypto/crypto-data/filter_hour_cache",
     overwrite: bool = False
 ) -> dict:
     """
@@ -378,7 +378,7 @@ def main():
     # Example: OHLC Figure Factor with trained model
     # Adjust the model_path to point to your trained model file
 
-    MODEL_PATH = "/home/craz/crypto/crypto-trading/figure_model/model_checkpoint/model_saved/baseline_epoch_15_train_0.40650_val_0.50340.pt"
+    MODEL_PATH = "/home/craz/crypto/crypto-trading/figure_model/model_checkpoint/model_saved/baseline_epoch_25_train_0.00809_val_0.00976.pt"
 
     # Check if model exists
     if not os.path.exists(MODEL_PATH):
@@ -396,7 +396,7 @@ def main():
     factor = OHLCFigureFactor(
         model_path=MODEL_PATH,
         device='auto',  # Use 'cuda' if GPU available, otherwise 'cpu'
-        name="cnn_04_09_48h_v1",  # Auto-generate name based on timeframes
+        name="cnn_10_03_72h_v3",  # Auto-generate name based on timeframes
         lookback_periods=20,
         timeframes=['1h', '2h', '4h']  # Multi-timeframe analysis
     )
@@ -405,10 +405,9 @@ def main():
     # 2. Define date range
     # -------------------------------------------------------------------------
     # Calculate factors for specific date and time range
-    # Note: Ensure you have hourly data files for these months in pickle_hour_cache
 
-    START_DATE = '2024-09-01 00:00:00'  # Format: 'YYYY-MM-DD HH:MM:SS'
-    END_DATE = '2024-09-30 23:00:00'    # Format: 'YYYY-MM-DD HH:MM:SS'
+    START_DATE = '2025-04-01 00:00:00'  # Format: 'YYYY-MM-DD HH:MM:SS'
+    END_DATE = '2025-04-30 23:00:00'    # Format: 'YYYY-MM-DD HH:MM:SS'
 
     # 3. Set output directory
     # -------------------------------------------------------------------------

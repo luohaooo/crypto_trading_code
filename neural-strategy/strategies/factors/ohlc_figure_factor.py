@@ -60,7 +60,7 @@ class OHLCImageCNN(nn.Module):
         )
         self.fc1 = nn.Sequential(
             nn.Dropout(p=0.5),
-            nn.Linear(46080, 2),
+            nn.Linear(46080, 1),
         )
         self.softmax = nn.Softmax(dim=1)
        
@@ -703,7 +703,9 @@ class OHLCFigureFactor(BaseFactor):
             # Get sufficient historical data
             end_time = timestamp
             available_times = symbol_data.index.get_level_values('open_time').unique()
-            available_times = available_times[available_times <= end_time].sort_values()
+            # IMPORTANT: Use only data BEFORE current timestamp to avoid look-ahead bias
+            # When deciding at timestamp T, we can only use data up to (but not including) T
+            available_times = available_times[available_times < end_time].sort_values()
             
             if len(available_times) < periods_needed:
                 return None
@@ -711,10 +713,11 @@ class OHLCFigureFactor(BaseFactor):
             # Get data for aggregation
             start_idx = max(0, len(available_times) - periods_needed - 60)  # Extra buffer
             start_time = available_times[start_idx]
-            
+
+            # Get window data up to (but not including) end_time to avoid look-ahead bias
             window_data = symbol_data.loc[
                 (symbol_data.index.get_level_values('open_time') >= start_time) &
-                (symbol_data.index.get_level_values('open_time') <= end_time)
+                (symbol_data.index.get_level_values('open_time') < end_time)
             ].copy()
             
             if len(window_data) == 0:

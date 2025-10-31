@@ -129,7 +129,8 @@ class NeutralStrategy(BaseStrategy):
                     current_data.index.get_level_values('symbol') == symbol
                 ]
                 if len(symbol_data) > 0:
-                    current_price = symbol_data['close'].iloc[0]
+                    # Use open price for actual execution price (not close, which is future information)
+                    current_price = symbol_data['open'].iloc[0]
                     shares = long_position_size / current_price
                     target_positions[symbol] = {
                         'position_type': PositionType.LONG,
@@ -146,7 +147,8 @@ class NeutralStrategy(BaseStrategy):
                     current_data.index.get_level_values('symbol') == symbol
                 ]
                 if len(symbol_data) > 0:
-                    current_price = symbol_data['close'].iloc[0]
+                    # Use open price for actual execution price (not close, which is future information)
+                    current_price = symbol_data['open'].iloc[0]
                     shares = short_position_size / current_price
                     target_positions[symbol] = {
                         'position_type': PositionType.SHORT,
@@ -251,8 +253,8 @@ class NeutralStrategy(BaseStrategy):
         correct_predictions = 0
         total_predictions = 0
 
-        print(f"\n{'Symbol':<12} {'Factor Score':<12} {'Predicted':<10} {'Actual Return':<15} {'Result':<8}")
-        print("-" * 70)
+        print(f"\n{'Symbol':<12} {'Factor':<10} {'Predicted':<10} {'Entry Price':<12} {'Exit Price':<12} {'Return':<10} {'Result':<8}")
+        print("-" * 90)
 
         # Analyze each symbol from previous rebalance
         for symbol_info in last_data['symbols']:
@@ -268,7 +270,8 @@ class NeutralStrategy(BaseStrategy):
                 ]
 
                 if len(symbol_data) > 0:
-                    current_price = symbol_data['close'].iloc[0]
+                    # Use open price for actual execution price (exit at next candle's open)
+                    current_price = symbol_data['open'].iloc[0]
 
                     # Calculate actual return
                     if last_price != 0:
@@ -295,6 +298,8 @@ class NeutralStrategy(BaseStrategy):
                         all_results.append({
                             'symbol': symbol,
                             'factor_score': factor_score,
+                            'entry_price': last_price,
+                            'exit_price': current_price,
                             'price_return': price_return,
                             'strategy_return': strategy_return,
                             'predicted': predicted,
@@ -302,7 +307,7 @@ class NeutralStrategy(BaseStrategy):
                             'correct': is_correct
                         })
 
-                        print(f"{symbol:<12} {factor_score:>10.4f}  {predicted:<10} {price_return:>12.2%}   {result_text:<8}")
+                        print(f"{symbol:<12} {factor_score:>8.4f}  {predicted:<10} ${last_price:>10,.2f} ${current_price:>10,.2f} {price_return:>8.2%}  {result_text:<8}")
 
             except Exception as e:
                 print(f"{symbol:<12} {'ERROR':<10} Could not calculate: {e}")
@@ -322,7 +327,7 @@ class NeutralStrategy(BaseStrategy):
             # Calculate strategy spread (divide by 2 since long and short each use 50% capital)
             strategy_spread = (long_avg_return + short_avg_return) / 2.0
 
-            print("-" * 70)
+            print("-" * 90)
             print(f"STATISTICS:")
             print(f"  Accuracy: {accuracy:.1f}% ({correct_predictions}/{total_predictions})")
             print(f"  Long Basket Avg Return: {long_avg_return:+.2%}")
@@ -368,7 +373,8 @@ class NeutralStrategy(BaseStrategy):
                 ]
 
                 if len(symbol_data) > 0:
-                    current_price = symbol_data['close'].iloc[0]
+                    # Use open price for actual execution price (open-to-open return calculation)
+                    current_price = symbol_data['open'].iloc[0]
                     factor_score = factor_scores.get(symbol, 0.0)
                     position_type = "LONG" if position_info['position_type'] == PositionType.LONG else "SHORT"
 
