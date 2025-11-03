@@ -15,6 +15,7 @@ import os
 import time
 import asyncio
 import signal
+import math
 from datetime import datetime, timedelta
 from typing import Optional, Dict, List
 import pandas as pd
@@ -35,14 +36,21 @@ from trading_utils.monitor import TradingMonitor
 class AutomatedTradingSystem:
     """自动化交易系统主类"""
 
-    def __init__(self, use_testnet: bool = True):
+    def __init__(self, use_testnet: bool = True, start_hour_16h: Optional[int] = None):
         """
         初始化交易系统
 
         Args:
             use_testnet: True为testnet，False为实盘
+            start_hour_16h: 16小时执行模式起点小时 (0-23)
         """
         self.use_testnet = use_testnet
+        if start_hour_16h is None:
+            start_hour_16h = 0
+        if not 0 <= start_hour_16h < 24:
+            raise ValueError("start_hour_16h 必须在 0-23 之间")
+        self.start_hour_16h = start_hour_16h
+
         self.config = get_config(use_testnet)
 
         # 初始化组件
@@ -64,11 +72,38 @@ class AutomatedTradingSystem:
         self.rankic_history = []  # RankIC历史记录
         self.max_history_length = 20  # 保留最近20期的历史记录
 
+        # API频率控制
+        self.last_api_call_time = 0
+        self.api_call_interval = 0.1  # 最小间隔100ms
+        self.batch_call_cache = {}  # 批量调用缓存
+        self.cache_expire_time = 30  # 缓存过期30秒
+
         self.is_16h_open = False  # 标记是否刚执行完16小时的开仓
 
         # 注册信号处理
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
+
+    def _sync_positions_with_exchange(self):
+        """同步仓位状态，移除已由止盈止损平仓的仓位"""
+        if not self.current_positions:
+            return
+
+        results = self.executor.refresh_positions_status(self.current_positions)
+        for item in results:
+            symbol = item.get('symbol')
+            reason = item.get('reason', '未知原因')
+            if symbol in self.current_positions:
+                position_info = self.current_positions.pop(symbol)
+                self.logger.info(f"[PROTECT] {symbol} 仓位已由保护单或外部操作平仓 ({reason})，自动从仓位字典中移除")
+                # 可选通知
+                message = (
+                    f"🛡️ 仓位监控\n"
+                    f"交易对: {symbol}\n"
+                    f"方向: {position_info.get('side', '未知')}\n"
+                    f"原因: {reason}"
+                )
+                self.executor._send_dingding_notification(message)
 
     def _signal_handler(self, signum, frame):
         """处理退出信号"""
@@ -102,7 +137,7 @@ class AutomatedTradingSystem:
             self.logger.info(f"[SCHEDULE] 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
         elif self.config.EXECUTION_MODE == '16h':
             next_execution = self._get_next_16h_execution_time()
-            self.logger.info(f"[OK] 系统初始化完成，16小时周期执行 (0点、8点、16点)")
+            self.logger.info(f"[OK] 系统初始化完成，16小时周期执行 (起始 {self.start_hour_16h:02d}:00)")
             self.logger.info(f"[SCHEDULE] 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
         else:
             self.logger.info(f"[OK] 系统初始化完成，每 {self.config.REBALANCE_INTERVAL//60} 分钟执行交易")
@@ -208,6 +243,9 @@ class AutomatedTradingSystem:
             bool: 执行是否成功
         """
         try:
+            # 周期开始前同步仓位状态，剔除已由保护单平仓的仓位
+            self._sync_positions_with_exchange()
+
             # 1. 平仓字典中存储的仓位
             self.logger.info("[STEP 1] 平仓字典中存储的仓位...")
             if self.current_positions:
@@ -301,10 +339,14 @@ class AutomatedTradingSystem:
 
             # 6. 开仓交易 (现在是同步方法)
             self.logger.info("[STEP 6] 执行开仓交易...")
+            # if not self.is_16h_open:
+            #     balance_use = math.floor(balance / 16)
+            # else:
+            #     balance_use = balance
             position_success, opened_positions = self.executor.open_positions(
                 long_symbols, short_symbols, balance
             )
-
+  
             if not position_success:
                 self.logger.error("[ERROR] 开仓失败")
                 return False
@@ -421,20 +463,10 @@ class AutomatedTradingSystem:
                 self.logger.info("[FACTOR PERFORMANCE] 首次运行，无历史数据进行IC分析")
                 return
 
-            # 获取当前所有symbol的价格
-            current_prices = {}
-            failed_symbols = []
-
-            for symbol in current_factors.index:
-                try:
-                    ticker = self.executor.exchange.fetch_ticker(symbol)
-                    if ticker and 'last' in ticker and ticker['last']:
-                        current_prices[symbol] = ticker['last']
-                    else:
-                        failed_symbols.append(symbol)
-                except Exception as e:
-                    self.logger.warning(f"[PRICE FETCH] 获取 {symbol} 价格失败: {e}")
-                    failed_symbols.append(symbol)
+            # 批量获取当前所有symbol的价格（使用频率控制）
+            symbols_list = current_factors.index.tolist()
+            current_prices = self._fetch_prices_with_rate_limit(symbols_list)
+            failed_symbols = [symbol for symbol in symbols_list if symbol not in current_prices]
 
             if failed_symbols:
                 self.logger.warning(f"[PRICE FETCH] {len(failed_symbols)} 个交易对价格获取失败: {failed_symbols[:5]}...")
@@ -564,21 +596,21 @@ class AutomatedTradingSystem:
             factors: 当前因子值序列
         """
         try:
+            # 批量获取价格（使用频率控制）
+            symbols_list = factors.index.tolist()
+            prices = self._fetch_prices_with_rate_limit(symbols_list)
+
+            # 构建 current_data
             current_data = {}
             failed_symbols = []
 
-            for symbol in factors.index:
-                try:
-                    ticker = self.executor.exchange.fetch_ticker(symbol)
-                    if ticker and 'last' in ticker and ticker['last']:
-                        current_data[symbol] = {
-                            'price': ticker['last'],
-                            'factor': factors[symbol]
-                        }
-                    else:
-                        failed_symbols.append(symbol)
-                except Exception as e:
-                    self.logger.warning(f"[RECORD] 获取 {symbol} 价格失败: {e}")
+            for symbol in symbols_list:
+                if symbol in prices:
+                    current_data[symbol] = {
+                        'price': prices[symbol],
+                        'factor': factors[symbol]
+                    }
+                else:
                     failed_symbols.append(symbol)
 
             # 更新symbol_info
@@ -594,6 +626,76 @@ class AutomatedTradingSystem:
         except Exception as e:
             self.logger.error(f"[ERROR] 记录symbol信息异常: {e}")
 
+    def _fetch_prices_with_rate_limit(self, symbols: List[str]) -> Dict[str, float]:
+        """
+        带频率控制的价格获取方法
+        Args:
+            symbols: 需要获取价格的交易对列表
+        Returns:
+            {symbol: price} 字典
+        """
+        current_time = time.time()
+        cache_key = ','.join(sorted(symbols))
+
+        # 检查缓存
+        if (cache_key in self.batch_call_cache and
+            current_time - self.batch_call_cache[cache_key]['timestamp'] < self.cache_expire_time):
+            self.logger.debug(f"[CACHE] 使用缓存价格数据")
+            return self.batch_call_cache[cache_key]['data']
+
+        prices = {}
+        failed_symbols = []
+
+        try:
+            # 首先尝试批量获取
+            self.logger.debug(f"[API] 批量获取 {len(symbols)} 个交易对价格")
+            tickers = self.executor.exchange.fetch_tickers(symbols)
+
+            for symbol in symbols:
+                if symbol in tickers:
+                    ticker = tickers[symbol]
+                    if ticker and 'last' in ticker and ticker['last']:
+                        prices[symbol] = ticker['last']
+                    else:
+                        failed_symbols.append(symbol)
+                else:
+                    failed_symbols.append(symbol)
+
+            # 缓存成功的结果
+            if prices:
+                self.batch_call_cache[cache_key] = {
+                    'timestamp': current_time,
+                    'data': prices.copy()
+                }
+
+        except Exception as e:
+            self.logger.warning(f"[API] 批量获取失败，回退到单个获取: {e}")
+            # 批量获取失败，使用单个获取并控制频率
+            for symbol in symbols:
+                try:
+                    # 控制API调用频率
+                    elapsed = time.time() - self.last_api_call_time
+                    if elapsed < self.api_call_interval:
+                        time.sleep(self.api_call_interval - elapsed)
+
+                    ticker = self.executor.exchange.fetch_ticker(symbol)
+                    self.last_api_call_time = time.time()
+
+                    if ticker and 'last' in ticker and ticker['last']:
+                        prices[symbol] = ticker['last']
+                    else:
+                        failed_symbols.append(symbol)
+
+                except Exception as e:
+                    self.logger.warning(f"[API] 获取 {symbol} 价格失败: {e}")
+                    failed_symbols.append(symbol)
+
+        if failed_symbols:
+            self.logger.warning(f"[API] {len(failed_symbols)} 个交易对价格获取失败: {failed_symbols[:5]}...")
+
+        self.logger.info(f"[API] 成功获取 {len(prices)} 个交易对价格")
+        return prices
+
     def _get_next_execution_time(self) -> datetime:
         """获取下次执行时间"""
         now = datetime.now()
@@ -606,34 +708,26 @@ class AutomatedTradingSystem:
             return today_target
 
     def _get_next_16h_execution_time(self) -> datetime:
-        """获取下次16小时模式执行时间 (0点、8点、16点)"""
+        """获取下次16小时模式执行时间"""
         now = datetime.now()
 
-        # 16小时模式的执行时间点
-        # execution_hours = [0, 8, 16]
-        execution_hours = [4, 12, 20]
+        if not self.is_16h_open or self.last_execution_time is None:
+            # 首次启动：使用用户指定的起始小时
+            today_start = now.replace(
+                hour=self.start_hour_16h, minute=0, second=0, microsecond=0
+            )
+            if now < today_start:
+                return today_start
+            return today_start + timedelta(days=1)
 
-        # 获取当前日期，时分秒设为0
-        today = now.replace(hour=0, minute=0, second=0, microsecond=0)
-
-        if self.is_16h_open:
-            base = now.replace(minute=0, second=0, microsecond=0)
-            return base + timedelta(hours=16)
-        else:
-            # 计算今天所有的执行时间点
-            today_targets = []
-            for hour in execution_hours:
-                target = today.replace(hour=hour)
-                today_targets.append(target)
-
-            # 寻找下一个执行时间
-            for target in today_targets:
-                if now < target:
-                    return target
-
-            # 如果今天的执行时间都已过，返回明天的第一个执行时间 (0点)
-            tomorrow_first = today + timedelta(days=1)
-            return tomorrow_first.replace(hour=0)
+        # 后续周期：基于上次启动时间 + 16 小时
+        next_execution = self.last_execution_time + timedelta(hours=16)
+        if next_execution <= now:
+            # 如果延迟超过16小时，按16小时步进补齐
+            elapsed = (now - self.last_execution_time).total_seconds()
+            periods = int(elapsed // (16 * 3600)) + 1
+            next_execution = self.last_execution_time + timedelta(hours=16 * periods)
+        return next_execution
 
     async def _wait_for_next_cycle(self):
         """等待下一个交易周期"""
@@ -668,18 +762,18 @@ class AutomatedTradingSystem:
         while wait_seconds > 0:
             if wait_seconds > 3600:
                 # 等待1小时
-                await asyncio.sleep(3600)
+                await self._sleep_and_sync(3600)
                 wait_seconds -= 3600
                 remaining_hours = wait_seconds / 3600
                 self.logger.info(f"[WAIT] 剩余等待时间: {remaining_hours:.1f} 小时")
             else:
                 # 最后的等待时间
                 self.logger.info(f"[WAIT] 最后等待: {wait_seconds:.0f} 秒")
-                await asyncio.sleep(wait_seconds)
+                await self._sleep_and_sync(wait_seconds, chunk=min(300, wait_seconds))
                 break
 
     async def _wait_for_16h_execution(self):
-        """等待16小时模式执行时间 (0点、8点、16点)"""
+        """等待16小时模式执行时间"""
         now = datetime.now()
 
         # 计算下次执行时间
@@ -693,14 +787,14 @@ class AutomatedTradingSystem:
         while wait_seconds > 0:
             if wait_seconds > 3600:
                 # 等待1小时
-                await asyncio.sleep(3600)
+                await self._sleep_and_sync(3600)
                 wait_seconds -= 3600
                 remaining_hours = wait_seconds / 3600
                 self.logger.info(f"[WAIT] 剩余等待时间: {remaining_hours:.1f} 小时")
             else:
                 # 最后的等待时间
                 self.logger.info(f"[WAIT] 最后等待: {wait_seconds:.0f} 秒")
-                await asyncio.sleep(wait_seconds)
+                await self._sleep_and_sync(wait_seconds, chunk=min(300, wait_seconds))
                 break
 
     async def _wait_for_interval_execution(self):
@@ -708,8 +802,22 @@ class AutomatedTradingSystem:
         wait_seconds = self.config.REBALANCE_INTERVAL
 
         self.logger.info(f"[INTERVAL] 间隔执行模式 - 等待 {wait_seconds} 秒 ({wait_seconds//60} 分钟)")
-        await asyncio.sleep(wait_seconds)
+        await self._sleep_and_sync(wait_seconds, chunk=min(60, wait_seconds))
 
+    async def _sleep_and_sync(self, total_seconds: float, chunk: float = 300):
+        """在等待过程中定期同步仓位状态"""
+        remaining = total_seconds
+        if remaining <= 0:
+            self._sync_positions_with_exchange()
+            return
+
+        while remaining > 0:
+            sleep_duration = min(chunk, remaining)
+            self._sync_positions_with_exchange()
+            await asyncio.sleep(sleep_duration)
+            remaining -= sleep_duration
+        # 最后再同步一次，捕捉等待结束后的状态
+        self._sync_positions_with_exchange()
 
 def main():
     """主函数"""
@@ -737,12 +845,26 @@ def main():
             print("[ERROR] 无效选择，请输入 1 或 2")
             continue
 
+    # 16小时模式起始时间设置
+    while True:
+        hour_input = input("设置16小时模式起始小时 (0-23，直接回车默认为0): ").strip()
+        if not hour_input:
+            start_hour_16h = 0
+            break
+        try:
+            start_hour_16h = int(hour_input)
+            if 0 <= start_hour_16h < 24:
+                break
+            print("[ERROR] 起始小时必须在 0-23 范围内")
+        except ValueError:
+            print("[ERROR] 请输入有效的整数小时")
+
     print(f"[OK] 选择环境: {env_name}")
     print("[SYSTEM] 启动交易系统...")
     print()
 
     # 创建和启动交易系统
-    trading_system = AutomatedTradingSystem(use_testnet=use_testnet)
+    trading_system = AutomatedTradingSystem(use_testnet=use_testnet, start_hour_16h=start_hour_16h)
 
     try:
         # 运行主程序

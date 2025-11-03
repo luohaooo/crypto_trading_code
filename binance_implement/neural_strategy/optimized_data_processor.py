@@ -96,8 +96,7 @@ class OptimizedDataProcessor:
             return []
 
     def get_symbol_multiframe_data(self, symbol: str,
-                                 timeframes: List[str],
-                                 limit: int = 20) -> Optional[Dict[str, pd.DataFrame]]:
+                                 limit: int = 82) -> Optional[Dict[str, pd.DataFrame]]:
         """
         获取单个交易对的多时间框架数据
 
@@ -110,62 +109,63 @@ class OptimizedDataProcessor:
             Dict[str, pd.DataFrame]: 各时间框架的OHLCV数据，如果失败返回None
         """
         try:
-            result = {}
 
-            for timeframe in timeframes:
-                try:
-                    # 记录单个API调用时间
-                    api_start_time = datetime.now()
-                    # 直接获取指定时间框架的数据 (获取limit+1根k线，排除最后一根不完整的)
-                    ohlcv = self.exchange.fetch_ohlcv(
-                        symbol=symbol,
-                        timeframe=timeframe,
-                        limit=limit + 1
-                    )
-                    api_duration = (datetime.now() - api_start_time).total_seconds()
+            timeframe = '1h'
 
-                    if not ohlcv or len(ohlcv) < limit + 1:
-                        # 如果数据不足，跳过这个交易对
-                        return None
+            try:
+                # 记录单个API调用时间
+                api_start_time = datetime.now()
+                # 直接获取指定时间框架的数据 (获取limit+1根k线，排除最后一根不完整的)
+                ohlcv = self.exchange.fetch_ohlcv(
+                    symbol=symbol,
+                    timeframe=timeframe,
+                    limit=limit
+                )
+                
+                api_duration = (datetime.now() - api_start_time).total_seconds()
 
-                    # 转换为DataFrame
-                    df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
-                    df['open_time'] = pd.to_datetime(df['timestamp'], unit='ms')
-                    df = df.drop('timestamp', axis=1)
-
-                    # 确保数据类型
-                    numeric_cols = ['open', 'high', 'low', 'close', 'volume']
-                    for col in numeric_cols:
-                        df[col] = pd.to_numeric(df[col], errors='coerce')
-
-                    # 移除异常数据
-                    df = df.dropna()
-
-                    # 排除最后一根不完整的k线，保留limit根完整k线
-                    df = df.iloc[:-1]
-
-                    # 确保有足够的数据
-                    if len(df) < limit:
-                        return None
-
-                    # 只保留最新的limit条数据
-                    # df = df.tail(limit).copy()
-                    result[timeframe] = df
-
-                    # 记录成功的API调用时间（可选，用于调试）
-                    # print(f"    {symbol} {timeframe}: {api_duration:.3f}s")
-
-                except Exception as e:
-                    # 如果任何时间框架失败，整个symbol失败
+                if not ohlcv or len(ohlcv) < limit:
+                    # 如果数据不足，跳过这个交易对
+                    self.logger.warning(f"[DATA] {symbol} {timeframe} 数据不足: 获取到 {len(ohlcv) if ohlcv else 0} 条数据，需要 {limit + 1} 条")
                     return None
 
-            return result if len(result) == len(timeframes) else None
+                # 转换为DataFrame
+                df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+                df['open_time'] = pd.to_datetime(df['timestamp'], unit='ms')
+                df = df.drop('timestamp', axis=1)
+
+                # 确保数据类型
+                numeric_cols = ['open', 'high', 'low', 'close', 'volume']
+                for col in numeric_cols:
+                    df[col] = pd.to_numeric(df[col], errors='coerce')
+
+                # 移除异常数据
+                df = df.dropna()
+
+                # 排除最后一根不完整的k线，保留limit根完整k线
+                df = df.iloc[:-1]
+
+                # 确保有足够的数据
+                if len(df) < limit - 1:
+                    self.logger.warning(f"[DATA] {symbol} {timeframe} 处理后数据不足: 剩余 {len(df)} 条数据，需要 {limit} 条")
+                    return None
+
+                # 记录成功的API调用时间（可选，用于调试）
+                # print(f"    {symbol} {timeframe}: {api_duration:.3f}s")
+
+            except Exception as e:
+                # 如果任何时间框架失败，整个symbol失败
+                self.logger.warning(f"[DATA] {symbol} {timeframe} 数据处理失败: {e}")
+                return None
+
+            return df
 
         except Exception as e:
+            self.logger.error(f"[ERROR] 获取 {symbol} 多时间框架数据失败: {e}")
             return None
 
     def get_all_symbols_factors(self, timeframes: List[str] = ['1h', '2h', '4h'],
-                              limit: int = 20) -> Optional[Dict[str, Dict[str, pd.DataFrame]]]:
+                              limit: int = 82) -> Optional[Dict[str, Dict[str, pd.DataFrame]]]:
         """
         获取所有活跃交易对的多时间框架数据
 
@@ -198,7 +198,7 @@ class OptimizedDataProcessor:
             for symbol in tqdm(active_symbols, desc="获取数据", unit="交易对"):
                 try:
                     data_start_time = datetime.now()
-                    symbol_data = self.get_symbol_multiframe_data(symbol, timeframes, limit)
+                    symbol_data = self.get_symbol_multiframe_data(symbol, limit)
                     data_duration = (datetime.now() - data_start_time).total_seconds()
 
                     if symbol_data is not None:
@@ -206,9 +206,12 @@ class OptimizedDataProcessor:
                         successful_count += 1
                         total_api_calls += len(timeframes)  # 每个symbol需要3个API调用
                         total_api_time += data_duration
+                    else:
+                        self.logger.warning(f"[SKIP] {symbol} 跳过: 无法获取有效的多时间框架数据")
 
                 except Exception as e:
-                    # 静默跳过失败的交易对
+                    # 记录失败的交易对
+                    self.logger.warning(f"[SKIP] {symbol} 跳过: 处理异常 - {e}")
                     continue
 
             if successful_count == 0:

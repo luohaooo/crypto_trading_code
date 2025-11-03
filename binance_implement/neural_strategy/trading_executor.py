@@ -10,7 +10,7 @@ import ccxt
 import math
 import time
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, List, Dict
 
 # 导入钉钉通知模块
 try:
@@ -36,6 +36,10 @@ class TradingExecutor:
         self.use_testnet = config.use_testnet  # 添加环境检测属性
         self.exchange = None
         self.active_symbols = []
+
+        # API频率控制
+        self.last_api_call_time = 0
+        self.api_call_interval = 0.1  # 最小间隔100ms
 
     def initialize(self):
         """初始化交易所连接"""
@@ -179,12 +183,12 @@ class TradingExecutor:
 
                     self.logger.info(f"[TESTNET CLOSE] 平仓 {symbol}: {side} {size}")
 
-                    # 模拟盘平仓使用分批交易支持
+                    # 模拟盘平仓直接使用市价单
                     order = self._create_market_order_testnet(
                         symbol=symbol,
                         side=side,
                         amount=size
-                        # 模拟盘不传递任何额外参数，分批逻辑在_create_market_order_testnet内部处理
+                        # 模拟盘不传递额外参数
                     )
 
                     if order:
@@ -258,13 +262,12 @@ class TradingExecutor:
                     # 确定平仓的positionSide
                     position_side = 'LONG' if position['side'] == 'long' else 'SHORT'
 
-                    # 实盘平仓使用分批交易支持
+                    # 实盘平仓直接使用市价单
                     order = self._create_market_order_live(
                         symbol=symbol,
                         side=side,
                         amount=size,
                         params={'positionSide': position_side}
-                        # 分批逻辑在_create_market_order_live内部处理
                     )
 
                     if order:
@@ -339,9 +342,12 @@ class TradingExecutor:
                     quantity = position_info['quantity']
                     open_price = position_info.get('open_price', 0)  # 获取开仓价格，如果没有则默认为0
 
+                    # 取消关联的止盈止损订单
+                    self._cancel_protective_orders(symbol, position_info)
+
                     # 获取当前价格用于计算收益
                     try:
-                        ticker = self.exchange.fetch_ticker(symbol)
+                        ticker = self._fetch_ticker_with_rate_limit(symbol)
                         current_price = ticker['last'] if ticker else 0
                     except Exception as e:
                         self.logger.error(f"[TESTNET ERROR] 无法获取 {symbol} 当前价格: {e}")
@@ -453,9 +459,12 @@ class TradingExecutor:
                     quantity = position_info['quantity']
                     open_price = position_info.get('open_price', 0)  # 获取开仓价格，如果没有则默认为0
 
+                    # 取消关联的止盈止损订单
+                    self._cancel_protective_orders(symbol, position_info)
+
                     # 获取当前价格用于计算收益
                     try:
-                        ticker = self.exchange.fetch_ticker(symbol)
+                        ticker = self._fetch_ticker_with_rate_limit(symbol)
                         current_price = ticker['last'] if ticker else 0
                     except Exception as e:
                         self.logger.error(f"[LIVE ERROR] 无法获取 {symbol} 当前价格: {e}")
@@ -557,7 +566,19 @@ class TradingExecutor:
 
         Returns:
             tuple[bool, dict]: (开仓是否成功, 开仓位置字典)
-                开仓位置字典格式: {symbol: {'side': 'long'/'short', 'quantity': float}}
+                开仓位置字典格式:
+                {
+                    symbol: {
+                        'side': 'long'/'short',
+                        'quantity': float,
+                        'open_price': float,
+                        'position_side': 'LONG'/'SHORT',
+                        'take_profit_order_id': Optional[str],
+                        'take_profit_price': Optional[float],
+                        'stop_loss_order_id': Optional[str],
+                        'stop_loss_price': Optional[float],
+                    }
+                }
         """
         opened_positions = {}
         try:
@@ -685,7 +706,7 @@ class TradingExecutor:
         for symbol in symbols:
             try:
                 # 获取当前价格
-                ticker = self.exchange.fetch_ticker(symbol)
+                ticker = self._fetch_ticker_with_rate_limit(symbol)
                 if not ticker:
                     self.logger.error(f"[TESTNET ERROR] 无法获取 {symbol} 价格信息，跳过")
                     continue
@@ -728,8 +749,11 @@ class TradingExecutor:
                     opened_positions[symbol] = {
                         'side': 'long',
                         'quantity': quantity,
-                        'open_price': current_price
+                        'open_price': current_price,
+                        'position_side': 'LONG'
                     }
+                    protective_orders = self._place_protective_orders(symbol, 'long', quantity, current_price)
+                    opened_positions[symbol].update(protective_orders)
                 else:
                     # 订单失败，发送钉钉通知
                     error_msg = f"[TESTNET] 多头订单失败！{symbol} 数量: {quantity} @ {current_price}"
@@ -756,7 +780,7 @@ class TradingExecutor:
         for symbol in symbols:
             try:
                 # 获取当前价格
-                ticker = self.exchange.fetch_ticker(symbol)
+                ticker = self._fetch_ticker_with_rate_limit(symbol)
                 if not ticker:
                     self.logger.error(f"[LIVE ERROR] 无法获取 {symbol} 价格信息，跳过")
                     continue
@@ -799,8 +823,11 @@ class TradingExecutor:
                     opened_positions[symbol] = {
                         'side': 'long',
                         'quantity': quantity,
-                        'open_price': current_price
+                        'open_price': current_price,
+                        'position_side': 'LONG'
                     }
+                    protective_orders = self._place_protective_orders(symbol, 'long', quantity, current_price)
+                    opened_positions[symbol].update(protective_orders)
                 else:
                     # 订单失败，发送钉钉通知
                     error_msg = f"[LIVE] 多头订单失败！{symbol} 数量: {quantity} @ {current_price}"
@@ -834,7 +861,7 @@ class TradingExecutor:
         for symbol in symbols:
             try:
                 # 获取当前价格
-                ticker = self.exchange.fetch_ticker(symbol)
+                ticker = self._fetch_ticker_with_rate_limit(symbol)
                 if not ticker:
                     self.logger.error(f"[TESTNET ERROR] 无法获取 {symbol} 价格信息，跳过")
                     continue
@@ -877,8 +904,11 @@ class TradingExecutor:
                     opened_positions[symbol] = {
                         'side': 'short',
                         'quantity': quantity,
-                        'open_price': current_price
+                        'open_price': current_price,
+                        'position_side': 'SHORT'
                     }
+                    protective_orders = self._place_protective_orders(symbol, 'short', quantity, current_price)
+                    opened_positions[symbol].update(protective_orders)
                 else:
                     # 订单失败，发送钉钉通知
                     error_msg = f"[TESTNET] 空头订单失败！{symbol} 数量: {quantity} @ {current_price}"
@@ -905,7 +935,7 @@ class TradingExecutor:
         for symbol in symbols:
             try:
                 # 获取当前价格
-                ticker = self.exchange.fetch_ticker(symbol)
+                ticker = self._fetch_ticker_with_rate_limit(symbol)
                 if not ticker:
                     self.logger.error(f"[LIVE ERROR] 无法获取 {symbol} 价格信息，跳过")
                     continue
@@ -948,8 +978,11 @@ class TradingExecutor:
                     opened_positions[symbol] = {
                         'side': 'short',
                         'quantity': quantity,
-                        'open_price': current_price
+                        'open_price': current_price,
+                        'position_side': 'SHORT'
                     }
+                    protective_orders = self._place_protective_orders(symbol, 'short', quantity, current_price)
+                    opened_positions[symbol].update(protective_orders)
                 else:
                     # 订单失败，发送钉钉通知
                     error_msg = f"[LIVE] 空头订单失败！{symbol} 数量: {quantity} @ {current_price}"
@@ -967,101 +1000,6 @@ class TradingExecutor:
     def get_active_symbols(self) -> List[str]:
         """获取活跃交易对列表"""
         return self.active_symbols
-
-    def _split_large_order(self, symbol: str, side: str, total_amount: float,
-                          max_amount: float, max_batches: int = None) -> List[float]:
-        """
-        分割大订单为多个小订单
-
-        Args:
-            symbol: 交易对
-            side: 买卖方向
-            total_amount: 总交易数量
-            max_amount: 单次最大交易数量
-            max_batches: 最大分批数量（保留参数兼容性，但不再限制）
-
-        Returns:
-            List[float]: 分批后的数量列表
-        """
-        # 检查是否启用分批交易
-        if not getattr(self.config, 'ENABLE_BATCH_TRADING', True):
-            self.logger.warning(f"[WARNING] {symbol} 分批交易已禁用，无法处理大订单")
-            return [total_amount]
-
-        if total_amount <= max_amount:
-            return [total_amount]
-
-        # 计算需要分成多少批（确保完全执行原始数量）
-        batches_needed = math.ceil(total_amount / max_amount)
-
-        self.logger.info(f"[SPLIT INFO] {symbol} 大订单分批: 总量 {total_amount}，需要 {batches_needed} 批")
-
-        # 平均分配数量，确保总量不变
-        base_amount = total_amount / batches_needed
-        remaining_amount = total_amount
-
-        # 获取精度信息进行舍入
-        market = self.exchange.markets[symbol]
-        amount_precision = market['precision']['amount']
-
-        batch_amounts = []
-
-        # 检查最小分批大小（基于单批，而非总量）
-        min_batch_ratio = getattr(self.config, 'MIN_BATCH_SIZE_RATIO', 0.1)
-        min_batch_size = max_amount * min_batch_ratio  # 基于最大单批大小计算最小批次
-
-        for i in range(batches_needed):
-            if i == batches_needed - 1:
-                # 最后一批使用剩余数量
-                batch_amount = remaining_amount
-            else:
-                batch_amount = base_amount
-
-            # 应用精度处理
-            if isinstance(amount_precision, float):
-                decimal_places = len(str(amount_precision).split('.')[-1]) if '.' in str(amount_precision) else 0
-                batch_amount = round(batch_amount, decimal_places)
-            else:
-                precision_power = int(amount_precision)
-                batch_amount = math.floor(batch_amount * (10 ** precision_power)) / (10 ** precision_power)
-
-            # 确保每批数量不超过最大限制
-            if batch_amount > max_amount:
-                batch_amount = max_amount
-
-            # 确保批次大小合理（除了最后一批）
-            if batch_amount > 0:
-                if i == batches_needed - 1:
-                    # 最后一批，无论多小都要执行
-                    batch_amounts.append(batch_amount)
-                elif batch_amount >= min_batch_size:
-                    # 中间批次，必须满足最小大小要求
-                    batch_amounts.append(batch_amount)
-                    remaining_amount -= batch_amount
-                else:
-                    # 如果中间批次太小，合并到上一批
-                    if len(batch_amounts) > 0:
-                        # 但要确保合并后不超过最大限制
-                        combined_amount = batch_amounts[-1] + batch_amount
-                        if combined_amount <= max_amount:
-                            batch_amounts[-1] = combined_amount
-                            remaining_amount -= batch_amount
-                        else:
-                            # 无法合并，单独作为一批
-                            batch_amounts.append(batch_amount)
-                            remaining_amount -= batch_amount
-                    else:
-                        # 第一批，即使小也要执行
-                        batch_amounts.append(batch_amount)
-                        remaining_amount -= batch_amount
-
-        # 验证总量
-        total_split = sum(batch_amounts)
-        if abs(total_split - total_amount) > 0.0001:  # 允许微小的精度误差
-            self.logger.warning(f"[SPLIT WARNING] {symbol} 分批总量 {total_split} 与原始总量 {total_amount} 不匹配")
-
-        self.logger.info(f"[SPLIT] {symbol} 分批交易: 总量 {total_amount} 分为 {len(batch_amounts)} 批: {batch_amounts}")
-        return batch_amounts
 
     def _validate_order_amount(self, symbol: str, amount: float) -> tuple[bool, str, float]:
         """
@@ -1094,6 +1032,239 @@ class TradingExecutor:
         except Exception as e:
             return False, f"验证交易量时出错: {e}", amount
 
+    def _calculate_protective_prices(self, side: str, entry_price: float) -> tuple[Optional[float], Optional[float]]:
+        """根据仓位方向计算止盈止损价格"""
+        if entry_price <= 0:
+            return None, None
+
+        tp_ratio = getattr(self.config, 'TAKE_PROFIT_RATIO', 0)
+        sl_ratio = getattr(self.config, 'STOP_LOSS_RATIO', 0)
+
+        if side == 'long':
+            take_profit_price = entry_price * (1 + tp_ratio)
+            stop_loss_price = entry_price * (1 - sl_ratio)
+        else:
+            take_profit_price = entry_price * (1 - tp_ratio)
+            stop_loss_price = entry_price * (1 + sl_ratio)
+
+        if take_profit_price and take_profit_price <= 0:
+            take_profit_price = None
+        if stop_loss_price and stop_loss_price <= 0:
+            stop_loss_price = None
+
+        return take_profit_price, stop_loss_price
+
+    def _place_protective_orders(
+        self,
+        symbol: str,
+        side: str,
+        quantity: float,
+        entry_price: float
+    ) -> Dict[str, Optional[float]]:
+        """
+        为新仓位创建止盈止损订单
+
+        Returns:
+            dict: 包含保护单信息的字典
+        """
+        if not getattr(self.config, 'ENABLE_PROTECTIVE_ORDERS', False):
+            return {}
+
+        if quantity <= 0 or entry_price <= 0:
+            self.logger.warning(f"[PROTECT] {symbol} 保护单跳过，数量或价格无效 quantity={quantity}, entry={entry_price}")
+            return {}
+
+        take_profit_price, stop_loss_price = self._calculate_protective_prices(side, entry_price)
+        position_side = 'LONG' if side == 'long' else 'SHORT'
+        results: Dict[str, Optional[float]] = {}
+
+        try:
+            if take_profit_price:
+                precise_tp = float(self.exchange.price_to_precision(symbol, take_profit_price))
+            else:
+                precise_tp = None
+            if stop_loss_price:
+                precise_sl = float(self.exchange.price_to_precision(symbol, stop_loss_price))
+            else:
+                precise_sl = None
+        except Exception as e:
+            self.logger.error(f"[PROTECT ERROR] {symbol} 价格精度转换失败: {e}")
+            return results
+
+        params_base = {
+            'closePosition': True,
+            'workingType': getattr(self.config, 'PROTECTIVE_WORKING_TYPE', 'MARK_PRICE'),
+            'positionSide': position_side,
+        }
+
+        # 止盈单
+        if precise_tp:
+            tp_params = params_base.copy()
+            tp_params['stopPrice'] = precise_tp
+            tp_side = 'sell' if side == 'long' else 'buy'
+            try:
+                tp_order = self.exchange.create_order(
+                    symbol=symbol,
+                    type='TAKE_PROFIT_MARKET',
+                    side=tp_side,
+                    amount=quantity,
+                    price=None,
+                    params=tp_params
+                )
+                if tp_order:
+                    tp_id = tp_order.get('id')
+                    results['take_profit_order_id'] = tp_id
+                    results['take_profit_price'] = precise_tp
+                    self.logger.info(f"[PROTECT] {symbol} 止盈单创建成功 ID:{tp_id} 触发价:{precise_tp}")
+                time.sleep(0.05)
+            except Exception as e:
+                self.logger.error(f"[PROTECT ERROR] {symbol} 止盈单创建失败: {e}")
+
+        # 止损单
+        if precise_sl:
+            sl_params = params_base.copy()
+            sl_params['stopPrice'] = precise_sl
+            sl_side = 'sell' if side == 'long' else 'buy'
+            try:
+                sl_order = self.exchange.create_order(
+                    symbol=symbol,
+                    type='STOP_MARKET',
+                    side=sl_side,
+                    amount=quantity,
+                    price=None,
+                    params=sl_params
+                )
+                if sl_order:
+                    sl_id = sl_order.get('id')
+                    results['stop_loss_order_id'] = sl_id
+                    results['stop_loss_price'] = precise_sl
+                    self.logger.info(f"[PROTECT] {symbol} 止损单创建成功 ID:{sl_id} 触发价:{precise_sl}")
+                time.sleep(0.05)
+            except Exception as e:
+                self.logger.error(f"[PROTECT ERROR] {symbol} 止损单创建失败: {e}")
+
+        return results
+
+    def _cancel_protective_orders(self, symbol: str, position_info: dict, known_statuses: Optional[Dict[str, str]] = None):
+        """取消与仓位关联的止盈止损订单"""
+        if not getattr(self.config, 'ENABLE_PROTECTIVE_ORDERS', False):
+            return
+
+        side = position_info.get('side')
+        if side not in ['long', 'short']:
+            return
+
+        position_side = 'LONG' if side == 'long' else 'SHORT'
+        params = {'positionSide': position_side}
+
+        for key, label in [('take_profit_order_id', '止盈'), ('stop_loss_order_id', '止损')]:
+            order_id = position_info.get(key)
+            if not order_id:
+                continue
+            status = None
+            if known_statuses and order_id in known_statuses:
+                status = known_statuses[order_id]
+            if status and status.lower() in ['closed', 'filled']:
+                continue  # 已成交订单无需取消
+            try:
+                self.exchange.cancel_order(order_id, symbol, params)
+                self.logger.info(f"[PROTECT] {symbol} 已取消{label}单 {order_id}")
+            except Exception as e:
+                self.logger.warning(f"[PROTECT WARNING] {symbol} 取消{label}单失败 ({order_id}): {e}")
+
+    def _respect_rate_limit(self):
+        """统一的速率限制控制"""
+        elapsed = time.time() - self.last_api_call_time
+        if elapsed < self.api_call_interval:
+            time.sleep(self.api_call_interval - elapsed)
+        self.last_api_call_time = time.time()
+
+    def _fetch_order_status(self, symbol: str, order_id: str) -> Optional[str]:
+        """获取订单状态"""
+        try:
+            self._respect_rate_limit()
+            order = self.exchange.fetch_order(order_id, symbol)
+            self.last_api_call_time = time.time()
+            status = order.get('status')
+            self.logger.debug(f"[PROTECT DEBUG] {symbol} 订单 {order_id} 状态: {status}")
+            return status
+        except Exception as e:
+            self.logger.warning(f"[PROTECT WARNING] 获取 {symbol} 订单状态失败 ({order_id}): {e}")
+            return None
+
+    def _get_position_contracts(self, symbol: str, position_side: Optional[str]) -> Optional[float]:
+        """获取交易所当前持仓数量"""
+        try:
+            self._respect_rate_limit()
+            positions = self.exchange.fetch_positions([symbol])
+            self.last_api_call_time = time.time()
+            target_side = position_side.lower() if position_side else None
+            for pos in positions:
+                if pos.get('symbol') != symbol:
+                    continue
+                side_text = pos.get('side')
+                info_side = pos.get('info', {}).get('positionSide')
+                matches = False
+                if target_side:
+                    if side_text and side_text.lower() == target_side:
+                        matches = True
+                    elif info_side and info_side.lower() == target_side:
+                        matches = True
+                else:
+                    matches = True
+                if matches:
+                    contracts = pos.get('contracts')
+                    if contracts is not None:
+                        return abs(float(contracts))
+            return None
+        except Exception as e:
+            self.logger.warning(f"[PROTECT WARNING] 获取 {symbol} 持仓信息失败: {e}")
+            return None
+
+    def refresh_positions_status(self, positions: Dict[str, dict]) -> List[Dict[str, str]]:
+        """
+        刷新仓位状态，识别已通过止盈止损平仓的仓位
+
+        Returns:
+            List[Dict[str, str]]: [{ 'symbol': str, 'reason': str }]
+        """
+        if not positions:
+            return []
+
+        removed = []
+        for symbol, info in list(positions.items()):
+            active, reason, statuses = self._is_position_still_open(symbol, info)
+            if not active:
+                self._cancel_protective_orders(symbol, info, statuses)
+                removed.append({'symbol': symbol, 'reason': reason or '未知原因'})
+        return removed
+
+    def _is_position_still_open(self, symbol: str, position_info: dict) -> tuple[bool, Optional[str], Dict[str, str]]:
+        """判断仓位是否仍然持有"""
+        statuses: Dict[str, str] = {}
+        reason = None
+
+        for key, label in [('take_profit_order_id', '止盈'), ('stop_loss_order_id', '止损')]:
+            order_id = position_info.get(key)
+            if not order_id:
+                continue
+            status = self._fetch_order_status(symbol, order_id)
+            if status:
+                statuses[order_id] = status
+                normalized = status.lower()
+                if normalized in ['closed', 'filled']:
+                    reason = f"{label}单已触发 (状态: {status})"
+                    return False, reason, statuses
+
+        # 检查交易所实际仓位
+        position_side = position_info.get('position_side')
+        contracts = self._get_position_contracts(symbol, position_side)
+        if contracts is not None and contracts == 0:
+            reason = "交易所仓位为0"
+            return False, reason, statuses
+
+        return True, reason, statuses
+
     def cleanup(self):
         """清理资源"""
         try:
@@ -1108,7 +1279,7 @@ class TradingExecutor:
     def _create_market_order_testnet(self, symbol: str, side: str, amount: float,
                                    params: dict = None) -> dict:
         """
-        模拟盘环境的市价单创建方法（支持分批交易）
+        模拟盘环境的市价单创建方法
 
         Args:
             symbol: 交易对
@@ -1135,25 +1306,12 @@ class TradingExecutor:
                 return None
 
             # 验证订单数量
-            is_valid, error_msg, adjusted_amount = self._validate_order_amount(symbol, amount)
+            is_valid, error_msg, _ = self._validate_order_amount(symbol, amount)
             if not is_valid:
-                # 检查是否是数量过大的问题
-                if "大于最大值" in error_msg:
-                    self.logger.warning(f"[TESTNET WARNING] {symbol} {error_msg}，尝试分批交易")
-                    market = self.exchange.markets[symbol]
-                    max_amount = market.get('limits', {}).get('amount', {}).get('max', float('inf'))
-
-                    # 分批处理
-                    batch_amounts = self._split_large_order(symbol, side, amount, max_amount)
-                    return self._execute_batch_orders_testnet(symbol, side, batch_amounts, params)
-                else:
-                    self.logger.error(f"[TESTNET ERROR] {symbol} {error_msg}")
-                    return None
+                self.logger.error(f"[TESTNET ERROR] {symbol} {error_msg}")
+                return None
 
             self.logger.info(f"[TESTNET MARKET] 创建市价单 {symbol}: {side} {amount}")
-
-            # 模拟盘简化参数策略 - 直接移除有问题的参数
-            safe_params = params if params is not None else {}
 
             # 模拟盘直接使用最简化的参数，避免不必要的错误
             try:
@@ -1177,14 +1335,7 @@ class TradingExecutor:
                 error_str = str(e)
                 self.logger.error(f"[TESTNET ERROR] {symbol} 订单创建失败: {error_str}")
 
-                # 特殊处理 -4005 错误（数量过大）
-                if "-4005" in error_str:
-                    self.logger.warning(f"[TESTNET WARNING] {symbol} 数量过大，尝试分批交易")
-                    market = self.exchange.markets[symbol]
-                    max_amount = market.get('limits', {}).get('amount', {}).get('max', amount * 0.5)  # 使用一半作为估计
-                    batch_amounts = self._split_large_order(symbol, side, amount, max_amount)
-                    return self._execute_batch_orders_testnet(symbol, side, batch_amounts, params)
-                elif "-4061" in error_str:
+                if "-4061" in error_str:
                     self.logger.error(f"[TESTNET ERROR] {symbol} 基础参数仍然失败，可能需要检查账户设置")
                 elif "-4164" in error_str:
                     self.logger.error(f"[TESTNET ERROR] {symbol} 订单金额太小，请增加订单金额")
@@ -1195,79 +1346,10 @@ class TradingExecutor:
             self.logger.error(f"[TESTNET ERROR] {symbol} 市价单创建异常: {e}")
             return None
 
-    def _execute_batch_orders_testnet(self, symbol: str, side: str, batch_amounts: List[float],
-                                    params: dict = None) -> dict:
-        """
-        执行分批订单（模拟盘）
-
-        Args:
-            symbol: 交易对
-            side: 买卖方向
-            batch_amounts: 分批数量列表
-            params: 额外参数
-
-        Returns:
-            dict: 合并的订单信息
-        """
-        try:
-            total_filled = 0
-            order_ids = []
-            successful_batches = 0
-
-            for i, batch_amount in enumerate(batch_amounts, 1):
-                try:
-                    self.logger.info(f"[TESTNET BATCH] {symbol} 执行第 {i}/{len(batch_amounts)} 批: {batch_amount}")
-
-                    # 创建单批订单
-                    batch_order = self.exchange.create_market_order(
-                        symbol=symbol, side=side, amount=batch_amount, params={}
-                    )
-
-                    if batch_order:
-                        order_id = batch_order.get('id', 'Unknown')
-                        filled = batch_order.get('filled', 0)
-                        total_filled += filled
-                        order_ids.append(order_id)
-                        successful_batches += 1
-
-                        self.logger.info(f"[TESTNET SUCCESS] 第 {i} 批成功 ID:{order_id} 成交:{filled}")
-
-                        # 批次间等待时间使用配置参数
-                        wait_time = getattr(self.config, 'BATCH_WAIT_TIME', 0.1)
-                        time.sleep(wait_time)
-                    else:
-                        self.logger.error(f"[TESTNET ERROR] 第 {i} 批订单创建失败")
-
-                except Exception as e:
-                    self.logger.error(f"[TESTNET ERROR] 第 {i} 批订单异常: {e}")
-                    continue
-
-            # 构造合并的订单信息
-            if successful_batches > 0:
-                merged_order = {
-                    'id': f"BATCH_{'-'.join(order_ids)}",
-                    'symbol': symbol,
-                    'side': side,
-                    'amount': sum(batch_amounts),
-                    'filled': total_filled,
-                    'status': 'closed' if successful_batches == len(batch_amounts) else 'partial',
-                    'info': f"分批交易: {successful_batches}/{len(batch_amounts)} 批成功"
-                }
-
-                self.logger.info(f"[TESTNET BATCH COMPLETE] {symbol} 分批交易完成: {successful_batches}/{len(batch_amounts)} 批成功，总成交: {total_filled}")
-                return merged_order
-            else:
-                self.logger.error(f"[TESTNET ERROR] {symbol} 所有分批订单都失败")
-                return None
-
-        except Exception as e:
-            self.logger.error(f"[TESTNET ERROR] {symbol} 分批交易异常: {e}")
-            return None
-
     def _create_market_order_live(self, symbol: str, side: str, amount: float,
                                  params: dict = None) -> dict:
         """
-        实盘环境的市价单创建方法（支持分批交易）
+        实盘环境的市价单创建方法
 
         Args:
             symbol: 交易对
@@ -1294,20 +1376,10 @@ class TradingExecutor:
                 return None
 
             # 验证订单数量
-            is_valid, error_msg, adjusted_amount = self._validate_order_amount(symbol, amount)
+            is_valid, error_msg, _ = self._validate_order_amount(symbol, amount)
             if not is_valid:
-                # 检查是否是数量过大的问题
-                if "大于最大值" in error_msg:
-                    self.logger.warning(f"[LIVE WARNING] {symbol} {error_msg}，尝试分批交易")
-                    market = self.exchange.markets[symbol]
-                    max_amount = market.get('limits', {}).get('amount', {}).get('max', float('inf'))
-
-                    # 分批处理
-                    batch_amounts = self._split_large_order(symbol, side, amount, max_amount)
-                    return self._execute_batch_orders_live(symbol, side, batch_amounts, params)
-                else:
-                    self.logger.error(f"[LIVE ERROR] {symbol} {error_msg}")
-                    return None
+                self.logger.error(f"[LIVE ERROR] {symbol} {error_msg}")
+                return None
 
             self.logger.info(f"[LIVE MARKET] 创建市价单 {symbol}: {side} {amount}")
 
@@ -1331,16 +1403,8 @@ class TradingExecutor:
             except Exception as e:
                 error_str = str(e)
 
-                # 特殊处理 -4005 错误（数量过大）
-                if "-4005" in error_str:
-                    self.logger.warning(f"[LIVE WARNING] {symbol} 数量过大，尝试分批交易")
-                    market = self.exchange.markets[symbol]
-                    max_amount = market.get('limits', {}).get('amount', {}).get('max', amount * 0.5)  # 使用一半作为估计
-                    batch_amounts = self._split_large_order(symbol, side, amount, max_amount)
-                    return self._execute_batch_orders_live(symbol, side, batch_amounts, params)
-
                 # 实盘的智能重试逻辑
-                elif "-1106" in error_str and "reduceOnly" in safe_params:
+                if "-1106" in error_str and "reduceOnly" in safe_params:
                     self.logger.warning(f"[LIVE WARNING] {symbol} reduceOnly参数不被接受 (错误: -1106)")
                     self.logger.info(f"[LIVE RETRY] {symbol} 尝试不带reduceOnly参数重新创建订单")
 
@@ -1380,100 +1444,6 @@ class TradingExecutor:
             self.logger.error(f"[LIVE ERROR] {symbol} 市价单创建异常: {e}")
             return None
 
-    def _execute_batch_orders_live(self, symbol: str, side: str, batch_amounts: List[float],
-                                  params: dict = None) -> dict:
-        """
-        执行分批订单（实盘）
-
-        Args:
-            symbol: 交易对
-            side: 买卖方向
-            batch_amounts: 分批数量列表
-            params: 额外参数
-
-        Returns:
-            dict: 合并的订单信息
-        """
-        try:
-            total_filled = 0
-            order_ids = []
-            successful_batches = 0
-            safe_params = params if params is not None else {}
-
-            for i, batch_amount in enumerate(batch_amounts, 1):
-                try:
-                    self.logger.info(f"[LIVE BATCH] {symbol} 执行第 {i}/{len(batch_amounts)} 批: {batch_amount}")
-
-                    # 创建单批订单，使用原始参数
-                    batch_order = self.exchange.create_market_order(
-                        symbol=symbol, side=side, amount=batch_amount, params=safe_params
-                    )
-
-                    if batch_order:
-                        order_id = batch_order.get('id', 'Unknown')
-                        filled = batch_order.get('filled', 0)
-                        total_filled += filled
-                        order_ids.append(order_id)
-                        successful_batches += 1
-
-                        self.logger.info(f"[LIVE SUCCESS] 第 {i} 批成功 ID:{order_id} 成交:{filled}")
-
-                        # 批次间等待时间使用配置参数
-                        wait_time = getattr(self.config, 'BATCH_WAIT_TIME', 0.1)
-                        time.sleep(wait_time)
-                    else:
-                        self.logger.error(f"[LIVE ERROR] 第 {i} 批订单创建失败")
-
-                except Exception as e:
-                    error_str = str(e)
-                    self.logger.error(f"[LIVE ERROR] 第 {i} 批订单异常: {e}")
-
-                    # 对单批订单也尝试参数修复
-                    if "-1106" in error_str and "reduceOnly" in safe_params:
-                        try:
-                            retry_params = safe_params.copy()
-                            retry_params.pop('reduceOnly', None)
-
-                            batch_order = self.exchange.create_market_order(
-                                symbol=symbol, side=side, amount=batch_amount, params=retry_params
-                            )
-
-                            if batch_order:
-                                order_id = batch_order.get('id', 'Unknown')
-                                filled = batch_order.get('filled', 0)
-                                total_filled += filled
-                                order_ids.append(order_id)
-                                successful_batches += 1
-                                self.logger.info(f"[LIVE SUCCESS] 第 {i} 批重试成功 ID:{order_id} 成交:{filled}")
-                                wait_time = getattr(self.config, 'BATCH_WAIT_TIME', 0.1)
-                                time.sleep(wait_time)
-                        except Exception as e2:
-                            self.logger.error(f"[LIVE ERROR] 第 {i} 批重试后仍失败: {e2}")
-
-                    continue
-
-            # 构造合并的订单信息
-            if successful_batches > 0:
-                merged_order = {
-                    'id': f"BATCH_{'-'.join(order_ids)}",
-                    'symbol': symbol,
-                    'side': side,
-                    'amount': sum(batch_amounts),
-                    'filled': total_filled,
-                    'status': 'closed' if successful_batches == len(batch_amounts) else 'partial',
-                    'info': f"分批交易: {successful_batches}/{len(batch_amounts)} 批成功"
-                }
-
-                self.logger.info(f"[LIVE BATCH COMPLETE] {symbol} 分批交易完成: {successful_batches}/{len(batch_amounts)} 批成功，总成交: {total_filled}")
-                return merged_order
-            else:
-                self.logger.error(f"[LIVE ERROR] {symbol} 所有分批订单都失败")
-                return None
-
-        except Exception as e:
-            self.logger.error(f"[LIVE ERROR] {symbol} 分批交易异常: {e}")
-            return None
-
     def _send_dingding_notification(self, message: str):
         """发送钉钉通知"""
         if DINGDING_AVAILABLE:
@@ -1497,3 +1467,19 @@ class TradingExecutor:
         else:
             self.logger.warning("[DINGDING] 钉钉模块不可用，跳过通知")
 
+    def _fetch_ticker_with_rate_limit(self, symbol: str) -> dict:
+        """
+        带频率控制的单个价格获取方法
+        Args:
+            symbol: 交易对符号
+        Returns:
+            ticker 信息字典
+        """
+        import time
+
+        # 控制API调用频率
+        self._respect_rate_limit()
+        ticker = self.exchange.fetch_ticker(symbol)
+        self.last_api_call_time = time.time()
+
+        return ticker

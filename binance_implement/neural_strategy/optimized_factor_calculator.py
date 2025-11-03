@@ -49,7 +49,7 @@ class OptimizedFactorCalculator:
 
         # 模型配置
         self.timeframes = ['1h', '2h', '4h']  # 默认时间框架
-        self.limit = 20  # 每个时间框架的数据点数
+        self.limit = 82  # 每个时间框架的数据点数
         self.image_height = 64
         self.image_width = 60  # 20个周期 * 3像素/周期
 
@@ -155,9 +155,8 @@ class OptimizedFactorCalculator:
             print(f"\n🎯 开始逐个计算因子值...")
             for symbol in tqdm(symbols, desc="计算因子", unit="交易对"):
                 try:
-                    factor_value = self._calculate_single_symbol_factor(
-                        symbol, all_symbols_data[symbol]
-                    )
+
+                    factor_value = self._calculate_single_symbol_factor(all_symbols_data[symbol])
 
                     if factor_value is not None:
                         factor_values[symbol] = factor_value
@@ -184,8 +183,8 @@ class OptimizedFactorCalculator:
             self.logger.error(f"[ERROR] 计算因子失败: {e}")
             return None
 
-    def _calculate_single_symbol_factor(self, symbol: str,
-                                      symbol_data: Dict[str, pd.DataFrame]) -> Optional[float]:
+    def _calculate_single_symbol_factor(self,
+                                      symbol_data: pd.DataFrame) -> Optional[float]:
         """
         计算单个交易对的因子值
 
@@ -197,52 +196,70 @@ class OptimizedFactorCalculator:
             float: 因子值，如果计算失败返回None
         """
         try:
-            # 检查是否有所有需要的时间框架数据
-            if not all(tf in symbol_data for tf in self.timeframes):
-                return None
+            
 
-            # 为每个时间框架生成图像
-            images = []
-            for timeframe in self.timeframes:
-                df = symbol_data[timeframe]
+            df_0 = symbol_data.iloc[-80:].copy()
+            df_1 = symbol_data.iloc[-81:-1].copy()
 
-                # 确保有足够的数据
-                if len(df) < self.limit:
-                    return None
 
-                # 使用ohlc_to_image_with_volume转换为图像
-                image = ohlc_to_image_with_volume(
-                    df,
-                    window=self.limit,
-                    height=self.image_height,
-                    open_col='open',
-                    high_col='high',
-                    low_col='low',
-                    close_col='close',
-                    volume_col='volume'
-                )
-
-                if image is None or image.shape != (self.image_height, self.image_width):
-                    return None
-
-                images.append(image)
-
-            # 将三个时间框架的图像叠在一起 (3, 64, 60)
-            stacked_images = np.stack(images, axis=0)
-
-            # 转换为torch tensor并添加batch维度 (1, 3, 64, 60)
-            image_tensor = torch.from_numpy(stacked_images).float().unsqueeze(0)
-            image_tensor = image_tensor.to(self.device)
-
-            # 使用模型进行推理
-            with torch.no_grad():
-                prediction = self.model(image_tensor)
-                factor_value = prediction.cpu().numpy().flatten()[0]
-
-            return float(factor_value)
+            # 计算两个子因子
+            sub_factor_0 = self._calculate_sub_factor(df_0)
+            sub_factor_1 = self._calculate_sub_factor(df_1)
+            return (sub_factor_0 + 0.8 * sub_factor_1) / 1.8
 
         except Exception as e:
             return None
+
+    def _calculate_sub_factor(self, symbol_data: pd.DataFrame) -> Optional[float]:
+        """
+        计算子因子值
+
+        Args:
+            df: 单个时间框架的OHLCV数据
+
+        Returns:
+            float: 子因子值，如果计算失败返回None
+        """
+                    # 为每个时间框架生成图像
+        images = []
+        for timeframe in self.timeframes:
+            if timeframe == '1h':
+                df = symbol_data[-20:].copy()
+            elif timeframe == '2h':
+                df = aggregate_bars(symbol_data[-20*2:].copy(), window_hours=2).copy()
+            elif timeframe == '4h':
+                df = aggregate_bars(symbol_data[-20*4:].copy(), window_hours=4).copy()
+        
+            # 使用ohlc_to_image_with_volume转换为图像
+            image = ohlc_to_image_with_volume(
+                df,
+                window=20,
+                height=60,
+                open_col='open',
+                high_col='high',
+                low_col='low',
+                close_col='close',
+                volume_col='volume'
+            )
+
+            images.append(image)
+
+        # 将三个时间框架的图像叠在一起 (3, 64, 60)
+        stacked_images = np.stack(images, axis=0)
+
+        # 转换为torch tensor并添加batch维度 (1, 3, 64, 60)
+        image_tensor = torch.from_numpy(stacked_images).float().unsqueeze(0)
+        image_tensor = image_tensor.to(self.device)
+
+        # 使用模型进行推理
+        with torch.no_grad():
+            prediction = self.model(image_tensor)
+            factor_value = prediction.cpu().numpy().flatten()[0]
+
+        return float(factor_value)
+
+    
+        
 
     def set_model_path(self, model_path: str):
         """设置模型路径（已弃用，请使用config.py配置）"""
@@ -273,3 +290,36 @@ class OptimizedFactorCalculator:
 
         except Exception as e:
             self.logger.error(f"[ERROR] 清理优化因子计算器失败: {e}")
+
+
+def aggregate_bars(df: pd.DataFrame, window_hours: int) -> pd.DataFrame:
+    df = df.copy()
+    # Create aggregated bars using rolling window
+    # Generate lookback_periods bars in chronological order
+    aggregated_bars = []
+
+    # Generate bars from front to back (chronological order)
+    for i in range(20):
+        # Calculate indices for this bar
+        start_idx = i * window_hours
+        end_idx = start_idx + window_hours
+
+        window = df.iloc[start_idx:end_idx]
+
+        # Aggregate this window into one bar
+        # open_time is the FIRST hour of the window (window start time)
+        bar = {
+            'open_time': window['open_time'].iloc[0],  # Use the first hour's timestamp as bar time
+            'open': window['open'].iloc[0],
+            'high': window['high'].max(),
+            'low': window['low'].min(),
+            'close': window['close'].iloc[-1],
+            'volume': window['volume'].sum()
+        }
+        aggregated_bars.append(bar)
+
+    # Convert to DataFrame
+    aggregated = pd.DataFrame(aggregated_bars)
+    aggregated = aggregated.set_index('open_time')
+
+    return aggregated

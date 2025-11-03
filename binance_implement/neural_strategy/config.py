@@ -24,19 +24,19 @@ class TradingConfig:
         self.REBALANCE_INTERVAL = 60      # 5分钟 = 300秒 (仅在interval模式下使用)
         self.TOP_N_LONG = 2            # 做多币种数量
         self.TOP_N_SHORT = 2             # 做空币种数量
-        self.LEVERAGE = 1                 # 杠杆倍数
-        self.LOOKBACK_HOURS = 80          # 历史数据回看小时数
+        self.LEVERAGE = 3                 # 杠杆倍数
+        self.LOOKBACK_HOURS = 81          # 历史数据回看小时数
 
         # 保证金模式配置
         self.MARGIN_TYPE = 'ISOLATED'           # 保证金模式: 'ISOLATED' 或 'CROSSED'
         self.ENABLE_MARGIN_TYPE_SETTING = True  # 是否启用保证金模式设置
         self.MARGIN_TYPE_RETRY_COUNT = 3        # 设置失败重试次数
 
-        # 分批交易配置
-        self.ENABLE_BATCH_TRADING = True    # 是否启用分批交易
-        self.MAX_BATCH_COUNT = 999          # 最大分批数量（设为很大的值，实际不限制）
-        self.MIN_BATCH_SIZE_RATIO = 0.1     # 最小分批大小（相对于单批最大值的比例）
-        self.BATCH_WAIT_TIME = 0.1          # 批次间等待时间（秒）
+        # 止盈止损配置
+        self.ENABLE_PROTECTIVE_ORDERS = True    # 是否启用止盈止损
+        self.TAKE_PROFIT_RATIO = 0.20           # 止盈比例 (20%)
+        self.STOP_LOSS_RATIO = 0.30             # 止损比例 (30%)
+        self.PROTECTIVE_WORKING_TYPE = 'MARK_PRICE'  # 触发价格类型: MARK_PRICE 或 CONTRACT_PRICE
 
         # 神经网络模型配置
         self.TIMEFRAMES = ['1h', '2h', '4h']  # 多时间框架
@@ -48,7 +48,7 @@ class TradingConfig:
         # 模型路径配置
         self.MODEL_PATH = os.path.join(
             os.path.dirname(__file__), '..', '..', 'figure_model', 'model_saved',
-            'baseline_epoch_52_train_0.02124_val_0.02302.pt'
+            'baseline_epoch_26_train_0.00942_val_0.01010.pt'
         )
 
         # API配置
@@ -56,7 +56,7 @@ class TradingConfig:
 
         # 日志配置
         self.LOG_LEVEL = 'INFO'
-        self.LOG_FILENAME = "dank1ng"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
+        self.LOG_FILENAME = "shanghai"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
 
         # 创建日志目录路径
         log_dir = os.path.join(os.path.dirname(__file__), 'logs')
@@ -75,8 +75,8 @@ class TradingConfig:
             self.ENV_NAME = 'TESTNET'
         else:
             # 实盘配置
-            self.API_KEY = os.environ['BINANCE_API_KEY']
-            self.API_SECRET = os.environ['BINANCE_API_SECRET']
+            self.API_KEY = os.environ['BINANCE_API_KEY_SH']
+            self.API_SECRET = os.environ['BINANCE_API_SECRET_SH']
             self.BASE_URL = 'https://fapi.binance.com'
             self.ENV_NAME = 'LIVE'
 
@@ -161,18 +161,17 @@ class TradingConfig:
             print("错误: 执行模式必须是 'interval'、'daily' 或 '16h'")
             return False
 
-        # 检查分批交易参数
-        if self.MAX_BATCH_COUNT <= 0:
-            print("错误: 最大分批数量必须大于0")
-            return False
-
-        if self.MIN_BATCH_SIZE_RATIO <= 0 or self.MIN_BATCH_SIZE_RATIO > 1.0:
-            print("错误: 最小分批大小比例必须在0-1之间")
-            return False
-
-        if self.BATCH_WAIT_TIME < 0 or self.BATCH_WAIT_TIME > 10:
-            print("错误: 批次等待时间必须在0-10秒之间")
-            return False
+        # 检查止盈止损配置
+        if self.ENABLE_PROTECTIVE_ORDERS:
+            if self.TAKE_PROFIT_RATIO <= 0:
+                print("错误: 止盈比例必须大于0")
+                return False
+            if self.STOP_LOSS_RATIO <= 0:
+                print("错误: 止损比例必须大于0")
+                return False
+            if self.PROTECTIVE_WORKING_TYPE not in ['MARK_PRICE', 'CONTRACT_PRICE']:
+                print("错误: 止盈止损触发价格类型必须是 'MARK_PRICE' 或 'CONTRACT_PRICE'")
+                return False
 
         # 检查保证金模式配置
         if self.MARGIN_TYPE not in ['ISOLATED', 'CROSSED']:
@@ -204,14 +203,14 @@ class TradingConfig:
         print(f"保证金模式设置: {'启用' if self.ENABLE_MARGIN_TYPE_SETTING else '禁用'}")
         if self.ENABLE_MARGIN_TYPE_SETTING:
             print(f"  重试次数: {self.MARGIN_TYPE_RETRY_COUNT}")
+        print(f"止盈止损: {'启用' if self.ENABLE_PROTECTIVE_ORDERS else '禁用'}")
+        if self.ENABLE_PROTECTIVE_ORDERS:
+            print(f"  止盈比例: {self.TAKE_PROFIT_RATIO*100:.1f}%")
+            print(f"  止损比例: {self.STOP_LOSS_RATIO*100:.1f}%")
+            print(f"  触发价格类型: {self.PROTECTIVE_WORKING_TYPE}")
         print(f"历史数据回看: {self.LOOKBACK_HOURS}小时")
         print(f"时间框架: {', '.join(self.TIMEFRAMES)}")
         print(f"OHLC回看周期: {self.LOOKBACK_PERIODS}")
-        print(f"分批交易: {'启用' if self.ENABLE_BATCH_TRADING else '禁用'}")
-        if self.ENABLE_BATCH_TRADING:
-            print(f"  最大分批数量: {'无限制' if self.MAX_BATCH_COUNT >= 999 else self.MAX_BATCH_COUNT}")
-            print(f"  最小分批比例: {self.MIN_BATCH_SIZE_RATIO*100:.1f}% (基于单批最大值)")
-            print(f"  批次等待时间: {self.BATCH_WAIT_TIME}秒")
         print(f"日志文件名配置: {'自定义' if self.LOG_FILENAME else '自动生成'}")
         if self.LOG_FILENAME:
             print(f"  自定义文件名: {self.LOG_FILENAME}")
