@@ -962,8 +962,12 @@ def batch_backtest(
     factor_df = load_factor_data(factor_name, start_date, end_date, factor_base_dir)
     ohlc_df = load_ohlc_data(start_date, end_date, ohlc_base_dir)
 
-    # Create base output directory with stop-profit/stop-loss info
-    date_range_str = f"{start_time.split()[0].replace('-', '')}_{end_time.split()[0].replace('-', '')}"
+    # Create base output directory with stop-profit/stop-loss info (hour precision)
+    start_dt_full = pd.to_datetime(start_time)
+    end_dt_full = pd.to_datetime(end_time)
+    date_range_str = (
+        f"{start_dt_full.strftime('%Y%m%d_%H%M')}_{end_dt_full.strftime('%Y%m%d_%H%M')}"
+    )
 
     # Generate directory name with leverage, stop-profit, and stop-loss info
     if stop_profit_pct == 0.0 and stop_loss_pct == 0.0:
@@ -977,7 +981,13 @@ def batch_backtest(
     lev_str = f"lev_{int(leverage)}" if leverage == int(leverage) else f"lev_{leverage}"
     stopprofit_dir = f"{lev_str}_{stopprofit_dir}"
 
-    base_output_dir = os.path.join(output_base_dir, factor_name, date_range_str, stopprofit_dir)
+    base_output_dir = os.path.join(
+        output_base_dir,
+        factor_name,
+        "adjust_backtest",
+        date_range_str,
+        stopprofit_dir
+    )
     os.makedirs(base_output_dir, exist_ok=True)
 
     # Track results
@@ -1157,17 +1167,19 @@ def batch_backtest(
 
 if __name__ == "__main__":
     # Example usage with stop-loss, take-profit, and leverage
-    for lev in [1]:
-        results = batch_backtest(
-            factor_name='cnn_10_03_72h_v3',
-            start_time='2025-04-01 00:00:00',
-            end_time='2025-08-31 23:00:00',
-            rebalance_hours_list=[16],
-            top_bottom_n_list=[[i, i] for i in [2,4,6]],
-            output_base_dir='./factor_report',
-            stop_profit_pct=0, 
-            stop_loss_pct=0,
-            leverage=lev
-        )
+    for lev in [3]:
+        for profit in [0,0.2,0.4]:
+            for s in [f"2025-04-02 {hour:02d}:00:00" for hour in range(0, 8)]:
+                results = batch_backtest(
+                    factor_name='cnn_10_03_72h_v4_wma_10h_0.4',
+                    start_time=s,
+                    end_time='2025-08-31 23:00:00',
+                    rebalance_hours_list=[16],
+                    top_bottom_n_list=[[i, i] for i in [4]],
+                    output_base_dir='./factor_report',
+                    stop_profit_pct=profit,
+                    stop_loss_pct=0.4,
+                    leverage=lev
+                )
 
     # print(f"\nProcessed {len(results['backtests'])} parameter combinations")

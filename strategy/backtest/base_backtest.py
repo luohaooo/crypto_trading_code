@@ -661,7 +661,11 @@ def batch_backtest(
     returns_df = load_returns_data(start_date, end_date, returns_base_dir)
 
     # Create base output directory
-    date_range_str = f"{start_time.split()[0].replace('-', '')}_{end_time.split()[0].replace('-', '')}"
+    start_dt_full = pd.to_datetime(start_time)
+    end_dt_full = pd.to_datetime(end_time)
+    date_range_str = (
+        f"{start_dt_full.strftime('%Y%m%d_%H%M')}_{end_dt_full.strftime('%Y%m%d_%H%M')}"
+    )
     base_output_dir = os.path.join(output_base_dir, factor_name, date_range_str, "base_backtest")
     os.makedirs(base_output_dir, exist_ok=True)
 
@@ -840,8 +844,8 @@ def batch_backtest(
 if __name__ == "__main__":
     # Example usage
     results = batch_backtest(
-        factor_name='cnn_10_03_72h_v3_wma_2h_0p5',
-        start_time='2025-04-02 00:00:00',
+        factor_name='cnn_10_03_72h_v4_wma_2h_0.6',
+        start_time='2025-04-01 16:00:00',
         end_time='2025-08-31 23:00:00',
         rebalance_hours_list=[16],
         top_bottom_n_list=[[i, i] for i in [2,4,6,8,10,12,16,20]],

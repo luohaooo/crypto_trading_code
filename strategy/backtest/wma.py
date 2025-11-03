@@ -285,12 +285,12 @@ def main() -> None:
     """
 
     CONFIG = WMAConfig(
-        factor_name="cnn_10_03_72h_v3",  # Source factor directory name
+        factor_name="cnn_10_03_72h_v4",  # Source factor directory name
         start_time="2025-04-01 00:00:00",
         end_time="2025-08-31 23:00:00",
         time_span_hours=2,
         decay=0.5,
-        output_factor_name="cnn_10_03_72h_v3_wma_2h_0p5",  # Optional; defaults to '<factor_name>_wma'
+        output_factor_name="cnn_10_03_72h_v4_wma_2h_0p5",  # Optional; defaults to '<factor_name>_wma'
     )
 
     print("🚀 Generating weighted moving average factor...")

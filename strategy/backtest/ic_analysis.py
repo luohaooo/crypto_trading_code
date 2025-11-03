@@ -779,8 +779,8 @@ def main():
     Main function for command-line usage.
     """
     # Example configuration
-    factor_name = "cnn_10_03_72h_v3_wma_2h_0p5"
-    start_time = "2025-04-01 00:00:00"
+    factor_name = "cnn_11_04_72h_v1"
+    start_time = "2025-05-01 00:00:00"
     end_time = "2025-08-31 23:00:00"
 
     print("IC Analysis Example")
