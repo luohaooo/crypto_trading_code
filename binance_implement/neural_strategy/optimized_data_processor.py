@@ -126,7 +126,7 @@ class OptimizedDataProcessor:
 
                 if not ohlcv or len(ohlcv) < limit:
                     # 如果数据不足，跳过这个交易对
-                    self.logger.warning(f"[DATA] {symbol} {timeframe} 数据不足: 获取到 {len(ohlcv) if ohlcv else 0} 条数据，需要 {limit + 1} 条")
+                    self.logger.warning(f"[DATA] {symbol} {timeframe} 数据不足: 获取到 {len(ohlcv) if ohlcv else 0} 条数据，需要 {limit} 条")
                     return None
 
                 # 转换为DataFrame

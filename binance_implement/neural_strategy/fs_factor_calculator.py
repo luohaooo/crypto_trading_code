@@ -19,7 +19,7 @@ import torch.nn as nn
 from tqdm import tqdm
 from typing import Optional, Dict, List
 from datetime import datetime
-from ohlc_model import create_model
+from ohlc_model_v2 import create_model
 
 # 添加项目路径
 project_root = os.path.join(os.path.dirname(__file__), '..', '..')
@@ -29,7 +29,7 @@ figure_model_root = os.path.join(project_root, 'figure_model')
 sys.path.insert(0, figure_model_root)
 
 
-from figure_model.ohlc2fig import ohlc_to_image_with_volume
+from figure_model.ohlc2fig_v2 import ohlc_to_image_with_volume
 
 
 
@@ -49,7 +49,7 @@ class OptimizedFactorCalculator:
 
         # 模型配置
         self.timeframes = ['1h', '2h', '4h']  # 默认时间框架
-        self.limit = 82  # 每个时间框架的数据点数
+        self.limit = 83  # 每个时间框架的数据点数
         self.image_height = 64
         self.image_width = 60  # 20个周期 * 3像素/周期
 
@@ -157,7 +157,7 @@ class OptimizedFactorCalculator:
                 if symbol == "USDC/USDT:USDT":
                     continue
                 try:
-                    factor_value = self._calculate_single_symbol_factor(all_symbols_data[symbol])
+                    factor_value = self._calculate_single_symbol_factor(all_symbols_data[symbol], all_symbols_data['BTC/USDT:USDT'])
 
                     if factor_value is not None:
                         factor_values[symbol] = factor_value
@@ -185,7 +185,7 @@ class OptimizedFactorCalculator:
             return None
 
     def _calculate_single_symbol_factor(self,
-                                      symbol_data: pd.DataFrame) -> Optional[float]:
+                                      symbol_data: pd.DataFrame, btc_data: pd.DataFrame) -> Optional[float]:
         """
         计算单个交易对的因子值
 
@@ -198,20 +198,27 @@ class OptimizedFactorCalculator:
         """
         try:
             
-
             df_0 = symbol_data.iloc[-80:].copy()
+            btc_0 = btc_data.iloc[-80:].copy()
+
             df_1 = symbol_data.iloc[-81:-1].copy()
+            btc_1 = btc_data.iloc[-81:-1].copy()
+
+            df_2 = symbol_data.iloc[-82:-2].copy()
+            btc_2 = btc_data.iloc[-82:-2].copy()
 
 
             # 计算两个子因子
-            sub_factor_0 = self._calculate_sub_factor(df_0)
-            sub_factor_1 = self._calculate_sub_factor(df_1)
-            return (sub_factor_0 + 0.9 * sub_factor_1) / 1.9
+            
+            sub_factor_0 = self._calculate_sub_factor(df_0, btc_0)
+            sub_factor_1 = self._calculate_sub_factor(df_1, btc_1)
+            sub_factor_2 = self._calculate_sub_factor(df_2, btc_2)
+            return (sub_factor_0 + 0.7 * sub_factor_1 + 0.49 * sub_factor_2) / 2.19
 
         except Exception as e:
             return None
 
-    def _calculate_sub_factor(self, symbol_data: pd.DataFrame) -> Optional[float]:
+    def _calculate_sub_factor(self, symbol_data: pd.DataFrame, btc_data: pd.DataFrame) -> Optional[float]:
         """
         计算子因子值
 
@@ -223,16 +230,22 @@ class OptimizedFactorCalculator:
         """
                     # 为每个时间框架生成图像
         images = []
+        symbol_magnitude = []
+        btc_magnitude = []
+
         for timeframe in self.timeframes:
             if timeframe == '1h':
                 df = symbol_data[-20:].copy()
+                df_btc = btc_data[-20:].copy()
             elif timeframe == '2h':
                 df = aggregate_bars(symbol_data[-20*2:].copy(), window_hours=2).copy()
+                df_btc = aggregate_bars(btc_data[-20*2:].copy(), window_hours=2).copy()
             elif timeframe == '4h':
                 df = aggregate_bars(symbol_data[-20*4:].copy(), window_hours=4).copy()
+                df_btc = aggregate_bars(btc_data[-20*4:].copy(), window_hours=4).copy()
         
             # 使用ohlc_to_image_with_volume转换为图像
-            image = ohlc_to_image_with_volume(
+            image, magnitude = ohlc_to_image_with_volume(
                 df,
                 window=20,
                 height=60,
@@ -243,7 +256,20 @@ class OptimizedFactorCalculator:
                 volume_col='volume'
             )
 
+            image_btc, magnitude_btc = ohlc_to_image_with_volume(
+                df_btc,
+                window=20,
+                height=60,     
+                open_col='open',
+                high_col='high',
+                low_col='low',
+                close_col='close',
+                volume_col='volume'
+            )
+
             images.append(image)
+            symbol_magnitude.append(magnitude)
+            btc_magnitude.append(magnitude_btc)
 
         # 将三个时间框架的图像叠在一起 (3, 64, 60)
         stacked_images = np.stack(images, axis=0)
@@ -251,10 +277,13 @@ class OptimizedFactorCalculator:
         # 转换为torch tensor并添加batch维度 (1, 3, 64, 60)
         image_tensor = torch.from_numpy(stacked_images).float().unsqueeze(0)
         image_tensor = image_tensor.to(self.device)
+        magnitude_tensor = torch.tensor(symbol_magnitude).float().to(self.device) # (3,)
+        btc_magnitude = torch.tensor(btc_magnitude).float().to(self.device)  # (3,)
+        magnitude = torch.stack([magnitude_tensor, btc_magnitude], dim=1).unsqueeze(0)  # (1, 3, 2)
 
         # 使用模型进行推理
         with torch.no_grad():
-            prediction = self.model(image_tensor)
+            prediction = self.model(image_tensor, magnitude)
             factor_value = prediction.cpu().numpy().flatten()[0]
 
         return float(factor_value)

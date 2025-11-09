@@ -29,7 +29,8 @@ sys.path.insert(0, project_root)
 from config import get_config, TradingConfig
 from trading_executor import TradingExecutor
 from optimized_data_processor import OptimizedDataProcessor
-from optimized_factor_calculator import OptimizedFactorCalculator
+# from optimized_factor_calculator import OptimizedFactorCalculator
+from fs_factor_calculator import OptimizedFactorCalculator
 from trading_utils.logger import setup_logger
 from trading_utils.monitor import TradingMonitor
 
@@ -738,39 +739,39 @@ class AutomatedTradingSystem:
         else:
             await self._wait_for_interval_execution()
 
-    async def _wait_for_daily_execution(self):
-        """等待每日执行时间 (20:00)"""
-        now = datetime.now()
-        target_hour = self.config.EXECUTION_HOUR
+    # async def _wait_for_daily_execution(self):
+    #     """等待每日执行时间 (20:00)"""
+    #     now = datetime.now()
+    #     target_hour = self.config.EXECUTION_HOUR
 
-        # 计算下次执行时间
-        today_target = now.replace(hour=target_hour, minute=0, second=0, microsecond=0)
+    #     # 计算下次执行时间
+    #     today_target = now.replace(hour=target_hour, minute=0, second=0, microsecond=0)
 
-        if now >= today_target:
-            # 如果今天的执行时间已过，等到明天的执行时间
-            next_execution = today_target + timedelta(days=1)
-        else:
-            # 如果今天的执行时间未到，等到今天的执行时间
-            next_execution = today_target
+    #     if now >= today_target:
+    #         # 如果今天的执行时间已过，等到明天的执行时间
+    #         next_execution = today_target + timedelta(days=1)
+    #     else:
+    #         # 如果今天的执行时间未到，等到今天的执行时间
+    #         next_execution = today_target
 
-        wait_seconds = (next_execution - now).total_seconds()
+    #     wait_seconds = (next_execution - now).total_seconds()
 
-        self.logger.info(f"[DAILY] 每日执行模式 - 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
-        self.logger.info(f"[WAIT] 等待 {wait_seconds:.0f} 秒 ({wait_seconds/3600:.1f} 小时)")
+    #     self.logger.info(f"[DAILY] 每日执行模式 - 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
+    #     self.logger.info(f"[WAIT] 等待 {wait_seconds:.0f} 秒 ({wait_seconds/3600:.1f} 小时)")
 
-        # 分批等待，每小时打印一次状态
-        while wait_seconds > 0:
-            if wait_seconds > 3600:
-                # 等待1小时
-                await self._sleep_and_sync(3600)
-                wait_seconds -= 3600
-                remaining_hours = wait_seconds / 3600
-                self.logger.info(f"[WAIT] 剩余等待时间: {remaining_hours:.1f} 小时")
-            else:
-                # 最后的等待时间
-                self.logger.info(f"[WAIT] 最后等待: {wait_seconds:.0f} 秒")
-                await self._sleep_and_sync(wait_seconds, chunk=min(300, wait_seconds))
-                break
+    #     # 分批等待，每小时打印一次状态
+    #     while wait_seconds > 0:
+    #         if wait_seconds > 3600:
+    #             # 等待1小时
+    #             await self._sleep_and_sync(3600)
+    #             wait_seconds -= 3600
+    #             remaining_hours = wait_seconds / 3600
+    #             self.logger.info(f"[WAIT] 剩余等待时间: {remaining_hours:.1f} 小时")
+    #         else:
+    #             # 最后的等待时间
+    #             self.logger.info(f"[WAIT] 最后等待: {wait_seconds:.0f} 秒")
+    #             await self._sleep_and_sync(wait_seconds, chunk=min(300, wait_seconds))
+    #             break
 
     async def _wait_for_16h_execution(self):
         """等待16小时模式执行时间"""
@@ -792,9 +793,16 @@ class AutomatedTradingSystem:
                 remaining_hours = wait_seconds / 3600
                 self.logger.info(f"[WAIT] 剩余等待时间: {remaining_hours:.1f} 小时")
             else:
-                # 最后的等待时间
+                # 最后的等待时间：重新计算剩余秒数，等待过程中不再同步仓位
+                now = datetime.now()
+                wait_seconds = max(0, (next_execution - now).total_seconds())
                 self.logger.info(f"[WAIT] 最后等待: {wait_seconds:.0f} 秒")
-                await self._sleep_and_sync(wait_seconds, chunk=min(300, wait_seconds))
+
+                if wait_seconds > 0:
+                    await asyncio.sleep(wait_seconds)
+
+                # 等待结束后再同步仓位状态
+                self._sync_positions_with_exchange()
                 break
 
     async def _wait_for_interval_execution(self):

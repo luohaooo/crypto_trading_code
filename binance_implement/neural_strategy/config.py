@@ -28,14 +28,14 @@ class TradingConfig:
         self.LOOKBACK_HOURS = 81          # 历史数据回看小时数
 
         # 保证金模式配置
-        self.MARGIN_TYPE = 'ISOLATED'           # 保证金模式: 'ISOLATED' 或 'CROSSED'
+        self.MARGIN_TYPE = 'CROSSED'           # 保证金模式: 'ISOLATED' 或 'CROSSED'
         self.ENABLE_MARGIN_TYPE_SETTING = True  # 是否启用保证金模式设置
         self.MARGIN_TYPE_RETRY_COUNT = 3        # 设置失败重试次数
 
         # 止盈止损配置
-        self.ENABLE_PROTECTIVE_ORDERS = True    # 是否启用止盈止损
-        self.TAKE_PROFIT_RATIO = 0.20           # 止盈比例 (20%)
-        self.STOP_LOSS_RATIO = 0.30             # 止损比例 (30%)
+        self.ENABLE_PROTECTIVE_ORDERS = False    # 是否启用止盈止损
+        self.TAKE_PROFIT_RATIO = 0           # 止盈比例 (30%)
+        self.STOP_LOSS_RATIO = 0             # 止损比例 (30%)
         self.PROTECTIVE_WORKING_TYPE = 'MARK_PRICE'  # 触发价格类型: MARK_PRICE 或 CONTRACT_PRICE
 
         # 神经网络模型配置
@@ -48,7 +48,7 @@ class TradingConfig:
         # 模型路径配置
         self.MODEL_PATH = os.path.join(
             os.path.dirname(__file__), '..', '..', 'figure_model', 'model_saved',
-            'baseline_epoch_26_train_0.00942_val_0.01010.pt'
+            'baseline_epoch_45_train_0.00174_val_0.00444.pt'
         )
 
         # API配置
@@ -56,7 +56,7 @@ class TradingConfig:
 
         # 日志配置
         self.LOG_LEVEL = 'INFO'
-        self.LOG_FILENAME = "shanghai"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
+        self.LOG_FILENAME = "hk"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
 
         # 创建日志目录路径
         log_dir = os.path.join(os.path.dirname(__file__), 'logs')
@@ -75,8 +75,8 @@ class TradingConfig:
             self.ENV_NAME = 'TESTNET'
         else:
             # 实盘配置
-            self.API_KEY = os.environ['BINANCE_API_KEY_SH']
-            self.API_SECRET = os.environ['BINANCE_API_SECRET_SH']
+            self.API_KEY = os.environ['BINANCE_API_KEY_HK']
+            self.API_SECRET = os.environ['BINANCE_API_SECRET_HK']
             self.BASE_URL = 'https://fapi.binance.com'
             self.ENV_NAME = 'LIVE'
 

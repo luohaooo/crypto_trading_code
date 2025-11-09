@@ -77,23 +77,31 @@ class TradingExecutor:
     def _load_active_symbols(self):
         """加载活跃交易对"""
         try:
-            # 获取所有市场信息
+            # 获取所有市场信息（默认已经在config中设置为期货环境）
             markets = self.exchange.load_markets()
 
-            # 筛选USDT永续合约
-            usdt_futures = []
+            # 仅保留USDT计价、处于TRADING状态的永续合约
+            usdt_perp_symbols = []
             for symbol, market in markets.items():
-                if (market.get('type') == 'swap' and
-                    market.get('quote') == 'USDT' and
-                    market.get('active', False)):
-                    usdt_futures.append(symbol)
+                is_contract = market.get('contract', False)
+                is_usdt_quote = market.get('quote') == 'USDT'
+                is_perp = market.get('swap', False) or (
+                    market.get('info', {}).get('contractType', '').lower() == 'perpetual'
+                )
+                is_active = market.get('active', True)
+                status = market.get('info', {}).get('status', '').upper()
 
-            self.active_symbols = sorted(usdt_futures)
+                if (
+                    is_contract
+                    and is_usdt_quote
+                    and is_perp
+                    and is_active
+                    and (not status or status == 'TRADING')
+                ):
+                    usdt_perp_symbols.append(symbol)
+
+            self.active_symbols = sorted(set(usdt_perp_symbols))
             self.logger.info(f"[INFO] 找到 {len(self.active_symbols)} 个活跃USDT永续合约")
-
-            # 只显示前10个作为示例
-            sample_symbols = self.active_symbols[:10]
-            self.logger.info(f"示例交易对: {', '.join(sample_symbols)}")
 
         except Exception as e:
             self.logger.error(f"[ERROR] 加载交易对失败: {e}")
@@ -590,7 +598,7 @@ class TradingExecutor:
                 return True, opened_positions
 
             # 计算每个仓位的资金
-            position_value = 0.995 * total_balance / total_positions # 防止资金不足
+            position_value = 0.98 * total_balance * self.config.LEVERAGE / total_positions # 防止资金不足
             self.logger.info(f"[BALANCE] 总余额: {total_balance:.2f} USDT")
             self.logger.info(f"[INFO] 总仓位数: {total_positions}")
             self.logger.info(f"[VALUE] 单仓价值: {position_value:.2f} USDT")
@@ -724,7 +732,8 @@ class TradingExecutor:
                 if isinstance(amount_precision, float):
                     # 计算小数位数
                     decimal_places = len(str(amount_precision).split('.')[-1]) if '.' in str(amount_precision) else 0
-                    quantity = round(quantity, decimal_places)
+                    scale = 10 ** decimal_places if decimal_places > 0 else 1
+                    quantity = math.floor(quantity * scale) / scale
                     # 确保不小于最小精度
                     if quantity < amount_precision:
                         quantity = amount_precision
@@ -798,7 +807,8 @@ class TradingExecutor:
                 if isinstance(amount_precision, float):
                     # 计算小数位数
                     decimal_places = len(str(amount_precision).split('.')[-1]) if '.' in str(amount_precision) else 0
-                    quantity = round(quantity, decimal_places)
+                    scale = 10 ** decimal_places if decimal_places > 0 else 1
+                    quantity = math.floor(quantity * scale) / scale
                     # 确保不小于最小精度
                     if quantity < amount_precision:
                         quantity = amount_precision
