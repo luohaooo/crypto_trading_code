@@ -1,87 +1,87 @@
 import pandas as pd
 import numpy as np
 
-def ohlc_to_image_without_volume(
-    ohlc_df: pd.DataFrame,
-    window: int = 20,
-    height: int = 64,
-    open_col: str = "open",
-    high_col: str = "high",
-    low_col: str = "low",
-    close_col: str = "close"
-) -> np.ndarray:
-    """
-    Convert an OHLC DataFrame into a black-and-white pixel image matrix.
+# def ohlc_to_image_without_volume(
+#     ohlc_df: pd.DataFrame,
+#     window: int = 20,
+#     height: int = 64,
+#     open_col: str = "open",
+#     high_col: str = "high",
+#     low_col: str = "low",
+#     close_col: str = "close"
+# ) -> np.ndarray:
+#     """
+#     Convert an OHLC DataFrame into a black-and-white pixel image matrix.
 
-    Parameters
-    ----------
-    ohlc_df : pd.DataFrame
-        Must contain columns ['time', open_col, high_col, low_col, close_col].
-    window : int
-        Number of data points represented by one image (default 20).
-    height : int
-        Image height (pixels), default 64.
-    open_col, high_col, low_col, close_col : str
-        Column names for OHLC, defaults are 'open','high','low','close'.
+#     Parameters
+#     ----------
+#     ohlc_df : pd.DataFrame
+#         Must contain columns ['time', open_col, high_col, low_col, close_col].
+#     window : int
+#         Number of data points represented by one image (default 20).
+#     height : int
+#         Image height (pixels), default 64.
+#     open_col, high_col, low_col, close_col : str
+#         Column names for OHLC, defaults are 'open','high','low','close'.
 
-    Returns
-    ----------
-    image : np.ndarray, shape (height, width), dtype=uint8
-        Black-and-white image matrix where 1 is white (drawn OHLC) and 0 is black background.
-    """
-    # 1. Validate dimensions
-    N = len(ohlc_df)
-    width = 3 * N
-    assert N == window, f"Number of rows ({N}) != window ({window})"
+#     Returns
+#     ----------
+#     image : np.ndarray, shape (height, width), dtype=uint8
+#         Black-and-white image matrix where 1 is white (drawn OHLC) and 0 is black background.
+#     """
+#     # 1. Validate dimensions
+#     N = len(ohlc_df)
+#     width = 3 * N
+#     assert N == window, f"Number of rows ({N}) != window ({window})"
 
-    # 2. Extract price arrays
-    opens  = ohlc_df[open_col].to_numpy()
-    highs  = ohlc_df[high_col].to_numpy()
-    lows   = ohlc_df[low_col].to_numpy()
-    closes = ohlc_df[close_col].to_numpy()
+#     # 2. Extract price arrays
+#     opens  = ohlc_df[open_col].to_numpy()
+#     highs  = ohlc_df[high_col].to_numpy()
+#     lows   = ohlc_df[low_col].to_numpy()
+#     closes = ohlc_df[close_col].to_numpy()
 
-    # 3. Global high/low for vertical scaling
-    max_h = highs.max()
-    min_l = lows.min()
-    price_range = max_h - min_l
-    # assert price_range > 0, "Max and min prices are equal; cannot scale"
+#     # 3. Global high/low for vertical scaling
+#     max_h = highs.max()
+#     min_l = lows.min()
+#     price_range = max_h - min_l
+#     # assert price_range > 0, "Max and min prices are equal; cannot scale"
 
-    # 4. Initialize black background image
-    img = np.zeros((height, width), dtype=np.uint8)
+#     # 4. Initialize black background image
+#     img = np.zeros((height, width), dtype=np.uint8)
 
-    # 5. Define price -> pixel-row mapping (row 0 is top, row height-1 is bottom)
-    def p2y(p):
-        # map: max_h -> 0; min_l -> height-1
-        return np.round((max_h - p) / price_range * (height - 1)).astype(int)
+#     # 5. Define price -> pixel-row mapping (row 0 is top, row height-1 is bottom)
+#     def p2y(p):
+#         # map: max_h -> 0; min_l -> height-1
+#         return np.round((max_h - p) / price_range * (height - 1)).astype(int)
 
-    if price_range > 0:
-        y_o = p2y(opens)
-        y_h = p2y(highs)
-        y_l = p2y(lows)
-        y_c = p2y(closes)
+#     if price_range > 0:
+#         y_o = p2y(opens)
+#         y_h = p2y(highs)
+#         y_l = p2y(lows)
+#         y_c = p2y(closes)
 
-    else:
-        y_o = (np.ones(N) * (height - 1)).astype(int)
-        y_h = (np.zeros(N)).astype(int)
-        y_l = (np.ones(N) * (height - 1)).astype(int)
-        y_c = (np.zeros(N)).astype(int)
+#     else:
+#         y_o = (np.ones(N) * (height - 1)).astype(int)
+#         y_h = (np.zeros(N)).astype(int)
+#         y_l = (np.ones(N) * (height - 1)).astype(int)
+#         y_c = (np.zeros(N)).astype(int)
 
 
-    # 6. Draw each day: central column is the vertical line; left/right columns mark open/close ticks
-    for i in range(N):
-        x0 = i * 3
-        x1 = x0 + 1
-        x2 = x0 + 2
+#     # 6. Draw each day: central column is the vertical line; left/right columns mark open/close ticks
+#     for i in range(N):
+#         x0 = i * 3
+#         x1 = x0 + 1
+#         x2 = x0 + 2
 
-        # 6a. Vertical line: from high to low (inclusive)
-        y_start, y_end = y_h[i], y_l[i]
-        img[y_start : y_end + 1, x1] = 1
+#         # 6a. Vertical line: from high to low (inclusive)
+#         y_start, y_end = y_h[i], y_l[i]
+#         img[y_start : y_end + 1, x1] = 1
 
-        # 6b. Left tick = open; right tick = close
-        img[y_o[i], x0] = 1
-        img[y_c[i], x2] = 1
+#         # 6b. Left tick = open; right tick = close
+#         img[y_o[i], x0] = 1
+#         img[y_c[i], x2] = 1
 
-    return img
+#     return img
 
 def ohlc_to_image_with_volume(
     ohlc_df: pd.DataFrame,
@@ -192,5 +192,7 @@ def ohlc_to_image_with_volume(
         # 7b. Left tick = open; right tick = close
         img[y_o[i], x0] = 1
         img[y_c[i], x2] = 1
+    
+    range_magnitude = max_h/min_l - 1
 
-    return img
+    return img, range_magnitude
