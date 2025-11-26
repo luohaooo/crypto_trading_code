@@ -15,9 +15,8 @@ import os
 import time
 import asyncio
 import signal
-import math
 from datetime import datetime, timedelta
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Any
 import pandas as pd
 import warnings
 
@@ -63,9 +62,10 @@ class AutomatedTradingSystem:
 
         # 交易状态
         self.cycle_count = 0
-        self.last_execution_time = None
-        self.current_positions = {}
         self.current_balance = 0.0
+        self.initial_cycle_balance = None
+        self.cycle_states: List[Dict[str, Any]] = []
+        self._initialize_cycle_states()
 
         # 因子表现分析
         self.symbol_info = None  # 存储上一周期的symbol价格和因子信息
@@ -79,32 +79,84 @@ class AutomatedTradingSystem:
         self.batch_call_cache = {}  # 批量调用缓存
         self.cache_expire_time = 30  # 缓存过期30秒
 
-        self.is_16h_open = False  # 标记是否刚执行完16小时的开仓
-
         # 注册信号处理
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
 
+    def _initialize_cycle_states(self):
+        """初始化cycle状态"""
+        self.cycle_states = []
+        now = datetime.now()
+
+        if self.config.EXECUTION_MODE == '16h':
+            base_hour = (self.start_hour_16h + getattr(self.config, 'CYCLE_START_OFFSET', 0)) % 24
+            base_time = now.replace(hour=base_hour, minute=0, second=0, microsecond=0)
+
+            for idx in range(self.config.CYCLE_COUNT):
+                next_time = base_time + timedelta(hours=idx * self.config.CYCLE_SPACING_HOURS)
+                while next_time < now:
+                    next_time += timedelta(hours=self.config.CYCLE_PERIOD_HOURS)
+
+                self.cycle_states.append({
+                    'id': idx,
+                    'next_execution': next_time,
+                    'last_execution': None,
+                    'positions': {},
+                    'has_traded': False,
+                })
+        else:
+            self.cycle_states.append({
+                'id': 0,
+                'next_execution': None,
+                'last_execution': None,
+                'positions': {},
+                'has_traded': False,
+            })
+
+    def _format_cycle_label(self, cycle_state: Optional[Dict[str, Any]]) -> str:
+        """格式化cycle标签"""
+        if cycle_state and self.config.EXECUTION_MODE == '16h':
+            return f"Cycle {cycle_state['id']}/{self.config.CYCLE_COUNT}"
+        return "Cycle 0"
+
+    def _get_next_cycle_state(self) -> Dict[str, Any]:
+        """获取下一个需要执行的cycle"""
+        if not self.cycle_states:
+            raise RuntimeError("未初始化cycle状态")
+
+        def sort_key(state: Dict[str, Any]):
+            next_time = state.get('next_execution')
+            if next_time is None:
+                return datetime.max
+            return next_time
+
+        return min(self.cycle_states, key=sort_key)
+
     def _sync_positions_with_exchange(self):
         """同步仓位状态，移除已由止盈止损平仓的仓位"""
-        if not self.current_positions:
-            return
+        for cycle_state in self.cycle_states:
+            positions = cycle_state.get('positions', {})
+            if not positions:
+                continue
 
-        results = self.executor.refresh_positions_status(self.current_positions)
-        for item in results:
-            symbol = item.get('symbol')
-            reason = item.get('reason', '未知原因')
-            if symbol in self.current_positions:
-                position_info = self.current_positions.pop(symbol)
-                self.logger.info(f"[PROTECT] {symbol} 仓位已由保护单或外部操作平仓 ({reason})，自动从仓位字典中移除")
-                # 可选通知
-                message = (
-                    f"🛡️ 仓位监控\n"
-                    f"交易对: {symbol}\n"
-                    f"方向: {position_info.get('side', '未知')}\n"
-                    f"原因: {reason}"
-                )
-                self.executor._send_dingding_notification(message)
+            results = self.executor.refresh_positions_status(positions)
+            for item in results:
+                symbol = item.get('symbol')
+                reason = item.get('reason', '未知原因')
+                if symbol in positions:
+                    position_info = positions.pop(symbol)
+                    self.logger.info(
+                        f"[PROTECT] {self._format_cycle_label(cycle_state)} {symbol} "
+                        f"仓位已由保护单或外部操作平仓 ({reason})，自动移除"
+                    )
+                    message = (
+                        f"🛡️ 仓位监控\n"
+                        f"Cycle: {self._format_cycle_label(cycle_state)}\n"
+                        f"交易对: {symbol}\n"
+                        f"方向: {position_info.get('side', '未知')}\n"
+                        f"原因: {reason}"
+                    )
+                    self.executor._send_dingding_notification(message)
 
     def _signal_handler(self, signum, frame):
         """处理退出信号"""
@@ -137,9 +189,14 @@ class AutomatedTradingSystem:
             self.logger.info(f"[OK] 系统初始化完成，每日 {self.config.EXECUTION_HOUR:02d}:00 执行交易")
             self.logger.info(f"[SCHEDULE] 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
         elif self.config.EXECUTION_MODE == '16h':
-            next_execution = self._get_next_16h_execution_time()
+            next_cycle = self._get_next_cycle_state()
+            next_execution = next_cycle['next_execution']
+            cycle_label = self._format_cycle_label(next_cycle)
             self.logger.info(f"[OK] 系统初始化完成，16小时周期执行 (起始 {self.start_hour_16h:02d}:00)")
-            self.logger.info(f"[SCHEDULE] 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
+            if next_execution:
+                self.logger.info(
+                    f"[SCHEDULE] {cycle_label} 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}"
+                )
         else:
             self.logger.info(f"[OK] 系统初始化完成，每 {self.config.REBALANCE_INTERVAL//60} 分钟执行交易")
 
@@ -173,6 +230,12 @@ class AutomatedTradingSystem:
 
         # 发送余额通知
         self.executor.send_balance_notification()
+
+        if self.config.EXECUTION_MODE == '16h' and self.config.CYCLE_COUNT > 0:
+            self.initial_cycle_balance = balance / self.config.CYCLE_COUNT
+            self.logger.info(
+                f"[BALANCE] 16小时模式首次每个cycle可用资金: {self.initial_cycle_balance:.2f} USDT"
+            )
 
     def _load_neglect_symbols(self) -> List[str]:
         """
@@ -209,27 +272,25 @@ class AutomatedTradingSystem:
             if (next_execution - now).total_seconds() > 60:  # 超过1分钟才等待
                 self.logger.info(f"[DAILY] 等待首次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
                 await self._wait_for_daily_execution()
-        elif self.config.EXECUTION_MODE == '16h':
-            next_execution = self._get_next_16h_execution_time()
-            now = datetime.now()
-
-            # 如果下次执行时间不是现在，先等待
-            if (next_execution - now).total_seconds() > 60:  # 超过1分钟才等待
-                self.logger.info(f"[16H] 等待首次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
-                await self._wait_for_16h_execution()
-
         while True:
             try:
+                cycle_state = None
+                if self.config.EXECUTION_MODE == '16h':
+                    cycle_state = await self._prepare_cycle_execution()
+                else:
+                    cycle_state = self.cycle_states[0]
+
                 cycle_start_time = datetime.now()
                 self.cycle_count += 1
 
+                cycle_label = self._format_cycle_label(cycle_state)
                 self.logger.info(f"\n{'='*50}")
-                self.logger.info(f"[CYCLE] 第 {self.cycle_count} 轮交易周期")
+                self.logger.info(f"[CYCLE] 第 {self.cycle_count} 轮交易周期 ({cycle_label})")
                 self.logger.info(f"[TIME] 开始时间: {cycle_start_time.strftime('%Y-%m-%d %H:%M:%S')}")
                 self.logger.info(f"{'='*50}")
 
                 # 执行一轮完整的交易流程
-                success = await self._execute_trading_cycle()
+                success = await self._execute_trading_cycle(cycle_state)
 
                 if success:
                     self.logger.info("[OK] 交易周期执行成功")
@@ -237,18 +298,22 @@ class AutomatedTradingSystem:
                 else:
                     self.logger.warning("[WARNING] 交易周期执行失败")
                     self.monitor.record_failure()
-                
-                self.is_16h_open = True
 
                 # 记录执行时间
                 cycle_duration = (datetime.now() - cycle_start_time).total_seconds()
-                self.last_execution_time = cycle_start_time
                 self.monitor.record_cycle_time(cycle_duration)
 
                 self.logger.info(f"[TIME] 周期耗时: {cycle_duration:.1f}秒")
 
+                if self.config.EXECUTION_MODE == '16h' and cycle_state is not None:
+                    cycle_state['last_execution'] = cycle_start_time
+                    cycle_state['next_execution'] = cycle_state['next_execution'] + timedelta(
+                        hours=self.config.CYCLE_PERIOD_HOURS
+                    )
+
                 # 等待下一个周期
-                await self._wait_for_next_cycle()
+                if self.config.EXECUTION_MODE != '16h':
+                    await self._wait_for_next_cycle()
 
             except Exception as e:
                 self.logger.error(f"[ERROR] 交易周期异常: {e}")
@@ -258,7 +323,7 @@ class AutomatedTradingSystem:
                 self.logger.info("[WAIT] 异常后等待30秒...")
                 await asyncio.sleep(30)
 
-    async def _execute_trading_cycle(self) -> bool:
+    async def _execute_trading_cycle(self, cycle_state: Optional[Dict[str, Any]] = None) -> bool:
         """
         执行一轮完整的交易周期
 
@@ -266,37 +331,31 @@ class AutomatedTradingSystem:
             bool: 执行是否成功
         """
         try:
+            if cycle_state is None:
+                cycle_state = self.cycle_states[0]
+
+            positions_holder = cycle_state.get('positions', {})
+            cycle_label = self._format_cycle_label(cycle_state)
+
             # 周期开始前同步仓位状态，剔除已由保护单平仓的仓位
             self._sync_positions_with_exchange()
 
             # 1. 平仓字典中存储的仓位
-            self.logger.info("[STEP 1] 平仓字典中存储的仓位...")
-            if self.current_positions:
-                self.logger.info(f"[POSITIONS] 当前持有仓位: {self.current_positions}")
-                close_success = self.executor.close_specific_positions(self.current_positions)
+            self.logger.info(f"[STEP 1] {cycle_label} 平仓字典中存储的仓位...")
+            if positions_holder:
+                self.logger.info(f"[POSITIONS] 当前持有仓位: {positions_holder}")
+                close_success = self.executor.close_specific_positions(positions_holder)
                 if not close_success:
                     self.logger.error("[ERROR] 平仓失败")
                     return False
                 # 清空仓位字典
-                self.current_positions.clear()
-                self.logger.info("[INFO] 仓位字典已清空")
+                positions_holder.clear()
+                self.logger.info(f"[INFO] {cycle_label} 仓位字典已清空")
             else:
                 self.logger.info("[INFO] 仓位字典为空，无需平仓")
 
             # 2. 跳过验证步骤
             self.logger.info("[STEP 2] 跳过验证步骤...")
-
-            # 2.5. 因子表现分析 (基于上一周期因子预测当前收益)
-            self.logger.info("[STEP 2.5] 分析上一轮因子表现 (IC/RankIC)...")
-            if self.symbol_info is not None:
-                # 创建上一轮的因子序列用于IC分析
-                previous_factors = pd.Series(
-                    {symbol: data['factor'] for symbol, data in self.symbol_info['data'].items()},
-                    name='previous_factors'
-                )
-                self._calculate_factor_performance(previous_factors)
-            else:
-                self.logger.info("[FACTOR PERFORMANCE] 首次运行，无历史数据进行IC分析")
 
             # 3. 数据处理和因子计算
             self.logger.info("[STEP 3] 提取OHLC数据并计算因子...")
@@ -309,7 +368,7 @@ class AutomatedTradingSystem:
 
             # 4. 选币策略
             self.logger.info("[STEP 4] 根据因子值选择交易标的...")
-            long_symbols, short_symbols = self._select_trading_symbols(factors)
+            long_symbols, short_symbols = self._select_trading_symbols(factors, cycle_state)
 
             if len(long_symbols) == 0 and len(short_symbols) == 0:
                 self.logger.warning("[WARNING] 没有符合条件的交易标的")
@@ -320,7 +379,7 @@ class AutomatedTradingSystem:
             self.logger.info(f"   做空: {short_symbols}")
 
             # 发送交易标的选择通知
-            selection_message = f"交易标的选择完成:\n"
+            selection_message = f"{cycle_label} 交易标的选择完成:\n"
 
             # 添加做多标的及其因子值
             if long_symbols:
@@ -360,14 +419,26 @@ class AutomatedTradingSystem:
             # 发送交易前余额通知
             self.executor.send_balance_notification()
 
+            # 5.5 计算本轮可用资金
+            balance_to_use = balance
+            if self.config.EXECUTION_MODE == '16h':
+                if not cycle_state.get('has_traded', False):
+                    if self.initial_cycle_balance is None and self.config.CYCLE_COUNT > 0:
+                        self.initial_cycle_balance = balance / self.config.CYCLE_COUNT
+                    balance_to_use = self.initial_cycle_balance or balance
+                    cycle_state['has_traded'] = True
+                    self.logger.info(
+                        f"[BALANCE] {cycle_label} 首次交易，使用预分配资金 {balance_to_use:.2f} USDT"
+                    )
+                else:
+                    self.logger.info(
+                        f"[BALANCE] {cycle_label} 使用当前可用余额 {balance_to_use:.2f} USDT 执行开仓"
+                    )
+
             # 6. 开仓交易 (现在是同步方法)
             self.logger.info("[STEP 6] 执行开仓交易...")
-            if not self.is_16h_open:
-                balance_use = math.floor(balance / 6)
-            else:
-                balance_use = balance
             position_success, opened_positions = self.executor.open_positions(
-                long_symbols, short_symbols, balance_use
+                long_symbols, short_symbols, balance_to_use
             )
   
             if not position_success:
@@ -376,9 +447,9 @@ class AutomatedTradingSystem:
 
             # 将新开仓位添加到字典中
             if opened_positions:
-                self.current_positions.update(opened_positions)
+                positions_holder.update(opened_positions)
                 self.logger.info(f"[POSITIONS] 新仓位已添加到字典: {opened_positions}")
-                self.logger.info(f"[POSITIONS] 当前仓位字典: {self.current_positions}")
+                self.logger.info(f"[POSITIONS] 当前仓位字典: {positions_holder}")
 
             # 7. 验证开仓完成 (暂时简化处理)
             self.logger.info("[STEP 7] 开仓交易完成")
@@ -410,12 +481,15 @@ class AutomatedTradingSystem:
             self.logger.error(f"[ERROR] 因子计算异常: {e}")
             return None
 
-    def _select_trading_symbols(self, factors: pd.Series) -> tuple[List[str], List[str]]:
+    def _select_trading_symbols(
+        self, factors: pd.Series, current_cycle_state: Optional[Dict[str, Any]] = None
+    ) -> tuple[List[str], List[str]]:
         """
         根据因子值选择交易标的
 
         Args:
             factors: 因子值序列
+            current_cycle_state: 当前执行周期的状态，用于排除自身仓位
 
         Returns:
             tuple: (做多标的列表, 做空标的列表)
@@ -438,12 +512,48 @@ class AutomatedTradingSystem:
         # 排序因子值
         sorted_factors = factors.sort_values(ascending=False)
 
+        # 统计其它周期中每个symbol出现次数，用于限制重复持仓
+        symbol_usage: Dict[str, int] = {}
+        for state in self.cycle_states:
+            if current_cycle_state is not None and state is current_cycle_state:
+                continue
+            positions = state.get('positions', {})
+            for symbol in positions.keys():
+                symbol_usage[symbol] = symbol_usage.get(symbol, 0) + 1
+
+        max_symbol_occurrence = 4  # 其它周期内同一symbol最多出现4次
+
+        def pick_symbols(candidates: List[str], target_count: int) -> List[str]:
+            """按照候选顺序挑选，确保其它周期未超过限制"""
+            if target_count <= 0:
+                return []
+
+            selected: List[str] = []
+            for symbol in candidates:
+                if len(selected) >= target_count:
+                    break
+
+                current_usage = symbol_usage.get(symbol, 0)
+                if current_usage >= max_symbol_occurrence:
+                    self.logger.info(
+                        f"[FILTER] {symbol} 已在其它周期出现 {current_usage} 次，达到上限 {max_symbol_occurrence}，跳过"
+                    )
+                    continue
+
+                selected.append(symbol)
+                symbol_usage[symbol] = current_usage + 1
+
+            return selected
+
         # 选择前N名做多，后N名做空
         top_n_long = min(self.config.TOP_N_LONG, len(sorted_factors))
         top_n_short = min(self.config.TOP_N_SHORT, len(sorted_factors))
 
-        long_symbols = sorted_factors.head(top_n_long).index.tolist()
-        short_symbols = sorted_factors.tail(top_n_short).index.tolist()
+        long_candidates = sorted_factors.index.tolist()
+        short_candidates = list(reversed(long_candidates))
+
+        long_symbols = pick_symbols(long_candidates, top_n_long)
+        short_symbols = pick_symbols(short_candidates, top_n_short)
 
         # 记录因子信息
         self.logger.info(f"[STATS] 因子统计:")
@@ -485,144 +595,6 @@ class AutomatedTradingSystem:
                 self.logger.info(f"   {symbol}: {factor_value:.6f}")
 
         return long_symbols, short_symbols
-
-    def _calculate_factor_performance(self, current_factors: pd.Series) -> None:
-        """
-        计算因子表现 - IC和RankIC
-        Args:
-            current_factors: 当前周期的因子值序列
-        """
-        try:
-            # 检查是否有上一周期的数据
-            if self.symbol_info is None:
-                self.logger.info("[FACTOR PERFORMANCE] 首次运行，无历史数据进行IC分析")
-                return
-
-            # 批量获取当前所有symbol的价格（使用频率控制）
-            symbols_list = current_factors.index.tolist()
-            current_prices = self._fetch_prices_with_rate_limit(symbols_list)
-            failed_symbols = [symbol for symbol in symbols_list if symbol not in current_prices]
-
-            if failed_symbols:
-                self.logger.warning(f"[PRICE FETCH] {len(failed_symbols)} 个交易对价格获取失败: {failed_symbols[:5]}...")
-
-            # 计算收益率和IC
-            valid_symbols = []
-            returns = []
-            factor_values = []
-
-            for symbol in current_factors.index:
-                if (symbol in current_prices and
-                    symbol in self.symbol_info['data']):
-
-                    current_price = current_prices[symbol]
-                    previous_price = self.symbol_info['data'][symbol]['price']
-                    previous_factor = self.symbol_info['data'][symbol]['factor']
-
-                    # 计算收益率
-                    if previous_price > 0:
-                        return_rate = (current_price - previous_price) / previous_price
-                        returns.append(return_rate)
-                        factor_values.append(previous_factor)
-                        valid_symbols.append(symbol)
-
-            # 检查是否有足够的数据进行分析
-            if len(returns) < 10:
-                self.logger.warning(f"[FACTOR PERFORMANCE] 有效数据不足 ({len(returns)} < 10)，跳过IC分析")
-                return
-
-            # 转换为pandas Series进行相关性计算
-            returns_series = pd.Series(returns, index=valid_symbols)
-            factors_series = pd.Series(factor_values, index=valid_symbols)
-
-            # 计算IC (Information Coefficient)
-            ic = returns_series.corr(factors_series)
-
-            # 计算RankIC (Rank Information Coefficient)
-            returns_rank = returns_series.rank()
-            factors_rank = factors_series.rank()
-            rank_ic = returns_rank.corr(factors_rank)
-
-            # 记录到历史
-            if not pd.isna(ic):
-                self.ic_history.append(ic)
-                if len(self.ic_history) > self.max_history_length:
-                    self.ic_history.pop(0)
-
-            if not pd.isna(rank_ic):
-                self.rankic_history.append(rank_ic)
-                if len(self.rankic_history) > self.max_history_length:
-                    self.rankic_history.pop(0)
-
-            # 计算历史统计
-            ic_mean = pd.Series(self.ic_history).mean() if self.ic_history else 0
-            ic_std = pd.Series(self.ic_history).std() if len(self.ic_history) > 1 else 0
-            rankic_mean = pd.Series(self.rankic_history).mean() if self.rankic_history else 0
-            rankic_std = pd.Series(self.rankic_history).std() if len(self.rankic_history) > 1 else 0
-
-            # 记录详细日志
-            self.logger.info("="*50)
-            self.logger.info("[FACTOR PERFORMANCE] IC分析结果:")
-            self.logger.info(f"   参与分析的交易对数量: {len(valid_symbols)}")
-            self.logger.info(f"   时间跨度: {self.symbol_info['timestamp'].strftime('%Y-%m-%d %H:%M')} -> {datetime.now().strftime('%Y-%m-%d %H:%M')}")
-            self.logger.info(f"   因子IC: {ic:.4f} {'(正相关)' if ic > 0 else '(负相关)' if ic < 0 else '(无相关)'}")
-            self.logger.info(f"   因子RankIC: {rank_ic:.4f} {'(正相关)' if rank_ic > 0 else '(负相关)' if rank_ic < 0 else '(无相关)'}")
-
-            if len(self.ic_history) > 1:
-                self.logger.info(f"   历史IC均值: {ic_mean:.4f} (最近{len(self.ic_history)}期)")
-                self.logger.info(f"   历史IC标准差: {ic_std:.4f}")
-                self.logger.info(f"   历史RankIC均值: {rankic_mean:.4f} (最近{len(self.rankic_history)}期)")
-                self.logger.info(f"   历史RankIC标准差: {rankic_std:.4f}")
-
-            # 统计收益率分布
-            positive_returns = sum(1 for r in returns if r > 0)
-            negative_returns = sum(1 for r in returns if r < 0)
-            self.logger.info(f"   收益率分布: {positive_returns}个正收益, {negative_returns}个负收益")
-            self.logger.info(f"   收益率范围: {min(returns):.4f} ~ {max(returns):.4f}")
-            self.logger.info("="*50)
-
-            # 发送DingTalk通知
-            self._send_factor_performance_notification(
-                ic, rank_ic, len(valid_symbols), ic_mean, ic_std,
-                len(self.ic_history), positive_returns, negative_returns
-            )
-
-        except Exception as e:
-            self.logger.error(f"[ERROR] 因子表现分析异常: {e}")
-
-    def _send_factor_performance_notification(self, ic: float, rank_ic: float,
-                                            sample_size: int, ic_mean: float, ic_std: float,
-                                            history_length: int, positive_returns: int,
-                                            negative_returns: int) -> None:
-        """发送因子表现分析的DingTalk通知"""
-        try:
-            # 判断IC表现
-            ic_status = "✅" if ic > 0.02 else "⚠️" if ic > -0.02 else "❌"
-            rankic_status = "✅" if rank_ic > 0.02 else "⚠️" if rank_ic > -0.02 else "❌"
-
-            message = f"🔍 因子表现分析:\n"
-            message += f"IC: {ic:.4f} {ic_status}\n"
-            message += f"RankIC: {rank_ic:.4f} {rankic_status}\n"
-            message += f"分析样本: {sample_size}个交易对\n"
-            message += f"收益分布: {positive_returns}↗️ {negative_returns}↘️\n"
-
-            if history_length > 1:
-                message += f"历史表现: 均值{ic_mean:.4f}±{ic_std:.4f} ({history_length}期)\n"
-
-            # 添加表现评价
-            if ic > 0.05:
-                message += "📈 因子表现优秀"
-            elif ic > 0.02:
-                message += "📊 因子表现良好"
-            elif ic > -0.02:
-                message += "📉 因子表现一般"
-            else:
-                message += "⚠️ 因子表现较差"
-
-            self.executor._send_dingding_notification(message)
-
-        except Exception as e:
-            self.logger.error(f"[ERROR] 发送因子表现通知失败: {e}")
 
     def _record_symbol_info(self, factors: pd.Series) -> None:
         """
@@ -742,34 +714,18 @@ class AutomatedTradingSystem:
         else:
             return today_target
 
-    def _get_next_16h_execution_time(self) -> datetime:
-        """获取下次16小时模式执行时间"""
-        now = datetime.now()
-
-        if not self.is_16h_open or self.last_execution_time is None:
-            # 首次启动：使用用户指定的起始小时
-            today_start = now.replace(
-                hour=self.start_hour_16h, minute=0, second=0, microsecond=0
-            )
-            if now < today_start:
-                return today_start
-            return today_start + timedelta(days=1)
-
-        # 后续周期：基于上次启动时间 + 16 小时
-        next_execution = self.last_execution_time + timedelta(hours=16)
-        if next_execution <= now:
-            # 如果延迟超过16小时，按16小时步进补齐
-            elapsed = (now - self.last_execution_time).total_seconds()
-            periods = int(elapsed // (16 * 3600)) + 1
-            next_execution = self.last_execution_time + timedelta(hours=16 * periods)
-        return next_execution
+    async def _prepare_cycle_execution(self) -> Dict[str, Any]:
+        """等待并获取下一个需要执行的cycle"""
+        cycle_state = self._get_next_cycle_state()
+        await self._wait_for_cycle_execution(cycle_state)
+        return cycle_state
 
     async def _wait_for_next_cycle(self):
         """等待下一个交易周期"""
         if self.config.EXECUTION_MODE == 'daily':
             await self._wait_for_daily_execution()
         elif self.config.EXECUTION_MODE == '16h':
-            await self._wait_for_16h_execution()
+            return
         else:
             await self._wait_for_interval_execution()
 
@@ -807,36 +763,41 @@ class AutomatedTradingSystem:
     #             await self._sleep_and_sync(wait_seconds, chunk=min(300, wait_seconds))
     #             break
 
-    async def _wait_for_16h_execution(self):
-        """等待16小时模式执行时间"""
+    async def _wait_for_cycle_execution(self, cycle_state: Dict[str, Any]):
+        """等待指定cycle的执行时间"""
+        next_execution = cycle_state.get('next_execution')
+        if not next_execution:
+            return
+
+        cycle_label = self._format_cycle_label(cycle_state)
         now = datetime.now()
+        wait_seconds = max(0, (next_execution - now).total_seconds())
 
-        # 计算下次执行时间
-        next_execution = self._get_next_16h_execution_time()
-        wait_seconds = (next_execution - now).total_seconds()
-
-        self.logger.info(f"[16H] 16小时执行模式 - 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}")
+        self.logger.info(
+            f"[16H] {cycle_label} 下次执行时间: {next_execution.strftime('%Y-%m-%d %H:%M:%S')}"
+        )
         self.logger.info(f"[WAIT] 等待 {wait_seconds:.0f} 秒 ({wait_seconds/3600:.1f} 小时)")
 
-        # 分批等待，每小时打印一次状态
+        counter = 0
+
         while wait_seconds > 0:
-            if wait_seconds > 3600:
-                # 等待1小时
-                await self._sleep_and_sync(3600)
-                wait_seconds -= 3600
-                remaining_hours = wait_seconds / 3600
-                self.logger.info(f"[WAIT] 剩余等待时间: {remaining_hours:.1f} 小时")
-            else:
-                # 最后的等待时间：重新计算剩余秒数，等待过程中不再同步仓位
+            counter += 1
+            if wait_seconds > 180:
+                await self._sleep_and_sync(10)
+                self._sync_positions_with_exchange()
                 now = datetime.now()
                 wait_seconds = max(0, (next_execution - now).total_seconds())
-                self.logger.info(f"[WAIT] 最后等待: {wait_seconds:.0f} 秒")
+                remaining_mins = wait_seconds / 60
+                if counter % 10 == 0:
+                    self.logger.info(f"[WAIT] {cycle_label} 剩余等待时间: {remaining_mins:.1f} 分钟")
+            else:
+                now = datetime.now()
+                wait_seconds = max(0, (next_execution - now).total_seconds())
+                self.logger.info(f"[WAIT] {cycle_label} 最后等待: {wait_seconds:.0f} 秒")
 
                 if wait_seconds > 0:
                     await asyncio.sleep(wait_seconds)
-
-                # 等待结束后再同步仓位状态
-                self._sync_positions_with_exchange()
+                # self._sync_positions_with_exchange()
                 break
 
     async def _wait_for_interval_execution(self):

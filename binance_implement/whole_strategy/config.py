@@ -27,6 +27,12 @@ class TradingConfig:
         self.LEVERAGE = 3                 # 杠杆倍数
         self.LOOKBACK_HOURS = 81          # 历史数据回看小时数
 
+        # 16小时循环配置
+        self.CYCLE_COUNT = 4             # cycle数量
+        self.CYCLE_SPACING_HOURS = 4      # cycle之间的小时差
+        self.CYCLE_PERIOD_HOURS = 16      # 每个cycle的循环周期
+        self.CYCLE_START_OFFSET = 0       # 起始偏移（保持为0）
+
         # 保证金模式配置
         self.MARGIN_TYPE = 'ISOLATED'           # 保证金模式: 'ISOLATED' 或 'CROSSED'
         self.ENABLE_MARGIN_TYPE_SETTING = True  # 是否启用保证金模式设置
@@ -56,7 +62,7 @@ class TradingConfig:
 
         # 日志配置
         self.LOG_LEVEL = 'INFO'
-        self.LOG_FILENAME = "craz10"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
+        self.LOG_FILENAME = "craz_sh"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
 
         # 创建日志目录路径
         log_dir = os.path.join(os.path.dirname(__file__), 'logs')
@@ -75,8 +81,8 @@ class TradingConfig:
             self.ENV_NAME = 'TESTNET'
         else:
             # 实盘配置
-            self.API_KEY = os.environ['BINANCE_API_KEY']
-            self.API_SECRET = os.environ['BINANCE_API_SECRET']
+            self.API_KEY = os.environ['BINANCE_API_KEY_SH']
+            self.API_SECRET = os.environ['BINANCE_API_SECRET_SH']
             self.BASE_URL = 'https://fapi.binance.com'
             self.ENV_NAME = 'LIVE'
 

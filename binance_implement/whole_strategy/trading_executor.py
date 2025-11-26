@@ -115,11 +115,11 @@ class TradingExecutor:
             current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
             if balance is not None:
-                message = f"📊 账户余额报告\n⏰ 时间: {current_time}\n💰 USDT余额: {balance:.2f}\n🔧 环境: {'测试网' if self.config.use_testnet else '实盘'}"
+                message = f" 账户余额报告\n 时间: {current_time}\n USDT余额: {balance:.2f}"
                 self._send_dingding_notification(message)
                 self.logger.info(f"[BALANCE] 余额通知已发送: {balance:.2f} USDT")
             else:
-                error_msg = f"❌ 余额查询失败\n⏰ 时间: {current_time}\n🔧 环境: {'测试网' if self.config.use_testnet else '实盘'}"
+                error_msg = f"❌ 余额查询失败\n 时间: {current_time}\n 环境: {'测试网' if self.config.use_testnet else '实盘'}"
                 self._send_dingding_notification(error_msg)
                 self.logger.error("[ERROR] 余额查询失败，已发送错误通知")
 
