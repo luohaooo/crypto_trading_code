@@ -19,7 +19,7 @@ class TradingConfig:
         self.use_testnet = use_testnet
 
         # 基础交易配置
-        self.EXECUTION_MODE = '16h'       # 执行模式: 'interval'、'daily' 或 '16h'
+        self.EXECUTION_MODE = 'interval'       # 执行模式: 'interval'、'daily' 或 '16h'
         self.EXECUTION_HOUR = 4           # 每日执行时间 (24小时制，仅在daily模式下使用)
         self.REBALANCE_INTERVAL = 60      # 5分钟 = 300秒 (仅在interval模式下使用)
         self.TOP_N_LONG = 2            # 做多币种数量
@@ -75,8 +75,8 @@ class TradingConfig:
             self.ENV_NAME = 'TESTNET'
         else:
             # 实盘配置
-            self.API_KEY = os.environ['BINANCE_API_KEY']
-            self.API_SECRET = os.environ['BINANCE_API_SECRET']
+            self.API_KEY = os.environ['BINANCE_API_KEY_SH']
+            self.API_SECRET = os.environ['BINANCE_API_SECRET_SH']
             self.BASE_URL = 'https://fapi.binance.com'
             self.ENV_NAME = 'LIVE'
 

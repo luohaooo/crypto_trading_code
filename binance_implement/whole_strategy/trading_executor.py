@@ -1050,12 +1050,21 @@ class TradingExecutor:
         tp_ratio = getattr(self.config, 'TAKE_PROFIT_RATIO', 0)
         sl_ratio = getattr(self.config, 'STOP_LOSS_RATIO', 0)
 
-        if side == 'long':
-            take_profit_price = entry_price * (1 + tp_ratio)
-            stop_loss_price = entry_price * (1 - sl_ratio)
-        else:
-            take_profit_price = entry_price * (1 - tp_ratio)
-            stop_loss_price = entry_price * (1 + sl_ratio)
+        take_profit_price = None
+        stop_loss_price = None
+
+        # 比例为0时表示不启用对应的保护单
+        if tp_ratio:
+            if side == 'long':
+                take_profit_price = entry_price * (1 + tp_ratio)
+            else:
+                take_profit_price = entry_price * (1 - tp_ratio)
+
+        if sl_ratio:
+            if side == 'long':
+                stop_loss_price = entry_price * (1 - sl_ratio)
+            else:
+                stop_loss_price = entry_price * (1 + sl_ratio)
 
         if take_profit_price and take_profit_price <= 0:
             take_profit_price = None

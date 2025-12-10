@@ -197,6 +197,7 @@ class OptimizedFactorCalculator:
             float: 因子值，如果计算失败返回None
         """
         try:
+            # print(symbol_data)
             
             df_0 = symbol_data.iloc[-80:].copy()
             btc_0 = btc_data.iloc[-80:].copy()

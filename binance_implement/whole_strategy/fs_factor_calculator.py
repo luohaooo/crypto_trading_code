@@ -19,7 +19,8 @@ import torch.nn as nn
 from tqdm import tqdm
 from typing import Optional, Dict, List
 from datetime import datetime
-from ohlc_model_v2 import create_model
+from ohlc_model_v2 import create_model_v2
+from ohlc_model_v3 import create_model_v3
 
 # 添加项目路径
 project_root = os.path.join(os.path.dirname(__file__), '..', '..')
@@ -30,8 +31,6 @@ sys.path.insert(0, figure_model_root)
 
 
 from figure_model.ohlc2fig_v2 import ohlc_to_image_with_volume
-
-
 
 class OptimizedFactorCalculator:
     """优化的因子计算器，基于torch模型的逐symbol处理"""
@@ -57,8 +56,11 @@ class OptimizedFactorCalculator:
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         # 模型相关
-        self.model = None
-        self.model_path = None
+        self.model_1 = None
+        self.model_path_1 = None
+
+        self.model_2 = None
+        self.model_path_2 = None
 
         # 数据处理器
         self.data_processor = None
@@ -67,7 +69,8 @@ class OptimizedFactorCalculator:
         """初始化因子计算器"""
         try:
             # 从配置获取模型路径
-            self.model_path = self.config.MODEL_PATH
+            self.model_path_1 = self.config.MODEL_PATH_1
+            self.model_path_2 = self.config.MODEL_PATH_2
 
             # 加载torch模型
             self._load_model()
@@ -75,7 +78,7 @@ class OptimizedFactorCalculator:
             self.logger.info("[OK] 优化因子计算器初始化成功")
             self.logger.info(f"   设备: {self.device}")
             self.logger.info(f"   时间框架: {self.timeframes}")
-            self.logger.info(f"   模型路径: {self.model_path}")
+            self.logger.info(f"   模型路径: {self.model_path_1}, {self.model_path_2}")
 
         except Exception as e:
             self.logger.error(f"[ERROR] 优化因子计算器初始化失败: {e}")
@@ -84,31 +87,55 @@ class OptimizedFactorCalculator:
     def _load_model(self):
         """加载torch模型"""
         try:
-            if not self.model_path:
+            if not self.model_path_1 and not self.model_path_2:
                 raise ValueError("模型路径未配置，请在 config.py 中设置 MODEL_PATH")
 
-            if not os.path.exists(self.model_path):
-                raise FileNotFoundError(f"模型文件不存在: {self.model_path}\n"
+            if not os.path.exists(self.model_path_1):
+                raise FileNotFoundError(f"模型文件不存在: {self.model_path_1}\n"
+                                      f"请检查 config.py 中的 MODEL_PATH 配置是否正确")
+        
+            if not os.path.exists(self.model_path_2):
+                raise FileNotFoundError(f"模型文件不存在: {self.model_path_2}\n"
                                       f"请检查 config.py 中的 MODEL_PATH 配置是否正确")
 
             # 创建模型架构
-            self.model = create_model(use_parallel=torch.cuda.device_count() > 1)
+            self.model_1 = create_model_v2(use_parallel=torch.cuda.device_count() > 1)
 
             # 加载模型权重
-            checkpoint = torch.load(self.model_path, map_location=self.device, weights_only=True)
+            checkpoint = torch.load(self.model_path_1, map_location=self.device, weights_only=True)
 
             # 处理不同的checkpoint格式
             if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
-                self.model.load_state_dict(checkpoint['model_state_dict'])
+                self.model_1.load_state_dict(checkpoint['model_state_dict'])
             else:
                 # 假设checkpoint直接是state dict
-                self.model.load_state_dict(checkpoint)
+                self.model_1.load_state_dict(checkpoint)
 
             # 移动到设备并设置为评估模式
-            self.model.to(self.device)
-            self.model.eval()
+            self.model_1.to(self.device)
+            self.model_1.eval()
 
-            print(f"✅ 成功加载OHLC CNN模型: {self.model_path}")
+            print(f"✅ 成功加载OHLC CNN模型: {self.model_path_1}")
+            print(f"📱 使用设备: {self.device}")
+
+            # 创建模型架构
+            self.model_2 = create_model_v3(use_parallel=torch.cuda.device_count() > 1)
+
+            # 加载模型权重
+            checkpoint = torch.load(self.model_path_2, map_location=self.device, weights_only=True)
+
+            # 处理不同的checkpoint格式
+            if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
+                self.model_2.load_state_dict(checkpoint['model_state_dict'])
+            else:
+                # 假设checkpoint直接是state dict
+                self.model_2.load_state_dict(checkpoint)
+
+            # 移动到设备并设置为评估模式
+            self.model_2.to(self.device)
+            self.model_2.eval()
+
+            print(f"✅ 成功加载OHLC CNN模型: {self.model_path_2}")
             print(f"📱 使用设备: {self.device}")
 
         except Exception as e:
@@ -126,7 +153,7 @@ class OptimizedFactorCalculator:
         Returns:
             pd.Series: 因子值序列，index为symbol
         """
-        if self.model is None:
+        if self.model_1 and self.model_2 is None:
             self.logger.error("[ERROR] 模型未加载，无法计算因子")
             return None
 
@@ -149,7 +176,9 @@ class OptimizedFactorCalculator:
             print(f"✅ 成功获取 {len(symbols)} 个交易对的数据")
 
             # 逐个symbol计算因子值
-            factor_values = {}
+            raw_factor_values_1 = {}
+            raw_factor_values_2 = {}
+            raw_factor_values_3 = {}
             successful_count = 0
 
             print(f"\n🎯 开始逐个计算因子值...")
@@ -157,15 +186,45 @@ class OptimizedFactorCalculator:
                 if symbol == "USDC/USDT:USDT":
                     continue
                 try:
-                    factor_value = self._calculate_single_symbol_factor(all_symbols_data[symbol], all_symbols_data['BTC/USDT:USDT'])
+                    raw_factor_value_1, raw_factor_value_2, raw_factor_value_3 = self._calculate_single_symbol_factor(all_symbols_data[symbol], all_symbols_data['BTC/USDT:USDT'])
 
-                    if factor_value is not None:
-                        factor_values[symbol] = factor_value
+                    if raw_factor_values_1 is not None and raw_factor_values_2 is not None and raw_factor_values_3 is not None:
+                        raw_factor_values_1[symbol] = raw_factor_value_1
+                        raw_factor_values_2[symbol] = raw_factor_value_2
+                        raw_factor_values_3[symbol] = raw_factor_value_3
                         successful_count += 1
 
                 except Exception as e:
                     # 静默跳过失败的交易对
                     continue
+            
+            # 归一化 raw_factor_value
+            def normalize_factor_values(values_dict: Dict[str, float]) -> Dict[str, float]:
+                if not values_dict:
+                    return {}
+                values = np.array(list(values_dict.values()), dtype=float)
+                mean = float(values.mean())
+                std = float(values.std(ddof=0))
+                if std == 0:
+                    return {symbol: 0.0 for symbol in values_dict}
+                return {symbol: (value - mean) / std for symbol, value in values_dict.items()}
+
+            normalized_values_1 = normalize_factor_values(raw_factor_values_1)
+            normalized_values_2 = normalize_factor_values(raw_factor_values_2)
+            normalized_values_3 = normalize_factor_values(raw_factor_values_3)
+
+            factor_values: Dict[str, float] = {}
+            common_symbols = (
+                set(normalized_values_1.keys())
+                & set(normalized_values_2.keys())
+                & set(normalized_values_3.keys())
+            )
+            for symbol in common_symbols:
+                factor_values[symbol] = (
+                    normalized_values_1.get(symbol, 0.0)
+                    + normalized_values_2.get(symbol, 0.0)
+                    + normalized_values_3.get(symbol, 0.0)
+                )
 
             if not factor_values:
                 self.logger.error("[ERROR] 没有计算出任何有效因子值")
@@ -201,19 +260,16 @@ class OptimizedFactorCalculator:
             df_0 = symbol_data.iloc[-80:].copy()
             btc_0 = btc_data.iloc[-80:].copy()
 
-            df_1 = symbol_data.iloc[-81:-1].copy()
-            btc_1 = btc_data.iloc[-81:-1].copy()
-
-            df_2 = symbol_data.iloc[-82:-2].copy()
-            btc_2 = btc_data.iloc[-82:-2].copy()
-
-
             # 计算两个子因子
             
-            sub_factor_0 = self._calculate_sub_factor(df_0, btc_0)
-            sub_factor_1 = self._calculate_sub_factor(df_1, btc_1)
-            sub_factor_2 = self._calculate_sub_factor(df_2, btc_2)
-            return (sub_factor_0 + 0.7 * sub_factor_1 + 0.49 * sub_factor_2) / 2.19
+            sub_factor_1, sub_factor_2 = self._calculate_sub_factor(df_0, btc_0)
+
+            # 计算pct_change(72)
+            last_close = df_0.iloc[-1]['close']
+            historical_close = df_0.iloc[-73]['close']
+            sub_factor_3 = (last_close - historical_close) / last_close
+
+            return sub_factor_1, sub_factor_2, sub_factor_3
 
         except Exception as e:
             return None
@@ -283,25 +339,30 @@ class OptimizedFactorCalculator:
 
         # 使用模型进行推理
         with torch.no_grad():
-            prediction = self.model(image_tensor, magnitude)
-            factor_value = prediction.cpu().numpy().flatten()[0]
+            prediction = self.model_1(image_tensor, magnitude)
+            factor_value_1 = prediction.cpu().numpy().flatten()[0]
 
-        return float(factor_value)
+            prediction = self.model_2(image_tensor, magnitude)
+            factor_value_2 = prediction.cpu().numpy().flatten()[0]
+
+        return float(factor_value_1), float(factor_value_2)
 
     
         
 
-    def set_model_path(self, model_path: str):
+    def set_model_path(self, model_path_1: str, model_path_2: str):
         """设置模型路径（已弃用，请使用config.py配置）"""
         import warnings
         warnings.warn("set_model_path 方法已弃用，请在 config.py 中配置 MODEL_PATH",
                      DeprecationWarning, stacklevel=2)
-        self.model_path = model_path
+        self.model_path_1 = model_path_1
+        self.model_path_2 = model_path_2
 
     def get_model_info(self) -> Dict:
         """获取模型信息"""
         return {
-            'model_path': self.model_path,
+            'model_path_1': self.model_path_1,
+            'model_path_2': self.model_path_2,
             'device': str(self.device),
             'timeframes': self.timeframes,
             'limit': self.limit,

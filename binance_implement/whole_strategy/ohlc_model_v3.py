@@ -36,19 +36,23 @@ class SingleTFEncoder(nn.Module):
             nn.MaxPool2d((2,1), stride=(2,1)),
         )
         # 尺寸路径: (B,1,64,60)->(B,64,27,60)->(B,64,13,60)->(B,128,10,60)->(B,128,5,60)->(B,256,7,60)->(B,256,3,60)
-        self.gap = nn.AdaptiveAvgPool2d((1,1))  
+        # self.gap = nn.AdaptiveAvgPool2d((1,1))  # (B,256,1,1) -> (B,256)
+        self.fc1 = nn.Sequential(
+            nn.Linear(256*3*60, 8),
+            nn.Dropout(0.1),
+        )
 
         # 标量支路: scalar_dim -> 32
         self.scalar_mlp = nn.Sequential(
-            nn.LayerNorm(scalar_dim),
             nn.Linear(scalar_dim, 32),
             nn.ReLU(inplace=True),
+            nn.Linear(32, 4),
             nn.Dropout(0.05),
         )
 
         # 融合投影: (256 + 32) -> d_model
         self.proj = nn.Sequential(
-            nn.Linear(256 + 32, d_model),
+            nn.Linear(8 + 4, d_model),
             nn.ReLU(inplace=True),
             nn.Dropout(0.1),
         )
@@ -60,10 +64,11 @@ class SingleTFEncoder(nn.Module):
         h = self.layer1(x_img)
         h = self.layer2(h)
         h = self.layer3(h)
-        h = self.gap(h).view(h.size(0), -1)  # (B,256)
+        h = h.reshape(h.size(0), -1)   
+        h = self.fc1(h)                # (B,8)
 
-        z = self.scalar_mlp(x_sc)            # (B,32)
-        v = torch.cat([h, z], dim=1)         # (B,288)
+        z = self.scalar_mlp(x_sc)            
+        v = torch.cat([h, z], dim=1)         
         feat = self.proj(v)                  # (B,d_model)
         return feat
 
@@ -156,7 +161,6 @@ class NetTimeframeAware(nn.Module):
         if self.fuse == "attn":
             scores = self.attn_mlp(F_stack)      # (B,3,1)
             alpha = torch.softmax(scores, dim=1) # (B,3,1)
-            # print(alpha)
             F = (F_stack * alpha).sum(dim=1)     # (B,d_model)
         elif self.fuse == "concat":
             F = F_stack.reshape(B, -1)           # (B, 3*d_model)
@@ -180,7 +184,9 @@ class NetTimeframeAware(nn.Module):
             'task_type': 'regression'
         }
 
-def create_model_v2(device=None, use_parallel=False):
+
+
+def create_model_v3(device=None, use_parallel=False):
     """
     Create and initialize the OHLC model
 
@@ -194,7 +200,7 @@ def create_model_v2(device=None, use_parallel=False):
     if device is None:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    model = NetTimeframeAware(d_model=192*4, scalar_dim=2, shared_cnn=False, fuse="attn")
+    model = NetTimeframeAware(d_model=32, scalar_dim=2, shared_cnn=True, fuse="concat")
 
     if device.type == 'cuda':
         model = model.to(device)
@@ -210,4 +216,5 @@ def create_model_v2(device=None, use_parallel=False):
 # # x_imgs:    (B,3,64,60)
 # # x_scalars: (B,3,2)
 # pred = model(x_imgs, x_scalars)
+
 # loss = criterion(pred.squeeze(-1), y)  # y: (B,)

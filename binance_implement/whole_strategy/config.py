@@ -19,12 +19,12 @@ class TradingConfig:
         self.use_testnet = use_testnet
 
         # 基础交易配置
-        self.EXECUTION_MODE = '16h'       # 执行模式: 'interval'、'daily' 或 '16h'
+        self.EXECUTION_MODE = 'interval'       # 执行模式: 'interval'、'daily' 或 '16h'
         self.EXECUTION_HOUR = 4           # 每日执行时间 (24小时制，仅在daily模式下使用)
         self.REBALANCE_INTERVAL = 60      # 5分钟 = 300秒 (仅在interval模式下使用)
         self.TOP_N_LONG = 2            # 做多币种数量
         self.TOP_N_SHORT = 2             # 做空币种数量
-        self.LEVERAGE = 3                 # 杠杆倍数
+        self.LEVERAGE = 1                 # 杠杆倍数
         self.LOOKBACK_HOURS = 81          # 历史数据回看小时数
 
         # 16小时循环配置
@@ -40,7 +40,7 @@ class TradingConfig:
 
         # 止盈止损配置
         self.ENABLE_PROTECTIVE_ORDERS = True    # 是否启用止盈止损
-        self.TAKE_PROFIT_RATIO = 0.2           # 止盈比例 (30%)
+        self.TAKE_PROFIT_RATIO = 0           # 止盈比例 (30%)
         self.STOP_LOSS_RATIO = 0.2             # 止损比例 (30%)
         self.PROTECTIVE_WORKING_TYPE = 'MARK_PRICE'  # 触发价格类型: MARK_PRICE 或 CONTRACT_PRICE
 
@@ -52,9 +52,13 @@ class TradingConfig:
         self.USE_MARKET_ORDERS_ONLY = True  # 仅使用市价单，提高执行速度
 
         # 模型路径配置
-        self.MODEL_PATH = os.path.join(
+        self.MODEL_PATH_1 = os.path.join(
             os.path.dirname(__file__), '..', '..', 'figure_model', 'model_saved',
             'baseline_epoch_45_train_0.00174_val_0.00444.pt'
+        )
+        self.MODEL_PATH_2 = os.path.join(
+            os.path.dirname(__file__), '..', '..', 'figure_model', 'model_saved',
+            'baseline_epoch_47_train_0.00157_val_0.00536.pt'
         )
 
         # API配置
@@ -62,7 +66,7 @@ class TradingConfig:
 
         # 日志配置
         self.LOG_LEVEL = 'INFO'
-        self.LOG_FILENAME = "craz_sh"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
+        self.LOG_FILENAME = "craz_test"  # 自定义日志文件名（不包含路径和扩展名），设置此属性可覆盖默认时间命名
 
         # 创建日志目录路径
         log_dir = os.path.join(os.path.dirname(__file__), 'logs')
@@ -81,8 +85,8 @@ class TradingConfig:
             self.ENV_NAME = 'TESTNET'
         else:
             # 实盘配置
-            self.API_KEY = os.environ['BINANCE_API_KEY_SH']
-            self.API_SECRET = os.environ['BINANCE_API_SECRET_SH']
+            self.API_KEY = os.environ['BINANCE_API_KEY_UESTC']
+            self.API_SECRET = os.environ['BINANCE_API_SECRET_UESTC']
             self.BASE_URL = 'https://fapi.binance.com'
             self.ENV_NAME = 'LIVE'
 
@@ -169,10 +173,10 @@ class TradingConfig:
 
         # 检查止盈止损配置
         if self.ENABLE_PROTECTIVE_ORDERS:
-            if self.TAKE_PROFIT_RATIO <= 0:
+            if self.TAKE_PROFIT_RATIO < 0:
                 print("错误: 止盈比例必须大于0")
                 return False
-            if self.STOP_LOSS_RATIO <= 0:
+            if self.STOP_LOSS_RATIO < 0:
                 print("错误: 止损比例必须大于0")
                 return False
             if self.PROTECTIVE_WORKING_TYPE not in ['MARK_PRICE', 'CONTRACT_PRICE']:
