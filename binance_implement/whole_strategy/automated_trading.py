@@ -807,20 +807,20 @@ class AutomatedTradingSystem:
         self.logger.info(f"[INTERVAL] 间隔执行模式 - 等待 {wait_seconds} 秒 ({wait_seconds//60} 分钟)")
         await self._sleep_and_sync(wait_seconds, chunk=min(60, wait_seconds))
 
-    # async def _sleep_and_sync(self, total_seconds: float, chunk: float = 300):
-    #     """在等待过程中定期同步仓位状态"""
-    #     remaining = total_seconds
-    #     if remaining <= 0:
-    #         # self._sync_positions_with_exchange()
-    #         return
+    async def _sleep_and_sync(self, total_seconds: float, chunk: float = 300):
+        """在等待过程中定期同步仓位状态"""
+        remaining = total_seconds
+        if remaining <= 0:
+            # self._sync_positions_with_exchange()
+            return
 
-    #     while remaining > 0:
-    #         sleep_duration = min(chunk, remaining)
-    #         # self._sync_positions_with_exchange()
-    #         await asyncio.sleep(sleep_duration)
-    #         remaining -= sleep_duration
-    #     # 最后再同步一次，捕捉等待结束后的状态
-    #     self._sync_positions_with_exchange()
+        while remaining > 0:
+            sleep_duration = min(chunk, remaining)
+            # self._sync_positions_with_exchange()
+            await asyncio.sleep(sleep_duration)
+            remaining -= sleep_duration
+        # 最后再同步一次，捕捉等待结束后的状态
+        self._sync_positions_with_exchange()
 
 def main():
     """主函数"""

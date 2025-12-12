@@ -9,8 +9,13 @@
 import ccxt
 import math
 import time
+import hashlib
+import hmac
 from datetime import datetime
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Any
+from urllib.parse import urlencode
+
+import requests
 
 # 导入钉钉通知模块
 try:
@@ -344,6 +349,10 @@ class TradingExecutor:
             close_orders = []
             failed_positions = []
 
+            summary_lines: List[str] = []
+            missing_profit_symbols: List[str] = []
+            total_profit_loss = 0.0
+
             for symbol, position_info in positions_dict.items():
                 try:
                     side = position_info['side']
@@ -460,6 +469,9 @@ class TradingExecutor:
 
             close_orders = []
             failed_positions = []
+            summary_lines: List[str] = []
+            missing_profit_symbols: List[str] = []
+            total_profit_loss = 0.0
 
             for symbol, position_info in positions_dict.items():
                 try:
@@ -518,21 +530,14 @@ class TradingExecutor:
                         close_orders.append(order)
                         self.logger.info(f"[LIVE SUCCESS] 平仓订单创建成功 {symbol}: {order.get('id', 'Unknown')}")
 
-                        # 发送DingTalk收益通知
                         if open_price > 0 and current_price > 0:
-                            profit_emoji = "💰" if profit_loss > 0 else "📉" if profit_loss < 0 else "➖"
                             direction_text = "做多" if side == 'long' else "做空"
-
-                            dingding_msg = (
-                                f"🔔 [实盘] 平仓通知\n"
-                                f"📊 交易对: {symbol}\n"
-                                f"📈 方向: {direction_text}\n"
-                                f"🔢 数量: {quantity:.8f}\n"
-                                f"💵 开仓价: {open_price:.8f}\n"
-                                f"💵 平仓价: {current_price:.8f}\n"
-                                f"{profit_emoji} 收益: {profit_percentage:.2f}% ({profit_loss:.8f} USDT)"
+                            summary_lines.append(
+                                f"{symbol} | {direction_text} | 数量 {quantity:.4f} | 开仓 {open_price:.4f} | 平仓 {current_price:.4f} | 收益 {profit_percentage:.2f}% ({profit_loss:.2f} USDT)"
                             )
-                            self._send_dingding_notification(dingding_msg)
+                            total_profit_loss += profit_loss
+                        else:
+                            missing_profit_symbols.append(symbol)
                     else:
                         self.logger.error(f"[LIVE ERROR] 平仓失败 {symbol}")
                         failed_positions.append(symbol)
@@ -553,6 +558,18 @@ class TradingExecutor:
             if close_orders:
                 self.logger.info(f"[LIVE WAIT] 等待 {len(close_orders)} 个平仓订单执行...")
                 time.sleep(2)
+
+            if summary_lines:
+                summary_message = "[实盘] 平仓汇总\n"
+                summary_message += "\n\n".join(summary_lines)
+                summary_message += f"\n\n总收益: {total_profit_loss:.2f} USDT"
+                if missing_profit_symbols:
+                    summary_message += f"\n以下交易缺少价格信息无法计算收益: {', '.join(missing_profit_symbols)}"
+                self._send_dingding_notification(summary_message)
+            elif missing_profit_symbols:
+                message = "[实盘] 平仓汇总\n所有平仓缺少价格或收益信息，未能计算收益。\n"
+                message += f"涉及交易对: {', '.join(missing_profit_symbols)}"
+                self._send_dingding_notification(message)
 
             success_count = len(positions_dict) - len(failed_positions)
             self.logger.info(f"[LIVE OK] 平仓操作完成，成功: {success_count}/{len(positions_dict)}")
@@ -1073,6 +1090,158 @@ class TradingExecutor:
 
         return take_profit_price, stop_loss_price
 
+    def _create_algo_protective_order(
+        self,
+        symbol: str,
+        order_type: str,
+        side: str,
+        position_side: str,
+        quantity: float,
+        trigger_price: float,
+        working_type: str
+    ) -> Optional[Dict[str, Any]]:
+        """使用Binance Algo Order API创建止盈/止损单"""
+        if trigger_price is None or trigger_price <= 0:
+            return None
+
+        def _fallback_symbol_id(sym: str) -> str:
+            cleaned = sym.replace('/', '')
+            if ':' in cleaned:
+                cleaned = cleaned.split(':')[0]
+            return cleaned
+
+        try:
+            market = self.exchange.market(symbol)
+            symbol_id = market.get('id') or _fallback_symbol_id(symbol)
+        except Exception:
+            symbol_id = _fallback_symbol_id(symbol)
+
+        url = f"{self.config.BASE_URL}/fapi/v1/algoOrder"
+        side_upper = 'BUY' if side.lower() == 'buy' else 'SELL'
+        timestamp = int(time.time() * 1000)
+        suffix = str(timestamp)[-10:]  # keep client id short enough for Binance limit
+        order_code = 'tp' if 'TAKE' in order_type.upper() else 'sl'
+        client_algo_id = f"prot_{order_code}_{suffix}"
+        base_payload = {
+            'symbol': symbol_id,
+            'side': side_upper,
+            'positionSide': position_side,
+            'algoType': 'CONDITIONAL',
+            'type': order_type,
+            'quantity': str(quantity),
+            'triggerPrice': str(trigger_price),
+            'workingType': working_type,
+            'priceProtect': 'TRUE',
+            'clientAlgoId': client_algo_id,
+            'recvWindow': 5000,
+            'timestamp': timestamp,
+        }
+
+        query_string = urlencode(base_payload)
+        signature = hmac.new(
+            self.config.API_SECRET.encode('utf-8'),
+            query_string.encode('utf-8'),
+            hashlib.sha256
+        ).hexdigest()
+        payload = dict(base_payload)
+        payload['signature'] = signature
+        headers = {
+            'X-MBX-APIKEY': self.config.API_KEY,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+
+        try:
+            response = requests.post(url, headers=headers, data=payload, timeout=10)
+        except requests.RequestException as e:
+            raise RuntimeError(f"Algo order request failed: {e}")
+
+        try:
+            data = response.json()
+        except ValueError:
+            data = response.text or ''
+
+        if not response.ok:
+            raise RuntimeError(
+                f"Algo order HTTP {response.status_code}: {data}"
+            )
+
+        if isinstance(data, dict) and 'code' in data and data.get('code') not in (0, '0'):
+            msg = data.get('msg', 'Unknown error')
+            raise RuntimeError(f"Algo order error {data.get('code')}: {msg}")
+
+        algo_id = None
+        if isinstance(data, dict):
+            algo_id = data.get('algoId') or data.get('orderId')
+            client_algo_id_resp = data.get('clientAlgoId') or client_algo_id
+        else:
+            client_algo_id_resp = client_algo_id
+
+        if algo_id is None and client_algo_id_resp:
+            algo_id = client_algo_id_resp
+
+        return {
+            'id': str(algo_id) if algo_id is not None else None,
+            'algo_id': str(algo_id) if algo_id is not None else None,
+            'client_algo_id': client_algo_id_resp,
+            'info': data
+        }
+
+    def _cancel_algo_order(
+        self,
+        algo_id: Optional[str] = None,
+        client_algo_id: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """取消已创建的Algo订单"""
+        if not algo_id and not client_algo_id:
+            raise ValueError("algo_id 或 client_algo_id 必须提供一个")
+
+        url = f"{self.config.BASE_URL}/fapi/v1/algoOrder"
+        timestamp = int(time.time() * 1000)
+        base_payload = {
+            'recvWindow': 5000,
+            'timestamp': timestamp,
+        }
+        if algo_id:
+            base_payload['algoId'] = str(algo_id)
+        if client_algo_id:
+            base_payload['clientAlgoId'] = client_algo_id
+
+        query_string = urlencode(base_payload)
+        signature = hmac.new(
+            self.config.API_SECRET.encode('utf-8'),
+            query_string.encode('utf-8'),
+            hashlib.sha256
+        ).hexdigest()
+        payload = dict(base_payload)
+        payload['signature'] = signature
+        headers = {
+            'X-MBX-APIKEY': self.config.API_KEY,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+
+        try:
+            response = requests.delete(url, headers=headers, params=payload, timeout=10)
+        except requests.RequestException as e:
+            raise RuntimeError(f"Algo cancel request failed: {e}")
+
+        try:
+            data = response.json()
+        except ValueError:
+            data = response.text or ''
+
+        if not response.ok:
+            raise RuntimeError(f"Algo cancel HTTP {response.status_code}: {data}")
+
+        if isinstance(data, dict) and 'code' in data:
+            code_value = data.get('code')
+            if code_value not in (0, '0', 200, '200'):
+                msg = data.get('msg', 'Unknown error')
+                raise RuntimeError(f"Algo cancel error {code_value}: {msg}")
+
+        if isinstance(data, dict):
+            return data
+        return {'info': data}
+
     def _place_protective_orders(
         self,
         symbol: str,
@@ -1114,29 +1283,28 @@ class TradingExecutor:
             self.logger.warning(f"[PROTECT] {symbol} 保护单跳过，数量精度调整后无效 quantity={quantity}")
             return results
 
-        params_base = {
-            # 显式传递数量并保持方向一致
-            'workingType': getattr(self.config, 'PROTECTIVE_WORKING_TYPE', 'MARK_PRICE'),
-            'positionSide': position_side,
-        }
+        working_type = getattr(self.config, 'PROTECTIVE_WORKING_TYPE', 'MARK_PRICE')
 
         # 止盈单
         if precise_tp:
-            tp_params = params_base.copy()
-            tp_params['stopPrice'] = precise_tp
             tp_side = 'sell' if side == 'long' else 'buy'
             try:
-                tp_order = self.exchange.create_order(
+                tp_order = self._create_algo_protective_order(
                     symbol=symbol,
-                    type='TAKE_PROFIT_MARKET',
+                    order_type='TAKE_PROFIT_MARKET',
                     side=tp_side,
-                    amount=precise_quantity,
-                    price=None,
-                    params=tp_params
+                    position_side=position_side,
+                    quantity=precise_quantity,
+                    trigger_price=precise_tp,
+                    working_type=working_type
                 )
                 if tp_order:
-                    tp_id = tp_order.get('id')
-                    results['take_profit_order_id'] = tp_id
+                    tp_id = tp_order.get('algo_id') or tp_order.get('id')
+                    tp_client_id = tp_order.get('client_algo_id')
+                    if tp_id:
+                        results['take_profit_order_id'] = tp_id
+                    if tp_client_id:
+                        results['take_profit_client_id'] = tp_client_id
                     results['take_profit_price'] = precise_tp
                     self.logger.info(f"[PROTECT] {symbol} 止盈单创建成功 ID:{tp_id} 触发价:{precise_tp}")
                 time.sleep(0.05)
@@ -1145,21 +1313,24 @@ class TradingExecutor:
 
         # 止损单
         if precise_sl:
-            sl_params = params_base.copy()
-            sl_params['stopPrice'] = precise_sl
             sl_side = 'sell' if side == 'long' else 'buy'
             try:
-                sl_order = self.exchange.create_order(
+                sl_order = self._create_algo_protective_order(
                     symbol=symbol,
-                    type='STOP_MARKET',
+                    order_type='STOP_MARKET',
                     side=sl_side,
-                    amount=precise_quantity,
-                    price=None,
-                    params=sl_params
+                    position_side=position_side,
+                    quantity=precise_quantity,
+                    trigger_price=precise_sl,
+                    working_type=working_type
                 )
                 if sl_order:
-                    sl_id = sl_order.get('id')
-                    results['stop_loss_order_id'] = sl_id
+                    sl_id = sl_order.get('algo_id') or sl_order.get('id')
+                    sl_client_id = sl_order.get('client_algo_id')
+                    if sl_id:
+                        results['stop_loss_order_id'] = sl_id
+                    if sl_client_id:
+                        results['stop_loss_client_id'] = sl_client_id
                     results['stop_loss_price'] = precise_sl
                     self.logger.info(f"[PROTECT] {symbol} 止损单创建成功 ID:{sl_id} 触发价:{precise_sl}")
                 time.sleep(0.05)
@@ -1182,6 +1353,7 @@ class TradingExecutor:
 
         for key, label in [('take_profit_order_id', '止盈'), ('stop_loss_order_id', '止损')]:
             order_id = position_info.get(key)
+            client_order_id = position_info.get(f"{key.replace('_order_id', '')}_client_id")
             if not order_id:
                 continue
             status = None
@@ -1190,10 +1362,19 @@ class TradingExecutor:
             if status and status.lower() in ['closed', 'filled']:
                 continue  # 已成交订单无需取消
             try:
-                self.exchange.cancel_order(order_id, symbol, params)
+                self._cancel_algo_order(algo_id=str(order_id), client_algo_id=client_order_id)
                 self.logger.info(f"[PROTECT] {symbol} 已取消{label}单 {order_id}")
             except Exception as e:
-                self.logger.warning(f"[PROTECT WARNING] {symbol} 取消{label}单失败 ({order_id}): {e}")
+                self.logger.warning(
+                    f"[PROTECT WARNING] {symbol} Algo接口取消{label}单失败 ({order_id}): {e}"
+                )
+                try:
+                    self.exchange.cancel_order(order_id, symbol, params)
+                    self.logger.info(f"[PROTECT] {symbol} 已通过常规接口取消{label}单 {order_id}")
+                except Exception as inner_e:
+                    self.logger.warning(
+                        f"[PROTECT WARNING] {symbol} 取消{label}单失败 ({order_id}): {inner_e}"
+                    )
 
     def _respect_rate_limit(self):
         """统一的速率限制控制"""
@@ -1267,15 +1448,97 @@ class TradingExecutor:
         statuses: Dict[str, str] = {}
         reason = None
 
+        def _check_algo_status(order_id: Optional[str], client_id: Optional[str]) -> Optional[str]:
+            """直接查询Algo订单状态"""
+            url = f"{self.config.BASE_URL}/fapi/v1/algoOrder"
+            timestamp = int(time.time() * 1000)
+            payload = {
+                'recvWindow': 5000,
+                'timestamp': timestamp,
+            }
+            order_id_str = str(order_id) if order_id is not None else None
+            client_id_str = str(client_id) if client_id is not None else None
+            if order_id_str:
+                if order_id_str.isdigit():
+                    payload['algoId'] = order_id_str
+                else:
+                    payload['clientAlgoId'] = order_id_str
+            if client_id_str and 'clientAlgoId' not in payload:
+                payload['clientAlgoId'] = client_id_str
+            query = urlencode(payload)
+            signature = hmac.new(
+                self.config.API_SECRET.encode('utf-8'),
+                query.encode('utf-8'),
+                hashlib.sha256
+            ).hexdigest()
+            headers = {'X-MBX-APIKEY': self.config.API_KEY}
+            params = dict(payload)
+            params['signature'] = signature
+            try:
+                response = requests.get(
+                    url,
+                    headers=headers,
+                    params=params,
+                    timeout=10
+                )
+            except requests.RequestException as exc:
+                self.logger.warning(f"[PROTECT WARNING] 获取 {symbol} Algo订单状态请求失败 ({order_id}): {exc}")
+                return None
+
+            text_data: Any
+            try:
+                data = response.json()
+                text_data = data
+            except ValueError:
+                text_data = response.text
+                self.logger.warning(
+                    f"[PROTECT WARNING] {symbol} Algo订单状态响应无法解析为JSON ({order_id}): {text_data}"
+                )
+                return None
+
+            if not response.ok:
+                self.logger.warning(
+                    f"[PROTECT WARNING] Algo订单状态接口返回错误 ({order_id}): {text_data}"
+                )
+                return None
+            status_text = None
+            if isinstance(data, dict):
+                status_text = (
+                    data.get('algoStatus')
+                    or data.get('status')
+                    or data.get('orderStatus')
+                )
+            elif isinstance(data, list) and data:
+                first_entry = data[0]
+                if isinstance(first_entry, dict):
+                    status_text = (
+                        first_entry.get('algoStatus')
+                        or first_entry.get('status')
+                        or first_entry.get('orderStatus')
+                    )
+
+            if status_text:
+                return status_text
+
+            self.logger.warning(
+                f"[PROTECT WARNING] Algo订单状态结果缺少可识别字段 ({order_id}): {data}"
+            )
+            return None
+
         for key, label in [('take_profit_order_id', '止盈'), ('stop_loss_order_id', '止损')]:
             order_id = position_info.get(key)
+            client_order_id = position_info.get(f"{key.replace('_order_id', '')}_client_id")
             if not order_id:
                 continue
-            status = self._fetch_order_status(symbol, order_id)
+            status = _check_algo_status(order_id, client_order_id)
             if status:
                 statuses[order_id] = status
                 normalized = status.lower()
-                if normalized in ['closed', 'filled']:
+                if normalized in [
+                    'closed', 'filled', 'expired', 'terminated', 'canceled',
+                    'cancelled', 'rejected', 'failed', 'finished', 'done', 'stopped',
+                    'triggered', 'executed'
+                ]:
                     reason = f"{label}单已触发 (状态: {status})"
                     return False, reason, statuses
 
