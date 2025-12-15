@@ -12,7 +12,7 @@ import time
 import hashlib
 import hmac
 from datetime import datetime
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Set
 from urllib.parse import urlencode
 
 import requests
@@ -41,6 +41,7 @@ class TradingExecutor:
         self.use_testnet = config.use_testnet  # 添加环境检测属性
         self.exchange = None
         self.active_symbols = []
+        self.margin_configured_symbols: Set[str] = set()
 
         # API频率控制
         self.last_api_call_time = 0
@@ -662,11 +663,17 @@ class TradingExecutor:
             self.logger.info("[MARGIN] 保证金模式设置已禁用，跳过")
             return
 
+        # 避免重复设置导致 -4047（存在未完成订单无法切换保证金模式）
+        pending_symbols = [s for s in symbols if s not in self.margin_configured_symbols]
+        if not pending_symbols:
+            self.logger.debug("[MARGIN] 所有交易对的保证金模式已设置，跳过")
+            return
+
         self.logger.info(f"[MARGIN] 设置保证金模式为 {self.config.MARGIN_TYPE}...")
         success_count = 0
         failed_symbols = []
 
-        for symbol in symbols:
+        for symbol in pending_symbols:
             retry_count = 0
             while retry_count < self.config.MARGIN_TYPE_RETRY_COUNT:
                 try:
@@ -681,6 +688,7 @@ class TradingExecutor:
                     })
                     self.logger.info(f"[MARGIN] {symbol} ({binance_symbol}) 保证金模式设置为 {self.config.MARGIN_TYPE} ✓")
                     success_count += 1
+                    self.margin_configured_symbols.add(symbol)
                     time.sleep(0.05)  # 避免请求过快
                     break  # 成功则跳出重试循环
                 except Exception as e:
@@ -697,6 +705,12 @@ class TradingExecutor:
                     if 'no need to change margin type' in error_msg or 'margin type is not modified' in error_msg:
                         self.logger.info(f"[MARGIN] {symbol} 已经是 {self.config.MARGIN_TYPE} 模式")
                         success_count += 1
+                        self.margin_configured_symbols.add(symbol)
+                        break
+
+                    if 'margin type cannot be changed if there exists open orders' in error_msg or '-4047' in error_msg:
+                        self.logger.warning(f"[MARGIN] {symbol} 存在挂单，无法切换保证金模式，本次跳过")
+                        failed_symbols.append(symbol)
                         break
 
                     retry_count += 1
@@ -708,7 +722,7 @@ class TradingExecutor:
                         failed_symbols.append(symbol)
 
         # 汇总结果
-        self.logger.info(f"[MARGIN] 保证金模式设置完成: {success_count}/{len(symbols)} 成功")
+        self.logger.info(f"[MARGIN] 保证金模式设置完成: {success_count}/{len(pending_symbols)} 成功")
         if failed_symbols:
             self.logger.warning(f"[MARGIN] 失败的交易对: {failed_symbols}")
 
@@ -1202,9 +1216,9 @@ class TradingExecutor:
             'timestamp': timestamp,
         }
         if algo_id:
-            base_payload['algoId'] = str(algo_id)
+            base_payload['algoid'] = str(algo_id)
         if client_algo_id:
-            base_payload['clientAlgoId'] = client_algo_id
+            base_payload['clientalgoid'] = client_algo_id
 
         query_string = urlencode(base_payload)
         signature = hmac.new(
@@ -1376,6 +1390,51 @@ class TradingExecutor:
                         f"[PROTECT WARNING] {symbol} 取消{label}单失败 ({order_id}): {inner_e}"
                     )
 
+    def _cancel_single_protective_order(
+        self,
+        symbol: str,
+        order_id: Optional[str],
+        client_order_id: Optional[str],
+        label: str,
+        position_side: Optional[str],
+        status_lookup: Optional[Dict[str, str]]
+    ) -> None:
+        """取消指定的保护单（用于另一侧触发后的对侧撤单）"""
+        if not order_id and not client_order_id:
+            return
+
+        status = None
+        if status_lookup:
+            if order_id and str(order_id) in status_lookup:
+                status = status_lookup[str(order_id)]
+            elif client_order_id and str(client_order_id) in status_lookup:
+                status = status_lookup[str(client_order_id)]
+
+        normalized = status.upper() if isinstance(status, str) else ''
+        skip_statuses = {'TRIGGERED', 'FINISHED', 'FILLED', 'CLOSED', 'CANCELED', 'CANCELLED'}
+        if normalized in skip_statuses:
+            return  # 已结束或已被撤销的订单无需重复取消
+
+        params = {}
+        if position_side in ['long', 'short']:
+            params['positionSide'] = 'LONG' if position_side == 'long' else 'SHORT'
+
+        try:
+            self._cancel_algo_order(algo_id=str(order_id) if order_id else None, client_algo_id=client_order_id)
+            self.logger.info(f"[PROTECT] {symbol} 对侧触发，已取消{label}单 {order_id or client_order_id}")
+        except Exception as e:
+            self.logger.warning(
+                f"[PROTECT WARNING] {symbol} Algo接口取消{label}单失败 ({order_id or client_order_id}): {e}"
+            )
+            if order_id:
+                try:
+                    self.exchange.cancel_order(order_id, symbol, params)
+                    self.logger.info(f"[PROTECT] {symbol} 已通过常规接口取消{label}单 {order_id}")
+                except Exception as inner_e:
+                    self.logger.warning(
+                        f"[PROTECT WARNING] {symbol} 取消{label}单失败 ({order_id}): {inner_e}"
+                    )
+
     def _respect_rate_limit(self):
         """统一的速率限制控制"""
         elapsed = time.time() - self.last_api_call_time
@@ -1435,121 +1494,144 @@ class TradingExecutor:
         if not positions:
             return []
 
+        symbols = list(positions.keys())
+        algo_orders, status_lookup = self._fetch_current_algo_orders(symbols)
+        if algo_orders is None or status_lookup is None:
+            status_lookup = {}
+
         removed = []
         for symbol, info in list(positions.items()):
-            active, reason, statuses = self._is_position_still_open(symbol, info)
-            if not active:
-                self._cancel_protective_orders(symbol, info, statuses)
-                removed.append({'symbol': symbol, 'reason': reason or '未知原因'})
+            reason = None
+            statuses: Dict[str, str] = {}
+            triggered_orders = []
+
+            order_entries = [
+                ('take_profit_order_id', 'take_profit_client_id', '止盈', 'take_profit'),
+                ('stop_loss_order_id', 'stop_loss_client_id', '止损', 'stop_loss')
+            ]
+            triggered_statuses = {'TRIGGERED', 'FINISHED', 'FILLED', 'CLOSED', 'CANCELED', 'CANCELLED'}
+
+            # 先检测是否有止盈/止损触发
+            for order_id_key, client_id_key, label, short_key in order_entries:
+                order_id = info.get(order_id_key)
+                client_order_id = info.get(client_id_key)
+                if not order_id and not client_order_id:
+                    continue
+
+                status = status_lookup.get(str(order_id)) if order_id else None
+                if status is None and client_order_id:
+                    status = status_lookup.get(str(client_order_id))
+                if status:
+                    statuses[str(order_id or client_order_id)] = status
+
+                normalized = status.upper() if isinstance(status, str) else None
+                if normalized in triggered_statuses:
+                    reason = f"{label}单已触发 (状态: {status})"
+                    triggered_orders.append(short_key)
+                elif status is None:
+                    reason = f"{label}单未出现在当前Algo列表，视为已触发"
+                    triggered_orders.append(short_key)
+
+            if triggered_orders:
+                # 撤销对侧保护单
+                position_side = info.get('side')
+                for order_id_key, client_id_key, label, short_key in order_entries:
+                    if short_key in triggered_orders:
+                        continue
+                    opposite_order_id = info.get(order_id_key)
+                    opposite_client_id = info.get(client_id_key)
+                    self._cancel_single_protective_order(
+                        symbol=symbol,
+                        order_id=opposite_order_id,
+                        client_order_id=opposite_client_id,
+                        label=label,
+                        position_side=position_side,
+                        status_lookup=status_lookup
+                    )
+
+                self.logger.info(f"[PROTECT] 检测到保护单触发，标记仓位 {symbol} ({reason or '保护单已触发'})")
+                removed.append({'symbol': symbol, 'reason': reason or '保护单已触发'})
+            else:
+                self.logger.info(f"[PROTECT] {symbol} 未检测到保护单触发，状态: {statuses or 'N/A'}")
+        if not removed:
+            self.logger.info("[PROTECT] 本轮未检测到任何保护单触发")
         return removed
 
-    def _is_position_still_open(self, symbol: str, position_info: dict) -> tuple[bool, Optional[str], Dict[str, str]]:
-        """判断仓位是否仍然持有"""
-        statuses: Dict[str, str] = {}
-        reason = None
+    def _fetch_current_algo_orders(self, symbols: List[str]) -> tuple[Optional[List[Dict[str, Any]]], Optional[Dict[str, str]]]:
+        """获取当前交易所的Algo订单列表（按symbol分页查询），并构建状态映射"""
+        if not symbols:
+            return [], {}
 
-        def _check_algo_status(order_id: Optional[str], client_id: Optional[str]) -> Optional[str]:
-            """直接查询Algo订单状态"""
-            url = f"{self.config.BASE_URL}/fapi/v1/algoOrder"
+        url = f"{self.config.BASE_URL}/fapi/v1/allAlgoOrders"
+        headers = {'X-MBX-APIKEY': self.config.API_KEY}
+        all_orders: List[Dict[str, Any]] = []
+        status_lookup: Dict[str, str] = {}
+
+        def _to_symbol_id(sym: str) -> str:
+            try:
+                market = self.exchange.market(sym)
+                return market.get('id') or sym.replace('/', '')
+            except Exception:
+                return sym.replace('/', '')
+
+        finished_statuses = {'CANCELED', 'CANCELLED', 'TRIGGERED', 'FINISHED'}
+
+        for sym in symbols:
+            symbol_id = _to_symbol_id(sym)
             timestamp = int(time.time() * 1000)
             payload = {
                 'recvWindow': 5000,
                 'timestamp': timestamp,
+                'page': 1,
+                'pageSize': 50,
+                'symbol': symbol_id,
             }
-            order_id_str = str(order_id) if order_id is not None else None
-            client_id_str = str(client_id) if client_id is not None else None
-            if order_id_str:
-                if order_id_str.isdigit():
-                    payload['algoId'] = order_id_str
-                else:
-                    payload['clientAlgoId'] = order_id_str
-            if client_id_str and 'clientAlgoId' not in payload:
-                payload['clientAlgoId'] = client_id_str
             query = urlencode(payload)
             signature = hmac.new(
                 self.config.API_SECRET.encode('utf-8'),
                 query.encode('utf-8'),
                 hashlib.sha256
             ).hexdigest()
-            headers = {'X-MBX-APIKEY': self.config.API_KEY}
             params = dict(payload)
             params['signature'] = signature
-            try:
-                response = requests.get(
-                    url,
-                    headers=headers,
-                    params=params,
-                    timeout=10
-                )
-            except requests.RequestException as exc:
-                self.logger.warning(f"[PROTECT WARNING] 获取 {symbol} Algo订单状态请求失败 ({order_id}): {exc}")
-                return None
 
-            text_data: Any
+            try:
+                response = requests.get(url, headers=headers, params=params, timeout=10)
+            except requests.RequestException as exc:
+                self.logger.warning(f"[PROTECT WARNING] 获取 {sym} Algo订单列表失败: {exc}")
+                continue
+
             try:
                 data = response.json()
-                text_data = data
             except ValueError:
-                text_data = response.text
-                self.logger.warning(
-                    f"[PROTECT WARNING] {symbol} Algo订单状态响应无法解析为JSON ({order_id}): {text_data}"
-                )
-                return None
+                self.logger.warning(f"[PROTECT WARNING] {sym} Algo订单列表响应无法解析为JSON")
+                continue
 
             if not response.ok:
-                self.logger.warning(
-                    f"[PROTECT WARNING] Algo订单状态接口返回错误 ({order_id}): {text_data}"
-                )
-                return None
-            status_text = None
-            if isinstance(data, dict):
-                status_text = (
-                    data.get('algoStatus')
-                    or data.get('status')
-                    or data.get('orderStatus')
-                )
-            elif isinstance(data, list) and data:
-                first_entry = data[0]
-                if isinstance(first_entry, dict):
-                    status_text = (
-                        first_entry.get('algoStatus')
-                        or first_entry.get('status')
-                        or first_entry.get('orderStatus')
-                    )
-
-            if status_text:
-                return status_text
-
-            self.logger.warning(
-                f"[PROTECT WARNING] Algo订单状态结果缺少可识别字段 ({order_id}): {data}"
-            )
-            return None
-
-        for key, label in [('take_profit_order_id', '止盈'), ('stop_loss_order_id', '止损')]:
-            order_id = position_info.get(key)
-            client_order_id = position_info.get(f"{key.replace('_order_id', '')}_client_id")
-            if not order_id:
+                self.logger.warning(f"[PROTECT WARNING] {sym} Algo订单列表接口返回错误: {data}")
                 continue
-            status = _check_algo_status(order_id, client_order_id)
-            if status:
-                statuses[order_id] = status
-                normalized = status.lower()
-                if normalized in [
-                    'closed', 'filled', 'expired', 'terminated', 'canceled',
-                    'cancelled', 'rejected', 'failed', 'finished', 'done', 'stopped',
-                    'triggered', 'executed'
-                ]:
-                    reason = f"{label}单已触发 (状态: {status})"
-                    return False, reason, statuses
 
-        # 检查交易所实际仓位
-        position_side = position_info.get('position_side')
-        contracts = self._get_position_contracts(symbol, position_side)
-        if contracts is not None and contracts == 0:
-            reason = "交易所仓位为0"
-            return False, reason, statuses
+            orders: List[Dict[str, Any]] = []
+            if isinstance(data, list):
+                orders = [item for item in data if isinstance(item, dict)]
+            elif isinstance(data, dict):
+                if isinstance(data.get('list'), list):
+                    orders = [item for item in data.get('list', []) if isinstance(item, dict)]
+                elif isinstance(data.get('orders'), list):
+                    orders = [item for item in data.get('orders', []) if isinstance(item, dict)]
+                elif any(key in data for key in ['algoId', 'clientAlgoId', 'orderId']):
+                    orders = [data]
 
-        return True, reason, statuses
+            for order in orders:
+                status_text_raw = order.get('algoStatus') or order.get('status') or order.get('orderStatus') or ''
+                status_text = str(status_text_raw)
+                for key in ['algoId', 'clientAlgoId', 'orderId', 'clientOrderId', 'id']:
+                    val = order.get(key)
+                    if val:
+                        status_lookup[str(val)] = status_text
+                all_orders.append(order)
+
+        return all_orders, status_lookup
 
     def cleanup(self):
         """清理资源"""
