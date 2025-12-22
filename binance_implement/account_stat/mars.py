@@ -55,7 +55,7 @@ def load_mars_series(csv_path: Path) -> pd.Series:
     if not csv_path.exists():
         raise FileNotFoundError(f"未找到 CSV 文件: {csv_path}")
 
-    df = pd.read_csv(csv_path, parse_dates=["timestamp"]).sort_values("timestamp")
+    df = pd.read_csv(csv_path, parse_dates=["timestamp"]).sort_values("timestamp")[12897:]
     return pd.Series(
         data=df["total_balance"].astype(float).values,
         index=pd.DatetimeIndex(df["timestamp"]).tz_localize(None),

@@ -4,7 +4,6 @@
 
 功能：
 - 支持每日定时执行 (默认20:00) 或固定间隔执行模式
-- 支持testnet和实盘环境
 - 基于神经网络预测的因子选币
 - 自动平仓、开仓和风险控制
 - 钉钉通知集成
@@ -36,22 +35,20 @@ from trading_utils.monitor import TradingMonitor
 class AutomatedTradingSystem:
     """自动化交易系统主类"""
 
-    def __init__(self, use_testnet: bool = True, start_hour_16h: Optional[int] = None):
+    def __init__(self, start_hour_16h: Optional[int] = None):
         """
         初始化交易系统
 
         Args:
-            use_testnet: True为testnet，False为实盘
             start_hour_16h: 16小时执行模式起点小时 (0-23)
         """
-        self.use_testnet = use_testnet
         if start_hour_16h is None:
             start_hour_16h = 0
         if not 0 <= start_hour_16h < 24:
             raise ValueError("start_hour_16h 必须在 0-23 之间")
         self.start_hour_16h = start_hour_16h
 
-        self.config = get_config(use_testnet)
+        self.config = get_config()
 
         # 初始化组件
         self.logger = setup_logger(self.config.LOG_FILE, self.config.LOG_LEVEL)
@@ -827,27 +824,6 @@ def main():
     print("[SYSTEM] 自动化交易系统")
     print("=" * 40)
 
-    # 环境选择
-    while True:
-        env_choice = input("选择交易环境 (1: Testnet, 2: 实盘): ").strip()
-        if env_choice == '1':
-            use_testnet = True
-            env_name = "Testnet"
-            break
-        elif env_choice == '2':
-            use_testnet = False
-            env_name = "实盘"
-            # 实盘确认
-            confirm = input("[WARNING] 确认使用实盘环境？这将使用真实资金 (yes/no): ").strip().lower()
-            if confirm == 'yes':
-                break
-            else:
-                print("已取消实盘操作")
-                continue
-        else:
-            print("[ERROR] 无效选择，请输入 1 或 2")
-            continue
-
     # 16小时模式起始时间设置
     while True:
         hour_input = input("设置16小时模式起始小时 (0-23，直接回车默认为0): ").strip()
@@ -862,12 +838,11 @@ def main():
         except ValueError:
             print("[ERROR] 请输入有效的整数小时")
 
-    print(f"[OK] 选择环境: {env_name}")
     print("[SYSTEM] 启动交易系统...")
     print()
 
     # 创建和启动交易系统
-    trading_system = AutomatedTradingSystem(use_testnet=use_testnet, start_hour_16h=start_hour_16h)
+    trading_system = AutomatedTradingSystem(start_hour_16h=start_hour_16h)
 
     try:
         # 运行主程序

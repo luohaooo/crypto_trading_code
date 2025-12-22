@@ -38,7 +38,6 @@ class TradingExecutor:
         """
         self.config = config
         self.logger = logger
-        self.use_testnet = config.use_testnet  # 添加环境检测属性
         self.exchange = None
         self.active_symbols = []
         self.margin_configured_symbols: Set[str] = set()
@@ -125,7 +124,7 @@ class TradingExecutor:
                 self._send_dingding_notification(message)
                 self.logger.info(f"[BALANCE] 余额通知已发送: {balance:.2f} USDT")
             else:
-                error_msg = f"❌ 余额查询失败\n 时间: {current_time}\n 环境: {'测试网' if self.config.use_testnet else '实盘'}"
+                error_msg = f"❌ 余额查询失败\n 时间: {current_time}\n 环境: {self.config.ENV_NAME}"
                 self._send_dingding_notification(error_msg)
                 self.logger.error("[ERROR] 余额查询失败，已发送错误通知")
 
@@ -150,95 +149,7 @@ class TradingExecutor:
 
     def close_all_positions(self) -> bool:
         """
-        平仓所有现有仓位 - 环境路由方法
-
-        Returns:
-            bool: 平仓是否成功
-        """
-        if self.use_testnet:
-            return self.close_all_positions_testnet()
-        else:
-            return self.close_all_positions_live()
-
-    def close_all_positions_testnet(self) -> bool:
-        """
-        模拟盘平仓所有现有仓位
-
-        Returns:
-            bool: 平仓是否成功
-        """
-        try:
-            self.logger.info("[TESTNET CLOSE] 开始平仓所有仓位...")
-
-            # 获取当前仓位
-            positions = self.exchange.fetch_positions()
-
-            # 筛选有仓位的合约
-            active_positions = []
-            for position in positions:
-                if position['contracts'] != 0:  # 有仓位
-                    active_positions.append(position)
-
-            if not active_positions:
-                self.logger.info("[TESTNET OK] 当前无持仓，无需平仓")
-                return True
-
-            self.logger.info(f"[TESTNET POSITIONS] 发现 {len(active_positions)} 个持仓需要平仓")
-
-            # 批量平仓
-            close_orders = []
-            failed_positions = []
-
-            for position in active_positions:
-                try:
-                    symbol = position['symbol']
-                    size = abs(position['contracts'])
-                    side = 'sell' if position['side'] == 'long' else 'buy'
-
-                    self.logger.info(f"[TESTNET CLOSE] 平仓 {symbol}: {side} {size}")
-
-                    # 模拟盘平仓直接使用市价单
-                    order = self._create_market_order_testnet(
-                        symbol=symbol,
-                        side=side,
-                        amount=size
-                        # 模拟盘不传递额外参数
-                    )
-
-                    if order:
-                        close_orders.append(order)
-                        self.logger.info(f"[TESTNET SUCCESS] 平仓订单创建成功 {symbol}: {order.get('id', 'Unknown')}")
-                    else:
-                        self.logger.error(f"[TESTNET ERROR] 平仓失败 {symbol}")
-                        failed_positions.append(symbol)
-
-                    # 避免请求过于频繁
-                    time.sleep(0.1)
-
-                except Exception as e:
-                    self.logger.error(f"[TESTNET ERROR] 平仓 {symbol} 异常: {e}")
-                    failed_positions.append(symbol)
-                    continue
-
-            # 记录平仓结果
-            if failed_positions:
-                self.logger.warning(f"[TESTNET WARNING] {len(failed_positions)} 个仓位平仓失败: {failed_positions}")
-
-            # 等待订单执行
-            if close_orders:
-                self.logger.info(f"[TESTNET WAIT] 等待 {len(close_orders)} 个平仓订单执行...")
-                time.sleep(2)
-
-            self.logger.info("[TESTNET OK] 平仓操作完成")
-            return True
-
-        except Exception as e:
-            self.logger.error(f"[TESTNET ERROR] 平仓失败: {e}")
-            return False
-
-    def close_all_positions_live(self) -> bool:
-        """
-        实盘平仓所有现有仓位
+        平仓所有现有仓位
 
         Returns:
             bool: 平仓是否成功
@@ -317,7 +228,7 @@ class TradingExecutor:
 
     def close_specific_positions(self, positions_dict: dict) -> bool:
         """
-        平仓指定仓位 - 环境路由方法
+        平仓指定仓位
 
         Args:
             positions_dict: 仓位字典，格式: {symbol: {'side': 'long'/'short', 'quantity': float}}
@@ -325,131 +236,7 @@ class TradingExecutor:
         Returns:
             bool: 平仓是否成功
         """
-        if self.use_testnet:
-            return self.close_specific_positions_testnet(positions_dict)
-        else:
-            return self.close_specific_positions_live(positions_dict)
-
-    def close_specific_positions_testnet(self, positions_dict: dict) -> bool:
-        """
-        模拟盘平仓指定仓位
-
-        Args:
-            positions_dict: 仓位字典，格式: {symbol: {'side': 'long'/'short', 'quantity': float}}
-
-        Returns:
-            bool: 平仓是否成功
-        """
-        try:
-            if not positions_dict:
-                self.logger.info("[TESTNET OK] 无指定仓位需要平仓")
-                return True
-
-            self.logger.info(f"[TESTNET CLOSE] 开始平仓指定仓位: {len(positions_dict)} 个")
-
-            close_orders = []
-            failed_positions = []
-
-            summary_lines: List[str] = []
-            missing_profit_symbols: List[str] = []
-            total_profit_loss = 0.0
-
-            for symbol, position_info in positions_dict.items():
-                try:
-                    side = position_info['side']
-                    quantity = position_info['quantity']
-                    open_price = position_info.get('open_price', 0)  # 获取开仓价格，如果没有则默认为0
-
-                    # 取消关联的止盈止损订单
-                    self._cancel_protective_orders(symbol, position_info)
-
-                    # 获取当前价格用于计算收益
-                    try:
-                        ticker = self._fetch_ticker_with_rate_limit(symbol)
-                        current_price = ticker['last'] if ticker else 0
-                    except Exception as e:
-                        self.logger.error(f"[TESTNET ERROR] 无法获取 {symbol} 当前价格: {e}")
-                        current_price = 0
-
-                    # 计算预期收益（只有在有开仓价格和当前价格时才计算）
-                    profit_loss = 0
-                    profit_percentage = 0
-                    if open_price > 0 and current_price > 0:
-                        if side == 'long':
-                            # 多头：(当前价格 - 开仓价格) / 开仓价格 * 100%
-                            profit_percentage = ((current_price - open_price) / open_price) * 100
-                            profit_loss = (current_price - open_price) * quantity
-                        else:  # short
-                            # 空头：(开仓价格 - 当前价格) / 开仓价格 * 100%
-                            profit_percentage = ((open_price - current_price) / open_price) * 100
-                            profit_loss = (open_price - current_price) * quantity
-
-                    # 确定平仓方向 (做多仓位用sell平仓，做空仓位用buy平仓)
-                    close_side = 'sell' if side == 'long' else 'buy'
-
-                    # 记录平仓信息和收益
-                    if open_price > 0 and current_price > 0:
-                        self.logger.info(f"[TESTNET CLOSE] 平仓 {symbol}: {close_side} {quantity} (原{side}仓位)")
-                        self.logger.info(f"[TESTNET PROFIT] {symbol} 开仓价格: {open_price:.8f}, 当前价格: {current_price:.8f}")
-                        self.logger.info(f"[TESTNET PROFIT] {symbol} 预期收益: {profit_percentage:.2f}% (约 {profit_loss:.8f} USDT)")
-                    else:
-                        self.logger.info(f"[TESTNET CLOSE] 平仓 {symbol}: {close_side} {quantity} (原{side}仓位)")
-                        self.logger.warning(f"[TESTNET WARNING] {symbol} 缺少价格信息，无法计算收益")
-
-                    # 模拟盘平仓
-                    order = self._create_market_order_testnet(
-                        symbol=symbol,
-                        side=close_side,
-                        amount=abs(quantity)
-                    )
-
-                    if order:
-                        close_orders.append(order)
-                        self.logger.info(f"[TESTNET SUCCESS] 平仓订单创建成功 {symbol}: {order.get('id', 'Unknown')}")
-
-                        # 发送DingTalk收益通知
-                        if open_price > 0 and current_price > 0:
-                            profit_emoji = "💰" if profit_loss > 0 else "📉" if profit_loss < 0 else "➖"
-                            direction_text = "做多" if side == 'long' else "做空"
-
-                            dingding_msg = (
-                                f"🔔 [测试盘] 平仓通知\n"
-                                f"📊 交易对: {symbol}\n"
-                                f"📈 方向: {direction_text}\n"
-                                f"🔢 数量: {quantity:.8f}\n"
-                                f"💵 开仓价: {open_price:.8f}\n"
-                                f"💵 平仓价: {current_price:.8f}\n"
-                                f"{profit_emoji} 收益: {profit_percentage:.2f}% ({profit_loss:.8f} USDT)"
-                            )
-                            self._send_dingding_notification(dingding_msg)
-                    else:
-                        self.logger.error(f"[TESTNET ERROR] 平仓失败 {symbol}")
-                        failed_positions.append(symbol)
-
-                    # 避免请求过于频繁
-                    time.sleep(0.1)
-
-                except Exception as e:
-                    self.logger.error(f"[TESTNET ERROR] 平仓 {symbol} 异常: {e}")
-                    failed_positions.append(symbol)
-                    continue
-
-            # 记录平仓结果
-            if failed_positions:
-                self.logger.warning(f"[TESTNET WARNING] {len(failed_positions)} 个仓位平仓失败: {failed_positions}")
-
-            # 等待订单执行
-            if close_orders:
-                self.logger.info(f"[TESTNET WAIT] 等待 {len(close_orders)} 个平仓订单执行...")
-                time.sleep(2)
-
-            success_count = len(positions_dict) - len(failed_positions)
-            self.logger.info(f"[TESTNET OK] 平仓操作完成，成功: {success_count}/{len(positions_dict)}")
-            return len(failed_positions) == 0
-
-        except Exception as e:
-            self.logger.error(f"[TESTNET ERROR] 指定仓位平仓失败: {e}")
-            return False
+        return self.close_specific_positions_live(positions_dict)
 
     def close_specific_positions_live(self, positions_dict: dict) -> bool:
         """
@@ -727,86 +514,8 @@ class TradingExecutor:
             self.logger.warning(f"[MARGIN] 失败的交易对: {failed_symbols}")
 
     def _open_long_positions(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
-        """开多头仓位 - 环境路由方法"""
-        if self.use_testnet:
-            return self._open_long_positions_testnet(symbols, position_value)
-        else:
-            return self._open_long_positions_live(symbols, position_value)
-
-    def _open_long_positions_testnet(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
-        """模拟盘开多头仓位"""
-        opened_positions = {}
-        if not symbols:
-            return True, opened_positions
-
-        self.logger.info(f"[TESTNET LONG] 开多头仓位: {len(symbols)} 个")
-
-        success_count = 0
-        for symbol in symbols:
-            try:
-                # 获取当前价格
-                ticker = self._fetch_ticker_with_rate_limit(symbol)
-                if not ticker:
-                    self.logger.error(f"[TESTNET ERROR] 无法获取 {symbol} 价格信息，跳过")
-                    continue
-
-                current_price = ticker['last']
-
-                # 计算下单数量
-                quantity = position_value / current_price
-
-                # 获取交易对精度
-                market = self.exchange.markets[symbol]
-                amount_precision = market['precision']['amount']
-
-                # 处理精度：如果是小数，计算小数位数
-                if isinstance(amount_precision, float):
-                    # 计算小数位数
-                    decimal_places = len(str(amount_precision).split('.')[-1]) if '.' in str(amount_precision) else 0
-                    scale = 10 ** decimal_places if decimal_places > 0 else 1
-                    quantity = math.floor(quantity * scale) / scale
-                    # 确保不小于最小精度
-                    if quantity < amount_precision:
-                        quantity = amount_precision
-                else:
-                    # 如果是整数精度，使用原来的逻辑
-                    precision_power = int(amount_precision)
-                    quantity = math.floor(quantity * (10 ** precision_power)) / (10 ** precision_power)
-
-                self.logger.info(f"[TESTNET BUY] 做多 {symbol}: {quantity} @ {current_price}")
-
-                # 模拟盘使用简化参数（不需要positionSide）
-                order = self._create_market_order_testnet(
-                    symbol=symbol,
-                    side='buy',
-                    amount=quantity
-                    # 模拟盘不传递 positionSide 参数
-                )
-
-                if order:
-                    success_count += 1
-                    # 记录成功开仓的位置（包含开仓价格）
-                    opened_positions[symbol] = {
-                        'side': 'long',
-                        'quantity': quantity,
-                        'open_price': current_price,
-                        'position_side': 'LONG'
-                    }
-                    protective_orders = self._place_protective_orders(symbol, 'long', quantity, current_price)
-                    opened_positions[symbol].update(protective_orders)
-                else:
-                    # 订单失败，发送钉钉通知
-                    error_msg = f"[TESTNET] 多头订单失败！{symbol} 数量: {quantity} @ {current_price}"
-                    self._send_dingding_notification(error_msg)
-
-                time.sleep(0.1)
-
-            except Exception as e:
-                self.logger.error(f"[TESTNET ERROR] 做多 {symbol} 失败: {e}")
-                continue
-
-        self.logger.info(f"[TESTNET OK] 多头开仓: {success_count}/{len(symbols)} 成功")
-        return success_count > 0, opened_positions
+        """开多头仓位"""
+        return self._open_long_positions_live(symbols, position_value)
 
     def _open_long_positions_live(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
         """实盘开多头仓位"""
@@ -884,85 +593,8 @@ class TradingExecutor:
         return success_count > 0, opened_positions
 
     def _open_short_positions(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
-        """开空头仓位 - 环境路由方法"""
-        if self.use_testnet:
-            return self._open_short_positions_testnet(symbols, position_value)
-        else:
-            return self._open_short_positions_live(symbols, position_value)
-
-    def _open_short_positions_testnet(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
-        """模拟盘开空头仓位"""
-        opened_positions = {}
-        if not symbols:
-            return True, opened_positions
-
-        self.logger.info(f"[TESTNET SHORT] 开空头仓位: {len(symbols)} 个")
-
-        success_count = 0
-        for symbol in symbols:
-            try:
-                # 获取当前价格
-                ticker = self._fetch_ticker_with_rate_limit(symbol)
-                if not ticker:
-                    self.logger.error(f"[TESTNET ERROR] 无法获取 {symbol} 价格信息，跳过")
-                    continue
-
-                current_price = ticker['last']
-
-                # 计算下单数量
-                quantity = position_value / current_price
-
-                # 获取交易对精度
-                market = self.exchange.markets[symbol]
-                amount_precision = market['precision']['amount']
-
-                # 处理精度：如果是小数，计算小数位数
-                if isinstance(amount_precision, float):
-                    # 计算小数位数
-                    decimal_places = len(str(amount_precision).split('.')[-1]) if '.' in str(amount_precision) else 0
-                    quantity = round(quantity, decimal_places)
-                    # 确保不小于最小精度
-                    if quantity < amount_precision:
-                        quantity = amount_precision
-                else:
-                    # 如果是整数精度，使用原来的逻辑
-                    precision_power = int(amount_precision)
-                    quantity = math.floor(quantity * (10 ** precision_power)) / (10 ** precision_power)
-
-                self.logger.info(f"[TESTNET SELL] 做空 {symbol}: {quantity} @ {current_price}")
-
-                # 模拟盘使用简化参数（不需要positionSide）
-                order = self._create_market_order_testnet(
-                    symbol=symbol,
-                    side='sell',
-                    amount=quantity
-                    # 模拟盘不传递 positionSide 参数
-                )
-
-                if order:
-                    success_count += 1
-                    # 记录成功开仓的位置（包含开仓价格）
-                    opened_positions[symbol] = {
-                        'side': 'short',
-                        'quantity': quantity,
-                        'open_price': current_price,
-                        'position_side': 'SHORT'
-                    }
-                    protective_orders = self._place_protective_orders(symbol, 'short', quantity, current_price)
-                    opened_positions[symbol].update(protective_orders)
-                else:
-                    # 订单失败，发送钉钉通知
-                    error_msg = f"[TESTNET] 空头订单失败！{symbol} 数量: {quantity} @ {current_price}"
-                    self._send_dingding_notification(error_msg)
-
-                time.sleep(0.1)
-
-            except Exception as e:
-                self.logger.error(f"[TESTNET ERROR] 做空 {symbol} 失败: {e}")
-                continue
-
-        self.logger.info(f"[TESTNET OK] 空头开仓: {success_count}/{len(symbols)} 成功")
-        return success_count > 0, opened_positions
+        """开空头仓位"""
+        return self._open_short_positions_live(symbols, position_value)
 
     def _open_short_positions_live(self, symbols: List[str], position_value: float) -> tuple[bool, dict]:
         """实盘开空头仓位"""
@@ -1521,16 +1153,20 @@ class TradingExecutor:
                 status = status_lookup.get(str(order_id)) if order_id else None
                 if status is None and client_order_id:
                     status = status_lookup.get(str(client_order_id))
+                lookup_key = str(order_id or client_order_id)
                 if status:
-                    statuses[str(order_id or client_order_id)] = status
+                    statuses[lookup_key] = status
+                else:
+                    statuses[lookup_key] = 'UNKNOWN'
 
                 normalized = status.upper() if isinstance(status, str) else None
                 if normalized in triggered_statuses:
                     reason = f"{label}单已触发 (状态: {status})"
                     triggered_orders.append(short_key)
                 elif status is None:
-                    reason = f"{label}单未出现在当前Algo列表，视为已触发"
-                    triggered_orders.append(short_key)
+                    self.logger.warning(
+                        f"[PROTECT WARNING] {symbol} 未在Algo列表中找到{label}单 {lookup_key}，保留仓位并等待下一轮检查"
+                    )
 
             if triggered_orders:
                 # 撤销对侧保护单
@@ -1566,6 +1202,7 @@ class TradingExecutor:
         headers = {'X-MBX-APIKEY': self.config.API_KEY}
         all_orders: List[Dict[str, Any]] = []
         status_lookup: Dict[str, str] = {}
+        page_size = 50
 
         def _to_symbol_id(sym: str) -> str:
             try:
@@ -1574,62 +1211,68 @@ class TradingExecutor:
             except Exception:
                 return sym.replace('/', '')
 
-        finished_statuses = {'CANCELED', 'CANCELLED', 'TRIGGERED', 'FINISHED'}
-
         for sym in symbols:
             symbol_id = _to_symbol_id(sym)
-            timestamp = int(time.time() * 1000)
-            payload = {
-                'recvWindow': 5000,
-                'timestamp': timestamp,
-                'page': 1,
-                'pageSize': 50,
-                'symbol': symbol_id,
-            }
-            query = urlencode(payload)
-            signature = hmac.new(
-                self.config.API_SECRET.encode('utf-8'),
-                query.encode('utf-8'),
-                hashlib.sha256
-            ).hexdigest()
-            params = dict(payload)
-            params['signature'] = signature
+            page = 1
+            while True:
+                timestamp = int(time.time() * 1000)
+                payload = {
+                    'recvWindow': 5000,
+                    'timestamp': timestamp,
+                    'page': page,
+                    'pageSize': page_size,
+                    'symbol': symbol_id,
+                }
+                query = urlencode(payload)
+                signature = hmac.new(
+                    self.config.API_SECRET.encode('utf-8'),
+                    query.encode('utf-8'),
+                    hashlib.sha256
+                ).hexdigest()
+                params = dict(payload)
+                params['signature'] = signature
 
-            try:
-                response = requests.get(url, headers=headers, params=params, timeout=10)
-            except requests.RequestException as exc:
-                self.logger.warning(f"[PROTECT WARNING] 获取 {sym} Algo订单列表失败: {exc}")
-                continue
+                try:
+                    response = requests.get(url, headers=headers, params=params, timeout=10)
+                except requests.RequestException as exc:
+                    self.logger.warning(f"[PROTECT WARNING] 获取 {sym} Algo订单列表失败 (page {page}): {exc}")
+                    break
 
-            try:
-                data = response.json()
-            except ValueError:
-                self.logger.warning(f"[PROTECT WARNING] {sym} Algo订单列表响应无法解析为JSON")
-                continue
+                try:
+                    data = response.json()
+                except ValueError:
+                    self.logger.warning(f"[PROTECT WARNING] {sym} Algo订单列表响应无法解析为JSON (page {page})")
+                    break
 
-            if not response.ok:
-                self.logger.warning(f"[PROTECT WARNING] {sym} Algo订单列表接口返回错误: {data}")
-                continue
+                if not response.ok:
+                    self.logger.warning(f"[PROTECT WARNING] {sym} Algo订单列表接口返回错误 (page {page}): {data}")
+                    break
 
-            orders: List[Dict[str, Any]] = []
-            if isinstance(data, list):
-                orders = [item for item in data if isinstance(item, dict)]
-            elif isinstance(data, dict):
-                if isinstance(data.get('list'), list):
-                    orders = [item for item in data.get('list', []) if isinstance(item, dict)]
-                elif isinstance(data.get('orders'), list):
-                    orders = [item for item in data.get('orders', []) if isinstance(item, dict)]
-                elif any(key in data for key in ['algoId', 'clientAlgoId', 'orderId']):
-                    orders = [data]
+                orders: List[Dict[str, Any]] = []
+                if isinstance(data, list):
+                    orders = [item for item in data if isinstance(item, dict)]
+                elif isinstance(data, dict):
+                    if isinstance(data.get('list'), list):
+                        orders = [item for item in data.get('list', []) if isinstance(item, dict)]
+                    elif isinstance(data.get('orders'), list):
+                        orders = [item for item in data.get('orders', []) if isinstance(item, dict)]
+                    elif any(key in data for key in ['algoId', 'clientAlgoId', 'orderId']):
+                        orders = [data]
 
-            for order in orders:
-                status_text_raw = order.get('algoStatus') or order.get('status') or order.get('orderStatus') or ''
-                status_text = str(status_text_raw)
-                for key in ['algoId', 'clientAlgoId', 'orderId', 'clientOrderId', 'id']:
-                    val = order.get(key)
-                    if val:
-                        status_lookup[str(val)] = status_text
-                all_orders.append(order)
+                for order in orders:
+                    status_text_raw = order.get('algoStatus') or order.get('status') or order.get('orderStatus') or ''
+                    status_text = str(status_text_raw)
+                    for key in ['algoId', 'clientAlgoId', 'orderId', 'clientOrderId', 'id']:
+                        val = order.get(key)
+                        if val:
+                            status_lookup[str(val)] = status_text
+                    all_orders.append(order)
+
+                if not orders or len(orders) < page_size:
+                    break
+
+                page += 1
+                time.sleep(0.05)
 
         return all_orders, status_lookup
 
@@ -1643,76 +1286,6 @@ class TradingExecutor:
 
         except Exception as e:
             self.logger.error(f"[ERROR] 清理交易执行器失败: {e}")
-
-    def _create_market_order_testnet(self, symbol: str, side: str, amount: float,
-                                   params: dict = None) -> dict:
-        """
-        模拟盘环境的市价单创建方法
-
-        Args:
-            symbol: 交易对
-            side: 买卖方向 ('buy' 或 'sell')
-            amount: 交易数量
-            params: 额外参数
-
-        Returns:
-            dict: 订单信息，失败时返回None
-        """
-        try:
-            # 参数验证
-            if not symbol or not side or amount <= 0:
-                self.logger.error(f"[TESTNET ERROR] 无效参数: symbol={symbol}, side={side}, amount={amount}")
-                return None
-
-            # 确保交易对在市场列表中
-            if not hasattr(self.exchange, 'markets') or not self.exchange.markets:
-                self.logger.error(f"[TESTNET ERROR] 市场数据未加载")
-                return None
-
-            if symbol not in self.exchange.markets:
-                self.logger.error(f"[TESTNET ERROR] 交易对 {symbol} 不在市场列表中")
-                return None
-
-            # 验证订单数量
-            is_valid, error_msg, _ = self._validate_order_amount(symbol, amount)
-            if not is_valid:
-                self.logger.error(f"[TESTNET ERROR] {symbol} {error_msg}")
-                return None
-
-            self.logger.info(f"[TESTNET MARKET] 创建市价单 {symbol}: {side} {amount}")
-
-            # 模拟盘直接使用最简化的参数，避免不必要的错误
-            try:
-                # 第一次尝试：移除模拟盘不支持的参数
-                testnet_params = {}  # 模拟盘使用最基础的参数
-                # 只保留必要的参数，移除 reduceOnly 和 positionSide
-
-                order = self.exchange.create_market_order(
-                    symbol=symbol, side=side, amount=amount, params=testnet_params
-                )
-
-                # 记录成功信息
-                if order:
-                    order_id = order.get('id', 'Unknown')
-                    filled = order.get('filled', 0)
-                    self.logger.info(f"[TESTNET SUCCESS] {symbol} 市价单创建成功 ID:{order_id} 成交:{filled}")
-
-                return order
-
-            except Exception as e:
-                error_str = str(e)
-                self.logger.error(f"[TESTNET ERROR] {symbol} 订单创建失败: {error_str}")
-
-                if "-4061" in error_str:
-                    self.logger.error(f"[TESTNET ERROR] {symbol} 基础参数仍然失败，可能需要检查账户设置")
-                elif "-4164" in error_str:
-                    self.logger.error(f"[TESTNET ERROR] {symbol} 订单金额太小，请增加订单金额")
-
-                raise e
-
-        except Exception as e:
-            self.logger.error(f"[TESTNET ERROR] {symbol} 市价单创建异常: {e}")
-            return None
 
     def _create_market_order_live(self, symbol: str, side: str, amount: float,
                                  params: dict = None) -> dict:
@@ -1816,7 +1389,7 @@ class TradingExecutor:
         """发送钉钉通知"""
         if DINGDING_AVAILABLE:
             try:
-                env_prefix = "[TESTNET]" if self.config.use_testnet else "[LIVE]"
+                env_prefix = f"[{self.config.ENV_NAME}]"
                 # 获取日志文件名
                 log_filename = getattr(self.config, 'LOG_FILENAME', None)
                 if log_filename:

@@ -182,12 +182,14 @@ class OptimizedFactorCalculator:
             successful_count = 0
 
             print(f"\n🎯 开始逐个计算因子值...")
+            # print(f"比特币数据{all_symbols_data['BTC/USDT:USDT'].tail(3)}")  # 打印BTC数据的最后3行以供调试
             for symbol in tqdm(symbols, desc="计算因子", unit="交易对"):
                 if symbol == "USDC/USDT:USDT":
                     continue
                 try:
                     raw_factor_value_1, raw_factor_value_2, raw_factor_value_3 = self._calculate_single_symbol_factor(all_symbols_data[symbol], all_symbols_data['BTC/USDT:USDT'])
-
+                    # if symbol == "RESOLV/USDT:USDT":
+                    #     print(f"RESOLV/ 因子值: {raw_factor_value_1}, {raw_factor_value_2}, {raw_factor_value_3}")  # 打印ADA的因子值以供调试
                     if raw_factor_values_1 is not None and raw_factor_values_2 is not None and raw_factor_values_3 is not None:
                         raw_factor_values_1[symbol] = raw_factor_value_1
                         raw_factor_values_2[symbol] = raw_factor_value_2
@@ -225,6 +227,9 @@ class OptimizedFactorCalculator:
                     + normalized_values_2.get(symbol, 0.0)
                     + normalized_values_3.get(symbol, 0.0)
                 )
+            
+            # print(f"ADA 的因子值示例: {factor_values.get('ADA/USDT:USDT', 'N/A')}")
+            # print(f"AIA 的因子值示例: {factor_values.get('AIA/USDT:USDT', 'N/A')}")
 
             if not factor_values:
                 self.logger.error("[ERROR] 没有计算出任何有效因子值")
@@ -268,7 +273,6 @@ class OptimizedFactorCalculator:
             last_close = df_0.iloc[-1]['close']
             historical_close = df_0.iloc[-73]['close']
             sub_factor_3 = (last_close - historical_close) / last_close
-
             return sub_factor_1, sub_factor_2, sub_factor_3
 
         except Exception as e:
@@ -299,12 +303,14 @@ class OptimizedFactorCalculator:
             elif timeframe == '4h':
                 df = aggregate_bars(symbol_data[-20*4:].copy(), window_hours=4).copy()
                 df_btc = aggregate_bars(btc_data[-20*4:].copy(), window_hours=4).copy()
+
+            # print(f"时间框架 {timeframe} 的数据:\n{df}")  # 打印最后3行数据以供调试
         
             # 使用ohlc_to_image_with_volume转换为图像
             image, magnitude = ohlc_to_image_with_volume(
                 df,
                 window=20,
-                height=60,
+                height=64,
                 open_col='open',
                 high_col='high',
                 low_col='low',
@@ -315,7 +321,7 @@ class OptimizedFactorCalculator:
             image_btc, magnitude_btc = ohlc_to_image_with_volume(
                 df_btc,
                 window=20,
-                height=60,     
+                height=64,     
                 open_col='open',
                 high_col='high',
                 low_col='low',
@@ -336,6 +342,7 @@ class OptimizedFactorCalculator:
         magnitude_tensor = torch.tensor(symbol_magnitude).float().to(self.device) # (3,)
         btc_magnitude = torch.tensor(btc_magnitude).float().to(self.device)  # (3,)
         magnitude = torch.stack([magnitude_tensor, btc_magnitude], dim=1).unsqueeze(0)  # (1, 3, 2)
+        
 
         # 使用模型进行推理
         with torch.no_grad():

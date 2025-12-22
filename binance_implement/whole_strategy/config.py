@@ -1,7 +1,4 @@
-"""
-配置文件 - 自动化交易策略
-支持 testnet 和实盘环境切换
-"""
+"""配置文件 - 自动化交易策略"""
 
 import os
 from typing import Dict, Any
@@ -9,14 +6,8 @@ from typing import Dict, Any
 class TradingConfig:
     """交易策略配置类"""
 
-    def __init__(self, use_testnet: bool = True):
-        """
-        初始化配置
-
-        Args:
-            use_testnet: 是否使用testnet (True: testnet, False: 实盘)
-        """
-        self.use_testnet = use_testnet
+    def __init__(self):
+        """初始化配置"""
 
         # 基础交易配置
         self.EXECUTION_MODE = 'interval'       # 执行模式: 'interval'、'daily' 或 '16h'
@@ -28,8 +19,8 @@ class TradingConfig:
         self.LOOKBACK_HOURS = 81          # 历史数据回看小时数
 
         # 16小时循环配置
-        self.CYCLE_COUNT = 4             # cycle数量
-        self.CYCLE_SPACING_HOURS = 4      # cycle之间的小时差
+        self.CYCLE_COUNT = 16             # cycle数量
+        self.CYCLE_SPACING_HOURS = 1      # cycle之间的小时差
         self.CYCLE_PERIOD_HOURS = 16      # 每个cycle的循环周期
         self.CYCLE_START_OFFSET = 0       # 起始偏移（保持为0）
 
@@ -40,8 +31,8 @@ class TradingConfig:
 
         # 止盈止损配置
         self.ENABLE_PROTECTIVE_ORDERS = True    # 是否启用止盈止损
-        self.TAKE_PROFIT_RATIO = 0           # 止盈比例 (30%)
-        self.STOP_LOSS_RATIO = 0.2             # 止损比例 (30%)
+        self.TAKE_PROFIT_RATIO = 0.002           # 止盈比例 (30%)
+        self.STOP_LOSS_RATIO = 0.002            # 止损比例 (30%)
         self.PROTECTIVE_WORKING_TYPE = 'MARK_PRICE'  # 触发价格类型: MARK_PRICE 或 CONTRACT_PRICE
 
         # 神经网络模型配置
@@ -77,18 +68,11 @@ class TradingConfig:
 
     def _setup_api_config(self):
         """设置API配置"""
-        if self.use_testnet:
-            # Testnet 配置
-            self.API_KEY = os.getenv('BINANCE_TESTNET_API_KEY', 'YOUR_TESTNET_API_KEY')
-            self.API_SECRET = os.getenv('BINANCE_TESTNET_API_SECRET', 'YOUR_TESTNET_API_SECRET')
-            self.BASE_URL = 'https://testnet.binancefuture.com'
-            self.ENV_NAME = 'TESTNET'
-        else:
-            # 实盘配置
-            self.API_KEY = os.environ['BINANCE_API_KEY_UESTC']
-            self.API_SECRET = os.environ['BINANCE_API_SECRET_UESTC']
-            self.BASE_URL = 'https://fapi.binance.com'
-            self.ENV_NAME = 'LIVE'
+        # 实盘配置
+        self.API_KEY = os.environ['BINANCE_API_KEY']
+        self.API_SECRET = os.environ['BINANCE_API_SECRET']
+        self.BASE_URL = 'https://fapi.binance.com'
+        self.ENV_NAME = 'LIVE'
 
     def _generate_log_file_path(self, log_dir: str) -> str:
         """
@@ -100,7 +84,7 @@ class TradingConfig:
         Returns:
             str: 完整的日志文件路径
         """
-        env_suffix = 'testnet' if self.use_testnet else 'live'
+        env_suffix = 'live'
 
         if self.LOG_FILENAME:
             # 使用自定义文件名
@@ -128,26 +112,17 @@ class TradingConfig:
             }
         }
 
-        if self.use_testnet:
-            config['sandbox'] = True
-            config['urls'] = {
-                'api': {
-                    'public': 'https://testnet.binancefuture.com/fapi/v1',
-                    'private': 'https://testnet.binancefuture.com/fapi/v1',
-                }
-            }
-
         return config
 
     def validate_config(self) -> bool:
         """验证配置是否有效"""
         # 检查API密钥
         if not self.API_KEY or self.API_KEY.startswith('YOUR_'):
-            print(f"错误: 请设置有效的API密钥 ({'testnet' if self.use_testnet else '实盘'})")
+            print("错误: 请设置有效的API密钥 (实盘)")
             return False
 
         if not self.API_SECRET or self.API_SECRET.startswith('YOUR_'):
-            print(f"错误: 请设置有效的API密钥 ({'testnet' if self.use_testnet else '实盘'})")
+            print("错误: 请设置有效的API密钥 (实盘)")
             return False
 
         # 检查参数范围
@@ -198,7 +173,7 @@ class TradingConfig:
         print("=" * 50)
         print(f"交易策略配置 - {self.ENV_NAME}")
         print("=" * 50)
-        print(f"环境类型: {'Testnet' if self.use_testnet else '实盘'}")
+        print("环境类型: 实盘")
         print(f"执行模式: {self.EXECUTION_MODE}")
         if self.EXECUTION_MODE == 'daily':
             print(f"每日执行时间: {self.EXECUTION_HOUR:02d}:00")
@@ -229,37 +204,24 @@ class TradingConfig:
 
 
 # 环境配置示例
-def get_config(use_testnet: bool = True) -> TradingConfig:
-    """
-    获取配置实例
-
-    Args:
-        use_testnet: True为testnet，False为实盘
-
-    Returns:
-        TradingConfig: 配置实例
-    """
-    return TradingConfig(use_testnet=use_testnet)
+def get_config() -> TradingConfig:
+    """获取配置实例"""
+    return TradingConfig()
 
 
 # 环境变量设置指南
 SETUP_GUIDE = """
 环境变量设置指南
 
-1. Testnet (测试环境):
-   export BINANCE_TESTNET_API_KEY="your_testnet_api_key"
-   export BINANCE_TESTNET_API_SECRET="your_testnet_secret"
-
-2. 实盘环境:
+1. 实盘环境:
    export BINANCE_API_KEY="your_live_api_key"
    export BINANCE_API_SECRET="your_live_secret"
 
-3. 获取API密钥:
-   - Testnet: https://testnet.binancefuture.com/
+2. 获取API密钥:
    - 实盘: https://www.binance.com/ (API管理)
 
 安全提醒:
-   - 请先在testnet环境充分测试
+   - 请在模拟环境或小仓位下充分验证
    - 实盘API请设置IP白名单
    - 建议API权限仅开启期货交易
    - 定期更换API密钥
@@ -269,12 +231,6 @@ if __name__ == "__main__":
     print(SETUP_GUIDE)
 
     # 测试配置
-    print("\nTestnet 配置:")
-    testnet_config = get_config(use_testnet=True)
-    testnet_config.print_config()
-    print(f"配置有效性: {'有效' if testnet_config.validate_config() else '无效'}")
-
-    print("\n实盘配置:")
-    live_config = get_config(use_testnet=False)
+    live_config = get_config()
     live_config.print_config()
     print(f"配置有效性: {'有效' if live_config.validate_config() else '无效'}")
