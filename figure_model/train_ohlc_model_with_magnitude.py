@@ -15,7 +15,7 @@ from tqdm import tqdm
 from typing import Tuple, Optional
 from pathlib import Path
 
-from ohlc_model_v2 import create_model
+from ohlc_model_v5 import create_model
 from training_dataset_with_magnitude import create_training_dataset, create_data_loaders
 from typing import List, Dict, Optional, Tuple
 

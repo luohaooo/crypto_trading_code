@@ -30,15 +30,37 @@ sys.path.insert(0, neural_strategy_root)
 from utils.dingding import send_dingtalk_message
 
 
-def convert_to_three_class(y: torch.Tensor) -> torch.Tensor:
-    """
-    Map raw returns into 3-class index targets based on the ±2% thresholds.
-    """
-    y = y.view(-1)
-    classes = torch.ones(y.size(0), device=y.device, dtype=torch.long)  # default middle class
-    classes[y > 0.02] = 0
-    classes[y < -0.02] = 2
-    return classes
+def convert_to_three_class(
+    y: torch.Tensor,
+    c: float = 0.05,
+    gamma: float = 2.0,
+    eps: float = 1e-12,
+) -> torch.Tensor:
+
+    if y.dim() != 1:
+        y = y.view(-1)
+
+    s = torch.tanh(y / c)  # [B]
+
+    u_raw = torch.clamp(s, min=0.0)       
+    d_raw = torch.clamp(-s, min=0.0)     
+    f_raw = 1.0 - torch.abs(s)            
+
+    u_raw = torch.clamp(u_raw, min=0.0)
+    d_raw = torch.clamp(d_raw, min=0.0)
+    f_raw = torch.clamp(f_raw, min=0.0)
+
+    u = u_raw.pow(gamma)
+    f = f_raw.pow(gamma)
+    d = d_raw.pow(gamma)
+
+    Z = u + f + d + eps
+    y_up   = u / Z
+    y_flat = f / Z
+    y_down = d / Z
+
+    labels = torch.stack([y_up, y_flat, y_down], dim=-1)  # [B, 3]
+    return labels
 
 
 def train_loop(dataloader: DataLoader, model: nn.Module, loss_fn: nn.Module, optimizer: torch.optim.Optimizer, device: torch.device) -> float:
@@ -69,11 +91,8 @@ def train_loop(dataloader: DataLoader, model: nn.Module, loss_fn: nn.Module, opt
             y_pred = model(images, scalars)
 
             # Ensure correct label type (float for regression, long for classification)
-            if loss_fn.__class__.__name__ in ['L1Loss', 'MSELoss']:
-                y = y.float()
-            else:
-                # Three-class classification with ±2% thresholds
-                y = convert_to_three_class(y)
+
+            y = convert_to_three_class(y)
 
             loss = loss_fn(y_pred.squeeze(), y)  # Ensure dimension matching
 
@@ -119,12 +138,8 @@ def val_loop(dataloader: DataLoader, model: nn.Module, loss_fn: nn.Module, devic
                 y_pred = model(images, scalars)
 
                 # Ensure correct label type (float for regression, long for classification)
-                
-                if loss_fn.__class__.__name__ in ['L1Loss', 'MSELoss']:
-                    y = y.float()
-                else:
-                    # Three-class classification with ±2% thresholds
-                    y = convert_to_three_class(y)
+
+                y = convert_to_three_class(y)
 
                 loss = loss_fn(y_pred.squeeze(), y)  # Ensure dimension matching
 
@@ -299,7 +314,7 @@ def create_training_pipeline(data_dir: str,
         print(f"  {key}: {value:,}" if isinstance(value, int) else f"  {key}: {value}")
 
     # Setup training components
-    loss_fn = nn.NLLLoss()
+    loss_fn = nn.MSELoss()
     # optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     optimizer = torch.optim.AdamW(
         model.parameters(),
@@ -336,6 +351,7 @@ def create_training_pipeline(data_dir: str,
             'learning_rate': learning_rate,
             'epochs': epochs,
             'early_stopping': early_stopping,
+            'train_ratio': train_ratio,
             'train_ratio': train_ratio
         },
         'training_time': training_time,
@@ -355,7 +371,7 @@ if __name__ == "__main__":
 
     print("🚀 Starting OHLC model training pipeline...")
 
-    for [s, e] in [['2025-01','2025-01']]:
+    for [s, e] in [['2024-10','2024-10']]:
 
         try:
             best_model_path, training_info = create_training_pipeline(

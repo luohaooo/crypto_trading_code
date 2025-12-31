@@ -403,7 +403,7 @@ class OHLCFigureFactor(BaseFactor):
                 if len(window_data) != periods_needed:
                     return None
 
-                return window_data
+                return window_data 
 
             # For 2h and 4h, use rolling window aggregation
             # Take the most recent periods_needed hours

@@ -37,7 +37,7 @@ BEFORE_TIME_SPAN = timedelta(hours=80)
 AFTER_TIME_SPAN = timedelta(hours=168)  
 
 # 输出目录
-OUTPUT_DIR = Path('/home/craz/crypto/model_training/ohlc_img_dataset_5')
+OUTPUT_DIR = Path('/home/craz/crypto/model_training/ohlc_img_dataset_6')
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 def month_iter(start_year, start_month, end_year, end_month):
@@ -598,8 +598,8 @@ def save_monthly_results(year: int, month: int, results: Dict[str, Dict]):
 # 注意: 这个单元格会处理大量数据，运行时间很长，请根据需要调整参数
 
 BATCH_PROCESS = True  # 设置为True以启用批量处理
-START_YEAR, START_MONTH = 2024, 10
-END_YEAR, END_MONTH = 2025, 8
+START_YEAR, START_MONTH = 2024, 1
+END_YEAR, END_MONTH = 2024, 9
 
 if BATCH_PROCESS:
     print(f"开始批量处理: {START_YEAR}-{START_MONTH:02d} 到 {END_YEAR}-{END_MONTH:02d}")

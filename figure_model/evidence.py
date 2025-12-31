@@ -65,9 +65,9 @@ def evidence2p_matrix(n: int) -> torch.Tensor:
     top = torch.cat([A, B], dim=1)
     # Bottom part [zeros..., ones...]
     bottom = torch.cat([C, D], dim=1)
-    
+       
     # Combine to form a_{k+1}
-    return torch.cat([top, bottom], dim=0)[: , 1:]
+    return torch.cat([top, bottom], dim=0)
 
 class evidence2prob(nn.Module):
     def __init__(self, num_types: int):
