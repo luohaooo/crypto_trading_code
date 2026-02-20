@@ -22,10 +22,13 @@ class TradingConfig:
         self.LOG_FILE = os.path.join(log_dir, f"{self.LOG_FILENAME}.log")
 
         # 交易参数
-        self.LEVERAGE = 13
+        self.LEVERAGE = 10
+
         self.SINGLE_MARGIN = None
         self.ENABLE_MARGIN_TYPE_SETTING = True
-        self.MARGIN_TYPE = "ISOLATED"
+        self.MARGIN_TYPE_RETRY_COUNT = 3
+        self.MARGIN_TYPE = 'ISOLATED'
+
         self.REBALANCE_INTERVAL_SECONDS = 60
         self.PROTECTIVE_WORKING_TYPE = "MARK_PRICE"
         # 重新设置保护单缓冲（相对开仓价），短线使用百分比

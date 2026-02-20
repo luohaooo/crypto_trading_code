@@ -219,13 +219,20 @@ class FindInOutStrategy:
 
             # 撤销旧保护单
             time.sleep(0.05)
-            is_success = self.executor._cancel_single_protective_order_simple(
-                symbol=symbol,
-                order_id=info.get("take_profit_order_id"),
-                client_order_id=info.get("take_profit_client_id"),
-                label="止盈",
-                position_side="short",
-            )
+            is_success = False
+            for attempt in range(1, 4):
+                is_success = self.executor._cancel_single_protective_order_simple(
+                    symbol=symbol,
+                    order_id=info.get("take_profit_order_id"),
+                    client_order_id=info.get("take_profit_client_id"),
+                    label="止盈",
+                    position_side="short",
+                )
+                if is_success:
+                    break
+                if attempt < 3:
+                    self.logger.info(f"[MONITOR] 撤销 {symbol} 止盈单失败，重试第 {attempt} 次")
+                time.sleep(0.5)
             if not is_success:
                 self.logger.info(f"[MONITOR WARNING] 撤销 {symbol} 止盈单失败")
                 close_price = info.get("take_profit_price")
@@ -236,8 +243,8 @@ class FindInOutStrategy:
                 message = (
                     f"[find_in_out] {symbol} 止盈单触发但撤销失败，移除监控\n"
                     f"开仓时间: {info.get('entry_time')}\n"
-                    f"开仓价: {entry_price}\n"
-                    f"平仓价: {close_price}\n"
+                    f"开仓价: {entry_price:.6f}\n"
+                    f"平仓价: {close_price:.6f}\n"
                     f"预计收益: {pnl_pct:.2f}%\n"
                     f"预计盈亏: {pnl:.2f} USDT\n"
                 )
@@ -259,13 +266,20 @@ class FindInOutStrategy:
                 self.stage_entries.remove(info)
                 continue
             
-            is_success = self.executor._cancel_single_protective_order_simple(
-                symbol=symbol,
-                order_id=info.get("stop_loss_order_id"),
-                client_order_id=info.get("stop_loss_client_id"),
-                label="止损",
-                position_side="short",
-            )
+            is_success = False
+            for attempt in range(1, 4):
+                is_success = self.executor._cancel_single_protective_order_simple(
+                    symbol=symbol,
+                    order_id=info.get("stop_loss_order_id"),
+                    client_order_id=info.get("stop_loss_client_id"),
+                    label="止损",
+                    position_side="short",
+                )
+                if is_success:
+                    break
+                if attempt < 3:
+                    self.logger.info(f"[MONITOR] 撤销 {symbol} 止损单失败，重试第 {attempt} 次")
+                time.sleep(0.5)
             if not is_success:
                 self.logger.info(f"[MONITOR WARNING] 撤销 {symbol} 止损单失败")
                 close_price = info.get("stop_loss_price")
@@ -276,8 +290,8 @@ class FindInOutStrategy:
                 message = (
                     f"[find_in_out] {symbol} 止损单触发但撤销失败，移除监控\n"
                     f"开仓时间: {info.get('entry_time')}\n"
-                    f"开仓价: {entry_price}\n"
-                    f"平仓价: {close_price}\n"
+                    f"开仓价: {entry_price:.6f}\n"
+                    f"平仓价: {close_price:.6f}\n"
                     f"预计收益: {pnl_pct:.2f}%\n"
                     f"预计盈亏: {pnl:.2f} USDT\n"
                 )
@@ -330,17 +344,28 @@ class FindInOutStrategy:
             self.logger.warning("[SCAN] 无活跃交易对可扫描")
             return
 
-        # 从文本加载白名单
-        whitelist_path = Path(__file__).with_name("profitable_symbols.txt")
-        whitelist = set()
-        if whitelist_path.exists():
-            whitelist = {line.strip() for line in whitelist_path.read_text().splitlines() if line.strip()}
+        # # 从文本加载白名单
+        # whitelist_path = Path(__file__).with_name("profitable_symbols.txt")
+        # whitelist = set()
+        # if whitelist_path.exists():
+        #     whitelist = {line.strip() for line in whitelist_path.read_text().splitlines() if line.strip()}
 
-        scan_symbols = list(active_symbols & whitelist) if whitelist else list(active_symbols)
+        # 加载黑名单
+        blacklist_path = Path(__file__).with_name("neglected_symbols.txt")
+        blacklist = set()
+        if blacklist_path.exists():
+            blacklist = {
+                line.strip()
+                for line in blacklist_path.read_text().splitlines()
+                if line.strip()
+            }
 
-        # scan_symbols = list(active_symbols)
+        # scan_symbols = list(active_symbols & whitelist) if whitelist else list(active_symbols)
+
+        scan_symbols = list(active_symbols - blacklist)
+        
         if not scan_symbols:
-            self.logger.warning("[SCAN] 无可扫描交易对（active 与 profitable_symbols.txt 交集为空）")
+            self.logger.warning("[SCAN] 无可扫描交易对")
             return
         else:
             self.logger.info(f"[SCAN] 本轮扫描交易对数量: {len(scan_symbols)}")
@@ -377,17 +402,38 @@ class FindInOutStrategy:
             self.logger.info("[SCAN] 本轮无满足条件的标的")
             return
 
+        # # 测试用
+        # wait_for_execute = ['DOGS/USDT:USDT']
+
         # 批量开空
-        position_value = self.config.SINGLE_MARGIN * self.config.LEVERAGE
         balance = self.executor.get_account_balance()
+        find_num = len(wait_for_execute)
+        to_be_executed_list = []
+
         if balance < self.config.SINGLE_MARGIN:
             self.logger.warning("[OPEN WARNING] 余额不足，无法开仓")
             return
+        elif balance < find_num * self.config.SINGLE_MARGIN:
+            self.logger.warning("[OPEN WARNING] 余额不足，无法覆盖所有找到的symbol")
+            num_to_be_executed = math.floor(balance / self.config.SINGLE_MARGIN)
+            to_be_executed_list = wait_for_execute[:num_to_be_executed]
+        else:
+            to_be_executed_list = wait_for_execute
+            self.logger.info("[OPEN] 余额能够完全覆盖所有找到的symbol")
+        
+
         try:
-            self.executor._set_leverage_for_symbols(wait_for_execute)
+            self.executor._set_margin_type_for_symbols(to_be_executed_list)
+        except Exception as exc:
+            self.logger.warning(f"[LEVERAGE WARNING] 批量设置保证金模式失败: {exc}")
+
+        try:
+            self.executor._set_leverage_for_symbols(to_be_executed_list)
         except Exception as exc:
             self.logger.warning(f"[LEVERAGE WARNING] 批量设置杠杆失败: {exc}")
-        success, opened = self.executor._open_short_positions(wait_for_execute, position_value)
+
+        position_value = self.config.SINGLE_MARGIN * self.config.LEVERAGE
+        success, opened = self.executor._open_short_positions(to_be_executed_list, position_value)
         if not success:
             self.logger.warning("[OPEN] 本轮开空全部失败")
             return
@@ -430,8 +476,8 @@ class FindInOutStrategy:
                 f"[find_in_out] 开空 {symbol}\n"
                 f"数量: {pos.get('quantity')}\n"
                 f"开仓价: {pos.get('open_price')}\n"
-                f"止盈: {stage_entry.get('take_profit_price')}\n"
-                f"止损: {stage_entry.get('stop_loss_price')}"
+                f"止盈: {stage_entry.get('take_profit_price'):.6f}\n"
+                f"止损: {stage_entry.get('stop_loss_price'):.6f}"
             )
 
 
@@ -455,7 +501,7 @@ class FindInOutStrategy:
         usdt_balance = balance_info.get("wallet_balance", 0)
         self.logger.info(f"[BALANCE] 当前总资产: {usdt_balance:.2f}")
         send_dingtalk_message(f"[find_in_out] 当前总资产: {usdt_balance:.2f} USDT")
-        self.config.SINGLE_MARGIN = math.floor(usdt_balance / 6)
+        self.config.SINGLE_MARGIN = math.floor(usdt_balance / 20)
         self.logger.info(f"[CONFIG] 单仓保证金设置为: {self.config.SINGLE_MARGIN} USDT")
 
         # 对齐到下一分钟
