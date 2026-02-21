@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Iterable, Optional, Sequence, Tuple
@@ -20,6 +21,7 @@ FIFTEEN_CACHE_DIR = Path(
 MINUTE_CACHE_DIR = Path(
     os.getenv("PICKLE_1M_CACHE", "/home/craz/crypto/crypto-data/pickle_month_cache")
 )
+MAX_PARALLEL_SIMULATIONS = int(os.getenv("BUY_IN_MAX_WORKERS", "4"))
 
 
 def _normalize_timestamp(value: str | pd.Timestamp) -> pd.Timestamp:
@@ -113,7 +115,9 @@ class StopParameterConfig:
 
     name: str
     determine_stop_fn: StopLevelFn
+    max_minutes: int 
     metadata: Optional[dict[str, Any]] = None
+
 
 def condition(
     symbol_df: pd.DataFrame
@@ -128,14 +132,19 @@ def condition(
     low_prices = symbol_only["low"].astype(float)
 
     volumes_previous_1 = volumes.shift(1)
+    volumes_previous_2 = volumes.shift(2)
+    volumes_previous_3 = volumes.shift(3)
 
     rolling_avg_volumes_1_20 = volumes_previous_1.rolling(window=20, min_periods=20).mean()
+    rolling_avg_volumes_2_21 = volumes_previous_2.rolling(window=20, min_periods=20).mean()
+    rolling_avg_volumes_3_22 = volumes_previous_3.rolling(window=20, min_periods=20).mean()
 
     volume_trigger = (volumes >= 20 * rolling_avg_volumes_1_20) 
 
-    bearlish = close_prices < open_prices
+    bearish = close_prices < open_prices
+    bearish_streak = bearish
 
-    mask = volume_trigger & bearlish
+    mask = volume_trigger & bearish_streak
     mask = mask.reindex(symbol_only.index, fill_value=False)
     return symbol_df[mask.values]
 
@@ -148,41 +157,20 @@ def determine_next_stop_levels(
     *,
     take_profit_buffer: float,
     stop_loss_buffer: float,
-    trailing_factor: float,
 ) -> tuple[float, float, dict]:
     """Update trailing stop levels using the latest minute close."""
     if stage is None:
         stage = {}
 
-    close_price = float(last_bar["close"])
-    high_price = float(last_bar["high"])
-    low_price = float(last_bar["low"])
+    take_profit = entry_price * (1 + take_profit_buffer)
+    stop_loss = entry_price * (1 - stop_loss_buffer)
 
-    stage["highest"] = max(stage.get("highest", entry_price), high_price)
-    stage["lowest"] = min(stage.get("lowest", entry_price), low_price)
-    stage["counter"] = stage.get("counter", 0) + 1
-
-    if take_profit is None:
-        take_profit = entry_price * (1 + take_profit_buffer)
-    else:
-        take_profit = close_price * (1 + take_profit_buffer)
-
-    if stop_loss is None:
-        stop_loss = entry_price * (1 - stop_loss_buffer)
-    else:
-        previous_stop = stage.get("previous_stop_loss", entry_price)
-        stop_loss = previous_stop + (stage["highest"] - previous_stop) * trailing_factor
-
-    stage["previous_take_profit"] = take_profit
-    stage["previous_stop_loss"] = stop_loss
     return take_profit, stop_loss, stage
-
 
 def make_stop_level_fn(
     *,
     take_profit_buffer: float,
     stop_loss_buffer: float,
-    trailing_factor: float,
 ) -> StopLevelFn:
     """Create a stop-level function with frozen parameter buffers."""
 
@@ -200,8 +188,7 @@ def make_stop_level_fn(
             stop_loss,
             stage,
             take_profit_buffer=take_profit_buffer,
-            stop_loss_buffer=stop_loss_buffer,
-            trailing_factor=trailing_factor,
+            stop_loss_buffer=stop_loss_buffer
         )
 
     return _wrapped
@@ -221,35 +208,46 @@ def evaluate_stop_trigger(
     return None, None
 
 
-def simulate_minute_trade(
-    symbol: str,
-    entry_time: pd.Timestamp,
-    *,
-    determine_stop_fn: StopLevelFn,
-    max_minutes: int = 1440 * 3,
-) -> Optional[dict]:
-    """Simulate per-minute stop logic starting from ``entry_time``."""
-    multi_config = StopParameterConfig(name="single", determine_stop_fn=determine_stop_fn)
-    multi_result = simulate_minute_trade_multi(
-        symbol, entry_time, [multi_config], max_minutes=max_minutes
-    )
-    if multi_result is None:
-        return None
-    return multi_result.get(multi_config.name)
+# def simulate_minute_trade(
+#     symbol: str,
+#     entry_time: pd.Timestamp,
+#     *,
+#     determine_stop_fn: StopLevelFn,
+#     max_minutes: int = C,
+# ) -> Optional[dict]:
+#     """Simulate per-minute stop logic starting from ``entry_time``."""
+#     multi_config = StopParameterConfig(name="single", determine_stop_fn=determine_stop_fn)
+#     multi_result = simulate_minute_trade_multi(
+#         symbol, entry_time, [multi_config], max_minutes=max_minutes
+#     )
+#     if multi_result is None:
+#         return None
+#     return multi_result.get(multi_config.name)
 
 
 def simulate_minute_trade_multi(
     symbol: str,
     entry_time: pd.Timestamp,
     parameter_configs: Sequence[StopParameterConfig],
-    *,
-    max_minutes: int = 1440 * 3,
 ) -> Optional[dict[str, dict]]:
     """Simulate per-minute stops for multiple parameter configurations."""
     if not parameter_configs:
         return {}
 
-    minute_data = load_1m_data(entry_time, entry_time + pd.Timedelta(minutes=max_minutes))
+    config_minutes: dict[str, int] = {}
+    max_required_minutes = 0
+    for config in parameter_configs:
+        if config.max_minutes <= 0:
+            raise ValueError(f"max_minutes must be positive for config {config.name}")
+        config_minutes[config.name] = config.max_minutes
+        max_required_minutes = max(max_required_minutes, config.max_minutes)
+
+    if max_required_minutes <= 0:
+        return {}
+
+    minute_data = load_1m_data(
+        entry_time, entry_time + pd.Timedelta(minutes=max_required_minutes)
+    )
     if minute_data.empty or symbol not in minute_data.index.get_level_values("symbol"):
         return None
 
@@ -258,7 +256,7 @@ def simulate_minute_trade_multi(
     if trade_minutes.empty:
         return None
 
-    iterator = trade_minutes.iloc[:max_minutes].iterrows()
+    iterator = trade_minutes.iloc[: max_required_minutes + 1].iterrows()
     try:
         entry_idx, prev_bar = next(iterator)
     except StopIteration:
@@ -280,6 +278,8 @@ def simulate_minute_trade_multi(
             "exit_price": None,
             "exit_reason": None,
             "exit_time": None,
+            "max_minutes": config_minutes[config.name],
+            "minutes_elapsed": 0,
         }
 
     active_configs = set(states.keys())
@@ -312,6 +312,15 @@ def simulate_minute_trade_multi(
 
         prev_bar = bar
         last_idx = ts
+        for name in list(active_configs):
+            state = states[name]
+            state["minutes_elapsed"] += 1
+            if state["minutes_elapsed"] >= state["max_minutes"]:
+                state["exit_price"] = float(prev_bar["close"])
+                state["exit_reason"] = "timeout"
+                state["exit_time"] = last_idx
+                active_configs.discard(name)
+
         if not active_configs:
             break
     else:
@@ -333,6 +342,17 @@ def simulate_minute_trade_multi(
         }
 
     return trades
+
+
+def _simulate_trade_for_result(
+    result: Tuple[pd.Timestamp, str, pd.Series],
+    parameter_configs: Sequence[StopParameterConfig],
+) -> tuple[str, pd.Timestamp, Optional[dict[str, dict]]]:
+    """Background worker that runs minute-level simulation for a signal."""
+    open_time, symbol, _ = result
+    entry_time = open_time + pd.Timedelta(minutes=15)
+    trade_results = simulate_minute_trade_multi(symbol, entry_time, parameter_configs)
+    return symbol, entry_time, trade_results
 
 
 def find_events(
@@ -364,21 +384,24 @@ def find_events(
 def trade_event(
     results: Sequence[Tuple[pd.Timestamp, str, pd.Series]],
     parameter_configs: Sequence[StopParameterConfig],
+    *,
+    max_parallel: Optional[int] = None,
 ) -> dict[str, list[dict]]:
     """Translate 15m signals into trades for every parameter config."""
     trades: dict[str, list[dict]] = {cfg.name: [] for cfg in parameter_configs}
     if not parameter_configs:
         return trades
 
-    iterable = tqdm(results, desc="Simulating trades", leave=False)
-    for open_time, symbol, _ in iterable:
-        entry_time = open_time + pd.Timedelta(minutes=15)
-        trade_results = simulate_minute_trade_multi(symbol, entry_time, parameter_configs)
+    cpu_limit = os.cpu_count() or 1
+    desired_parallel = max_parallel if max_parallel is not None else MAX_PARALLEL_SIMULATIONS
+    desired_parallel = max(1, desired_parallel)
+    max_workers = max(1, min(len(results), min(desired_parallel, cpu_limit)))
+
+    def process_trade(result: Tuple[pd.Timestamp, str, pd.Series]) -> None:
+        symbol, entry_time, trade_results = _simulate_trade_for_result(result, parameter_configs)
         if trade_results is None:
-            print(
-                f"No 1m data for {symbol} starting {entry_time}, skip minute-level trade."
-            )
-            continue
+            print(f"No 1m data for {symbol} starting {entry_time}, skip minute-level trade.")
+            return
 
         for config in parameter_configs:
             config_trade = trade_results.get(config.name)
@@ -401,6 +424,16 @@ def trade_event(
             if config.metadata:
                 config_trade["parameters"] = config.metadata
             trades[config.name].append(config_trade)
+
+    if max_workers == 1:
+        for result in tqdm(results, desc="Simulating trades", leave=False):
+            process_trade(result)
+        return trades
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = [executor.submit(process_trade, result) for result in results]
+        for _ in tqdm(as_completed(futures), total=len(futures), desc="Simulating trades", leave=False):
+            _.result()
 
     return trades
 
@@ -471,7 +504,7 @@ def present_pnl(
     current_value = 1.0
     for day in daily_index:
         day_trades = trade_df[trade_df["entry_date"] == day]
-        day_return = day_trades["pnl"].sum() * 0.1  if not day_trades.empty else 0.0
+        day_return = day_trades["pnl"].sum() * 0.05  if not day_trades.empty else 0.0
         current_value *= 1 + day_return 
         capital.append(current_value)
 
@@ -584,34 +617,32 @@ def plot_average_pnl(
 
 if __name__ == "__main__":
     # Example usage
-    START = "2025-10-01"
-    END = "2025-11-30"
+    START = "2025-01-01"
+    END = "2026-01-31"
+    directory = 'c2_x2'
     result = find_events(START, END, lambda df: condition(df))
 
     parameter_runs: list[dict[str, Any]] = []
 
-    # for A in [0.03]:
-    #     for B in [0.02]:
-    #         for C in [0.002, 0.001]:
-    for A in [i / 1000 for i in range(10, 71, 5)]:
-        for B in [i / 1000 for i in range(10, 40, 3)]:
-            for C in [i / 10000 for i in range(10, 40, 3)]:
+    for A in [i / 1000 for i in [250]]:
+        for B in [i / 1000 for i in [450]]:
+            for C in [720]:
                 name = f"paras_{A}_{B}_{C}"
                 stop_fn = make_stop_level_fn(
-                    take_profit_buffer=B,
-                    stop_loss_buffer=A,
-                    trailing_factor=C,
+                    take_profit_buffer=A,
+                    stop_loss_buffer=B,
                 )
                 config = StopParameterConfig(
                     name=name,
                     determine_stop_fn=stop_fn,
+                    max_minutes=C,
                     metadata={"A": A, "B": B, "C": C},
                 )
                 parameter_runs.append(
                     {
                         "config": config,
-                        "trade_log_path": Path(f"./result/{START}_{END}/c5/{name}/trade_log.pkl"),
-                        "curve_path": Path(f"./result/{START}_{END}/c5/{name}/pnl_curve.pdf"),
+                        "trade_log_path": Path(f"./result/{START}_{END}/{directory}/{name}/trade_log.pkl"),
+                        "curve_path": Path(f"./result/{START}_{END}/{directory}/{name}/pnl_curve.pdf"),
                     }
                 )
 
@@ -639,6 +670,6 @@ if __name__ == "__main__":
         )
     if summary_records:
         combined_df = pd.DataFrame(summary_records)
-        summary_path = Path(f"./result/{START}_{END}/c5/buy_in_stats_summary.pkl")
+        summary_path = Path(f"./result/{START}_{END}/{directory}/buy_in_stats_summary.pkl")
         summary_path.parent.mkdir(parents=True, exist_ok=True)
         combined_df.to_pickle(summary_path)
