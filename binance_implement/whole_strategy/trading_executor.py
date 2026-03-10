@@ -22,7 +22,12 @@ try:
     from trading_utils.dingding import send_dingtalk_message
     DINGDING_AVAILABLE = True
 except ImportError:
-    DINGDING_AVAILABLE = False
+    try:
+        # 兼容绝对路径导入
+        from binance_implement.whole_strategy.trading_utils.dingding import send_dingtalk_message  # type: ignore
+        DINGDING_AVAILABLE = True
+    except ImportError:
+        DINGDING_AVAILABLE = False
 
 
 class TradingExecutor:
@@ -237,6 +242,72 @@ class TradingExecutor:
             bool: 平仓是否成功
         """
         return self.close_specific_positions_live(positions_dict)
+
+    def close_specific_positions_simple(self, positions_dict: dict) -> bool:
+        """
+        仅执行平仓指定仓位，不取消保护单、不计算收益
+
+        Args:
+            positions_dict: 仓位字典，格式: {symbol: {'side': 'long'/'short', 'quantity': float}}
+
+        Returns:
+            bool: 平仓是否成功
+        """
+        try:
+            if not positions_dict:
+                self.logger.info("[LIVE OK] 无指定仓位需要平仓")
+                return True
+
+            self.logger.info(f"[LIVE CLOSE] 开始平仓指定仓位: {len(positions_dict)} 个")
+
+            close_orders = []
+            failed_positions = []
+
+            for symbol, position_info in positions_dict.items():
+                try:
+                    side = position_info['side']
+                    quantity = position_info['quantity']
+
+                    close_side = 'sell' if side == 'long' else 'buy'
+                    position_side = 'LONG' if side == 'long' else 'SHORT'
+
+                    self.logger.info(f"[LIVE CLOSE] 平仓 {symbol}: {close_side} {quantity} (原{side}仓位)")
+
+                    order = self._create_market_order_live(
+                        symbol=symbol,
+                        side=close_side,
+                        amount=abs(quantity),
+                        params={'positionSide': position_side}
+                    )
+
+                    if order:
+                        close_orders.append(order)
+                        self.logger.info(f"[LIVE SUCCESS] 平仓订单创建成功 {symbol}: {order.get('id', 'Unknown')}")
+                    else:
+                        self.logger.error(f"[LIVE ERROR] 平仓失败 {symbol}")
+                        failed_positions.append(symbol)
+
+                    time.sleep(0.1)
+
+                except Exception as e:
+                    self.logger.error(f"[LIVE ERROR] 平仓 {symbol} 异常: {e}")
+                    failed_positions.append(symbol)
+                    continue
+
+            if failed_positions:
+                self.logger.warning(f"[LIVE WARNING] {len(failed_positions)} 个仓位平仓失败: {failed_positions}")
+
+            # if close_orders:
+            #     self.logger.info(f"[LIVE WAIT] 等待 {len(close_orders)} 个平仓订单执行...")
+            #     time.sleep(0.05)
+
+            success_count = len(positions_dict) - len(failed_positions)
+            self.logger.info(f"[LIVE OK] 平仓操作完成，成功: {success_count}/{len(positions_dict)}")
+            return len(failed_positions) == 0
+
+        except Exception as e:
+            self.logger.error(f"[LIVE ERROR] 指定仓位平仓失败: {e}")
+            return False
 
     def close_specific_positions_live(self, positions_dict: dict) -> bool:
         """
@@ -925,7 +996,7 @@ class TradingExecutor:
         except Exception as e:
             self.logger.error(f"[PROTECT ERROR] {symbol} 价格精度转换失败: {e}")
             return results
-        if precise_quantity <= 0:
+        if precise_quantity <= 0: 
             self.logger.warning(f"[PROTECT] {symbol} 保护单跳过，数量精度调整后无效 quantity={quantity}")
             return results
 
@@ -1066,6 +1137,30 @@ class TradingExecutor:
                     self.logger.warning(
                         f"[PROTECT WARNING] {symbol} 取消{label}单失败 ({order_id}): {inner_e}"
                     )
+    
+    def _cancel_single_protective_order_simple(
+        self,
+        symbol: str,
+        order_id: Optional[str],
+        client_order_id: Optional[str],
+        label: str,
+        position_side: Optional[str],
+    ) -> bool:
+        """取消指定的保护单（用于另一侧触发后的对侧撤单）"""
+
+        params = {}
+        if position_side in ['long', 'short']:
+            params['positionSide'] = 'LONG' if position_side == 'long' else 'SHORT'
+
+        try:
+            self._cancel_algo_order(algo_id=str(order_id) if order_id else None, client_algo_id=client_order_id)
+            self.logger.info(f"[CANCEL] {symbol} 已取消{label}单 {order_id or client_order_id}")
+            return True
+        except Exception as e:
+            self.logger.warning(
+                f"[CANCEL WARNING] {symbol} Algo接口取消{label}单失败 ({order_id or client_order_id}): {e}"
+            )
+            return False
 
     def _respect_rate_limit(self):
         """统一的速率限制控制"""

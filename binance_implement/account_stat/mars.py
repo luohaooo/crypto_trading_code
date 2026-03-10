@@ -1,13 +1,14 @@
 """
 Mars账户余额可视化脚本
 
-读取 `mars.csv`，转换为 Pandas Series，并绘制累计盈亏/回撤图后保存为 PDF。
+读取 `mars_normalized.csv`，转换为 Pandas Series，并绘制累计盈亏/回撤图后保存为 PDF。
 """
 
 from __future__ import annotations
 
 import os
 from pathlib import Path
+import math
 
 BASE_DIR = Path(__file__).resolve().parent
 MPL_CONFIG_DIR = BASE_DIR / ".matplotlib_cache"
@@ -55,12 +56,51 @@ def load_mars_series(csv_path: Path) -> pd.Series:
     if not csv_path.exists():
         raise FileNotFoundError(f"未找到 CSV 文件: {csv_path}")
 
-    df = pd.read_csv(csv_path, parse_dates=["timestamp"]).sort_values("timestamp")[12897:]
+    df = pd.read_csv(csv_path, parse_dates=["timestamp"]).sort_values("timestamp")
     return pd.Series(
         data=df["total_balance"].astype(float).values,
         index=pd.DatetimeIndex(df["timestamp"]).tz_localize(None),
         name="total_balance",
     )
+
+
+def calculate_performance_metrics(pnl_series: pd.Series) -> dict[str, float]:
+    """计算最终收益、平均日收益、平均年化收益、日胜率和夏普比率。"""
+    base_pnl = float(pnl_series.iloc[0])
+    final_pnl = float(pnl_series.iloc[-1])
+    total_return = (final_pnl / base_pnl - 1.0) * 100
+    total_days = (pnl_series.index[-1] - pnl_series.index[0]).total_seconds() / 86400.0
+    if total_days <= 0:
+        avg_annualized_return = 0.0
+    else:
+        avg_annualized_return = float(((final_pnl / base_pnl) ** (365.0 / total_days) - 1.0) * 100)
+
+    daily_balance = pnl_series.resample("D").last().dropna()
+    daily_returns = daily_balance.pct_change().dropna()
+
+    if daily_returns.empty:
+        avg_daily_return = 0.0
+        daily_win_rate = 0.0
+        sharpe_ratio = 0.0
+    else:
+        avg_daily_return_decimal = float(daily_returns.mean())
+        avg_daily_return = float(avg_daily_return_decimal * 100)
+        avg_annualized_return = float(((1.0 + avg_daily_return_decimal) ** 365 - 1.0) * 100)
+        daily_win_rate = float((daily_returns > 0).mean() * 100)
+        daily_volatility = float(daily_returns.std(ddof=0))
+        if math.isclose(daily_volatility, 0.0, abs_tol=1e-12):
+            sharpe_ratio = 0.0
+        else:
+            sharpe_ratio = float(daily_returns.mean() / daily_volatility * math.sqrt(365))
+
+    return {
+        "total_return": total_return,
+        "avg_daily_return": avg_daily_return,
+        "avg_annualized_return": avg_annualized_return,
+        "daily_win_rate": daily_win_rate,
+        "sharpe_ratio": sharpe_ratio,
+        "total_days": total_days,
+    }
 
 
 def plot_average_pnl(
@@ -76,7 +116,17 @@ def plot_average_pnl(
     final_pnl = float(pnl_series.iloc[-1])
     max_pnl = float(pnl_series.max())
     min_pnl = float(pnl_series.min())
-    print(f"[INFO] 初始余额: {base_pnl:.2f}, 最终余额: {final_pnl:.2f}, 最高余额: {max_pnl:.2f}, 最低余额: {min_pnl:.2f}")
+    metrics = calculate_performance_metrics(pnl_series)
+    print(f"[INFO] 初始余额: {base_pnl:.4f}, 最终余额: {final_pnl:.4f}, 最高余额: {max_pnl:.4f}, 最低余额: {min_pnl:.4f}")
+    print(
+        "[INFO] 最终收益: "
+        f"{metrics['total_return']:.4f}%, "
+        f"平均日收益率: {metrics['avg_daily_return']:.4f}%, "
+        f"平均年化收益率: {metrics['avg_annualized_return']:.4f}%, "
+        f"夏普比率: {metrics['sharpe_ratio']:.4f}, "
+        f"总运行天数: {metrics['total_days']:.2f} 天, "
+        f"日胜率: {metrics['daily_win_rate']:.2f}%"
+    )
     fig, (ax1, ax2) = plt.subplots(
         2,
         1,
@@ -134,9 +184,13 @@ def plot_average_pnl(
         for label in tick_labels_ax1 + ax1.yaxis.get_majorticklabels():
             label.set_fontproperties(font_prop)
 
-    total_return = (pnl_series.iloc[-1] / base_pnl - 1) * 100
     stats_text = (
-        f"最终收益： {total_return:.2f}%\n当前余额： {pnl_series.iloc[-1]:.2f}"
+        f"当前收益率： {metrics['total_return']:.4f}%\n"
+        f"平均日收益率： {metrics['avg_daily_return']:.3f}%\n"
+        f"平均年化收益率： {metrics['avg_annualized_return']:.1f}%\n"
+        f"夏普比率： {metrics['sharpe_ratio']:.4f}\n"
+        f"总运行天数： {metrics['total_days']:.2f} 天\n"
+        f"日胜率： {metrics['daily_win_rate']:.2f}%"
     )
     ax1.text(
         0.02,
@@ -182,7 +236,7 @@ def plot_average_pnl(
     return output_file
 
 
-CSV_PATH = BASE_DIR / "mars.csv"
+CSV_PATH = BASE_DIR / "mars_normalized.csv"
 OUTPUT_PDF_PATH = BASE_DIR / "mars_monitor.pdf"
 CHART_TITLE = "Mars 账户余额变化"
 

@@ -71,7 +71,7 @@ class BalanceWatcherConfig:
         output_dir = Path(__file__).resolve().parent
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        csv_filename = "mars.csv"
+        csv_filename = "mars_normalized.csv"
         interval_minutes = 1
 
         return cls(
@@ -105,6 +105,7 @@ def monitor_balances(config: BalanceWatcherConfig) -> None:
                 total_balance = get_all_accounts_total_balance(
                     config.api_key_env_names, config.api_secret_env_names
                 )
+                total_balance /= 7371.0478904734
             except Exception as exc:  # pragma: no cover - 网络错误直接告警
                 print(f"[ERROR] {timestamp.isoformat()} 获取账户余额失败: {exc}")
             else:
