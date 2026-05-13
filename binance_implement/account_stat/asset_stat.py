@@ -130,14 +130,14 @@ if __name__ == "__main__":
         # 'BINANCE_API_KEY_CD',
         # 'BINANCE_API_KEY_HK',
         # 'BINANCE_API_KEY_SH',
-        'BINANCE_API_KEY'
+        'BINANCE_API_KEY_PUBLIC'
     ]
     api_secret_list = [
         # 'BINANCE_API_SECRET_UESTC',
         # 'BINANCE_API_SECRET_CD',
         # 'BINANCE_API_SECRET_HK',
         # 'BINANCE_API_SECRET_SH',
-        'BINANCE_API_SECRET'
+        'BINANCE_API_SECRET_PUBLIC'
     ]
 
     total_balance = 0.0

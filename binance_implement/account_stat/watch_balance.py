@@ -22,7 +22,7 @@ DEFAULT_API_KEY_ENV_NAMES: List[str] = [
     # "BINANCE_API_KEY_CD",
     # "BINANCE_API_KEY_HK",
     # "BINANCE_API_KEY_SH",
-    "BINANCE_API_KEY",
+    "BINANCE_API_KEY_PUBLIC",
 ]
 
 DEFAULT_API_SECRET_ENV_NAMES: List[str] = [
@@ -30,7 +30,7 @@ DEFAULT_API_SECRET_ENV_NAMES: List[str] = [
     # "BINANCE_API_SECRET_CD",
     # "BINANCE_API_SECRET_HK",
     # "BINANCE_API_SECRET_SH",
-    "BINANCE_API_SECRET",
+    "BINANCE_API_SECRET_PUBLIC",
 ]
 
 
@@ -105,7 +105,7 @@ def monitor_balances(config: BalanceWatcherConfig) -> None:
                 total_balance = get_all_accounts_total_balance(
                     config.api_key_env_names, config.api_secret_env_names
                 )
-                total_balance /= 7371.0478904734
+                total_balance /= 1675.224
             except Exception as exc:  # pragma: no cover - 网络错误直接告警
                 print(f"[ERROR] {timestamp.isoformat()} 获取账户余额失败: {exc}")
             else:

@@ -10,10 +10,10 @@ import asyncio
 import logging
 import sys
 import time
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
-import math
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import pandas as pd
 import requests
@@ -50,7 +50,34 @@ def setup_logger(log_file: str, level: str = "INFO") -> logging.Logger:
     return logger
 
 
-def condition(symbol_df: pd.DataFrame) -> bool:
+@dataclass(frozen=True)
+class ConditionFormat:
+    """单个开仓条件的完整配置"""
+
+    name: str
+    condition_func: Callable[[pd.DataFrame], bool]
+    holding_minutes: int
+    take_profit_ratio: float
+    stop_loss_ratio: float
+    capital_allocation_ratio: float
+
+    def matches(self, symbol_df: pd.DataFrame) -> bool:
+        return bool(self.condition_func(symbol_df))
+
+    def validate(self) -> None:
+        if not self.name:
+            raise ValueError("condition name 不能为空")
+        if self.holding_minutes <= 0:
+            raise ValueError(f"condition {self.name} 的 holding_minutes 必须大于 0")
+        if self.take_profit_ratio < 0:
+            raise ValueError(f"condition {self.name} 的 take_profit_ratio 不能小于 0")
+        if self.stop_loss_ratio < 0:
+            raise ValueError(f"condition {self.name} 的 stop_loss_ratio 不能小于 0")
+        if self.capital_allocation_ratio <= 0:
+            raise ValueError(f"condition {self.name} 的 capital_allocation_ratio 必须大于 0")
+
+
+def volume_30_40_condition(symbol_df: pd.DataFrame) -> bool:
     if symbol_df.empty or len(symbol_df) < 21: # 确保至少有21根数据（1根当前的 + 20根均线）
         return False
 
@@ -71,10 +98,59 @@ def condition(symbol_df: pd.DataFrame) -> bool:
     avg_volume = previous_20_volumes.mean()
 
     # 3. 判断逻辑
-    volume_trigger = current_volume >= 20 * avg_volume # 你的注释写20倍，代码写6倍，这里按注释改
+    volume_trigger = (current_volume >= 30 * avg_volume) & (current_volume < 40 * avg_volume)
     bullish = current_close > current_open
 
     return bool(volume_trigger and bullish)
+
+def volume_40_condition(symbol_df: pd.DataFrame) -> bool:
+    if symbol_df.empty or len(symbol_df) < 21: # 确保至少有21根数据（1根当前的 + 20根均线）
+        return False
+
+    # 简化提取流程
+    symbol_only = symbol_df.droplevel("symbol")
+    volumes = symbol_only["volume"].astype(float)
+    open_p = symbol_only["open"].astype(float)
+    close_p = symbol_only["close"].astype(float)
+
+    # 1. 获取当前（最后一根）的数据
+    current_volume = volumes.iloc[-1]
+    current_open = open_p.iloc[-1]
+    current_close = close_p.iloc[-1]
+
+    # 2. 获取前20根（不含当前根）的成交量并计算均值
+    # iloc[-21:-1] 表示从倒数第21根开始，到倒数第2根结束（刚好20根）
+    previous_20_volumes = volumes.iloc[-21:-1]
+    avg_volume = previous_20_volumes.mean()
+
+    # 3. 判断逻辑
+    volume_trigger = current_volume >= 40 * avg_volume
+    bullish = current_close > current_open
+
+    return bool(volume_trigger and bullish)
+
+
+def get_condition_list() -> List[ConditionFormat]:
+    """策略开仓条件列表，按顺序逐个判断"""
+    return [
+        ConditionFormat(
+            name="volume_30_40_condition",
+            condition_func=volume_30_40_condition,
+            holding_minutes=1440,
+            take_profit_ratio=0.5,
+            stop_loss_ratio=0.7,
+            capital_allocation_ratio=1.5,
+        ),
+        ConditionFormat(
+            name="volume_40_condition",
+            condition_func=volume_40_condition,
+            holding_minutes=2880,
+            take_profit_ratio=0.2,
+            stop_loss_ratio=0.6,
+            capital_allocation_ratio=0.76,
+        ),
+
+    ]
 
 
 def _normalize_fapi_symbol(symbol: str) -> str:
@@ -187,36 +263,6 @@ def _passes_funding_rate_filter(
     )
     return True
 
-
-# def determine_next_stop_levels(
-#     last_minute_candle: List[Any],
-#     info: Dict[str, Any],
-#     config: TradingConfig,
-# ) -> Tuple[Optional[float], Optional[float], float]:
-#     """
-#     根据上一分钟 K 线更新止盈止损（仅空单）
-#     - 止盈：跟随新低，保留最紧的触发价
-#     - 止损：跟随上一分钟高点上方一定缓冲
-#     """
-
-#     high = float(last_minute_candle[2])
-#     low = float(last_minute_candle[3])
-#     close = float(last_minute_candle[4])
-
-
-#     min_price = min(info.get("min_price", low), low)
-
-#     current_tp = info.get("take_profit_price")
-#     current_sl = info.get("stop_loss_price")
-
-#     new_tp = min(current_tp, close * (1-config.TP_BUFFER))
-#     new_sl = current_sl - config.INCR * (current_sl - min_price)
-
-#     return new_tp, new_sl, min_price
-
-
-
-
 class FindInOutStrategy:
     """find_in_out 策略执行器"""
 
@@ -225,8 +271,10 @@ class FindInOutStrategy:
         self.logger = logger
         self.executor = TradingExecutor(config, logger)
         self.data_processor = OptimizedDataProcessor(config, logger)
+        self.condition_list = get_condition_list()
         # 所有待监控空单列表（每个元素是一个dict）
         self.stage_entries: List[Dict[str, Any]] = []
+        self.open_orders_paused = False
 
     def initialize(self):
         """初始化交易所和数据处理器"""
@@ -239,6 +287,37 @@ class FindInOutStrategy:
         self.logger.info(f"[BALANCE] 当前 USDT 余额: {balance:.2f}")
         self.logger.info(f"[SYSTEM] 激活交易对数量: {len(self.executor.get_active_symbols())}")
 
+    def _evaluate_conditions(self, symbol_df: pd.DataFrame) -> List[ConditionFormat]:
+        matched_conditions: List[ConditionFormat] = []
+        for condition_item in self.condition_list:
+            try:
+                if condition_item.matches(symbol_df):
+                    matched_conditions.append(condition_item)
+            except Exception as exc:
+                symbol = symbol_df.index.get_level_values("symbol")[0] if not symbol_df.empty else "UNKNOWN"
+                self.logger.error(
+                    f"[CONDITION ERROR] {symbol} condition={condition_item.name} 判断失败: {exc}"
+                )
+        return matched_conditions
+
+    def _is_open_orders_paused(self) -> bool:
+        pause_flag = getattr(self.config, "PAUSE_OPEN_ORDERS_FLAG", None)
+        if not pause_flag:
+            return False
+
+        is_paused = Path(pause_flag).exists()
+        if is_paused and not self.open_orders_paused:
+            self.logger.warning(
+                f"[PAUSE] 检测到暂停开新单标记文件，暂停开仓: {pause_flag}"
+            )
+        elif not is_paused and self.open_orders_paused:
+            self.logger.info(
+                f"[PAUSE] 暂停开新单标记文件已移除，恢复开仓: {pause_flag}"
+            )
+
+        self.open_orders_paused = is_paused
+        return is_paused
+
     def _fetch_closed_minute_candle(self, symbol: str) -> Optional[List[Any]]:
         """获取上一根已收盘的1m K线"""
         try:
@@ -247,6 +326,127 @@ class FindInOutStrategy:
         except Exception as exc:
             self.logger.warning(f"[KLINE WARNING] 获取 {symbol} 1m K线失败: {exc}")
             return None
+
+    def _fetch_stage_entries_status_lookup(self) -> Dict[str, str]:
+        symbols = sorted(
+            {
+                entry.get("symbol")
+                for entry in self.stage_entries
+                if entry.get("symbol")
+            }
+        )
+        if not symbols:
+            return {}
+
+        try:
+            _, status_lookup = self.executor._fetch_current_algo_orders(symbols)
+        except Exception as exc:
+            self.logger.warning(f"[PROTECT WARNING] 获取保护单状态失败: {exc}")
+            return {}
+
+        return status_lookup or {}
+
+    @staticmethod
+    def _resolve_protective_order_status(
+        info: Dict[str, Any],
+        status_lookup: Dict[str, str],
+        order_key: str,
+        client_key: str,
+    ) -> str:
+        order_id = info.get(order_key)
+        client_id = info.get(client_key)
+        if order_id and str(order_id) in status_lookup:
+            return str(status_lookup[str(order_id)])
+        if client_id and str(client_id) in status_lookup:
+            return str(status_lookup[str(client_id)])
+        return "UNKNOWN"
+
+    @staticmethod
+    def _detect_triggered_protective_side(
+        tp_status: str,
+        sl_status: str,
+    ) -> Tuple[Optional[str], Optional[str]]:
+        triggered_statuses = {"TRIGGERED", "FINISHED", "FILLED", "CLOSED"}
+        tp_norm = tp_status.upper() if isinstance(tp_status, str) else ""
+        sl_norm = sl_status.upper() if isinstance(sl_status, str) else ""
+
+        if tp_norm in triggered_statuses:
+            return "止盈", "止损"
+        if sl_norm in triggered_statuses:
+            return "止损", "止盈"
+        return None, None
+
+    def _check_triggered_protective_orders(self) -> None:
+        if not self.stage_entries:
+            self.logger.info("[PROTECT] 当前无持仓需要检查保护单状态")
+            return
+
+        status_lookup = self._fetch_stage_entries_status_lookup()
+        entries_snapshot = list(self.stage_entries)
+        for info in entries_snapshot:
+            symbol = info.get("symbol")
+            if not symbol:
+                self.logger.warning("[PROTECT WARNING] 持仓缺少 symbol，移除")
+                self.stage_entries.remove(info)
+                continue
+
+            tp_status = self._resolve_protective_order_status(
+                info,
+                status_lookup,
+                "take_profit_order_id",
+                "take_profit_client_id",
+            )
+            sl_status = self._resolve_protective_order_status(
+                info,
+                status_lookup,
+                "stop_loss_order_id",
+                "stop_loss_client_id",
+            )
+            triggered_side, opposite_side = self._detect_triggered_protective_side(
+                tp_status,
+                sl_status,
+            )
+            if not triggered_side:
+                self.logger.info(
+                    f"[PROTECT] {symbol} 保护单未触发 tp_status={tp_status} sl_status={sl_status}"
+                )
+                continue
+
+            if opposite_side == "止盈":
+                opposite_order_id = info.get("take_profit_order_id")
+                opposite_client_id = info.get("take_profit_client_id")
+            else:
+                opposite_order_id = info.get("stop_loss_order_id")
+                opposite_client_id = info.get("stop_loss_client_id")
+
+            try:
+                self.executor._cancel_single_protective_order(
+                    symbol=symbol,
+                    order_id=opposite_order_id,
+                    client_order_id=opposite_client_id,
+                    label=opposite_side or "对侧",
+                    position_side="short",
+                    status_lookup=status_lookup,
+                )
+            except Exception as exc:
+                self.logger.warning(
+                    f"[PROTECT WARNING] {symbol} 取消{opposite_side or '对侧'}保护单失败: {exc}"
+                )
+
+            message = (
+                f"[find_in_out] {symbol} 保护单已触发\n"
+                f"条件: {info.get('condition_name', 'N/A')}\n"
+                f"开仓时间: {info.get('entry_time')}\n"
+                f"开仓价: {info.get('open_price')}\n"
+                f"触发侧: {triggered_side}\n"
+                f"止盈状态: {tp_status}\n"
+                f"止损状态: {sl_status}\n"
+            )
+            send_dingtalk_message(message)
+            self.logger.info(
+                f"[PROTECT] {symbol} 检测到{triggered_side}触发，tp_status={tp_status}, sl_status={sl_status}"
+            )
+            self.stage_entries.remove(info)
 
     def _place_custom_protective_orders(
         self, symbol: str, quantity: float, tp_price: Optional[float], sl_price: Optional[float]
@@ -310,8 +510,13 @@ class FindInOutStrategy:
         # """监控并更新已有空单"""
         now = now or datetime.now()
         is_funding_check = now.minute == 59
-        if not is_funding_check and now.minute % 15 != 0:
+        is_protective_check = now.minute % 15 == 1
+        if not is_funding_check and not is_protective_check and now.minute % 15 != 0:
             self.logger.info("[SCAN] 非15分钟节点，跳过执行平仓")
+            return
+
+        if is_protective_check:
+            self._check_triggered_protective_orders()
             return
 
         if is_funding_check:
@@ -401,6 +606,7 @@ class FindInOutStrategy:
 
                 message = (
                     f"[find_in_out] {symbol} 资金费率未通过，执行平仓\n"
+                    f"条件: {info.get('condition_name', 'N/A')}\n"
                     f"开仓时间: {info.get('entry_time')}\n"
                     f"开仓价: {entry_price_display}\n"
                     f"平仓价: {exit_price_display}\n"
@@ -505,6 +711,7 @@ class FindInOutStrategy:
 
             message = (
                 f"[find_in_out] {symbol} 到期平仓\n"
+                f"条件: {info.get('condition_name', 'N/A')}\n"
                 f"开仓时间: {info.get('entry_time')}\n"
                 f"预计平仓时间: {expected_exit_time}\n"
                 f"开仓价: {entry_price_display}\n"
@@ -521,13 +728,17 @@ class FindInOutStrategy:
     def _scan_open_opportunities(self, now: Optional[datetime] = None):
         """扫描 15m K线并开空，仅每15分钟执行一次"""
         now = now or datetime.now(timezone.utc)
+        if self._is_open_orders_paused():
+            self.logger.info("[SCAN] 当前处于暂停开新单状态，跳过开仓扫描")
+            return
+
         # 判断单仓保证金
         if now.hour == 0 and now.minute == 0:
             balance_info = get_usdt_futures_asset_total(self.config.API_KEY, self.config.API_SECRET)
             usdt_balance = balance_info.get("wallet_balance", 0)
             self.logger.info(f"[BALANCE] 当前总资产: {usdt_balance:.2f}")
             send_dingtalk_message(f"[find_in_out] 当前总资产: {usdt_balance:.2f} USDT")
-            self.config.SINGLE_MARGIN = usdt_balance * 0.98 / 40
+            self.config.SINGLE_MARGIN = usdt_balance / 100
             self.logger.info(f"[CONFIG] 单仓保证金设置为: {self.config.SINGLE_MARGIN} USDT")
 
         if now.minute % 15 != 0:
@@ -569,7 +780,7 @@ class FindInOutStrategy:
             self.config.BASE_URL, 10, self.logger
         )
 
-        wait_for_execute: List[str] = []
+        wait_for_execute: List[Dict[str, Any]] = []
         for symbol in scan_symbols:
             try:
                 candles = self.executor.exchange.fetch_ohlcv(symbol, timeframe="15m", limit=25)
@@ -593,81 +804,109 @@ class FindInOutStrategy:
             df["symbol"] = symbol
             df.set_index(["symbol", "open_time"], inplace=True)
 
-            if condition(df):
-                if not _passes_funding_rate_filter(
-                    symbol,
-                    self.config.BASE_URL,
-                    10,
-                    funding_interval_map,
-                    self.logger,
-                ):
-                    continue
-                wait_for_execute.append(symbol)
-                print(symbol, df.tail(3))
+            matched_conditions = self._evaluate_conditions(df)
+            if not matched_conditions:
+                continue
+
+            if not _passes_funding_rate_filter(
+                symbol,
+                self.config.BASE_URL,
+                10,
+                funding_interval_map,
+                self.logger,
+            ):
+                continue
+
+            for condition_item in matched_conditions:
+                wait_for_execute.append(
+                    {
+                        "symbol": symbol,
+                        "condition": condition_item,
+                    }
+                )
+                self.logger.info(
+                    f"[SCAN] {symbol} 命中条件 {condition_item.name}，"
+                    f"holding={condition_item.holding_minutes}m "
+                    f"tp={condition_item.take_profit_ratio:.4f} "
+                    f"sl={condition_item.stop_loss_ratio:.4f} "
+                    f"alloc={condition_item.capital_allocation_ratio:.4f}"
+                )
 
         if not wait_for_execute:
             self.logger.info("[SCAN] 本轮无满足条件的标的")
             return
 
-        # # 测试用
-        # wait_for_execute = ['DOGS/USDT:USDT']
-
-        # 去除当前已经有仓位的symbol
-        existing_symbols = {
-            entry.get("symbol")
-            for entry in self.stage_entries
-            if entry.get("symbol")
-        }
-        if existing_symbols:
-            wait_for_execute = [
-                symbol for symbol in wait_for_execute if symbol not in existing_symbols
-            ]
-            if not wait_for_execute:
-                self.logger.info("[SCAN] 已有持仓覆盖所有标的，本轮跳过开仓")
-                return
-
-
-        # 批量开空
         balance = self.executor.get_account_balance()
-        find_num = len(wait_for_execute)
-        to_be_executed_list = []
-
-        if balance < self.config.SINGLE_MARGIN:
-            self.logger.warning("[OPEN WARNING] 余额不足，无法开仓")
+        if balance is None or balance <= 0:
+            self.logger.warning("[OPEN WARNING] 无法获取有效余额，无法开仓")
             return
-        elif balance < find_num * self.config.SINGLE_MARGIN:
-            self.logger.warning("[OPEN WARNING] 余额不足，无法覆盖所有找到的symbol")
-            num_to_be_executed = math.floor(balance / self.config.SINGLE_MARGIN)
-            to_be_executed_list = wait_for_execute[:num_to_be_executed]
-        else:
-            to_be_executed_list = wait_for_execute
-            self.logger.info("[OPEN] 余额能够完全覆盖所有找到的symbol")
-        
+
+        executable_plans: List[Dict[str, Any]] = []
+        remaining_balance = balance
+        for plan in wait_for_execute:
+            condition_item = plan["condition"]
+            margin = self.config.SINGLE_MARGIN * condition_item.capital_allocation_ratio
+            if margin <= 0:
+                self.logger.warning(
+                    f"[OPEN WARNING] {plan['symbol']} condition={condition_item.name} 分配保证金无效，跳过"
+                )
+                continue
+            if remaining_balance < margin:
+                self.logger.warning(
+                    f"[OPEN WARNING] 余额不足，跳过 {plan['symbol']} condition={condition_item.name} "
+                    f"所需保证金 {margin:.4f} USDT，剩余 {remaining_balance:.4f} USDT"
+                )
+                continue
+
+            executable_plans.append(
+                {
+                    "symbol": plan["symbol"],
+                    "condition": condition_item,
+                    "margin": margin,
+                }
+            )
+            remaining_balance -= margin
+
+        if not executable_plans:
+            self.logger.warning("[OPEN WARNING] 无满足余额约束的开仓计划")
+            return
+
+        target_symbols = sorted({plan["symbol"] for plan in executable_plans})
 
         try:
-            self.executor._set_margin_type_for_symbols(to_be_executed_list)
+            self.executor._set_margin_type_for_symbols(target_symbols)
         except Exception as exc:
             self.logger.warning(f"[LEVERAGE WARNING] 批量设置保证金模式失败: {exc}")
 
         try:
-            self.executor._set_leverage_for_symbols(to_be_executed_list)
+            self.executor._set_leverage_for_symbols(target_symbols)
         except Exception as exc:
             self.logger.warning(f"[LEVERAGE WARNING] 批量设置杠杆失败: {exc}")
 
-        position_value = self.config.SINGLE_MARGIN * self.config.LEVERAGE
-        success, opened = self.executor._open_short_positions(to_be_executed_list, position_value)
-        if not success:
-            self.logger.warning("[OPEN] 本轮开空全部失败")
-            return
+        for plan in executable_plans:
+            symbol = plan["symbol"]
+            condition_item = plan["condition"]
+            position_value = plan["margin"] * self.config.LEVERAGE
+            success, opened = self.executor._open_short_positions([symbol], position_value)
+            if not success or symbol not in opened:
+                self.logger.warning(
+                    f"[OPEN WARNING] {symbol} condition={condition_item.name} 开仓失败"
+                )
+                continue
 
-        for symbol, pos in opened.items():
+            pos = opened[symbol]
             entry_time = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
-            expected_exit_time = (now + timedelta(minutes=self.config.EXPECTED_PERIOD-1)).strftime("%Y-%m-%d %H:%M:%S")
+            expected_exit_time = (
+                now + timedelta(minutes=condition_item.holding_minutes - 1)
+            ).strftime("%Y-%m-%d %H:%M:%S")
 
             stage_entry = {
                 "symbol": symbol,
+                "condition_name": condition_item.name,
                 "entry_time": entry_time,
                 "expected_exit_time": expected_exit_time,
+                "holding_minutes": condition_item.holding_minutes,
+                "capital_allocation_ratio": condition_item.capital_allocation_ratio,
                 "quantity": pos.get("quantity"),
                 "open_price": pos.get("open_price"),
                 "take_profit_price": pos.get("take_profit_price"),
@@ -677,14 +916,13 @@ class FindInOutStrategy:
                 "take_profit_client_id": pos.get("take_profit_client_id"),
                 "stop_loss_client_id": pos.get("stop_loss_client_id"),
             }
-            # 以配置的 TP/SL buffer 重置保护单
-            entry_price = pos.get("open_price")
-            tp_buffer = getattr(self.config, "TP_BUFFER", None)
-            sl_buffer = getattr(self.config, "SL_BUFFER", None)
-            custom_tp = entry_price * (1 - tp_buffer) if entry_price and tp_buffer else pos.get("take_profit_price")
-            custom_sl = entry_price * (1 + sl_buffer) if entry_price and sl_buffer else pos.get("stop_loss_price")
 
-            # 取消原有保护单后重新下单
+            entry_price = pos.get("open_price")
+            tp_ratio = condition_item.take_profit_ratio
+            sl_ratio = condition_item.stop_loss_ratio
+            custom_tp = entry_price * (1 - tp_ratio) if entry_price and tp_ratio else pos.get("take_profit_price")
+            custom_sl = entry_price * (1 + sl_ratio) if entry_price and sl_ratio else pos.get("stop_loss_price")
+
             updates = self._place_custom_protective_orders(
                 symbol=symbol,
                 quantity=stage_entry["quantity"],
@@ -697,6 +935,7 @@ class FindInOutStrategy:
             self.stage_entries.append(stage_entry)
             send_dingtalk_message(
                 f"[find_in_out] 开空 {symbol}\n"
+                f"条件: {condition_item.name}\n"
                 f"数量: {pos.get('quantity')}\n"
                 f"开仓价: {pos.get('open_price')}\n"
                 f"止盈: {stage_entry.get('take_profit_price'):.6f}\n"
@@ -724,7 +963,7 @@ class FindInOutStrategy:
         usdt_balance = balance_info.get("wallet_balance", 0)
         self.logger.info(f"[BALANCE] 当前总资产: {usdt_balance:.2f}")
         send_dingtalk_message(f"[find_in_out] 当前总资产: {usdt_balance:.2f} USDT")
-        self.config.SINGLE_MARGIN = usdt_balance * 0.98 / 40
+        self.config.SINGLE_MARGIN = usdt_balance / 100
         self.logger.info(f"[CONFIG] 单仓保证金设置为: {self.config.SINGLE_MARGIN} USDT")
 
         # 对齐到下一分钟
