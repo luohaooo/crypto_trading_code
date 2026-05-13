@@ -1,2 +1,9 @@
-flask
 pandas
+numpy
+torch
+ccxt
+requests
+tqdm
+matplotlib
+seaborn
+websockets
